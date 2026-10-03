@@ -1,0 +1,62 @@
+# Publica la app en GitHub Pages cada vez que cambia `main`.
+#
+# Antes de la primera vez hay que activar Pages en el repositorio:
+# Settings → Pages → Build and deployment → Source: «GitHub Actions».
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Una sola publicación a la vez; si llega otra, espera a que acabe la que está en curso.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  compilar:
+    name: Compilar
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Averiguar la dirección de Pages
+        id: pages
+        uses: actions/configure-pages@v6
+
+      # En un repositorio de proyecto la app vive en /<nombre-del-repo>/; con dominio propio, en la raíz.
+      - name: Comprobar y compilar
+        run: npm run check
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  publicar:
+    name: Publicar en GitHub Pages
+    needs: compilar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,123 @@
+titulo: El pulso
+resumen: Sentir el pulso de una música y marcarlo sin perderlo, también cuando hay silencios.
+minutos: 6
+conceptos: [pulso]
+
+pasos:
+  - tipo: teoria
+    titulo: El latido de la música
+    texto: |
+      Casi toda la música que vas a componer tiene un **pulso**: un latido regular que
+      se repite a intervalos iguales. Es lo que marcas con el pie sin darte cuenta.
+
+      Dale a reproducir. El bombo toca justo en cada pulso; la melodía se mueve por
+      encima, pero se apoya en él.
+    vista: pianoroll
+    manipulable: [tempo, pistas]
+    ejemplo:
+      tempo: 84
+      tonalidad: C mayor
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E4:4 G4:8 A4:8 G4:4 E4:4 | D4:4 E4:8 D4:8 C4:4 G3:4"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "4"
+            lineas:
+              bombo: "xxxx"
+
+  - tipo: ritmo
+    modo: seguir
+    enunciado: Toca el botón en cada pulso, a la vez que el bombo.
+    tempo: 84
+    paso: "4"
+    patron: "xxxx|xxxx"
+    repeticiones: 2
+    tolerancia: amplia
+    pista: No persigas el sonido. Cuenta «un, dos, tres, cuatro» durante la claqueta y sigue contando igual.
+    explicacion: |
+      El pulso es regular: entre un golpe y el siguiente pasa siempre el mismo tiempo. Si
+      te adelantas o te atrasas, lo normal es que estés reaccionando a lo que oyes en vez
+      de anticiparlo.
+
+  - tipo: teoria
+    titulo: El pulso no se para
+    texto: |
+      El pulso sigue ahí aunque nadie lo toque. En este ejemplo la melodía calla en
+      algunos tiempos y el bombo solo suena al principio de cada compás, pero el latido
+      continúa por debajo.
+
+      Un compositor cuenta siempre los pulsos, también los que quedan en silencio. De
+      ahí salen los silencios que dan aire a una melodía.
+    manipulable: [tempo]
+    ejemplo:
+      tempo: 84
+      tonalidad: C mayor
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E4:4 r:4 G4:4 r:4 | A4:4 G4:4 r:4 E4:4"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "4"
+            lineas:
+              bombo: "x..."
+              charles_pedal: ".xxx"
+
+  - tipo: ritmo
+    modo: seguir
+    enunciado: Marca los cuatro pulsos de cada compás, suene algo o no.
+    tempo: 92
+    paso: "4"
+    patron: "xxxx|xxxx"
+    repeticiones: 2
+    pista: El bombo solo te da el primer pulso de cada compás. Los otros tres los pones tú, igual de separados.
+    explicacion: |
+      Mantener el pulso sin que nada lo marque es la habilidad de fondo de todo lo demás:
+      sin ella no se puede medir cuánto dura una nota ni dónde cae un acento.
+
+  - tipo: oido
+    modo: preguntas
+    enunciado: Escucha y decide si el pulso es regular.
+    pista: Intenta marcar el pulso con el dedo. Si tienes que frenar o acelerar para seguirlo, no es regular.
+    explicacion: |
+      Un pulso regular permite predecir cuándo llegará el siguiente golpe. Cuando los
+      golpes llegan a distancias distintas, el oído no encuentra dónde apoyarse.
+    preguntas:
+      - opciones: [Regular, Irregular]
+        correcta: 1
+        explicacion: Los cuatro golpes de cada compás están a la misma distancia.
+        pieza:
+          tempo: 96
+          compases: 2
+          pistas:
+            - rol: percusion
+              instrumento: bateria
+              notas: "!ff caja:4 caja:4 caja:4 caja:4 | %"
+      - opciones: [Regular, Irregular]
+        correcta: 2
+        explicacion: Los golpes llegan a distancias distintas, unas largas y otras cortas, sin un patrón que se repita.
+        pieza:
+          tempo: 96
+          compases: 2
+          pistas:
+            - rol: percusion
+              instrumento: bateria
+              notas: "!ff caja:4. caja:8 caja:16 caja:4.. | caja:8. caja:4 caja:16 caja:2"
+      - opciones: [Regular, Irregular]
+        correcta: 1
+        explicacion: Va más deprisa que el primero, pero los golpes siguen a la misma distancia unos de otros.
+        pieza:
+          tempo: 138
+          compases: 2
+          pistas:
+            - rol: percusion
+              instrumento: bateria
+              notas: "!ff caja:4 caja:4 caja:4 caja:4 | %"

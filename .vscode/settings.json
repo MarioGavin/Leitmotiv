@@ -1,0 +1,13 @@
+{
+  "yaml.schemas": {
+    "./content/.esquemas/leccion.schema.json": "content/mundos/*/*/l*.yaml",
+    "./content/.esquemas/unidad.schema.json": "content/mundos/*/*/unidad.yaml",
+    "./content/.esquemas/mundo.schema.json": "content/mundos/*/mundo.yaml",
+    "./content/.esquemas/conceptos.schema.json": "content/conceptos.yaml",
+    "./content/.esquemas/glosario.schema.json": "content/glosario.yaml",
+    "./content/.esquemas/ficha.schema.json": "content/fichas/*.yaml",
+    "./content/.esquemas/prueba-de-nivel.schema.json": "content/prueba-de-nivel.yaml"
+  },
+  "files.eol": "\n",
+  "editor.rulers": [100]
+}

@@ -1,0 +1,127 @@
+{
+ "id": "bajo-electrico",
+ "fuente": "growlybass",
+ "commit": "4f483268fc66b5a6d5781d421c0d11b8d08d3fc6",
+ "muestras": 13,
+ "bytes": 376830,
+ "desafinacionGlobal": 0,
+ "medidas": [
+  {
+   "muestra": "n028",
+   "tono": 28,
+   "cents": 25,
+   "claridad": 0.982,
+   "segundos": 4,
+   "rmsDb": -20.2,
+   "bytes": 25426
+  },
+  {
+   "muestra": "n030",
+   "tono": 30,
+   "cents": 5,
+   "claridad": 0.991,
+   "segundos": 4,
+   "rmsDb": -24.8,
+   "bytes": 25920
+  },
+  {
+   "muestra": "n033",
+   "tono": 33,
+   "cents": -3,
+   "claridad": 0.988,
+   "segundos": 4,
+   "rmsDb": -24.5,
+   "bytes": 25829
+  },
+  {
+   "muestra": "n036",
+   "tono": 36,
+   "cents": 2,
+   "claridad": 0.987,
+   "segundos": 4,
+   "rmsDb": -26.6,
+   "bytes": 27490
+  },
+  {
+   "muestra": "n039",
+   "tono": 39,
+   "cents": 1,
+   "claridad": 0.985,
+   "segundos": 4,
+   "rmsDb": -22.5,
+   "bytes": 27486
+  },
+  {
+   "muestra": "n042",
+   "tono": 42,
+   "cents": -1,
+   "claridad": 0.995,
+   "segundos": 4,
+   "rmsDb": -24.4,
+   "bytes": 28358
+  },
+  {
+   "muestra": "n045",
+   "tono": 45,
+   "cents": -6,
+   "claridad": 0.997,
+   "segundos": 4,
+   "rmsDb": -22.7,
+   "bytes": 28479
+  },
+  {
+   "muestra": "n048",
+   "tono": 48,
+   "cents": 8,
+   "claridad": 0.999,
+   "segundos": 4,
+   "rmsDb": -20.9,
+   "bytes": 27815
+  },
+  {
+   "muestra": "n051",
+   "tono": 51,
+   "cents": 3,
+   "claridad": 1,
+   "segundos": 4,
+   "rmsDb": -18.2,
+   "bytes": 29279
+  },
+  {
+   "muestra": "n054",
+   "tono": 54,
+   "cents": -8,
+   "claridad": 0.999,
+   "segundos": 4,
+   "rmsDb": -20.7,
+   "bytes": 35047
+  },
+  {
+   "muestra": "n057",
+   "tono": 57,
+   "cents": 3,
+   "claridad": 1,
+   "segundos": 4,
+   "rmsDb": -18.8,
+   "bytes": 31574
+  },
+  {
+   "muestra": "n060",
+   "tono": 60,
+   "cents": 5,
+   "claridad": 1,
+   "segundos": 4,
+   "rmsDb": -18.5,
+   "bytes": 32037
+  },
+  {
+   "muestra": "n063",
+   "tono": 63,
+   "cents": 10,
+   "claridad": 0.999,
+   "segundos": 4,
+   "rmsDb": -16.5,
+   "bytes": 32090
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "lema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 90
+    },
+    "descripcion": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "titulo",
+    "lema",
+    "descripcion"
+  ],
+  "additionalProperties": false
+}

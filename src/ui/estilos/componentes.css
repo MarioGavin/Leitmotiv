@@ -1,0 +1,731 @@
+/*
+ * Componentes: estructura y medidas comunes a las dos direcciones visuales.
+ * El aspecto (marcos, cursores, sombras) lo pone cada dirección en su archivo.
+ *
+ * Todo lo que lleva marco pinta su «cara» en ::before, de modo que la caja del
+ * elemento incluye el marco y la sombra: nada se sale de su sitio ni hace falta
+ * reservar márgenes a mano.
+ */
+
+/* ── Marco: el panel con borde de los menús de un RPG ── */
+.marco {
+  /* Las variables privadas (--_*) se declaran siempre aquí, para que un marco dentro de otro no herede las del de fuera. */
+  --_pad-y: var(--e-4);
+  --_pad-x: var(--e-4);
+  --_relleno: var(--superficie);
+  --_rotulo: var(--tinta);
+  --_sobre-rotulo: var(--fondo);
+  position: relative;
+  isolation: isolate;
+  padding: calc(var(--_vuelo-arriba) + var(--_pad-y)) calc(var(--_vuelo-derecha) + var(--_pad-x)) calc(var(--_vuelo-abajo) + var(--_pad-y))
+    calc(var(--_vuelo-izquierda) + var(--_pad-x));
+  color: var(--tinta);
+}
+
+.marco::before {
+  content: '';
+  position: absolute;
+  inset: var(--_vuelo-arriba) var(--_vuelo-derecha) var(--_vuelo-abajo) var(--_vuelo-izquierda);
+  z-index: -1;
+  background: var(--_relleno);
+}
+
+.marco--ajustado {
+  --_pad-y: var(--e-3);
+  --_pad-x: var(--e-3);
+}
+
+.marco--sin-relleno {
+  --_pad-y: 0px;
+  --_pad-x: 0px;
+}
+
+.marco--hundido {
+  --_relleno: var(--hundido);
+}
+
+/* Rótulo sobre el borde superior, como la etiqueta con el nombre de quien habla. */
+.marco--rotulado {
+  margin-top: var(--e-3);
+}
+
+/* Sin relleno, el contenido empezaría justo debajo del rótulo y este lo taparía. */
+.marco--rotulado.marco--sin-relleno {
+  --_pad-y: 0px;
+  padding-top: calc(var(--_vuelo-arriba) + var(--e-3));
+}
+
+.marco__rotulo {
+  position: absolute;
+  top: var(--_vuelo-arriba);
+  left: calc(var(--_vuelo-izquierda) + var(--e-3));
+  z-index: 1;
+  transform: translateY(-58%);
+  padding: 2px var(--e-2);
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-etiqueta);
+  line-height: 1.3;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: var(--caja-etiqueta, none);
+  background: var(--_rotulo);
+  color: var(--_sobre-rotulo);
+}
+
+/* ── Botón ── */
+.boton {
+  --_pad-x: var(--e-4);
+  --_relleno: var(--boton-relleno, var(--superficie-2));
+  --_tinta: var(--tinta);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-2);
+  min-width: var(--toque);
+  min-height: calc(var(--toque) + var(--_vuelo-abajo) - var(--_vuelo-arriba));
+  padding: var(--_vuelo-arriba) calc(var(--_vuelo-derecha) + var(--_pad-x)) var(--_vuelo-abajo) calc(var(--_vuelo-izquierda) + var(--_pad-x));
+  font-family: var(--fuente-boton, var(--fuente-titulos));
+  font-weight: var(--peso-boton);
+  font-size: var(--t-boton);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-boton);
+  text-transform: var(--caja-boton, none);
+  color: var(--_tinta);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.boton::before {
+  content: '';
+  position: absolute;
+  inset: var(--_vuelo-arriba) var(--_vuelo-derecha) var(--_vuelo-abajo) var(--_vuelo-izquierda);
+  z-index: -1;
+  background: var(--_relleno);
+}
+
+.boton--primario {
+  --_relleno: var(--acento);
+  --_tinta: var(--sobre-acento);
+}
+
+.boton--bloque {
+  display: flex;
+  width: 100%;
+}
+
+.boton--icono {
+  --_pad-x: 0px;
+  width: calc(var(--toque) + var(--_vuelo-izquierda) + var(--_vuelo-derecha));
+  flex: none;
+}
+
+.boton--fantasma {
+  --_relleno: transparent;
+}
+
+.boton:disabled,
+.boton[aria-disabled='true'] {
+  --_relleno: var(--boton-relleno-inactivo, var(--superficie));
+  --_tinta: var(--tinta-suave);
+}
+
+/* ── Lista de opciones con cursor ── */
+.opciones {
+  display: grid;
+}
+
+.opcion {
+  display: grid;
+  grid-template-columns: var(--ancho-marca, 32px) 1fr auto;
+  align-items: center;
+  gap: var(--e-2);
+  width: 100%;
+  min-height: 52px;
+  padding: var(--e-2) var(--e-3);
+  font-family: var(--fuente-opcion, var(--fuente-titulos));
+  font-weight: var(--peso-opcion, var(--peso-boton));
+  font-size: var(--t-opcion, var(--t-l));
+  line-height: 1.2;
+  text-align: left;
+  color: var(--tinta);
+}
+
+.opcion__marca {
+  display: grid;
+  place-items: center;
+  font-family: var(--fuente-titulos);
+}
+
+.opcion__estado {
+  display: grid;
+  place-items: center;
+}
+
+.opcion[aria-checked='true'] {
+  background: var(--superficie-2);
+}
+
+.opcion--correcta {
+  color: var(--exito-tinta);
+}
+
+.opcion--incorrecta {
+  color: var(--error-tinta);
+}
+
+.opcion[aria-disabled='true'] {
+  cursor: default;
+}
+
+/* ── Avance de la lección: un tramo por paso ── */
+.avance {
+  display: flex;
+  flex: 1;
+  gap: var(--e-1);
+  min-width: 0;
+}
+
+.avance__tramo {
+  flex: 1;
+  height: 12px;
+  background: var(--avance-vacio, var(--superficie-2));
+}
+
+.avance__tramo--hecho {
+  background: var(--acento);
+}
+
+.avance__tramo--actual {
+  background: var(--tinta);
+}
+
+/* ── Cabecera de pantalla ── */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  min-height: var(--alto-cabecera);
+  padding: var(--e-1) var(--margen);
+  padding-top: calc(var(--e-1) + env(safe-area-inset-top));
+  background: var(--fondo);
+}
+
+.cabecera__titulo {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--fuente-cabecera, var(--fuente-titulos));
+  font-weight: var(--peso-titulos);
+  font-size: var(--t-cabecera, var(--t-xl));
+  line-height: var(--interlinea-titulos);
+  letter-spacing: var(--tracking-titulos);
+  text-transform: var(--caja-titulos);
+  /* El recorte llega hasta el borde del relleno: sin este hueco, con un interlineado
+     apretado se comería las tildes de las mayúsculas («EXPRÉS»). El margen negativo
+     deja la caja donde estaba. */
+  padding-block: 0.3em;
+  margin-block: -0.3em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cabecera__dato {
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-dato);
+  font-size: var(--t-dato, var(--t-s));
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta-suave);
+  white-space: nowrap;
+}
+
+/* ── Pie de pantalla: las acciones, al alcance del pulgar ── */
+.pie {
+  position: sticky;
+  bottom: 0;
+  z-index: 15;
+  display: grid;
+  gap: var(--e-2);
+  padding: var(--e-2) var(--margen);
+  padding-bottom: calc(var(--e-2) + env(safe-area-inset-bottom));
+  background: var(--fondo);
+}
+
+.pie__acciones {
+  display: flex;
+  gap: var(--e-2);
+}
+
+/* ── Navegación principal ── */
+.navegacion {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  padding: var(--e-1) var(--margen);
+  padding-bottom: calc(var(--e-1) + env(safe-area-inset-bottom));
+  background: var(--fondo);
+}
+
+.navegacion__lista {
+  display: flex;
+}
+
+/* Cada sección ocupa lo que pide su nombre: así caben cinco también a 360 px. */
+.navegacion__lista > li {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.navegacion__enlace {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 56px;
+  padding: var(--e-1) 2px;
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-navegacion, 0.6875rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-etiqueta);
+  color: var(--tinta-suave);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navegacion__enlace[aria-current='page'] {
+  color: var(--tinta);
+}
+
+/* ── Diálogo: pistas y correcciones, en la caja de texto de abajo ── */
+.dialogo {
+  --_pad-y: var(--e-3);
+}
+
+.dialogo__texto {
+  font-size: var(--t-m);
+  line-height: 1.45;
+}
+
+.dialogo--acierto {
+  --_rotulo: var(--exito);
+  --_sobre-rotulo: var(--sobre-exito);
+}
+
+.dialogo--fallo {
+  --_rotulo: var(--error);
+  --_sobre-rotulo: var(--sobre-error);
+}
+
+.dialogo--pista {
+  --_rotulo: var(--acento);
+  --_sobre-rotulo: var(--sobre-acento);
+}
+
+/* ── Conmutador: elegir una entre pocas ── */
+.conmutador {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+.conmutador__opcion {
+  min-height: var(--toque);
+  padding: 0 var(--e-2);
+  font-family: var(--fuente-boton, var(--fuente-titulos));
+  font-weight: var(--peso-boton);
+  font-size: var(--t-conmutador, var(--t-s));
+  letter-spacing: var(--tracking-boton);
+  text-transform: var(--caja-boton, none);
+  text-align: center;
+  color: var(--tinta-suave);
+}
+
+.conmutador__opcion[aria-pressed='true'] {
+  background: var(--tinta);
+  color: var(--fondo);
+}
+
+/* ── Etiqueta de pista: color del papel + nombre, para silenciar o elegir ── */
+.pista-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  min-height: var(--toque);
+  padding: 0 var(--e-3) 0 var(--e-2);
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-etiqueta);
+  color: var(--tinta);
+  white-space: nowrap;
+}
+
+.pista-chip__color {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  background: var(--_color, var(--pista-melodia));
+}
+
+.pista-chip[aria-pressed='false'] {
+  color: var(--tinta-suave);
+}
+
+.pista-chip[aria-pressed='false'] .pista-chip__color {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--tinta-suave);
+}
+
+/* ── Deslizador ── */
+.deslizador {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--e-3);
+  min-height: var(--toque);
+}
+
+.deslizador input[type='range'] {
+  width: 100%;
+  height: var(--toque);
+  margin: 0;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  touch-action: pan-y;
+}
+
+.deslizador input[type='range']::-webkit-slider-runnable-track {
+  height: var(--carril-alto, 8px);
+  background: var(--carril, var(--superficie-2));
+}
+
+.deslizador input[type='range']::-moz-range-track {
+  height: var(--carril-alto, 8px);
+  background: var(--carril, var(--superficie-2));
+}
+
+.deslizador input[type='range']::-webkit-slider-thumb {
+  width: 20px;
+  height: 28px;
+  margin-top: calc((var(--carril-alto, 8px) - 28px) / 2);
+  border: 0;
+  border-radius: 0;
+  background: var(--acento);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.deslizador input[type='range']::-moz-range-thumb {
+  width: 20px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  background: var(--acento);
+}
+
+.deslizador__valor {
+  min-width: 4.5ch;
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-dato);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ── Icono ── */
+.icono {
+  width: var(--icono, 24px);
+  height: var(--icono, 24px);
+  flex: none;
+  fill: currentColor;
+}
+
+/* ── Transporte: reproducir un ejemplo ── */
+.transporte {
+  display: grid;
+  gap: var(--e-2);
+}
+
+.transporte__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+}
+
+.transporte__pistas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--e-2);
+}
+
+/* ── Vista de una pieza: piano roll en miniatura ── */
+.vista-pieza {
+  display: grid;
+  grid-template-columns: var(--vista-margen, 56px) minmax(0, 1fr);
+}
+
+.vista-pieza__acordes {
+  position: relative;
+  grid-column: 2;
+  height: 26px;
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-dato);
+  font-size: var(--t-dato, var(--t-s));
+  line-height: 26px;
+  color: var(--tinta);
+}
+
+.vista-pieza__acordes span {
+  position: absolute;
+  top: 0;
+  padding-left: var(--e-1);
+}
+
+.vista-pieza__margen {
+  position: relative;
+  grid-column: 1;
+  overflow: hidden;
+}
+
+.vista-pieza__nombre {
+  position: absolute;
+  right: var(--e-1);
+  transform: translateY(-50%);
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-vista, var(--t-xs));
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--tinta-suave);
+}
+
+.vista-pieza__nombre--tonica {
+  color: var(--acento-tinta);
+}
+
+.vista-pieza__rejilla {
+  position: relative;
+  grid-column: 2;
+  overflow: hidden;
+  background: var(--rejilla-fila-oscura);
+}
+
+.vista-pieza__rejilla svg {
+  display: block;
+}
+
+.vista-pieza__tonica {
+  fill: var(--rejilla-tonica);
+}
+
+.vista-pieza__linea-percusion {
+  fill: var(--rejilla-fila-clara);
+}
+
+.vista-pieza__tiempo,
+.vista-pieza__compas {
+  stroke: var(--rejilla-linea);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.vista-pieza__compas {
+  stroke: var(--rejilla-compas);
+  stroke-width: 2px;
+}
+
+.vista-pieza__pista rect {
+  stroke: var(--nota-contorno);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.vista-pieza__pista--apagada {
+  opacity: 0.22;
+}
+
+.vista-pieza__cabezal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--tinta);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vista-pieza__vacia {
+  padding: var(--e-4);
+}
+
+/* ── Aviso de estado (cargando, error) ── */
+.pantalla__cuerpo.pila {
+  align-content: start;
+}
+
+.estado-vacio {
+  display: grid;
+  gap: var(--e-3);
+  align-content: center;
+  justify-items: start;
+  min-height: 40dvh;
+}
+
+/* ── Entrada de pantalla: un único gesto corto ── */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.pantalla {
+  animation: entrar var(--dur) var(--curva);
+}
+
+/* ── Piano roll: la rejilla donde se escribe ── */
+.rollo {
+  display: grid;
+  flex: 1;
+  grid-template-columns: var(--vista-margen, 56px) max-content;
+  grid-template-rows: 48px max-content;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y;
+}
+
+.rollo__esquina,
+.rollo__regla,
+.rollo__teclas {
+  position: sticky;
+  background: var(--superficie);
+}
+
+.rollo__esquina {
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.rollo__regla {
+  top: 0;
+  z-index: 2;
+  height: 48px;
+  font-family: var(--fuente-datos);
+  font-size: var(--t-vista, var(--t-xs));
+  line-height: 1;
+}
+
+.rollo__compas,
+.rollo__acorde {
+  position: absolute;
+  padding-left: var(--e-1);
+  white-space: nowrap;
+}
+
+.rollo__compas {
+  top: 0;
+  height: 100%;
+  padding-top: 4px;
+  border-left: 2px solid var(--rejilla-compas);
+  color: var(--tinta-suave);
+}
+
+.rollo__acorde {
+  bottom: 4px;
+  font-weight: var(--peso-dato);
+  color: var(--tinta);
+}
+
+.rollo__teclas {
+  left: 0;
+  z-index: 2;
+  display: grid;
+  align-content: start;
+}
+
+.rollo__tecla {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-vista, var(--t-xs));
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--tinta);
+  box-shadow: inset 0 -1px 0 var(--rejilla-linea);
+}
+
+.rollo__tecla--tonica {
+  color: var(--acento-tinta);
+}
+
+.rollo__tecla--ajena {
+  color: var(--tinta-suave);
+}
+
+.rollo__lienzo {
+  position: relative;
+}
+
+.rollo__lienzo svg {
+  display: block;
+}
+
+.rollo__fila {
+  fill: var(--rejilla-fila-clara);
+}
+
+.rollo__fila--oscura {
+  fill: var(--rejilla-fila-oscura);
+}
+
+.rollo__fila--tonica {
+  fill: var(--rejilla-tonica);
+}
+
+.rollo__linea {
+  stroke: var(--rejilla-linea);
+  stroke-width: 1px;
+}
+
+.rollo__linea--tiempo {
+  stroke: var(--rejilla-tiempo, var(--rejilla-compas));
+}
+
+.rollo__linea--compas {
+  stroke: var(--rejilla-compas);
+  stroke-width: 2px;
+}
+
+.rollo__notas rect {
+  stroke: var(--nota-contorno);
+  stroke-width: 2px;
+}
+
+.rollo__fantasma rect {
+  opacity: 0.4;
+}
+
+.rollo__cabezal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--tinta);
+  opacity: 0;
+  pointer-events: none;
+}

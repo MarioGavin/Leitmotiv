@@ -1,0 +1,579 @@
+{
+ "frecuenciaDeMuestreo": 48000,
+ "casos": 56,
+ "fallos": 0,
+ "medidas": [
+  {
+   "caso": "piano · nota 21",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 4,
+    "inicioSeg": 1,
+    "rmsDb": -22.2,
+    "claridad": 0.76
+   }
+  },
+  {
+   "caso": "piano · nota 43",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": -2,
+    "inicioSeg": 1.0003,
+    "rmsDb": -24.8,
+    "claridad": 0.96
+   }
+  },
+  {
+   "caso": "piano · nota 65",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -21.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "piano · nota 86",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1,
+    "rmsDb": -29.4,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "piano · nota 108",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 42,
+    "inicioSeg": 1,
+    "rmsDb": -37.3,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "piano · nota 69",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 2,
+    "inicioSeg": 1,
+    "rmsDb": -25.4,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "cuerdas · nota 28",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0024,
+    "rmsDb": -22.7,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "cuerdas · nota 45",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": -1,
+    "inicioSeg": 1.0005,
+    "rmsDb": -22.5,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "cuerdas · nota 62",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 2,
+    "inicioSeg": 1.0011,
+    "rmsDb": -27.4,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "cuerdas · nota 79",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": -1,
+    "inicioSeg": 1.001,
+    "rmsDb": -30.9,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "cuerdas · nota 96",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": -6,
+    "inicioSeg": 1.0003,
+    "rmsDb": -26.2,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "cuerdas · nota 69",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 1,
+    "inicioSeg": 1.0009,
+    "rmsDb": -25.9,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "bajo-electrico · nota 28",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 3,
+    "inicioSeg": 1,
+    "rmsDb": -24.3,
+    "claridad": 0.97
+   }
+  },
+  {
+   "caso": "bajo-electrico · nota 38",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": -1,
+    "inicioSeg": 1.0003,
+    "rmsDb": -26.5,
+    "claridad": 0.98
+   }
+  },
+  {
+   "caso": "bajo-electrico · nota 48",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 1,
+    "inicioSeg": 1,
+    "rmsDb": -25.1,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "bajo-electrico · nota 57",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 5,
+    "inicioSeg": 1,
+    "rmsDb": -22.9,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "bajo-electrico · nota 67",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": -1,
+    "inicioSeg": 1,
+    "rmsDb": -21.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "bateria · bombo",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0011,
+    "picoDb": -6.8
+   }
+  },
+  {
+   "caso": "bateria · aro",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0001,
+    "picoDb": -18.1
+   }
+  },
+  {
+   "caso": "bateria · caja",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1,
+    "picoDb": -7.4
+   }
+  },
+  {
+   "caso": "bateria · charles",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0014,
+    "picoDb": -13.2
+   }
+  },
+  {
+   "caso": "bateria · charles_pedal",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0015,
+    "picoDb": -22.6
+   }
+  },
+  {
+   "caso": "bateria · charles_abierto",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0014,
+    "picoDb": -21.7
+   }
+  },
+  {
+   "caso": "bateria · tom_grave",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0012,
+    "picoDb": -14.1
+   }
+  },
+  {
+   "caso": "bateria · tom_agudo",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0013,
+    "picoDb": -12.1
+   }
+  },
+  {
+   "caso": "bateria · crash",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0015,
+    "picoDb": -20
+   }
+  },
+  {
+   "caso": "bateria · ride",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0015,
+    "picoDb": -22.2
+   }
+  },
+  {
+   "caso": "bateria · campana",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 1.0015,
+    "picoDb": -21.9
+   }
+  },
+  {
+   "caso": "chip-pulso · nota 33",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -23.8,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-pulso · nota 52",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -23.8,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-pulso · nota 71",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -23.8,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-pulso · nota 89",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 1,
+    "inicioSeg": 1.0001,
+    "rmsDb": -24,
+    "claridad": 0.99
+   }
+  },
+  {
+   "caso": "chip-pulso · nota 108",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0002,
+    "rmsDb": -24.3,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-pulso · nota 69",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -23.8,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-triangulo · nota 24",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0004,
+    "rmsDb": -16.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-triangulo · nota 42",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0003,
+    "rmsDb": -16.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-triangulo · nota 60",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -16.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-triangulo · nota 78",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -16.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-triangulo · nota 96",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -16.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "chip-triangulo · nota 69",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "cents": 0,
+    "inicioSeg": 1.0001,
+    "rmsDb": -16.6,
+    "claridad": 1
+   }
+  },
+  {
+   "caso": "silencio antes de la primera nota",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "rmsDb": -120
+   }
+  },
+  {
+   "caso": "ocho golpes iguales a 60 BPM",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "dispersionDb": 0,
+    "picoDb": -11.1
+   }
+  },
+  {
+   "caso": "ocho golpes iguales a 96 BPM",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "dispersionDb": 0,
+    "picoDb": -11.1
+   }
+  },
+  {
+   "caso": "ocho golpes iguales a 120 BPM",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "dispersionDb": 0,
+    "picoDb": -11.1
+   }
+  },
+  {
+   "caso": "ocho golpes iguales a 150 BPM",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "dispersionDb": 0.01,
+    "picoDb": -11.1
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l01 paso 1 (teoria)",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -17.6,
+    "picoRealDb": -3.9,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l01 paso 3 (teoria)",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -19.1,
+    "picoRealDb": -5.4,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l01 paso 5 (oido) pregunta 1",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -27.8,
+    "picoRealDb": -7.9,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l01 paso 5 (oido) pregunta 2",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -26.6,
+    "picoRealDb": -7.9,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l01 paso 5 (oido) pregunta 3",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -27.5,
+    "picoRealDb": -7.9,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l02 paso 1 (teoria)",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -16.8,
+    "picoRealDb": -4.8,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l02 paso 2 (oido) pregunta 1",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -25,
+    "picoRealDb": -10.5,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l02 paso 2 (oido) pregunta 2",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -24.7,
+    "picoRealDb": -10.6,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l02 paso 2 (oido) pregunta 3",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -25.4,
+    "picoRealDb": -10.5,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · m00.u01.l02 paso 3 (teoria)",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -21.1,
+    "picoRealDb": -4.9,
+    "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "ejemplo · glosario bucle",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "lufs": -16.6,
+    "picoRealDb": -1.2,
+    "muestrasSaturadas": 0
+   }
+  }
+ ]
+}

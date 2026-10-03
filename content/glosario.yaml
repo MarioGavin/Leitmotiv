@@ -1,0 +1,51 @@
+# Glosario del curso. Se enlaza desde cualquier texto con [[identificador]].
+
+pulso:
+  termino: Pulso
+  definicion: Latido regular y constante que subyace a la música. Es lo que marcas con el pie sin pensarlo.
+  ver: [tempo, compas]
+
+tempo:
+  termino: Tempo
+  definicion: Velocidad del [[pulso]]. Se mide en pulsos por minuto (BPM, del inglés *beats per minute*).
+  ver: [pulso]
+
+compas:
+  termino: Compás
+  definicion: Agrupación de pulsos en bloques iguales, con un primer pulso que pesa más que los demás.
+  ver: [pulso]
+
+bucle:
+  termino: Bucle
+  definicion: Fragmento de música pensado para repetirse sin fin y sin que se note la costura. Es la forma habitual de la música de videojuegos.
+  ver: [compas]
+  ejemplo:
+    titulo: Camino de la pradera
+    tempo: 104
+    tonalidad: D mayor
+    compases: 4
+    bucle: true
+    acordes: "D:1 | G:2 A:2 | Bm:1 | G:2 A:2"
+    pistas:
+      - rol: melodia
+        instrumento: piano
+        notas: "A4:4 D5:4 F#5:4. E5:8 | D5:4 B4:4 A4:4 C#5:4 | D5:4. F#5:8 E5:4 D5:4 | B4:4 G4:4 A4:4. C#5:8"
+      - rol: colchon
+        instrumento: cuerdas
+        notas: "[A3 D4 F#4]:1 | [B3 D4 G4]:2 [A3 C#4 E4]:2 | [B3 D4 F#4]:1 | [B3 D4 G4]:2 [A3 C#4 E4]:2"
+      - rol: bajo
+        instrumento: bajo-electrico
+        notas: "D2:4 D2:8 D2:8 A2:4 D2:4 | G2:4 G2:4 A2:4 A2:8 A2:8 | B1:4 B1:8 B1:8 F#2:4 B1:4 | G2:4 G2:4 A2:4 E2:8 A2:8"
+      - rol: percusion
+        instrumento: bateria
+        rejilla:
+          paso: "8"
+          lineas:
+            charles: "xoxoxoxo"
+            caja: "..x...x."
+            bombo: "x..x.x.."
+
+bpm:
+  termino: BPM
+  definicion: Pulsos por minuto. A 60 BPM hay un pulso cada segundo; a 120, dos.
+  ver: [tempo]

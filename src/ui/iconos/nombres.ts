@@ -1,0 +1,33 @@
+/** Iconos disponibles. Cada dirección visual dibuja su propio juego con estos mismos nombres. */
+export const NOMBRES_DE_ICONO = [
+  'cursor',
+  'reproducir',
+  'pausa',
+  'detener',
+  'bucle',
+  'escuchar',
+  'silencio',
+  'pista',
+  'cerrar',
+  'atras',
+  'adelante',
+  'candado',
+  'acierto',
+  'fallo',
+  'mapa',
+  'repaso',
+  'repertorio',
+  'glosario',
+  'ajustes',
+  'metronomo',
+  'lapiz',
+  'goma',
+  'mas',
+  'menos',
+  'descargar',
+  'nota',
+  'estrella',
+  'pianoroll',
+] as const
+
+export type NombreDeIcono = (typeof NOMBRES_DE_ICONO)[number]

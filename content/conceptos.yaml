@@ -1,0 +1,11 @@
+# Conceptos que entrena el curso. Cada ejercicio declara cuál practica; el repaso
+# espaciado programa los conceptos que más se fallan.
+# La clave es el identificador que usan las lecciones en `conceptos` y `concepto`.
+
+pulso:
+  nombre: Pulso
+  definicion: El latido regular que sostiene la música. Sigue ahí aunque nadie lo toque.
+
+tempo:
+  nombre: Tempo
+  definicion: La velocidad del pulso, medida en pulsos por minuto.

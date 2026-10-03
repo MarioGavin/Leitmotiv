@@ -1,0 +1,138 @@
+titulo: El tempo
+resumen: Medir la velocidad del pulso en BPM y elegir un tempo según lo que pasa en el juego.
+minutos: 7
+conceptos: [tempo, pulso]
+
+pasos:
+  - tipo: teoria
+    titulo: Pulsos por minuto
+    texto: |
+      El **tempo** es la velocidad del [[pulso]]. Se mide en pulsos por minuto, o
+      [[bpm|BPM]]: a 60 BPM hay un pulso cada segundo; a 120, dos.
+
+      Mueve el control de tempo y escucha cómo la misma melodía pasa de pasear a correr.
+      Las notas no cambian; cambia el tiempo que tarda en llegar cada pulso.
+    manipulable: [tempo]
+    ejemplo:
+      tempo: 100
+      tonalidad: G mayor
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D4:8 G4:8 B4:4 A4:8 G4:8 E4:4 | D4:8 E4:8 G4:4 A4:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "4"
+            lineas:
+              bombo: "x.x."
+              aro: ".x.x"
+
+  - tipo: oido
+    modo: preguntas
+    enunciado: ¿A qué velocidad va el pulso?
+    pista: Camina con dos dedos al ritmo del bombo. Un paseo tranquilo ronda los 70; una carrera pasa de 150.
+    explicacion: |
+      Entre 60 y 80 BPM la música camina despacio; hacia 110, a paso vivo; por encima de
+      150 corre. No hace falta acertar el número: basta con situar el tempo en su zona.
+    preguntas:
+      - opciones: [Lento, Medio, Rápido]
+        correcta: 1
+        explicacion: Va a 66 BPM. Hay tiempo de sobra entre un pulso y el siguiente.
+        pieza:
+          tempo: 66
+          compases: 2
+          pistas:
+            - rol: percusion
+              instrumento: bateria
+              rejilla:
+                paso: "4"
+                lineas:
+                  bombo: "x.x."
+                  aro: ".x.x"
+      - opciones: [Lento, Medio, Rápido]
+        correcta: 3
+        explicacion: Va a 168 BPM, casi tres pulsos por segundo.
+        pieza:
+          tempo: 168
+          compases: 4
+          pistas:
+            - rol: percusion
+              instrumento: bateria
+              rejilla:
+                paso: "4"
+                lineas:
+                  bombo: "x.x."
+                  aro: ".x.x"
+      - opciones: [Lento, Medio, Rápido]
+        correcta: 2
+        explicacion: Va a 112 BPM, el paso de alguien que camina con prisa.
+        pieza:
+          tempo: 112
+          compases: 2
+          pistas:
+            - rol: percusion
+              instrumento: bateria
+              rejilla:
+                paso: "4"
+                lineas:
+                  bombo: "x.x."
+                  aro: ".x.x"
+
+  - tipo: teoria
+    titulo: El tempo cuenta lo que pasa
+    texto: |
+      En un juego, el tempo es una de las primeras pistas de lo que está ocurriendo. La
+      música de exploración suele moverse entre 70 y 100 BPM; la de combate sube a 140 o
+      más, porque el pulso rápido acelera también al jugador.
+
+      Aquí tienes el mismo acompañamiento a 80. Súbelo hasta 150 y nota cómo cambia la
+      escena sin tocar una sola nota.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      tempo: 80
+      tonalidad: A menor
+      compases: 2
+      bucle: true
+      acordes: "Am:1 | F:2 G:2"
+      pistas:
+        - rol: colchon
+          instrumento: cuerdas
+          notas: "[A3 C4 E4]:1 | [A3 C4 F4]:2 [G3 B3 D4]:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "A1:4 A1:8 A1:8 E2:4 A1:4 | F1:4 F1:4 G1:4 G1:8 G1:8"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "xxxxxxxx"
+              bombo: "x...x..."
+              caja: "..x...x."
+
+  - tipo: ritmo
+    modo: seguir
+    enunciado: Marca el pulso de una música de exploración, a 72 BPM.
+    tempo: 72
+    paso: "4"
+    patron: "xxxx|xxxx"
+    repeticiones: 2
+    pista: A tempo lento cuesta más no adelantarse. Subdivide por dentro, «un-y, dos-y», para llenar el hueco.
+    explicacion: |
+      Los tempos lentos son más difíciles de sostener que los rápidos: hay más espacio
+      entre pulsos y más ocasión de correr. Subdividir mentalmente lo arregla.
+
+  - tipo: ritmo
+    modo: seguir
+    enunciado: Ahora el pulso de un combate, a 144 BPM.
+    tempo: 144
+    paso: "4"
+    patron: "xxxx|xxxx|xxxx|xxxx"
+    repeticiones: 1
+    pista: Relaja la mano. Si el dedo se tensa, llegarás tarde.
+    explicacion: |
+      A tempo rápido el pulso es fácil de seguir pero cansa. Por eso muchas músicas de
+      combate se sienten «a la mitad»: el oído agrupa los pulsos de dos en dos.

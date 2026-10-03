@@ -1,0 +1,471 @@
+/*
+ * Dirección «Vinilo»: el RPG urbano contado con la gráfica de una funda de
+ * disco de jazz y funk.
+ *
+ * Títulos condensados en mayúsculas, bloques de color plano, bordes gruesos de
+ * tinta con sombra dura desplazada, y las lecciones como la lista de temas de
+ * un disco. El esquema oscuro es petróleo; el claro, menta pálida. El acento es
+ * mostaza; el bermellón queda para los fallos.
+ */
+
+:root[data-direccion='vinilo'] {
+  --fuente-titulos: 'Leitmotiv Signos', 'Big Shoulders Display', 'Archivo', 'Arial Narrow', sans-serif;
+  --fuente-texto: 'Leitmotiv Signos', 'Archivo', system-ui, sans-serif;
+  --fuente-datos: 'Leitmotiv Signos', 'Archivo', system-ui, sans-serif;
+  --peso-titulos: 800;
+  --interlinea-titulos: 0.95;
+  --tracking-titulos: 0.01em;
+  --caja-titulos: uppercase;
+  --peso-etiqueta: 600;
+  --t-etiqueta: 0.8125rem;
+  --tracking-etiqueta: 0;
+  --caja-etiqueta: none;
+  --peso-dato: 700;
+  --peso-boton: 800;
+  --t-boton: 1.375rem;
+  --tracking-boton: 0.03em;
+  --caja-boton: uppercase;
+  --fuente-opcion: 'Leitmotiv Signos', 'Archivo', system-ui, sans-serif;
+  --peso-opcion: 600;
+  --t-opcion: 1.0625rem;
+  --ancho-marca: 32px;
+  --margen: var(--e-4);
+  --carril-alto: 6px;
+  --grosor: 3px;
+  --boton-relleno: var(--superficie);
+  --boton-relleno-inactivo: var(--superficie-2);
+  --t-cabecera: var(--t-2xl);
+  --t-titulo: var(--t-3xl);
+  --t-subtitulo: var(--t-2xl);
+  --t-conmutador: 1.125rem;
+  --t-dato: var(--t-s);
+  --t-enunciado: var(--t-2xl);
+  --interlinea-enunciado: 1;
+  --t-vista: 0.8125rem;
+  /* Alto de la navegación: 60 de los enlaces y 3 del borde. */
+  --alto-navegacion: 63px;
+}
+
+/* ── Petróleo ── */
+:root[data-direccion='vinilo'][data-esquema='oscuro'] {
+  --fondo: #0e3133;
+  --fondo-2: #124042;
+  --superficie: #17494b;
+  --superficie-2: #226265;
+  --hundido: #082224;
+  --tinta: #f5eedc;
+  --tinta-suave: #b9d2ca;
+  --borde: #f5eedc;
+  --separador: #2f7073;
+  --acento: #f3c22f;
+  --sobre-acento: #171300;
+  --acento-tinta: #f3c22f;
+  --exito: #56d6a0;
+  --sobre-exito: #03200f;
+  --exito-tinta: #80e6ba;
+  --error: #ff6a4a;
+  --sobre-error: #2a0600;
+  --error-tinta: #ff9479;
+  --info: #8fd6ea;
+  --sobre-info: #04202b;
+  --info-tinta: #a5dff0;
+  --sombra-dura: #020b0c;
+  --pista-melodia: #f3c22f;
+  --pista-contramelodia: #ff9f6b;
+  --pista-armonia: #6fd3d8;
+  --pista-colchon: #a9dcc0;
+  --pista-bajo: #ff7a5c;
+  --pista-percusion: #f5eedc;
+  --pista-efecto: #9db8b1;
+  --nota-contorno: #020b0c;
+  --rejilla-linea: #1c5154;
+  --rejilla-compas: #5f9a9c;
+  --rejilla-fila-clara: #134042;
+  --rejilla-fila-oscura: #0e3335;
+  --rejilla-tonica: #1a5457;
+}
+
+/* ── Menta ── */
+:root[data-direccion='vinilo'][data-esquema='claro'] {
+  --fondo: #dfeae4;
+  --fondo-2: #cddfd6;
+  --superficie: #ffffff;
+  --superficie-2: #e9f1ec;
+  --hundido: #eef3ef;
+  --tinta: #101615;
+  --tinta-suave: #47534f;
+  --borde: #101615;
+  --separador: #b9c9c1;
+  --acento: #f3c22f;
+  --sobre-acento: #101615;
+  --acento-tinta: #0a6b62;
+  --exito: #0b7a6e;
+  --sobre-exito: #ffffff;
+  --exito-tinta: #09645a;
+  --error: #d23a22;
+  --sobre-error: #ffffff;
+  --error-tinta: #b02c17;
+  --info: #1d6fa5;
+  --sobre-info: #ffffff;
+  --info-tinta: #17598a;
+  --sombra-dura: #101615;
+  --pista-melodia: #f3c22f;
+  --pista-contramelodia: #ff9f6b;
+  --pista-armonia: #4cc4cb;
+  --pista-colchon: #8fd0ae;
+  --pista-bajo: #ff6a4a;
+  --pista-percusion: #101615;
+  --pista-efecto: #9aaba4;
+  --nota-contorno: #101615;
+  --rejilla-linea: #dbe5df;
+  --rejilla-compas: #7b8f87;
+  --rejilla-fila-clara: #ffffff;
+  --rejilla-fila-oscura: #f0f5f1;
+  --rejilla-tonica: #fdf3c9;
+}
+
+/* ── Marco: borde de tinta y sombra dura, como una pegatina mal registrada ── */
+[data-direccion='vinilo'] .marco {
+  --_s: 5px;
+  --_vuelo-arriba: var(--grosor);
+  --_vuelo-izquierda: var(--grosor);
+  --_vuelo-derecha: calc(var(--grosor) + var(--_s));
+  --_vuelo-abajo: calc(var(--grosor) + var(--_s));
+}
+
+[data-direccion='vinilo'] .boton {
+  --_s: 4px;
+  --_vuelo-arriba: var(--grosor);
+  --_vuelo-izquierda: var(--grosor);
+  --_vuelo-derecha: calc(var(--grosor) + var(--_s));
+  --_vuelo-abajo: calc(var(--grosor) + var(--_s));
+  transition: transform var(--dur-corta) var(--curva);
+}
+
+[data-direccion='vinilo'] :is(.marco, .boton)::before {
+  inset: 0 var(--_s) var(--_s) 0;
+  border: var(--grosor) solid var(--borde);
+  box-shadow: var(--_s) var(--_s) 0 var(--sombra-dura);
+}
+
+[data-direccion='vinilo'] .marco--plano {
+  --_s: 0px;
+}
+
+/* El rótulo es una pegatina alta: el contenido baja un poco para no quedar debajo. */
+[data-direccion='vinilo'] .marco--rotulado:not(.marco--sin-relleno) {
+  padding-top: calc(var(--_vuelo-arriba) + var(--_pad-y) + var(--e-2));
+}
+
+[data-direccion='vinilo'] .marco--rotulado.marco--sin-relleno {
+  padding-top: calc(var(--_vuelo-arriba) + var(--e-4));
+}
+
+[data-direccion='vinilo'][data-esquema='oscuro'] .boton--primario::before {
+  border-color: var(--sombra-dura);
+}
+
+[data-direccion='vinilo'] .boton:active:not(:disabled) {
+  transform: translate(var(--_s), var(--_s));
+}
+
+[data-direccion='vinilo'] .boton:active:not(:disabled)::before {
+  box-shadow: none;
+}
+
+[data-direccion='vinilo'] .boton--fantasma::before {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+[data-direccion='vinilo'] .boton--fantasma:active:not(:disabled) {
+  transform: none;
+}
+
+[data-direccion='vinilo'] .boton:disabled::before {
+  border-style: dashed;
+  box-shadow: none;
+}
+
+[data-direccion='vinilo'] .marco__rotulo {
+  transform: translateY(-58%) rotate(-2deg);
+  padding: 3px var(--e-2);
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: var(--grosor) solid var(--borde);
+}
+
+/* ── Opciones: la lista de temas, con su letra ── */
+[data-direccion='vinilo'] .opcion {
+  padding-left: var(--e-2);
+}
+
+[data-direccion='vinilo'] .opcion + .opcion {
+  border-top: var(--grosor) solid var(--borde);
+}
+
+[data-direccion='vinilo'] .opcion__marca .icono {
+  display: none;
+}
+
+[data-direccion='vinilo'] .opcion__marca::before {
+  content: attr(data-letra);
+  font-family: var(--fuente-titulos);
+  font-weight: 900;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+[data-direccion='vinilo'] .opcion[aria-checked='true'] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+[data-direccion='vinilo'] .opcion--correcta[aria-checked='true'] {
+  background: var(--exito);
+  color: var(--sobre-exito);
+}
+
+[data-direccion='vinilo'] .opcion--incorrecta[aria-checked='true'] {
+  background: var(--error);
+  color: var(--sobre-error);
+}
+
+/* ── Avance: tramos inclinados ── */
+[data-direccion='vinilo'] .avance {
+  gap: 5px;
+  padding: 0 4px;
+}
+
+[data-direccion='vinilo'] .avance__tramo {
+  height: 14px;
+  transform: skewX(-24deg);
+  --avance-vacio: transparent;
+  box-shadow: inset 0 0 0 var(--grosor) var(--borde);
+}
+
+[data-direccion='vinilo'] .avance__tramo--hecho {
+  background: var(--borde);
+}
+
+[data-direccion='vinilo'] .avance__tramo--actual {
+  background: var(--acento);
+}
+
+/* ── Navegación: una banda de tinta de lado a lado ── */
+[data-direccion='vinilo'] .navegacion {
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--nav-fondo);
+}
+
+[data-direccion='vinilo'][data-esquema='oscuro'] {
+  --nav-fondo: #082224;
+  --nav-tinta: #b9d2ca;
+}
+
+[data-direccion='vinilo'][data-esquema='claro'] {
+  --nav-fondo: #101615;
+  --nav-tinta: #c9d6d0;
+}
+
+[data-direccion='vinilo'] .navegacion__lista.marco {
+  --_vuelo-arriba: var(--grosor);
+  --_vuelo-derecha: 0px;
+  --_vuelo-abajo: 0px;
+  --_vuelo-izquierda: 0px;
+  --_relleno: var(--nav-fondo);
+}
+
+[data-direccion='vinilo'] .navegacion__lista.marco::before {
+  inset: 0;
+  border-width: var(--grosor) 0 0;
+  box-shadow: none;
+}
+
+[data-direccion='vinilo'] .navegacion__enlace {
+  min-height: 60px;
+  color: var(--nav-tinta);
+}
+
+[data-direccion='vinilo'] .navegacion__enlace[aria-current='page'] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+/* ── Conmutador ── */
+[data-direccion='vinilo'] .conmutador__opcion + .conmutador__opcion {
+  border-left: var(--grosor) solid var(--borde);
+}
+
+/* ── Deslizador: la aguja sobre el surco ── */
+[data-direccion='vinilo'] .deslizador input[type='range']::-webkit-slider-runnable-track {
+  background: var(--borde);
+}
+
+[data-direccion='vinilo'] .deslizador input[type='range']::-moz-range-track {
+  background: var(--borde);
+}
+
+[data-direccion='vinilo'] .deslizador input[type='range']::-webkit-slider-thumb {
+  width: 28px;
+  height: 28px;
+  margin-top: -11px;
+  border: var(--grosor) solid var(--borde);
+  border-radius: 50%;
+  background: var(--acento);
+}
+
+[data-direccion='vinilo'] .deslizador input[type='range']::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: var(--grosor) solid var(--borde);
+  border-radius: 50%;
+  background: var(--acento);
+}
+
+[data-direccion='vinilo'] .pista-chip__color {
+  border-radius: 50%;
+}
+
+/* ── Mapa del curso: el plano de una línea de metro ── */
+.mapa-vinilo {
+  position: relative;
+  flex: none;
+}
+
+.mapa-vinilo__linea {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mapa-vinilo__via,
+.mapa-vinilo__recorrido {
+  fill: none;
+  stroke-width: 12;
+  stroke-linejoin: miter;
+}
+
+.mapa-vinilo__via {
+  stroke: var(--separador);
+}
+
+.mapa-vinilo__recorrido {
+  stroke: var(--borde);
+}
+
+.estacion {
+  position: absolute;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.estacion__boton {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: var(--e-3);
+  align-items: center;
+  width: 100%;
+  min-height: 64px;
+  padding-right: var(--margen);
+  grid-template-areas: 'punto rotulo';
+}
+
+.estacion__punto {
+  grid-area: punto;
+  width: 36px;
+  height: 36px;
+  border: 6px solid var(--separador);
+  border-radius: 50%;
+  background: var(--fondo);
+}
+
+.estacion--abierto .estacion__punto {
+  border-color: var(--borde);
+  background: var(--acento);
+}
+
+.estacion__numero,
+.estacion__nombre {
+  grid-row: 1;
+  font-family: var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.estacion__boton {
+  grid-template-columns: 36px 52px 1fr;
+  grid-template-areas: 'punto numero nombre';
+}
+
+.estacion__numero {
+  grid-area: numero;
+  font-weight: 900;
+  font-size: 2.75rem;
+  line-height: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+.estacion__nombre {
+  grid-area: nombre;
+  justify-self: start;
+  padding: 4px 8px 3px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+
+.estacion--en-obras .estacion__numero,
+.estacion--en-obras .estacion__nombre {
+  color: var(--tinta-suave);
+}
+
+.estacion__boton[aria-pressed='true'] .estacion__nombre {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  box-shadow:
+    0 0 0 var(--grosor) var(--borde),
+    calc(var(--grosor) + 4px) calc(var(--grosor) + 4px) 0 0 var(--sombra-dura);
+}
+
+[data-direccion='vinilo'][data-esquema='oscuro'] .estacion__boton[aria-pressed='true'] .estacion__nombre {
+  box-shadow:
+    0 0 0 var(--grosor) var(--sombra-dura),
+    calc(var(--grosor) + 4px) calc(var(--grosor) + 4px) 0 0 var(--sombra-dura);
+}
+
+.estacion__boton[aria-pressed='true'] .estacion__numero {
+  color: var(--tinta);
+}
+
+/* ── Lista de lecciones: los temas de un disco ── */
+[data-direccion='vinilo'] .lecciones li,
+[data-direccion='vinilo'] .unidad__vacia {
+  border-top: var(--grosor) solid var(--borde);
+}
+
+[data-direccion='vinilo'] .leccion-enlace__numero {
+  font-weight: 900;
+  font-size: 2rem;
+}
+
+[data-direccion='vinilo'] .leccion-enlace__titulo {
+  font-weight: 700;
+}
+
+/* Botón de dos posiciones encendido (bucle activado, herramienta elegida). */
+[data-direccion='vinilo'] .boton--activo {
+  --_relleno: var(--tinta);
+  --_tinta: var(--fondo);
+}
+
+[data-direccion='vinilo'] .pista-chip--pestana[aria-pressed='true'] {
+  background: var(--tinta);
+  color: var(--fondo);
+}

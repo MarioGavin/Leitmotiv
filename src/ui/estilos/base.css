@@ -1,0 +1,348 @@
+/*
+ * Base del sistema de diseño de Leitmotiv: fuentes, escalas y estructura común.
+ * Los colores y el carácter de cada dirección visual están en cartucho.css y
+ * vinilo.css. La descripción completa está en DESIGN.md.
+ */
+
+/* ── Fuentes (licencia OFL 1.1, alojadas en la propia app; ver CREDITS.md) ──
+ * Cada dirección visual usa las suyas; el navegador solo descarga las que hacen falta.
+ */
+@font-face {
+  font-family: 'Jersey 10';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource/jersey-10/files/jersey-10-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Jersey 15';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource/jersey-15/files/jersey-15-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Big Shoulders Display';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-italic.woff2') format('woff2');
+}
+
+/*
+ * Signos musicales (♯ ♭ ♮), dibujados para Leitmotiv con scripts/fuentes/signos.ts.
+ * El rango Unicode hace que solo se usen para esos tres caracteres, vayan donde
+ * vayan en la lista de fuentes.
+ */
+@font-face {
+  font-family: 'Leitmotiv Signos Pixel';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url('../fuentes/leitmotiv-signos-pixel.otf') format('opentype');
+  /* Además de los signos musicales, las voladitas de los ordinales (2.ª), que en Jersey no vuelan. */
+  unicode-range: U+00AA, U+00BA, U+266D-266F;
+}
+
+@font-face {
+  font-family: 'Leitmotiv Signos';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url('../fuentes/leitmotiv-signos.otf') format('opentype');
+  unicode-range: U+266D-266F;
+}
+
+/* ── Escalas comunes ── */
+:root {
+  /* Espaciado: múltiplos de 4 px. */
+  --e-1: 4px;
+  --e-2: 8px;
+  --e-3: 12px;
+  --e-4: 16px;
+  --e-5: 24px;
+  --e-6: 32px;
+  --e-7: 48px;
+
+  /* Tipografía. */
+  --t-xs: 0.75rem;
+  --t-s: 0.875rem;
+  --t-m: 1rem;
+  --t-l: 1.125rem;
+  --t-xl: 1.375rem;
+  --t-2xl: 1.75rem;
+  --t-3xl: 2.25rem;
+
+  /* Tamaño mínimo de cualquier cosa que se toque. */
+  --toque: 48px;
+
+  /* Estructura de pantalla. */
+  --ancho-app: 480px;
+  --alto-cabecera: 56px;
+  /* Alto de la navegación principal; cada dirección pone el suyo. */
+  --alto-navegacion: 64px;
+  --margen: var(--e-4);
+
+  /* Movimiento: corto y nítido. */
+  --dur-corta: 90ms;
+  --dur: 160ms;
+  --curva: cubic-bezier(0.2, 0.9, 0.3, 1);
+
+  color-scheme: dark;
+}
+
+:root[data-esquema='claro'] {
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--fondo);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: var(--t-m);
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  text-align: inherit;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+svg {
+  display: block;
+}
+
+:focus-visible {
+  outline: 3px solid var(--acento-tinta);
+  outline-offset: 2px;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Estructura de la app: una columna de móvil, centrada en pantallas anchas ── */
+.app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--ancho-app);
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--fondo);
+}
+
+.pantalla {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pantalla__cuerpo {
+  flex: 1;
+  min-height: 0;
+  padding: var(--margen);
+}
+
+/* ── Texto ── */
+.titulo {
+  font-family: var(--fuente-titulos);
+  font-weight: var(--peso-titulos);
+  font-size: var(--t-titulo, var(--t-2xl));
+  line-height: var(--interlinea-titulos);
+  letter-spacing: var(--tracking-titulos);
+  text-transform: var(--caja-titulos);
+  text-wrap: balance;
+}
+
+.subtitulo {
+  font-family: var(--fuente-subtitulos, var(--fuente-titulos));
+  font-weight: var(--peso-titulos);
+  font-size: var(--t-subtitulo, var(--t-xl));
+  line-height: var(--interlinea-titulos);
+  letter-spacing: var(--tracking-titulos);
+  text-transform: var(--caja-titulos);
+}
+
+.etiqueta {
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-etiqueta);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: var(--caja-etiqueta, none);
+  color: var(--tinta-suave);
+}
+
+.dato {
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-dato);
+  font-variant-numeric: tabular-nums;
+}
+
+.suave {
+  color: var(--tinta-suave);
+}
+
+.prosa p + p,
+.prosa p + ul,
+.prosa p + ol,
+.prosa ul + p,
+.prosa ol + p {
+  margin-top: var(--e-3);
+}
+
+.prosa strong {
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.prosa ul,
+.prosa ol {
+  display: grid;
+  gap: var(--e-1);
+  padding-left: var(--e-5);
+}
+
+.prosa ul {
+  list-style: square;
+}
+
+.prosa ol {
+  list-style: decimal;
+}
+
+/* Término del glosario dentro de un texto: se toca para ver su definición. */
+.termino {
+  display: inline;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--acento-tinta);
+}
+
+.prosa .musical {
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-dato);
+  white-space: nowrap;
+}
+
+/* ── Utilidades de composición ── */
+.fila {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+}
+
+.fila--separada {
+  justify-content: space-between;
+}
+
+.pila {
+  display: grid;
+  gap: var(--e-3);
+}
+
+.pila--amplia {
+  gap: var(--e-5);
+}
+
+.crece {
+  flex: 1;
+  min-width: 0;
+}

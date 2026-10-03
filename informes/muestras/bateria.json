@@ -1,0 +1,138 @@
+{
+ "id": "bateria",
+ "fuente": "virtuosity",
+ "commit": "9f04cf9a734527edfbb0a4eee1f674e45bbf71bc",
+ "muestras": 16,
+ "bytes": 173324,
+ "desafinacionGlobal": 0,
+ "medidas": [
+  {
+   "muestra": "bombo-p",
+   "tecla": 36,
+   "vel": "0-79",
+   "segundos": 1.2,
+   "picoDb": -1.5,
+   "bytes": 8804
+  },
+  {
+   "muestra": "bombo-f",
+   "tecla": 36,
+   "vel": "80-127",
+   "segundos": 1.2,
+   "picoDb": -1.5,
+   "bytes": 9388
+  },
+  {
+   "muestra": "caja-p",
+   "tecla": 38,
+   "vel": "0-79",
+   "segundos": 1.2,
+   "picoDb": -2.1,
+   "bytes": 9544
+  },
+  {
+   "muestra": "caja-f",
+   "tecla": 38,
+   "vel": "80-127",
+   "segundos": 1.2,
+   "picoDb": -2.1,
+   "bytes": 9509
+  },
+  {
+   "muestra": "aro",
+   "tecla": 37,
+   "vel": "0-127",
+   "segundos": 0.8,
+   "picoDb": -12.8,
+   "bytes": 6032
+  },
+  {
+   "muestra": "charles-p1",
+   "tecla": 42,
+   "vel": "0-79",
+   "segundos": 0.59,
+   "picoDb": -7.7,
+   "bytes": 4408
+  },
+  {
+   "muestra": "charles-p2",
+   "tecla": 42,
+   "vel": "0-79",
+   "segundos": 0.52,
+   "picoDb": -7.7,
+   "bytes": 4143
+  },
+  {
+   "muestra": "charles-f1",
+   "tecla": 42,
+   "vel": "80-127",
+   "segundos": 0.6,
+   "picoDb": -7.7,
+   "bytes": 4846
+  },
+  {
+   "muestra": "charles-f2",
+   "tecla": 42,
+   "vel": "80-127",
+   "segundos": 0.6,
+   "picoDb": -7.7,
+   "bytes": 4780
+  },
+  {
+   "muestra": "charles-pedal",
+   "tecla": 44,
+   "vel": "0-127",
+   "segundos": 0.6,
+   "picoDb": -16.5,
+   "bytes": 4774
+  },
+  {
+   "muestra": "charles-abierto",
+   "tecla": 46,
+   "vel": "0-127",
+   "segundos": 2.5,
+   "picoDb": -16,
+   "bytes": 20513
+  },
+  {
+   "muestra": "tom-grave",
+   "tecla": 45,
+   "vel": "0-127",
+   "segundos": 1.8,
+   "picoDb": -8.6,
+   "bytes": 12604
+  },
+  {
+   "muestra": "tom-agudo",
+   "tecla": 50,
+   "vel": "0-127",
+   "segundos": 1.5,
+   "picoDb": -6.5,
+   "bytes": 11865
+  },
+  {
+   "muestra": "crash",
+   "tecla": 49,
+   "vel": "0-127",
+   "segundos": 3.5,
+   "picoDb": -14.1,
+   "bytes": 25983
+  },
+  {
+   "muestra": "ride",
+   "tecla": 51,
+   "vel": "0-127",
+   "segundos": 2.5,
+   "picoDb": -16.5,
+   "bytes": 17738
+  },
+  {
+   "muestra": "campana",
+   "tecla": 53,
+   "vel": "0-127",
+   "segundos": 2.5,
+   "picoDb": -16.5,
+   "bytes": 18393
+  }
+ ]
+}

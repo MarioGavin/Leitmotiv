@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es" data-direccion="cartucho" data-esquema="oscuro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Leitmotiv</title>
+    <meta name="description" content="Aprende a componer música de videojuegos, del pulso al flujo de trabajo profesional." />
+    <meta name="theme-color" content="#0c1226" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="%BASE_URL%icons/icono-192.png" />
+    <script>
+      // Aplica el aspecto guardado antes de pintar nada, para que no haya un destello con otro tema.
+      ;(function () {
+        var raiz = document.documentElement
+        var direccion = 'cartucho'
+        var esquema = 'sistema'
+        try {
+          var guardado = JSON.parse(localStorage.getItem('leitmotiv-ajustes') || 'null')
+          if (guardado && guardado.state) {
+            if (guardado.state.direccion === 'cartucho' || guardado.state.direccion === 'vinilo') direccion = guardado.state.direccion
+            if (guardado.state.esquema === 'oscuro' || guardado.state.esquema === 'claro') esquema = guardado.state.esquema
+          }
+        } catch (e) {}
+        if (esquema === 'sistema') esquema = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'oscuro'
+        raiz.dataset.direccion = direccion
+        raiz.dataset.esquema = esquema
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="raiz"></div>
+    <noscript>Leitmotiv necesita JavaScript para funcionar.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

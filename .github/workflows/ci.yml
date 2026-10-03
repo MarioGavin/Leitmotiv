@@ -1,0 +1,62 @@
+# Comprobación completa en cada cambio: tipos, estilo, contenido, pruebas,
+# compilación, presupuesto de la carga inicial, pruebas en navegador y audio.
+name: Comprobación
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: comprobacion-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  comprobar:
+    name: Tipos, contenido, pruebas y compilación
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      # Tipos, lint, validación del contenido con zod, pruebas unitarias, compilación y presupuesto de 300 KB.
+      - name: Comprobar
+        run: npm run check
+
+      - name: Instalar Chromium para las pruebas en navegador
+        run: npx playwright install --with-deps chromium
+
+      # Se prueba como se publica: compilada bajo una subruta, igual que en GitHub Pages.
+      - name: Pruebas en navegador (PWA, sin conexión, lección, piano roll)
+        run: npm run build && npm run e2e
+        env:
+          BASE_PATH: /leitmotiv/
+
+      - name: Instalar ffmpeg para medir la sonoridad
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+
+      - name: Verificación de audio
+        run: npm run audio:check
+
+      - name: Guardar informes
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: informes
+          path: |
+            informes/audio.json
+            informes/presupuesto.json
+            playwright-report
+          if-no-files-found: ignore
+          retention-days: 14

@@ -1,0 +1,466 @@
+/*
+ * Dirección «Cartucho»: el menú de un RPG de consola portátil de 16 bits.
+ *
+ * Ventanas con marco de píxeles y esquinas escalonadas, cursor ▶, tipografía
+ * de píxel para títulos y datos, y un mapa del mundo dibujado punto a punto.
+ * El esquema oscuro es la noche (ventanas azules sobre un cielo marino); el
+ * claro, el día (ventanas blancas sobre un cielo pálido).
+ *
+ * Un píxel lógico son 2 px de CSS. Todas las medidas de marco son múltiplos.
+ */
+
+:root[data-direccion='cartucho'] {
+  /*
+   * Tipografía de píxel: la familia Jersey, cuyo número es la altura de las
+   * mayúsculas en píxeles. Los tamaños están elegidos para que cada píxel de
+   * la fuente mida un número entero de px:
+   *   Jersey 10 a 18,67 px → píxeles de 1 px (texto de interfaz)
+   *   Jersey 15 a 27 px    → píxeles de 1 px (subtítulos y enunciados)
+   *   Jersey 10 a 37,33 px → píxeles de 2 px, como los de los marcos (títulos)
+   * El texto corrido usa Atkinson Hyperlegible Next.
+   */
+  --fuente-titulos: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
+  --fuente-subtitulos: 'Leitmotiv Signos Pixel', 'Jersey 15', 'Arial Narrow', sans-serif;
+  --fuente-enunciado: 'Leitmotiv Signos Pixel', 'Jersey 15', 'Arial Narrow', sans-serif;
+  --fuente-boton: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
+  --fuente-texto: 'Leitmotiv Signos', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --fuente-datos: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
+  --fuente-opcion: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
+  --t-pixel: 1.16667rem;
+  --t-pixel-medio: 1.6875rem;
+  --t-pixel-doble: 2.33333rem;
+  --t-titulo: var(--t-pixel-doble);
+  --t-subtitulo: var(--t-pixel-medio);
+  --t-cabecera: var(--t-pixel-medio);
+  --fuente-cabecera: 'Leitmotiv Signos Pixel', 'Jersey 15', 'Arial Narrow', sans-serif;
+  --t-boton: var(--t-pixel);
+  --t-opcion: var(--t-pixel);
+  --t-etiqueta: var(--t-pixel);
+  --t-dato: var(--t-pixel);
+  --t-navegacion: var(--t-pixel);
+  --t-conmutador: var(--t-pixel);
+  --t-enunciado: var(--t-pixel-medio);
+  --interlinea-enunciado: 1;
+  --t-vista: var(--t-pixel);
+  --vista-margen: 60px;
+  /* El nombre de la app en la pantalla de título: píxeles de 4 px. */
+  --t-nombre: 4.66667rem;
+  /* Las Jersey solo tienen un peso; una negrita sintética emborronaría los píxeles. */
+  --peso-titulos: 400;
+  --peso-etiqueta: 400;
+  --peso-dato: 400;
+  --peso-boton: 400;
+  --peso-opcion: 400;
+  --interlinea-titulos: 1;
+  --tracking-titulos: 0;
+  --tracking-etiqueta: 0;
+  --tracking-boton: 0;
+  --caja-titulos: none;
+  --caja-etiqueta: none;
+  --caja-boton: none;
+  --ancho-marca: 24px;
+  --margen: var(--e-2);
+  --carril-alto: 8px;
+  /* Alto de la navegación: 56 de los enlaces, 12 del marco y 8 de relleno. */
+  --alto-navegacion: 76px;
+  font-synthesis: style;
+}
+
+/* ── Noche ── */
+:root[data-direccion='cartucho'][data-esquema='oscuro'] {
+  --fondo: #0c1226;
+  --fondo-2: #131c3a;
+  --superficie: #1a2d5a;
+  --superficie-2: #27407c;
+  --hundido: #0a1022;
+  --tinta: #f6efd9;
+  --tinta-suave: #b9c4de;
+  --borde: #f6efd9;
+  --contorno: #04060f;
+  --separador: #3d5594;
+  --acento: #f7b733;
+  --sobre-acento: #1b1404;
+  --acento-tinta: #f7b733;
+  --exito: #5fd398;
+  --sobre-exito: #04200f;
+  --exito-tinta: #7fe2b0;
+  --error: #ff7d6e;
+  --sobre-error: #2b0703;
+  --error-tinta: #ffa196;
+  --info: #7cc6ff;
+  --sobre-info: #04182b;
+  --info-tinta: #9bd3ff;
+  --sombra-dura: #04060f;
+  --boton-relleno: #27407c;
+  --pista-melodia: #f7b733;
+  --pista-contramelodia: #ff9a5c;
+  --pista-armonia: #7cc6ff;
+  --pista-colchon: #b8a2ff;
+  --pista-bajo: #5fd398;
+  --pista-percusion: #ff8fa3;
+  --pista-efecto: #d7dbe8;
+  --nota-contorno: #04060f;
+  --rejilla-linea: #22366b;
+  --rejilla-compas: #5f79bd;
+  --rejilla-fila-clara: #16254c;
+  --rejilla-fila-oscura: #111c3b;
+  --rejilla-tonica: #213a73;
+}
+
+/* ── Día ── */
+:root[data-direccion='cartucho'][data-esquema='claro'] {
+  --fondo: #cfe2ee;
+  --fondo-2: #bdd5e5;
+  --superficie: #fdfcf6;
+  --superficie-2: #ffe7a3;
+  --hundido: #e9f0f5;
+  --tinta: #17224a;
+  --tinta-suave: #45527e;
+  --borde: #17224a;
+  --contorno: #7ea4c4;
+  --separador: #a9bfd3;
+  --acento: #f7b733;
+  --sobre-acento: #17224a;
+  --acento-tinta: #8a4b00;
+  --exito: #1c7d4c;
+  --sobre-exito: #ffffff;
+  --exito-tinta: #12643b;
+  --error: #c2371f;
+  --sobre-error: #ffffff;
+  --error-tinta: #a52c16;
+  --info: #1f6fb5;
+  --sobre-info: #ffffff;
+  --info-tinta: #17568f;
+  --sombra-dura: #17224a;
+  --boton-relleno: #fdfcf6;
+  --pista-melodia: #f7b733;
+  --pista-contramelodia: #ff8a4a;
+  --pista-armonia: #58b4f5;
+  --pista-colchon: #a58cf7;
+  --pista-bajo: #46c487;
+  --pista-percusion: #ff7d94;
+  --pista-efecto: #b8c0d4;
+  --nota-contorno: #17224a;
+  --rejilla-linea: #d3dfe9;
+  --rejilla-compas: #7d93b3;
+  --rejilla-fila-clara: #fbfcfd;
+  --rejilla-fila-oscura: #ecf2f6;
+  --rejilla-tonica: #fff1c7;
+}
+
+/* ── Marco de píxeles ──
+ * La cara es un rectángulo. Alrededor, un anillo claro al que le faltan las
+ * esquinas y, por fuera, un contorno fino que rellena esas esquinas: el
+ * resultado es la esquina escalonada de las ventanas de 16 bits.
+ */
+[data-direccion='cartucho'] .marco {
+  --_b: 4px;
+  --_o: 2px;
+  --_borde: var(--borde);
+  --_contorno: var(--contorno);
+  --_vuelo-arriba: 6px;
+  --_vuelo-derecha: 6px;
+  --_vuelo-abajo: 6px;
+  --_vuelo-izquierda: 6px;
+}
+
+[data-direccion='cartucho'] .boton {
+  --_b: 2px;
+  --_o: 2px;
+  --_borde: var(--borde);
+  --_contorno: var(--contorno);
+  --_vuelo-arriba: 4px;
+  --_vuelo-derecha: 4px;
+  --_vuelo-abajo: 8px;
+  --_vuelo-izquierda: 4px;
+  /* La sombra dura de 4 px ocupa el hueco reservado abajo; al pulsar, el botón baja y la tapa. */
+  filter: drop-shadow(0 4px 0 var(--sombra-dura));
+}
+
+[data-direccion='cartucho'] :is(.marco, .boton)::before {
+  box-shadow:
+    calc(-1 * var(--_b)) 0 0 0 var(--_borde),
+    var(--_b) 0 0 0 var(--_borde),
+    0 calc(-1 * var(--_b)) 0 0 var(--_borde),
+    0 var(--_b) 0 0 var(--_borde),
+    calc(-1 * var(--_b) - var(--_o)) 0 0 0 var(--_contorno),
+    calc(var(--_b) + var(--_o)) 0 0 0 var(--_contorno),
+    0 calc(-1 * var(--_b) - var(--_o)) 0 0 var(--_contorno),
+    0 calc(var(--_b) + var(--_o)) 0 0 var(--_contorno),
+    calc(-1 * var(--_b)) calc(-1 * var(--_b)) 0 0 var(--_contorno),
+    var(--_b) calc(-1 * var(--_b)) 0 0 var(--_contorno),
+    calc(-1 * var(--_b)) var(--_b) 0 0 var(--_contorno),
+    var(--_b) var(--_b) 0 0 var(--_contorno);
+}
+
+[data-direccion='cartucho'] .boton:active:not(:disabled) {
+  transform: translateY(4px);
+  filter: none;
+}
+
+[data-direccion='cartucho'] .boton--fantasma {
+  --_borde: transparent;
+  --_contorno: transparent;
+  filter: none;
+}
+
+[data-direccion='cartucho'] .boton--fantasma:active:not(:disabled) {
+  transform: none;
+}
+
+[data-direccion='cartucho'] .boton:disabled {
+  --_borde: var(--separador);
+  filter: none;
+}
+
+/* ── Opciones: sin marco propio, con el cursor a la izquierda ── */
+[data-direccion='cartucho'] .opcion + .opcion {
+  background-image: repeating-linear-gradient(90deg, var(--separador) 0 4px, transparent 4px 8px);
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+}
+
+[data-direccion='cartucho'] .opcion__marca::before {
+  content: none;
+}
+
+[data-direccion='cartucho'] .opcion__marca .icono {
+  --icono: 18px;
+  visibility: hidden;
+  color: var(--acento-tinta);
+}
+
+[data-direccion='cartucho'] .opcion[aria-checked='true'] .opcion__marca .icono {
+  visibility: visible;
+  animation: cartucho-cursor 0.7s steps(1) infinite;
+}
+
+@keyframes cartucho-cursor {
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+[data-direccion='cartucho'] .opcion--correcta[aria-checked='true'],
+[data-direccion='cartucho'] .opcion--incorrecta[aria-checked='true'] {
+  background-color: var(--superficie-2);
+}
+
+/* ── Avance ── */
+[data-direccion='cartucho'] .avance__tramo {
+  height: 8px;
+  box-shadow: 0 0 0 2px var(--contorno);
+  --avance-vacio: var(--hundido);
+}
+
+[data-direccion='cartucho'] .avance {
+  gap: 6px;
+  padding: 2px;
+}
+
+/* ── Navegación: la ventana de comandos ── */
+[data-direccion='cartucho'] .navegacion__enlace[aria-current='page'] {
+  background: var(--tinta);
+  color: var(--superficie);
+}
+
+[data-direccion='cartucho'][data-esquema='claro'] .navegacion__enlace[aria-current='page'] {
+  color: var(--superficie);
+}
+
+/* ── Conmutador ── */
+[data-direccion='cartucho'] .conmutador__opcion[aria-pressed='true'] {
+  background: var(--tinta);
+  color: var(--superficie);
+}
+
+/* ── Deslizador ── */
+[data-direccion='cartucho'] .deslizador input[type='range']::-webkit-slider-runnable-track {
+  background: var(--hundido);
+  box-shadow: 0 0 0 2px var(--borde);
+}
+
+[data-direccion='cartucho'] .deslizador input[type='range']::-moz-range-track {
+  background: var(--hundido);
+  box-shadow: 0 0 0 2px var(--borde);
+}
+
+[data-direccion='cartucho'] .deslizador input[type='range']::-webkit-slider-thumb {
+  width: 16px;
+  box-shadow:
+    0 0 0 2px var(--borde),
+    0 0 0 4px var(--contorno);
+}
+
+[data-direccion='cartucho'] .deslizador input[type='range']::-moz-range-thumb {
+  width: 16px;
+  box-shadow:
+    0 0 0 2px var(--borde),
+    0 0 0 4px var(--contorno);
+}
+
+/* ── Iconos y rejillas: píxeles nítidos ── */
+[data-direccion='cartucho'] .icono,
+[data-direccion='cartucho'] .vista-pieza__rejilla svg,
+[data-direccion='cartucho'] .rollo__lienzo svg {
+  shape-rendering: crispEdges;
+}
+
+/* Botón de dos posiciones encendido (bucle activado, herramienta elegida). */
+[data-direccion='cartucho'] .boton--activo {
+  --_relleno: var(--tinta);
+  --_tinta: var(--superficie);
+}
+
+/* ── Texto ── */
+[data-direccion='cartucho'] :focus-visible {
+  outline: 4px solid var(--acento-tinta);
+  outline-offset: 2px;
+}
+
+/* ── Texto con datos ── */
+[data-direccion='cartucho'] .dato {
+  font-size: var(--t-pixel);
+  line-height: 1;
+}
+
+/* ── Marco fino, para piezas pequeñas (insignias, rótulos del mapa) ── */
+:root[data-direccion='cartucho'] {
+  --marco-fino:
+    -2px 0 0 0 var(--borde), 2px 0 0 0 var(--borde), 0 -2px 0 0 var(--borde), 0 2px 0 0 var(--borde), -4px 0 0 0 var(--contorno), 4px 0 0 0 var(--contorno),
+    0 -4px 0 0 var(--contorno), 0 4px 0 0 var(--contorno), -2px -2px 0 0 var(--contorno), 2px -2px 0 0 var(--contorno), -2px 2px 0 0 var(--contorno),
+    2px 2px 0 0 var(--contorno);
+}
+
+/* ── Mapa del mundo ── */
+:root[data-direccion='cartucho'][data-esquema='oscuro'] {
+  --mapa-mar: #14285a;
+}
+
+:root[data-direccion='cartucho'][data-esquema='claro'] {
+  --mapa-mar: #5aa9e0;
+}
+
+.pantalla--mapa-cartucho {
+  background: var(--mapa-mar);
+}
+
+.mapa-cartucho {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mapa-cartucho__plano {
+  position: relative;
+  flex: none;
+}
+
+.mapa-cartucho__lienzo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.mapa-cartucho__nodos {
+  position: absolute;
+  inset: 0;
+}
+
+.nodo-pixel {
+  position: absolute;
+}
+
+.nodo-pixel__boton {
+  position: absolute;
+  top: -24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 6px;
+  font-family: var(--fuente-datos);
+  font-size: var(--t-pixel);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nodo-pixel--derecha .nodo-pixel__boton {
+  left: -22px;
+}
+
+.nodo-pixel--izquierda .nodo-pixel__boton {
+  right: -22px;
+  flex-direction: row-reverse;
+}
+
+.nodo-pixel__insignia {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  box-shadow: var(--marco-fino);
+}
+
+.nodo-pixel__nombre {
+  padding: 4px 8px;
+  background: var(--superficie);
+  color: var(--tinta);
+  box-shadow: var(--marco-fino);
+}
+
+.nodo-pixel--en-obras .nodo-pixel__insignia {
+  background: var(--superficie);
+  color: var(--tinta-suave);
+}
+
+.nodo-pixel--en-obras .nodo-pixel__nombre {
+  color: var(--tinta-suave);
+}
+
+.nodo-pixel__boton[aria-pressed='true'] .nodo-pixel__nombre {
+  background: var(--tinta);
+  color: var(--superficie);
+}
+
+.nodo-pixel__cursor {
+  --icono: 24px;
+  position: absolute;
+  top: -44px;
+  color: var(--acento);
+  transform: rotate(90deg);
+  filter: drop-shadow(2px 0 0 var(--contorno)) drop-shadow(-2px 0 0 var(--contorno)) drop-shadow(0 2px 0 var(--contorno)) drop-shadow(0 -2px 0 var(--contorno));
+  animation: cartucho-cursor-mapa 0.7s steps(1) infinite;
+}
+
+.nodo-pixel--derecha .nodo-pixel__cursor {
+  left: 10px;
+}
+
+.nodo-pixel--izquierda .nodo-pixel__cursor {
+  right: 10px;
+}
+
+@keyframes cartucho-cursor-mapa {
+  50% {
+    transform: rotate(90deg) translateX(4px);
+  }
+}
+
+/* ── Lista de lecciones ── */
+[data-direccion='cartucho'] .lecciones li,
+[data-direccion='cartucho'] .unidad__vacia {
+  background-image: repeating-linear-gradient(90deg, var(--separador) 0 4px, transparent 4px 8px);
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+}
+
+[data-direccion='cartucho'] .leccion-enlace__numero {
+  font-size: var(--t-pixel-doble);
+  color: var(--acento-tinta);
+}

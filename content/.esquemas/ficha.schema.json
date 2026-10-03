@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resumen": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bloques": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "minLength": 1
+          },
+          "texto": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ejemplo": {
+            "type": "object",
+            "properties": {
+              "titulo": {
+                "type": "string"
+              },
+              "tempo": {
+                "type": "integer",
+                "minimum": 30,
+                "maximum": 300
+              },
+              "compas": {
+                "default": "4/4",
+                "type": "string",
+                "pattern": "^\\d{1,2}\\/(1|2|4|8|16|32)$"
+              },
+              "tonalidad": {
+                "type": "string",
+                "pattern": "^[A-G](#|b)? \\S.*$"
+              },
+              "compases": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              },
+              "bucle": {
+                "type": "boolean"
+              },
+              "swing": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "acordes": {
+                "type": "string"
+              },
+              "secciones": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9-]*$"
+                    },
+                    "nombre": {
+                      "type": "string"
+                    },
+                    "desde": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "hasta": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "desde",
+                    "hasta"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "cromatismos": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-G](#|b)?$"
+                }
+              },
+              "pistas": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    },
+                    "nombre": {
+                      "type": "string"
+                    },
+                    "rol": {
+                      "type": "string",
+                      "enum": [
+                        "melodia",
+                        "contramelodia",
+                        "armonia",
+                        "colchon",
+                        "bajo",
+                        "percusion",
+                        "efecto"
+                      ]
+                    },
+                    "instrumento": {
+                      "type": "string",
+                      "enum": [
+                        "piano",
+                        "cuerdas",
+                        "bajo-electrico",
+                        "bateria",
+                        "chip-pulso",
+                        "chip-triangulo"
+                      ]
+                    },
+                    "notas": {
+                      "type": "string"
+                    },
+                    "rejilla": {
+                      "type": "object",
+                      "properties": {
+                        "paso": {
+                          "type": "string",
+                          "pattern": "^(1|2|4|8|16|32)\\.{0,2}t?$"
+                        },
+                        "lineas": {
+                          "type": "object",
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "paso",
+                        "lineas"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "matiz": {
+                      "type": "string",
+                      "enum": [
+                        "pp",
+                        "p",
+                        "mp",
+                        "mf",
+                        "f",
+                        "ff"
+                      ]
+                    },
+                    "volumen": {
+                      "type": "number",
+                      "minimum": -24,
+                      "maximum": 6
+                    },
+                    "paneo": {
+                      "type": "number",
+                      "minimum": -1,
+                      "maximum": 1
+                    },
+                    "capa": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    }
+                  },
+                  "required": [
+                    "rol",
+                    "instrumento"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "tempo",
+              "compases",
+              "pistas"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "titulo",
+          "texto"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "titulo",
+    "resumen",
+    "bloques"
+  ],
+  "additionalProperties": false
+}

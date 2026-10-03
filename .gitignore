@@ -1,0 +1,28 @@
+# Dependencias y salidas
+node_modules
+dist
+dev-dist
+*.local
+*.tsbuildinfo
+
+# Contenido compilado (se genera con `npm run content:build`)
+public/content
+
+# Cachés de trabajo y salidas que se regeneran
+.cache
+playwright-report
+test-results
+informes/tmp
+informes/capturas
+
+# Registros
+*.log
+npm-debug.log*
+
+# Editores y sistema
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+Thumbs.db

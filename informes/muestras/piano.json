@@ -1,0 +1,253 @@
+{
+ "id": "piano",
+ "fuente": "splendid",
+ "commit": "1c595d827b7fd7f0be3134aaed0f90b3662a09cf",
+ "muestras": 27,
+ "bytes": 935510,
+ "desafinacionGlobal": -8,
+ "medidas": [
+  {
+   "muestra": "n023",
+   "tono": 23,
+   "cents": 9,
+   "claridad": 0.801,
+   "segundos": 5,
+   "rmsDb": -15.3,
+   "bytes": 31781
+  },
+  {
+   "muestra": "n027",
+   "tono": 27,
+   "cents": 3,
+   "claridad": 0.89,
+   "segundos": 5,
+   "rmsDb": -15.9,
+   "bytes": 35186
+  },
+  {
+   "muestra": "n031",
+   "tono": 31,
+   "cents": 12,
+   "claridad": 0.928,
+   "segundos": 5,
+   "rmsDb": -15.8,
+   "bytes": 35039
+  },
+  {
+   "muestra": "n035",
+   "tono": 35,
+   "cents": 21,
+   "claridad": 0.753,
+   "segundos": 5,
+   "rmsDb": -17.4,
+   "bytes": 40468
+  },
+  {
+   "muestra": "n038",
+   "tono": 38,
+   "cents": 18,
+   "claridad": 0.898,
+   "segundos": 5,
+   "rmsDb": -16.8,
+   "bytes": 43753
+  },
+  {
+   "muestra": "n041",
+   "tono": 41,
+   "cents": 6,
+   "claridad": 0.965,
+   "segundos": 5,
+   "rmsDb": -17.3,
+   "bytes": 44627
+  },
+  {
+   "muestra": "n045",
+   "tono": 45,
+   "cents": 11,
+   "claridad": 0.974,
+   "segundos": 5,
+   "rmsDb": -17,
+   "bytes": 45069
+  },
+  {
+   "muestra": "n048",
+   "tono": 48,
+   "cents": 10,
+   "claridad": 0.993,
+   "segundos": 5,
+   "rmsDb": -16.5,
+   "bytes": 45406
+  },
+  {
+   "muestra": "n052",
+   "tono": 52,
+   "cents": 11,
+   "claridad": 0.989,
+   "segundos": 5,
+   "rmsDb": -17,
+   "bytes": 46855
+  },
+  {
+   "muestra": "n055",
+   "tono": 55,
+   "cents": 9,
+   "claridad": 0.993,
+   "segundos": 5,
+   "rmsDb": -19.2,
+   "bytes": 45608
+  },
+  {
+   "muestra": "n058",
+   "tono": 58,
+   "cents": 7,
+   "claridad": 0.999,
+   "segundos": 5,
+   "rmsDb": -15.4,
+   "bytes": 46198
+  },
+  {
+   "muestra": "n062",
+   "tono": 62,
+   "cents": 7,
+   "claridad": 0.997,
+   "segundos": 5,
+   "rmsDb": -18,
+   "bytes": 46650
+  },
+  {
+   "muestra": "n065",
+   "tono": 65,
+   "cents": 8,
+   "claridad": 1,
+   "segundos": 5,
+   "rmsDb": -14.4,
+   "bytes": 46164
+  },
+  {
+   "muestra": "n069",
+   "tono": 69,
+   "cents": 10,
+   "claridad": 0.998,
+   "segundos": 5,
+   "rmsDb": -18.2,
+   "bytes": 45638
+  },
+  {
+   "muestra": "n072",
+   "tono": 72,
+   "cents": 5,
+   "claridad": 0.999,
+   "segundos": 4.32,
+   "rmsDb": -15.5,
+   "bytes": 38357
+  },
+  {
+   "muestra": "n076",
+   "tono": 76,
+   "cents": 6,
+   "claridad": 0.999,
+   "segundos": 5,
+   "rmsDb": -17.2,
+   "bytes": 42589
+  },
+  {
+   "muestra": "n079",
+   "tono": 79,
+   "cents": 7,
+   "claridad": 0.997,
+   "segundos": 5,
+   "rmsDb": -23.6,
+   "bytes": 39760
+  },
+  {
+   "muestra": "n082",
+   "tono": 82,
+   "cents": 11,
+   "claridad": 0.992,
+   "segundos": 5,
+   "rmsDb": -21.8,
+   "bytes": 38336
+  },
+  {
+   "muestra": "n085",
+   "tono": 85,
+   "cents": 9,
+   "claridad": 0.994,
+   "segundos": 3.88,
+   "rmsDb": -22.1,
+   "bytes": 28929
+  },
+  {
+   "muestra": "n088",
+   "tono": 88,
+   "cents": 17,
+   "claridad": 0.994,
+   "segundos": 4.28,
+   "rmsDb": -23.6,
+   "bytes": 30843
+  },
+  {
+   "muestra": "n091",
+   "tono": 91,
+   "cents": 12,
+   "claridad": 0.988,
+   "segundos": 2.86,
+   "rmsDb": -27.1,
+   "bytes": 21238
+  },
+  {
+   "muestra": "n094",
+   "tono": 94,
+   "cents": 10,
+   "claridad": 0.996,
+   "segundos": 2.73,
+   "rmsDb": -21.3,
+   "bytes": 19435
+  },
+  {
+   "muestra": "n097",
+   "tono": 97,
+   "cents": 10,
+   "claridad": 0.997,
+   "segundos": 2.06,
+   "rmsDb": -28,
+   "bytes": 15108
+  },
+  {
+   "muestra": "n100",
+   "tono": 100,
+   "cents": 24,
+   "claridad": 0.997,
+   "segundos": 2.62,
+   "rmsDb": -28,
+   "bytes": 18768
+  },
+  {
+   "muestra": "n103",
+   "tono": 103,
+   "cents": 32,
+   "claridad": 0.996,
+   "segundos": 2.33,
+   "rmsDb": -27.5,
+   "bytes": 16273
+  },
+  {
+   "muestra": "n106",
+   "tono": 106,
+   "cents": 38,
+   "claridad": 0.998,
+   "segundos": 1.39,
+   "rmsDb": -27.7,
+   "bytes": 10666
+  },
+  {
+   "muestra": "n108",
+   "tono": 108,
+   "cents": 52,
+   "claridad": 0.998,
+   "segundos": 2.52,
+   "rmsDb": -30,
+   "bytes": 16766
+  }
+ ]
+}

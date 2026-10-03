@@ -1,0 +1,113 @@
+# Leitmotiv
+
+App para aprender a componer música de videojuegos desde el móvil: lecciones de cinco a diez minutos, ejemplos que suenan y se pueden manipular, ejercicios de oído, ritmo y escritura, y un piano roll táctil.
+
+Es una PWA. Se instala desde el navegador, funciona sin conexión después de la primera carga y guarda el progreso solo en el dispositivo. No tiene servidor, ni cuentas, ni IA dentro: la corrección es por reglas.
+
+**Estado: Fase 1, Tramo A (Parada 1).** Están hechos los cimientos (formato del contenido, motor de audio, sistema de diseño con dos direcciones visuales, PWA y despliegue) y las pantallas necesarias para elegir dirección. Los siete tipos de ejercicio, el progreso y el contenido del Mundo 0 llegan en el Tramo B. Qué está hecho, qué falta y qué no se ha podido comprobar: [HANDOFF.md](HANDOFF.md).
+
+## Qué necesitas
+
+- [Node.js](https://nodejs.org) 22.12 o posterior (trae npm).
+- Git.
+- Solo para algunas comprobaciones: el Chromium de Playwright (`npx playwright install chromium`) y [ffmpeg](https://ffmpeg.org) en el `PATH`. Ver la tabla de comandos.
+
+## Ponerla en marcha
+
+```
+npm install
+npm run dev
+```
+
+Abre `http://localhost:5173`. El terminal enseña también una dirección de red (`Network`): con ella puedes abrir la app en el móvil si está en la misma wifi. Así se prueban el aspecto, el tacto y el sonido, pero no la instalación ni el modo sin conexión, que necesitan HTTPS: para eso, la versión publicada.
+
+Para ver las dos direcciones visuales: **Ajustes → Dirección visual**.
+
+## Comandos
+
+| Comando | Qué hace |
+| --- | --- |
+| `npm run dev` | Compila el contenido y arranca el servidor de desarrollo |
+| `npm run build` | Compila el contenido, comprueba los tipos y genera la versión de producción en `dist/` |
+| `npm run preview` | Sirve `dist/` en `http://localhost:4173` |
+| `npm run check` | Todo lo que debe pasar antes de publicar: tipos, estilo de código, contenido, pruebas, compilación y presupuesto de 300 KB |
+| `npm test` | Pruebas unitarias |
+| `npm run e2e` | Pruebas en navegador (PWA, sin conexión, lección, piano roll). Antes hay que ejecutar `npm run build`. Necesita el Chromium de Playwright |
+| `npm run content:check` | Valida el contenido sin escribir nada |
+| `npm run content:schemas` | Regenera los esquemas que usa el editor para autocompletar las lecciones |
+| `npm run audio:check` | Renderiza el audio sin altavoces y mide afinación, tiempos y niveles. Necesita el Chromium de Playwright y ffmpeg |
+| `npm run size` | Mide la carga inicial de `dist/` contra el presupuesto |
+| `npm run shots` | Capturas de pantalla en `informes/capturas` (con `-- --hojas`, una hoja por dirección) |
+| `npm run samples:build` | Reconstruye el banco de sonidos desde sus repositorios de origen. Necesita ffmpeg; solo hace falta si se cambian los instrumentos |
+| `npm run fonts:build`, `npm run icons:build` | Regeneran las fuentes de signos musicales y los iconos de la app |
+
+## Publicar en GitHub Pages
+
+La primera vez:
+
+1. Crea en GitHub un repositorio vacío (sin README ni licencia). Con una cuenta gratuita tiene que ser público para que Pages funcione; con un plan de pago puede ser privado, aunque la página publicada es pública igualmente. Lo explica la [documentación de GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site).
+2. Sube el código desde la carpeta del proyecto:
+
+   ```
+   git remote add origin https://github.com/TU-USUARIO/leitmotiv.git
+   git push -u origin main
+   ```
+
+3. En el repositorio, entra en **Settings → Pages** y, en **Build and deployment → Source**, elige **GitHub Actions**.
+4. Entra en la pestaña **Actions**. Hay dos flujos: «Comprobación» (tipos, pruebas, navegador y audio) y «Publicar». La primera ejecución de «Publicar» habrá fallado si Pages aún no estaba activado: ábrela y pulsa **Re-run all jobs**.
+5. Cuando «Publicar» termine en verde, la app está en `https://TU-USUARIO.github.io/leitmotiv/`.
+
+A partir de ahí, cada `git push` a `main` vuelve a comprobar y a publicar. El nombre del repositorio puede ser otro: la ruta se averigua sola.
+
+## Instalarla en Android
+
+1. Abre la dirección publicada en Chrome.
+2. Menú **⋮ → Añadir a pantalla de inicio → Instalar** (el nombre de la opción cambia según la versión de Chrome).
+3. Queda como una app más: icono propio, pantalla completa y sin barra de direcciones.
+
+La primera vez necesita conexión. Cuando lo tiene todo guardado lo dice: «Leitmotiv ya puede abrirse sin conexión». Los sonidos de los instrumentos se terminan de guardar en segundo plano después de tocar «Empezar»; el estado se ve en **Ajustes → Diagnóstico de audio**.
+
+Qué escuchar y qué probar en el móvil: [AUDIO_REVIEW.md](AUDIO_REVIEW.md).
+
+## Cómo está organizado
+
+```
+content/     Las lecciones, en YAML. Añadir una lección no exige tocar código
+src/
+  app/         Arranque, rutas, ajustes y lectura del contenido
+  pantallas/   Una pantalla por ruta
+  ejercicios/  Un componente por tipo de paso de lección
+  ui/          Componentes, direcciones visuales y vistas de música
+  audio/       Motor de audio, reproductor, instrumentos y sonidos de interfaz
+  musica/      Tiempo, notas, tonalidad, formato de pieza y comprobaciones
+  contenido/   Esquemas del contenido y tipos de lo compilado
+scripts/     Compilador de contenido, banco de sonidos, verificación de audio, capturas
+e2e/         Pruebas en navegador
+public/      Iconos y banco de sonidos (y el contenido compilado, que no se guarda en git)
+informes/    Medidas de la última verificación de audio, del presupuesto y del banco de sonidos
+docs/        Capturas de las direcciones visuales
+```
+
+## Documentos
+
+| Documento | Para qué |
+| --- | --- |
+| [HANDOFF.md](HANDOFF.md) | Estado del proyecto: hecho, pendiente, problemas conocidos y no comprobado |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Cómo está hecho y por qué: librerías, audio, PWA, pruebas |
+| [CONTENT_GUIDE.md](CONTENT_GUIDE.md) | Cómo se escribe una lección: mundos, unidades, pasos y los siete tipos de ejercicio |
+| [DESIGN.md](DESIGN.md) | Sistema de diseño y las dos direcciones visuales, con el contraste medido |
+| [AUDIO_REVIEW.md](AUDIO_REVIEW.md) | Lo que hay que comprobar de oído y en el móvil |
+| [CREDITS.md](CREDITS.md) | Procedencia y licencia de sonidos, tipografías y librerías |
+| [CLAUDE.md](CLAUDE.md) | Instrucciones para las sesiones de trabajo con Claude: convenciones y decisiones cerradas |
+
+## Añadir una lección
+
+1. Crea un archivo `lNN-nombre.yaml` en la carpeta de su unidad, dentro de `content/mundos/`.
+2. Escríbela siguiendo [CONTENT_GUIDE.md](CONTENT_GUIDE.md). Con VS Code y la extensión de YAML recomendada, el editor autocompleta y marca los errores.
+3. `npm run content:check` dice qué falta o qué está mal, con el archivo y el campo.
+
+Toda la música del contenido tiene que ser original: ver «La regla sobre obras existentes» en la guía.
+
+## Licencias
+
+Los sonidos, las tipografías y las librerías que usa la app son de licencia libre; el detalle está en [CREDITS.md](CREDITS.md). El código y el contenido de este repositorio no tienen todavía una licencia elegida.
