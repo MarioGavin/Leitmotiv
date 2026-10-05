@@ -3,7 +3,7 @@
  * la traducción entre cómo se escribe en el contenido («D mayor», «A dórico»,
  * «ii», «V7») y lo que Tonal entiende.
  */
-import { Chord, Key, Note, RomanNumeral, Scale } from 'tonal'
+import { Chord, Key, Mode, Note, RomanNumeral, Scale } from 'tonal'
 import { type Nomenclatura, croma, cromaDeMidi, esClaseDeNota, nombreVisible } from './notas.ts'
 
 // ───────────────────────────── modos ─────────────────────────────
@@ -15,25 +15,27 @@ interface DefModo {
   readonly nombre: string
   /** Familia: decide qué alteraciones «de paso» se admiten y cómo se calcula la armonía. */
   readonly familia: 'mayor' | 'menor' | 'modal' | 'otra'
+  /** Modo diatónico (con su nombre en Tonal) con cuya armadura se escribe. Sin él, la escala no lleva armadura. */
+  readonly armadura?: string
 }
 
 /** Modos admitidos en el contenido. La clave es como se escribe (sin tildes, en minúsculas). */
 const MODOS: Readonly<Record<string, DefModo>> = {
-  mayor: { tonal: 'major', nombre: 'mayor', familia: 'mayor' },
-  menor: { tonal: 'minor', nombre: 'menor', familia: 'menor' },
-  'menor armonica': { tonal: 'harmonic minor', nombre: 'menor armónica', familia: 'menor' },
-  'menor melodica': { tonal: 'melodic minor', nombre: 'menor melódica', familia: 'menor' },
-  jonico: { tonal: 'ionian', nombre: 'jónico', familia: 'modal' },
-  dorico: { tonal: 'dorian', nombre: 'dórico', familia: 'modal' },
-  frigio: { tonal: 'phrygian', nombre: 'frigio', familia: 'modal' },
-  lidio: { tonal: 'lydian', nombre: 'lidio', familia: 'modal' },
-  mixolidio: { tonal: 'mixolydian', nombre: 'mixolidio', familia: 'modal' },
-  eolico: { tonal: 'aeolian', nombre: 'eólico', familia: 'modal' },
-  locrio: { tonal: 'locrian', nombre: 'locrio', familia: 'modal' },
-  'pentatonica mayor': { tonal: 'major pentatonic', nombre: 'pentatónica mayor', familia: 'otra' },
-  'pentatonica menor': { tonal: 'minor pentatonic', nombre: 'pentatónica menor', familia: 'otra' },
-  blues: { tonal: 'blues', nombre: 'blues', familia: 'otra' },
-  'frigio dominante': { tonal: 'phrygian dominant', nombre: 'frigio dominante', familia: 'otra' },
+  mayor: { tonal: 'major', nombre: 'mayor', familia: 'mayor', armadura: 'ionian' },
+  menor: { tonal: 'minor', nombre: 'menor', familia: 'menor', armadura: 'aeolian' },
+  'menor armonica': { tonal: 'harmonic minor', nombre: 'menor armónica', familia: 'menor', armadura: 'aeolian' },
+  'menor melodica': { tonal: 'melodic minor', nombre: 'menor melódica', familia: 'menor', armadura: 'aeolian' },
+  jonico: { tonal: 'ionian', nombre: 'jónico', familia: 'modal', armadura: 'ionian' },
+  dorico: { tonal: 'dorian', nombre: 'dórico', familia: 'modal', armadura: 'dorian' },
+  frigio: { tonal: 'phrygian', nombre: 'frigio', familia: 'modal', armadura: 'phrygian' },
+  lidio: { tonal: 'lydian', nombre: 'lidio', familia: 'modal', armadura: 'lydian' },
+  mixolidio: { tonal: 'mixolydian', nombre: 'mixolidio', familia: 'modal', armadura: 'mixolydian' },
+  eolico: { tonal: 'aeolian', nombre: 'eólico', familia: 'modal', armadura: 'aeolian' },
+  locrio: { tonal: 'locrian', nombre: 'locrio', familia: 'modal', armadura: 'locrian' },
+  'pentatonica mayor': { tonal: 'major pentatonic', nombre: 'pentatónica mayor', familia: 'otra', armadura: 'ionian' },
+  'pentatonica menor': { tonal: 'minor pentatonic', nombre: 'pentatónica menor', familia: 'otra', armadura: 'aeolian' },
+  blues: { tonal: 'blues', nombre: 'blues', familia: 'otra', armadura: 'aeolian' },
+  'frigio dominante': { tonal: 'phrygian dominant', nombre: 'frigio dominante', familia: 'otra', armadura: 'phrygian' },
   'tonos enteros': { tonal: 'whole tone', nombre: 'tonos enteros', familia: 'otra' },
   cromatica: { tonal: 'chromatic', nombre: 'cromática', familia: 'otra' },
 }
@@ -111,6 +113,32 @@ export function gradoDe(midi: number, tonalidad: Tonalidad): number | undefined 
 /** ¿Conviene escribir esta tonalidad con sostenidos o con bemoles? */
 export function alteracionesDe(tonalidad: Tonalidad): 'sostenidos' | 'bemoles' {
   return tonalidad.escala.some((n) => n.includes('b')) ? 'bemoles' : 'sostenidos'
+}
+
+export interface Armadura {
+  /** Sostenidos (positivo) o bemoles (negativo): de −7 a 7. */
+  readonly alteraciones: number
+  /** Si la tonalidad es de carácter menor: su tercera es menor. */
+  readonly menor: boolean
+  /** Tonalidad mayor que lleva esa misma armadura: «D» para Si menor o para Mi dórico. */
+  readonly relativaMayor: string
+}
+
+/**
+ * Armadura con la que se escribe una tonalidad. Un modo lleva la de su relativo
+ * mayor (Re dórico, la de Do mayor) y las escalas que salen de una mayor o una
+ * menor, la de esta (La pentatónica menor, la de La menor). Devuelve `undefined`
+ * si la escala no tiene armadura (tonos enteros, cromática) o si pasaría de
+ * siete alteraciones.
+ */
+export function armaduraDe(tonalidad: Tonalidad): Armadura | undefined {
+  if (tonalidad.modo.armadura === undefined) return undefined
+  const relativaMayor = Mode.relativeTonic('major', tonalidad.modo.armadura, tonalidad.tonica)
+  const alteraciones = Key.majorKey(relativaMayor).alteration
+  if (relativaMayor === '' || !Number.isInteger(alteraciones) || Math.abs(alteraciones) > 7) return undefined
+  const tonica = croma(tonalidad.tonica)
+  const menor = tonalidad.cromas.has((tonica + 3) % 12) && !tonalidad.cromas.has((tonica + 4) % 12)
+  return { alteraciones, menor, relativaMayor }
 }
 
 // ───────────────────────────── acordes ─────────────────────────────

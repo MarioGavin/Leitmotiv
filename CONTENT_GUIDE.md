@@ -306,6 +306,7 @@ El usuario toca un patrón con el dedo y se mide su precisión.
 | `cuentaAtras` | Compases de claqueta: 1 (por defecto) o 2 |
 | `repeticiones` | De 1 a 8. Por defecto, 2 |
 | `tolerancia` | `amplia`, `normal` (por defecto) o `estricta` |
+| `guia` | Qué suena mientras el usuario toca: `patron` (el patrón entero), `claqueta` (un clic en cada tiempo), `compas` (solo el primer tiempo de cada compás) o `nada`. Por defecto, `patron` en el modo `seguir` y `claqueta` en los otros dos |
 
 ### 3. Construcción guiada (`tipo: construccion`)
 

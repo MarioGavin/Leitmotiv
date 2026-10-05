@@ -78,6 +78,23 @@ describe('teoría', () => {
   it('rechaza campos desconocidos en el esquema', () => {
     expect(compilar('tipo: teoria\ntexto: Hola.\ncolor: rojo').errores).toEqual(['esquema'])
   })
+
+  it('con vista de pentagrama, el ejemplo tiene que poder escribirse', () => {
+    expect(compilar(`tipo: teoria\ntexto: Hola.\nvista: pentagrama\nejemplo:${melodia}`).errores).toEqual([])
+    const fusasDeTresillo = `
+  tempo: 100
+  compases: 1
+  pistas:
+    - rol: melodia
+      instrumento: piano
+      notas: "C4:32t D4:32t E4:32t r:16 r:8 r:4 r:2"
+`
+    const r = compilar(`tipo: teoria\ntexto: Hola.\nvista: pentagrama\nejemplo:${fusasDeTresillo}`)
+    expect(r.errores).toEqual(['pentagrama-imposible'])
+    expect(r.mensajes[0]).toMatch(/prueba › ejemplo: En el compás 1 hay una figura que el pentagrama no sabe escribir\./)
+    // Con otra vista, la misma pieza vale.
+    expect(compilar(`tipo: teoria\ntexto: Hola.\nejemplo:${fusasDeTresillo}`).errores).toEqual([])
+  })
 })
 
 describe('oído', () => {

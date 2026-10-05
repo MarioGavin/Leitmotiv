@@ -262,6 +262,12 @@ const PasoRitmo = z.strictObject({
   cuentaAtras: z.int().min(1).max(2).default(1),
   repeticiones: z.int().min(1).max(8).default(2),
   tolerancia: z.enum(['amplia', 'normal', 'estricta']).default('normal'),
+  /**
+   * Qué suena mientras el usuario toca: `patron` (el patrón entero), `claqueta` (un clic en cada
+   * tiempo), `compas` (solo el primer tiempo de cada compás) o `nada`. Por defecto, el patrón en
+   * el modo `seguir` y la claqueta en los otros dos.
+   */
+  guia: z.enum(['patron', 'claqueta', 'compas', 'nada']).optional(),
 })
 
 // 3 · Construcción guiada

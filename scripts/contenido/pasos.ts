@@ -22,6 +22,7 @@ import type {
   Prosa,
   Requisito,
 } from '../../src/contenido/tipos.ts'
+import { piezaAAbc } from '../../src/musica/abc.ts'
 import { acordeEnCompas, formaDe } from '../../src/musica/comprobaciones.ts'
 import { INSTRUMENTOS, type IdInstrumento, type Instrumento } from '../../src/musica/instrumentos.ts'
 import { croma, cromaDeMidi, midiDe, normalizarIntervalo, semitonos } from '../../src/musica/notas.ts'
@@ -151,6 +152,8 @@ function compilarTeoria(paso: De<'teoria'>, ctx: Contexto): PasoTeoria | undefin
     const c = compilarPieza(paso.ejemplo, ctx.en('ejemplo'))
     if (!c) return undefined
     salida.ejemplo = c.pieza
+    // El pentagrama no aproxima: si el ejemplo tiene una figura que no sabe escribir, es mejor saberlo aquí.
+    if (paso.vista === 'pentagrama') ctx.en('ejemplo').intentar('pentagrama-imposible', () => piezaAAbc(c.pieza))
   } else if (!paso.sinEjemplo) {
     ctx.error('teoria-sin-ejemplo', 'Cada paso de teoría lleva un `ejemplo` que suene. Si de verdad no procede, explica el motivo en `sinEjemplo`.')
   }
@@ -285,6 +288,7 @@ function compilarRitmo(paso: De<'ritmo'>, ctx: Contexto, concepto: string): Paso
     cuentaAtras: paso.cuentaAtras,
     repeticiones: paso.repeticiones,
     tolerancia: paso.tolerancia,
+    guia: paso.guia ?? (paso.modo === 'seguir' ? 'patron' : 'claqueta'),
   }
 }
 

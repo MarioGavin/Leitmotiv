@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { midiDe } from './notas.ts'
-import { acordeDeGrado, acordeDeNotas, alteracionesDe, estaEnTonalidad, funcionDe, funcionesArmonicas, gradoDe, leerAcorde, leerTonalidad, tonalidadVisible } from './tonalidad.ts'
+import { acordeDeGrado, acordeDeNotas, alteracionesDe, armaduraDe, estaEnTonalidad, funcionDe, funcionesArmonicas, gradoDe, leerAcorde, leerTonalidad, tonalidadVisible } from './tonalidad.ts'
 
 describe('tonalidades', () => {
   it('lee tónica y modo, con o sin tildes', () => {
@@ -60,6 +60,47 @@ describe('tonalidades', () => {
     expect(tonalidadVisible('D mayor', 'latina')).toBe('Re mayor')
     expect(tonalidadVisible('Bb mixolidio', 'latina')).toBe('Si♭ mixolidio')
     expect(tonalidadVisible('F# menor', 'anglosajona')).toBe('F♯ menor')
+  })
+})
+
+describe('armadura de una tonalidad', () => {
+  const de = (texto: string) => armaduraDe(leerTonalidad(texto))
+
+  it('mayores y menores', () => {
+    expect(de('C mayor')).toEqual({ alteraciones: 0, menor: false, relativaMayor: 'C' })
+    expect(de('E mayor')).toEqual({ alteraciones: 4, menor: false, relativaMayor: 'E' })
+    expect(de('Ab mayor')).toEqual({ alteraciones: -4, menor: false, relativaMayor: 'Ab' })
+    expect(de('F# menor')).toEqual({ alteraciones: 3, menor: true, relativaMayor: 'A' })
+    expect(de('F menor')).toEqual({ alteraciones: -4, menor: true, relativaMayor: 'Ab' })
+    // La armónica y la melódica se escriben con la armadura de la menor natural.
+    expect(de('A menor armonica')).toEqual({ alteraciones: 0, menor: true, relativaMayor: 'C' })
+    expect(de('D menor melodica')).toEqual({ alteraciones: -1, menor: true, relativaMayor: 'F' })
+  })
+
+  it('los modos llevan la armadura de su relativo mayor', () => {
+    expect(de('D dorico')).toEqual({ alteraciones: 0, menor: true, relativaMayor: 'C' })
+    expect(de('E frigio')).toEqual({ alteraciones: 0, menor: true, relativaMayor: 'C' })
+    expect(de('F lidio')).toEqual({ alteraciones: 0, menor: false, relativaMayor: 'C' })
+    expect(de('G mixolidio')).toEqual({ alteraciones: 0, menor: false, relativaMayor: 'C' })
+    expect(de('A mixolidio')).toEqual({ alteraciones: 2, menor: false, relativaMayor: 'D' })
+    expect(de('B locrio')).toEqual({ alteraciones: 0, menor: true, relativaMayor: 'C' })
+    expect(de('C jonico')).toEqual({ alteraciones: 0, menor: false, relativaMayor: 'C' })
+    expect(de('G eolico')).toEqual({ alteraciones: -2, menor: true, relativaMayor: 'Bb' })
+  })
+
+  it('las escalas que salen de una mayor o de una menor llevan la armadura de esta', () => {
+    expect(de('C pentatonica mayor')).toEqual({ alteraciones: 0, menor: false, relativaMayor: 'C' })
+    expect(de('E pentatonica menor')).toEqual({ alteraciones: 1, menor: true, relativaMayor: 'G' })
+    expect(de('A blues')).toEqual({ alteraciones: 0, menor: true, relativaMayor: 'C' })
+    // El frigio dominante tiene la tercera mayor, pero se escribe con la armadura del frigio.
+    expect(de('E frigio dominante')).toEqual({ alteraciones: 0, menor: false, relativaMayor: 'C' })
+  })
+
+  it('no hay armadura para las escalas simétricas ni para más de siete alteraciones', () => {
+    expect(de('C tonos enteros')).toBeUndefined()
+    expect(de('D cromatica')).toBeUndefined()
+    expect(de('G# mayor')).toBeUndefined()
+    expect(de('Fb menor')).toBeUndefined()
   })
 })
 

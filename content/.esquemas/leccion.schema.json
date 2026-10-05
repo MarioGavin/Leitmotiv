@@ -1170,6 +1170,15 @@
                   "normal",
                   "estricta"
                 ]
+              },
+              "guia": {
+                "type": "string",
+                "enum": [
+                  "patron",
+                  "claqueta",
+                  "compas",
+                  "nada"
+                ]
               }
             },
             "required": [

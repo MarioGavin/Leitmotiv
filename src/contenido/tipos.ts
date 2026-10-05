@@ -177,6 +177,8 @@ export interface PasoRitmo extends Comun {
   cuentaAtras: number
   repeticiones: number
   tolerancia: 'amplia' | 'normal' | 'estricta'
+  /** Qué suena mientras el usuario toca. */
+  guia: 'patron' | 'claqueta' | 'compas' | 'nada'
 }
 
 export interface Hueco {

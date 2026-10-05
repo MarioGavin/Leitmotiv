@@ -36,6 +36,16 @@ export function ticksPorTiempo([, den]: Compas): number {
   return (PPQ * 4) / den
 }
 
+/** ¿Es un compás compuesto (6/8, 9/8, 12/8)? Sus tiempos se agrupan de tres en tres. */
+export function esCompasCompuesto([num, den]: Compas): boolean {
+  return den >= 8 && num % 3 === 0 && num > 3
+}
+
+/** Duración del pulso, en ticks: la unidad del compás o, en los compuestos, tres unidades (en un 6/8, la negra con puntillo). */
+export function ticksPorPulso(compas: Compas): number {
+  return ticksPorTiempo(compas) * (esCompasCompuesto(compas) ? 3 : 1)
+}
+
 /**
  * Lee una figura escrita como número: 1 redonda, 2 blanca, 4 negra, 8 corchea,
  * 16 semicorchea, 32 fusa. Un punto añade la mitad («4.»); una «t» la convierte

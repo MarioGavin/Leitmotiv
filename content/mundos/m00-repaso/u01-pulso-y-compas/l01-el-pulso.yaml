@@ -77,6 +77,7 @@ pasos:
     tempo: 92
     paso: "4"
     patron: "xxxx|xxxx"
+    guia: compas
     repeticiones: 2
     pista: El bombo solo te da el primer pulso de cada compás. Los otros tres los pones tú, igual de separados.
     explicacion: |
