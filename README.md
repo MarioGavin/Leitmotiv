@@ -4,7 +4,7 @@ App para aprender a componer música de videojuegos desde el móvil: lecciones d
 
 Es una PWA. Se instala desde el navegador, funciona sin conexión después de la primera carga y guarda el progreso solo en el dispositivo. No tiene servidor, ni cuentas, ni IA dentro: la corrección es por reglas.
 
-**Estado: Fase 1, Tramo A (Parada 1).** Están hechos los cimientos (formato del contenido, motor de audio, sistema de diseño con dos direcciones visuales, PWA y despliegue) y las pantallas necesarias para elegir dirección. Los siete tipos de ejercicio, el progreso y el contenido del Mundo 0 llegan en el Tramo B. Qué está hecho, qué falta y qué no se ha podido comprobar: [HANDOFF.md](HANDOFF.md).
+**Estado: Fase 1, Tramo B en curso.** Están hechos los cimientos (formato del contenido, motor de audio, sistema de diseño, PWA y despliegue). Los siete tipos de ejercicio, el progreso y el contenido del Mundo 0 se construyen en este tramo. Qué está hecho, qué falta y qué no se ha podido comprobar: [HANDOFF.md](HANDOFF.md).
 
 ## Qué necesitas
 
@@ -21,8 +21,6 @@ npm run dev
 
 Abre `http://localhost:5173`. El terminal enseña también una dirección de red (`Network`): con ella puedes abrir la app en el móvil si está en la misma wifi. Así se prueban el aspecto, el tacto y el sonido, pero no la instalación ni el modo sin conexión, que necesitan HTTPS: para eso, la versión publicada.
 
-Para ver las dos direcciones visuales: **Ajustes → Dirección visual**.
-
 ## Comandos
 
 | Comando | Qué hace |
@@ -37,7 +35,7 @@ Para ver las dos direcciones visuales: **Ajustes → Dirección visual**.
 | `npm run content:schemas` | Regenera los esquemas que usa el editor para autocompletar las lecciones |
 | `npm run audio:check` | Renderiza el audio sin altavoces y mide afinación, tiempos y niveles. Necesita el Chromium de Playwright y ffmpeg |
 | `npm run size` | Mide la carga inicial de `dist/` contra el presupuesto |
-| `npm run shots` | Capturas de pantalla en `informes/capturas` (con `-- --hojas`, una hoja por dirección) |
+| `npm run shots` | Capturas de pantalla en `informes/capturas` (con `-- --hoja`, una hoja con todas) |
 | `npm run samples:build` | Reconstruye el banco de sonidos desde sus repositorios de origen. Necesita ffmpeg; solo hace falta si se cambian los instrumentos |
 | `npm run fonts:build`, `npm run icons:build` | Regeneran las fuentes de signos musicales y los iconos de la app |
 
@@ -77,7 +75,7 @@ src/
   app/         Arranque, rutas, ajustes y lectura del contenido
   pantallas/   Una pantalla por ruta
   ejercicios/  Un componente por tipo de paso de lección
-  ui/          Componentes, direcciones visuales y vistas de música
+  ui/          Componentes, tema, iconos, mapa y vistas de música
   audio/       Motor de audio, reproductor, instrumentos y sonidos de interfaz
   musica/      Tiempo, notas, tonalidad, formato de pieza y comprobaciones
   contenido/   Esquemas del contenido y tipos de lo compilado
@@ -85,7 +83,7 @@ scripts/     Compilador de contenido, banco de sonidos, verificación de audio, 
 e2e/         Pruebas en navegador
 public/      Iconos y banco de sonidos (y el contenido compilado, que no se guarda en git)
 informes/    Medidas de la última verificación de audio, del presupuesto y del banco de sonidos
-docs/        Capturas de las direcciones visuales
+docs/        Capturas de la interfaz
 ```
 
 ## Documentos
@@ -95,7 +93,7 @@ docs/        Capturas de las direcciones visuales
 | [HANDOFF.md](HANDOFF.md) | Estado del proyecto: hecho, pendiente, problemas conocidos y no comprobado |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Cómo está hecho y por qué: librerías, audio, PWA, pruebas |
 | [CONTENT_GUIDE.md](CONTENT_GUIDE.md) | Cómo se escribe una lección: mundos, unidades, pasos y los siete tipos de ejercicio |
-| [DESIGN.md](DESIGN.md) | Sistema de diseño y las dos direcciones visuales, con el contraste medido |
+| [DESIGN.md](DESIGN.md) | Sistema de diseño, con el contraste medido |
 | [AUDIO_REVIEW.md](AUDIO_REVIEW.md) | Lo que hay que comprobar de oído y en el móvil |
 | [CREDITS.md](CREDITS.md) | Procedencia y licencia de sonidos, tipografías y librerías |
 | [CLAUDE.md](CLAUDE.md) | Instrucciones para las sesiones de trabajo con Claude: convenciones y decisiones cerradas |

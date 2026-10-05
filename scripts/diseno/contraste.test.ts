@@ -3,12 +3,8 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { contraste, leerColores, luminancia, medir } from '../../src/ui/contraste.ts'
 
-const DIRECCIONES = ['cartucho', 'vinilo'] as const
 const ESQUEMAS = ['oscuro', 'claro'] as const
-
-function cssDe(direccion: string): string {
-  return readFileSync(path.resolve(import.meta.dirname, `../../src/ui/direcciones/${direccion}/${direccion}.css`), 'utf8')
-}
+const TEMA = readFileSync(path.resolve(import.meta.dirname, '../../src/ui/estilos/tema.css'), 'utf8')
 
 describe('contraste', () => {
   it('calcula la luminancia y el contraste de WCAG', () => {
@@ -27,17 +23,18 @@ describe('contraste', () => {
 
   it('lee los colores de cada esquema e ignora las reglas de componentes', () => {
     const css = `
-      :root[data-direccion='x'][data-esquema='oscuro'] { --fondo: #000000; --tinta: #FFFFFF; }
-      [data-direccion='x'][data-esquema='oscuro'] { --extra: #123456; }
-      [data-direccion='x'][data-esquema='oscuro'] .boton { --fondo: #ff0000; }
-      :root[data-direccion='y'][data-esquema='oscuro'] { --fondo: #111111; }
+      /* :root[data-esquema='oscuro'] { --fondo: #abcdef; } */
+      :root { --mapa-mar: #5aa9e0; }
+      :root[data-esquema='oscuro'] { --fondo: #000000; --tinta: #FFFFFF; }
+      :root[data-esquema='oscuro'] .boton { --fondo: #ff0000; }
+      :root[data-esquema='claro'] { --fondo: #111111; }
     `
-    expect(leerColores(css, 'x')).toEqual({ oscuro: { fondo: '#000000', tinta: '#ffffff', extra: '#123456' } })
+    expect(leerColores(css)).toEqual({ oscuro: { fondo: '#000000', tinta: '#ffffff' }, claro: { fondo: '#111111' } })
   })
 })
 
-describe.each(DIRECCIONES)('colores de la dirección «%s»', (direccion) => {
-  const esquemas = leerColores(cssDe(direccion), direccion)
+describe('colores del tema', () => {
+  const esquemas = leerColores(TEMA)
 
   it('define los dos esquemas', () => {
     expect(Object.keys(esquemas).sort()).toEqual(['claro', 'oscuro'])
@@ -48,7 +45,7 @@ describe.each(DIRECCIONES)('colores de la dirección «%s»', (direccion) => {
   })
 
   it.each(ESQUEMAS)('cumple el contraste AA en el esquema %s', (esquema) => {
-    const medidas = medir(esquemas[esquema] ?? {}, direccion)
+    const medidas = medir(esquemas[esquema] ?? {})
     const fallos = medidas.filter((m) => !m.cumple).map((m) => `${m.sobre} sobre ${m.fondo}: ${m.valor.toFixed(2)} (mínimo ${m.minimo}) — ${m.uso}`)
     expect(fallos).toEqual([])
   })

@@ -1,11 +1,11 @@
 /**
- * Iconos de la dirección «Cartucho»: mapas de bits de 12 × 12 píxeles.
+ * Los iconos de Leitmotiv: mapas de bits de 12 × 12 píxeles.
  *
  * Se dibujan como texto («#» es un píxel encendido) y se convierten en un
  * único trazado SVG. Así son nítidos a cualquier múltiplo de 12 px y cuesta
  * poco retocarlos.
  */
-import type { NombreDeIcono } from '../../iconos/nombres.ts'
+import type { NombreDeIcono } from './nombres.ts'
 
 export const LADO = 12
 

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { DIRECCIONES, PANTALLAS, elegirDireccion } from './ayudas.ts'
+import { ESQUEMAS, PANTALLAS, elegirEsquema } from './ayudas.ts'
 
 /**
  * Ninguna caja que recorta su contenido se come las tildes de las mayúsculas.
@@ -9,9 +9,9 @@ import { DIRECCIONES, PANTALLAS, elegirDireccion } from './ayudas.ts'
  * para cada elemento con texto propio y recorte vertical, dónde cae la línea base
  * y hasta dónde sube una «É» en su fuente, y se comprueba que cabe.
  */
-for (const direccion of DIRECCIONES) {
-  test(`las cajas con recorte dejan sitio a las tildes en «${direccion}»`, async ({ page }) => {
-    await elegirDireccion(page, direccion)
+for (const esquema of ESQUEMAS) {
+  test(`las cajas con recorte dejan sitio a las tildes en el esquema ${esquema}`, async ({ page }) => {
+    await elegirEsquema(page, esquema)
     let medidas = 0
     for (const [ruta, lista] of PANTALLAS) {
       await page.goto(`./${ruta}`)

@@ -30,8 +30,7 @@ export function PasoPendiente({ paso, alTerminar }: Props) {
         {'enunciado' in paso && <ProsaVista prosa={paso.enunciado} className="enunciado__texto" />}
         <Marco rotulo="En construcción">
           <p>
-            Este paso es un ejercicio de <strong>{NOMBRES[paso.tipo]}</strong>. Ese tipo de ejercicio se construye en el Tramo B, después de elegir la dirección
-            visual.
+            Este paso es un ejercicio de <strong>{NOMBRES[paso.tipo]}</strong>. Ese tipo de ejercicio se construye en el Tramo B.
           </p>
         </Marco>
       </div>

@@ -1,11 +1,12 @@
 /**
  * Capturas de pantalla de la app, para revisar el diseño sin un móvil delante.
  *
- *   npm run shots                       → todas las escenas, direcciones, esquemas y tamaños
- *   npm run shots -- --escena=mapa      → solo una escena
- *   npm run shots -- --direccion=vinilo --esquema=claro --tam=360x640
+ *   npm run shots                       → las escenas principales, en los dos esquemas y los dos tamaños
+ *   npm run shots -- --escena=mapa      → solo una escena (o varias, separadas por comas)
+ *   npm run shots -- --esquema=claro --tam=360x640
  *   npm run shots -- --completa         → la página entera, no solo lo que cabe en la pantalla
- *   npm run shots -- --hojas            → además, una hoja de contactos por dirección (todas sus capturas juntas)
+ *   npm run shots -- --hoja             → además, una hoja de contactos con todas las capturas juntas
+ *   npm run shots -- --hoja=nombre      → lo mismo, con ese nombre de archivo (hoja-nombre.png)
  *
  * Escribe en informes/capturas. Usa el servidor de desarrollo de Vite y el
  * Chromium de Playwright.
@@ -74,7 +75,6 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'diagnostico', ruta: '#/diagnostico' },
 ]
 
-const DIRECCIONES = ['cartucho', 'vinilo'] as const
 const ESQUEMAS = ['oscuro', 'claro'] as const
 const TAMANOS = [
   { ancho: 390, alto: 844 },
@@ -87,14 +87,13 @@ function argumento(nombre: string): string | undefined {
 }
 
 const soloEscena = argumento('escena')
-const soloDireccion = argumento('direccion')
 const soloEsquema = argumento('esquema')
 const soloTam = argumento('tam')
 const completa = process.argv.includes('--completa')
-const hojas = process.argv.includes('--hojas')
+const hoja = process.argv.includes('--hoja') || argumento('hoja') !== undefined
+const nombreDeHoja = argumento('hoja')
 
 const escenas = ESCENAS.filter((e) => (soloEscena ? soloEscena.split(',').includes(e.nombre) : e.principal))
-const direcciones = DIRECCIONES.filter((d) => !soloDireccion || d === soloDireccion)
 const esquemas = ESQUEMAS.filter((e) => !soloEsquema || e === soloEsquema)
 const tamanos = TAMANOS.filter((t) => !soloTam || `${t.ancho}x${t.alto}` === soloTam)
 
@@ -108,51 +107,46 @@ mkdirSync(DESTINO, { recursive: true })
 const servidor = await createServer({ root: RAIZ, logLevel: 'error', server: { port: PUERTO, strictPort: true, host: '127.0.0.1' } })
 await servidor.listen()
 const navegador = await chromium.launch()
-const hechas: Array<{ archivo: string; escena: string; direccion: string; esquema: string; tam: string }> = []
+const hechas: Array<{ archivo: string; escena: string; esquema: string; tam: string }> = []
 let fallos = 0
 
 try {
   for (const tam of tamanos) {
-    for (const direccion of direcciones) {
-      for (const esquema of esquemas) {
-        const contexto = await navegador.newContext({
-          viewport: { width: tam.ancho, height: tam.alto },
-          deviceScaleFactor: 2,
-          hasTouch: true,
-          isMobile: true,
-          colorScheme: esquema === 'oscuro' ? 'dark' : 'light',
-          reducedMotion: 'reduce',
+    for (const esquema of esquemas) {
+      const contexto = await navegador.newContext({
+        viewport: { width: tam.ancho, height: tam.alto },
+        deviceScaleFactor: 2,
+        hasTouch: true,
+        isMobile: true,
+        colorScheme: esquema === 'oscuro' ? 'dark' : 'light',
+        reducedMotion: 'reduce',
+      })
+      await contexto.addInitScript((e) => {
+        localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip' }, version: 2 }))
+      }, esquema)
+      for (const escena of escenas) {
+        const pagina = await contexto.newPage()
+        const errores: string[] = []
+        pagina.on('pageerror', (e) => errores.push(e.message))
+        pagina.on('console', (m) => {
+          if (m.type() === 'error') errores.push(m.text())
         })
-        await contexto.addInitScript(
-          ([d, e]) => {
-            localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { direccion: d, esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true }, version: 1 }))
-          },
-          [direccion, esquema] as const,
-        )
-        for (const escena of escenas) {
-          const pagina = await contexto.newPage()
-          const errores: string[] = []
-          pagina.on('pageerror', (e) => errores.push(e.message))
-          pagina.on('console', (m) => {
-            if (m.type() === 'error') errores.push(m.text())
-          })
-          await pagina.goto(`http://127.0.0.1:${PUERTO}/${escena.ruta}`)
-          await pagina.waitForLoadState('networkidle')
-          await pagina.evaluate(() => document.fonts.ready)
-          await escena.preparar?.(pagina)
-          await pagina.waitForTimeout(250)
-          const tamTexto = `${tam.ancho}x${tam.alto}`
-          const archivo = path.join(DESTINO, `${escena.nombre}-${direccion}-${esquema}-${tamTexto}${completa ? '-completa' : ''}.png`)
-          await pagina.screenshot({ path: archivo, fullPage: completa })
-          hechas.push({ archivo, escena: escena.nombre, direccion, esquema, tam: tamTexto })
-          if (errores.length > 0) {
-            fallos++
-            console.error(`  ERRORES en ${escena.nombre} (${direccion}, ${esquema}, ${tamTexto}):\n    ${errores.join('\n    ')}`)
-          }
-          await pagina.close()
+        await pagina.goto(`http://127.0.0.1:${PUERTO}/${escena.ruta}`)
+        await pagina.waitForLoadState('networkidle')
+        await pagina.evaluate(() => document.fonts.ready)
+        await escena.preparar?.(pagina)
+        await pagina.waitForTimeout(250)
+        const tamTexto = `${tam.ancho}x${tam.alto}`
+        const archivo = path.join(DESTINO, `${escena.nombre}-${esquema}-${tamTexto}${completa ? '-completa' : ''}.png`)
+        await pagina.screenshot({ path: archivo, fullPage: completa })
+        hechas.push({ archivo, escena: escena.nombre, esquema, tam: tamTexto })
+        if (errores.length > 0) {
+          fallos++
+          console.error(`  ERRORES en ${escena.nombre} (${esquema}, ${tamTexto}):\n    ${errores.join('\n    ')}`)
         }
-        await contexto.close()
+        await pagina.close()
       }
+      await contexto.close()
     }
   }
 } finally {
@@ -186,12 +180,11 @@ function rotulo(texto: string, ancho: number, cuerpo: number): Buffer {
 }
 
 /**
- * Hoja de contactos de una dirección: una columna por escena y esquema, y una
- * fila por tamaño de pantalla. Las capturas van a tamaño real (1 px de CSS = 1 px).
+ * Hoja de contactos: una columna por escena y esquema, y una fila por tamaño
+ * de pantalla. Las capturas van a tamaño real (1 px de CSS = 1 px).
  */
-async function hojaDeContactos(direccion: string): Promise<void> {
-  const lista = hechas.filter((c) => c.direccion === direccion)
-  if (lista.length === 0) return
+async function hojaDeContactos(): Promise<void> {
+  if (hechas.length === 0) return
   const columnas = escenas.flatMap((e) => esquemas.map((esquema) => ({ escena: e.nombre, esquema })))
   const filas = tamanos.map((t) => ({ ...t, tam: `${t.ancho}x${t.alto}` }))
   const margen = 28
@@ -202,13 +195,11 @@ async function hojaDeContactos(direccion: string): Promise<void> {
     width: margen + columnas.length * (anchoDeColumna + margen),
     height: cabecera + filas.reduce((suma, f) => suma + pie + f.alto + margen, 0),
   }
-  const piezas: OverlayOptions[] = [
-    { input: rotulo(`Leitmotiv — dirección «${direccion[0]?.toUpperCase()}${direccion.slice(1)}»`, total.width - margen * 2, 28), left: margen, top: 16 },
-  ]
+  const piezas: OverlayOptions[] = [{ input: rotulo('Leitmotiv', total.width - margen * 2, 28), left: margen, top: 16 }]
   let y = cabecera
   for (const fila of filas) {
     for (const [i, columna] of columnas.entries()) {
-      const captura = lista.find((c) => c.escena === columna.escena && c.esquema === columna.esquema && c.tam === fila.tam)
+      const captura = hechas.find((c) => c.escena === columna.escena && c.esquema === columna.esquema && c.tam === fila.tam)
       if (!captura) continue
       const x = margen + i * (anchoDeColumna + margen)
       piezas.push({ input: rotulo(`${TITULOS[columna.escena] ?? columna.escena}, ${columna.esquema} (${fila.ancho} × ${fila.alto})`, anchoDeColumna, 15), left: x, top: y })
@@ -216,7 +207,7 @@ async function hojaDeContactos(direccion: string): Promise<void> {
     }
     y += pie + fila.alto + margen
   }
-  const salida = path.join(DESTINO, `hoja-${direccion}${soloEscena ? `-${escenas.map((e) => e.nombre).join('+')}` : ''}.png`)
+  const salida = path.join(DESTINO, `hoja${nombreDeHoja ? `-${nombreDeHoja}` : ''}.png`)
   await sharp({ create: { ...total, channels: 3, background: '#2b2b2b' } })
     .composite(piezas)
     .png()
@@ -224,9 +215,7 @@ async function hojaDeContactos(direccion: string): Promise<void> {
   console.log(`Hoja de contactos: ${path.relative(RAIZ, salida)}`)
 }
 
-if (hojas && !completa) {
-  for (const direccion of direcciones) await hojaDeContactos(direccion)
-}
+if (hoja && !completa) await hojaDeContactos()
 
 if (fallos > 0) {
   console.error(`${fallos} escenas con errores de consola.`)

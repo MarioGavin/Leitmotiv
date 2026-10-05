@@ -1,33 +1,21 @@
-import { type DireccionVisual, type Esquema, useAjustes } from '../app/ajustes.ts'
+import { type Esquema, useAjustes } from '../app/ajustes.ts'
 import { navegar } from '../app/rutas.ts'
+import { sonar } from '../audio/audio.ts'
 import type { Nomenclatura } from '../musica/notas.ts'
 import { Boton } from '../ui/Boton.tsx'
 import { Cabecera } from '../ui/Cabecera.tsx'
 import { Conmutador } from '../ui/Conmutador.tsx'
 import { Marco } from '../ui/Marco.tsx'
 
-/** Ajustes de la app. En la Parada 1 incluye el cambio entre las dos direcciones visuales. */
+/** Ajustes de la app: aspecto, nombres de las notas y sonidos de la interfaz. */
 export function Ajustes() {
-  const { direccion, esquema, nomenclatura, sonidosDeInterfaz, fijar } = useAjustes()
+  const { esquema, nomenclatura, sonidosDeInterfaz, timbre, fijar } = useAjustes()
   return (
     <main className="pantalla">
       <Cabecera titulo="Ajustes" />
       <div className="pantalla__cuerpo pila pila--amplia">
         <Marco como="section" rotulo="Aspecto" aria-label="Aspecto">
           <div className="pila">
-            <div className="pila pila--junta">
-              <span className="etiqueta">Dirección visual</span>
-              <Conmutador<DireccionVisual>
-                etiqueta="Dirección visual"
-                valor={direccion}
-                alCambiar={(valor) => fijar({ direccion: valor })}
-                opciones={[
-                  { valor: 'cartucho', texto: 'Cartucho' },
-                  { valor: 'vinilo', texto: 'Vinilo' },
-                ]}
-              />
-              <p className="suave nota-al-pie">Las dos direcciones conviven hasta que elijas una. Después solo quedará la elegida.</p>
-            </div>
             <div className="pila pila--junta">
               <span className="etiqueta">Esquema de color</span>
               <Conmutador<Esquema>
@@ -61,13 +49,19 @@ export function Ajustes() {
             </div>
             <div className="pila pila--junta">
               <span className="etiqueta">Sonidos de la interfaz</span>
-              <Conmutador<'si' | 'no'>
+              <Conmutador<'chip' | 'campana' | 'silencio'>
                 etiqueta="Sonidos de la interfaz"
-                valor={sonidosDeInterfaz ? 'si' : 'no'}
-                alCambiar={(valor) => fijar({ sonidosDeInterfaz: valor === 'si' })}
+                valor={sonidosDeInterfaz ? timbre : 'silencio'}
+                alCambiar={(valor) => {
+                  if (valor === 'silencio') fijar({ sonidosDeInterfaz: false })
+                  else fijar({ sonidosDeInterfaz: true, timbre: valor })
+                  // El timbre nuevo se oye al elegirlo: el del propio conmutador suena antes de que cambie.
+                  if (valor !== 'silencio') window.setTimeout(() => sonar('aceptar'), 60)
+                }}
                 opciones={[
-                  { valor: 'si', texto: 'Con sonido' },
-                  { valor: 'no', texto: 'En silencio' },
+                  { valor: 'chip', texto: 'Chip' },
+                  { valor: 'campana', texto: 'Campana' },
+                  { valor: 'silencio', texto: 'Silencio' },
                 ]}
               />
             </div>

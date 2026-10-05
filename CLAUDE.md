@@ -48,7 +48,7 @@ No se reabren. Si alguna estorba, se le plantea a Mario antes de tocar nada.
 - **Prohibido**: degradados morado-azul, vidrio esmerilado, tarjetas redondeadas genéricas con sombra suave, emojis como iconos, Inter o Space Grotesk, todo centrado y cabeceras gigantes. Los iconos son propios, en SVG.
 - Gamificación sobria.
 - Accesibilidad: controles táctiles de 44 px o más, uso con una mano, contraste AA, `prefers-reduced-motion`, esquemas claro y oscuro.
-- El sistema está en DESIGN.md. **Pendiente de Mario: elegir entre las direcciones «Cartucho» y «Vinilo»** (ver HANDOFF.md).
+- El sistema está en DESIGN.md. De las dos direcciones que se le presentaron, Mario eligió una mezcla: colores, marcos de píxeles, iconos y mapa de «Cartucho», con la tipografía de «Vinilo» y su recuadro verde o rojo al corregir. El mapa del mundo se ve siempre de día.
 
 ### Técnicas
 
@@ -88,7 +88,7 @@ npm run audio:check     # render sin altavoces y medidas; necesita ffmpeg (-- --
 npm run content:check   # valida content/ sin escribir
 npm run content:schemas # regenera content/.esquemas tras tocar src/contenido/esquemas.ts
 npm run size            # presupuesto de la carga inicial sobre dist/
-npm run shots           # capturas en informes/capturas (-- --hojas, --escena=, --direccion=, --esquema=, --tam=, --completa)
+npm run shots           # capturas en informes/capturas (-- --hoja, --escena=, --esquema=, --tam=, --completa)
 npm run samples:build   # reconstruye public/samples desde los repositorios de origen (a mano; necesita ffmpeg)
 npm run fonts:build     # regenera las fuentes de signos (src/ui/fuentes)
 npm run icons:build     # regenera los iconos de la app (public/icons)
@@ -108,9 +108,10 @@ src/
   app/                   App.tsx (carcasa), rutas.ts, ajustes.ts, contenido.ts (lectura con use()), Avisos.tsx (PWA)
   pantallas/             Una por ruta: Titulo, Mapa, Mundo, Leccion, PianoRoll, Ajustes, Diagnostico, Muestrario
   ejercicios/            Un componente por tipo de paso. Los tipos sin componente caen en PasoPendiente
-  ui/                    Componentes (Marco, Boton, Opciones, Dialogo…), iconos, contraste.ts
-    estilos/             base.css (fuentes, escalas, reinicio) y componentes.css (estructura)
-    direcciones/         cartucho/ y vinilo/: colores, aspecto, juego de iconos y mapa de cada dirección
+  ui/                    Componentes (Marco, Boton, Opciones, Dialogo…), contraste.ts
+    estilos/             base.css (fuentes, escalas, reinicio), componentes.css (estructura) y tema.css (colores y aspecto)
+    iconos/              nombres.ts y dibujos.ts (mapas de bits de 12 × 12)
+    mapa/                El mapa del mundo en píxeles y sus nodos
     musica/              VistaDePieza, EjemploSonoro, RolloDePiano, useReproductor
   audio/                 audio.ts (fachada), estado.ts, motor.ts, reproductor.ts, voces.ts, nativo.ts, sonidos.ts,
                          muestras.ts, niveles.ts, offline.ts
@@ -126,7 +127,7 @@ scripts/
 e2e/                     Playwright: arranque, lección, piano roll, PWA y sin conexión, audio, tamaño de los controles, tildes
 public/                  icons/, samples/ (en git) y content/ (generado, fuera de git)
 informes/                audio.json, presupuesto.json, muestras/ (en git); capturas/ y tmp/ (fuera de git)
-docs/diseno/             Hojas de capturas de las direcciones visuales
+docs/diseno/             Hojas de capturas de la interfaz
 ```
 
 ## Convenciones
@@ -142,7 +143,7 @@ docs/diseno/             Hojas de capturas de las direcciones visuales
 
 ### Interfaz
 
-- CSS a mano, sin preprocesador. Clases `bloque__elemento--variante`. La estructura va en `componentes.css` y `pantallas.css`; los colores y el aspecto, solo en el CSS de la dirección, como variables por esquema. Las variables privadas de un componente empiezan por `--_` y se declaran en el propio componente, para que no se hereden de un marco exterior.
+- CSS a mano, sin preprocesador. Clases `bloque__elemento--variante`. La estructura va en `componentes.css` y `pantallas.css`; los colores y el aspecto, solo en `tema.css`, como variables por esquema. Las variables privadas de un componente empiezan por `--_` y se declaran en el propio componente, para que no se hereden de un marco exterior.
 - Lo que tiene marco pinta su cara en `::before`: la caja ya incluye el marco y la sombra.
 - Todo control mide 44 px o más (`e2e/tactil.spec.ts` lo mide) y toda pareja de colores pasa AA (`scripts/diseno/contraste.test.ts`). Un botón que solo lleva icono necesita `aria-label`.
 - Acierto y fallo nunca se distinguen solo por el color.

@@ -1,6 +1,6 @@
 /**
- * Ajustes del usuario que afectan a toda la app: aspecto, nomenclatura y
- * sonidos de interfaz.
+ * Ajustes del usuario que afectan a toda la app: esquema de color,
+ * nomenclatura y sonidos de interfaz.
  *
  * Se guardan en localStorage (y no en IndexedDB, como el progreso) porque hay
  * que leerlos de forma síncrona antes de pintar la primera pantalla: lo hace
@@ -10,37 +10,62 @@
 import { useSyncExternalStore } from 'react'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import type { TimbreDeInterfaz } from '../audio/sonidos.ts'
 import type { Nomenclatura } from '../musica/notas.ts'
 
-/** Dirección visual. En la Parada 1 se elige una; hasta entonces conviven las dos. */
-export type DireccionVisual = 'cartucho' | 'vinilo'
 export type Esquema = 'sistema' | 'oscuro' | 'claro'
 export type EsquemaResuelto = 'oscuro' | 'claro'
 
 export const CLAVE_AJUSTES = 'leitmotiv-ajustes'
+/** Versión de la forma guardada. Si cambia, hay que revisar `migrar` y el script de index.html. */
+export const VERSION_DE_AJUSTES = 2
 
-interface Ajustes {
-  direccion: DireccionVisual
+export interface ValoresDeAjustes {
   esquema: Esquema
   /** Cómo se nombran las notas: Do–Re–Mi o C–D–E. */
   nomenclatura: Nomenclatura
   sonidosDeInterfaz: boolean
-  fijar: (cambios: Partial<Omit<Ajustes, 'fijar'>>) => void
+  /** Con qué suena la interfaz: el pitido de una consola de 8 bits o una campana. */
+  timbre: TimbreDeInterfaz
+}
+
+interface Ajustes extends ValoresDeAjustes {
+  fijar: (cambios: Partial<ValoresDeAjustes>) => void
+}
+
+export const AJUSTES_INICIALES: ValoresDeAjustes = {
+  esquema: 'sistema',
+  nomenclatura: 'latina',
+  sonidosDeInterfaz: true,
+  timbre: 'chip',
+}
+
+/**
+ * Lee unos ajustes guardados por cualquier versión anterior (o venidos de una
+ * copia de seguridad) y se queda solo con lo que sigue valiendo. La versión 1
+ * guardaba además una «dirección visual», de la que se hereda el timbre.
+ */
+export function migrar(guardado: unknown): ValoresDeAjustes {
+  const g = (typeof guardado === 'object' && guardado !== null ? guardado : {}) as Record<string, unknown>
+  return {
+    esquema: g.esquema === 'oscuro' || g.esquema === 'claro' || g.esquema === 'sistema' ? g.esquema : AJUSTES_INICIALES.esquema,
+    nomenclatura: g.nomenclatura === 'anglosajona' || g.nomenclatura === 'latina' ? g.nomenclatura : AJUSTES_INICIALES.nomenclatura,
+    sonidosDeInterfaz: typeof g.sonidosDeInterfaz === 'boolean' ? g.sonidosDeInterfaz : AJUSTES_INICIALES.sonidosDeInterfaz,
+    timbre: g.timbre === 'chip' || g.timbre === 'campana' ? g.timbre : g.direccion === 'vinilo' ? 'campana' : AJUSTES_INICIALES.timbre,
+  }
 }
 
 export const useAjustes = create<Ajustes>()(
   persist(
     (set) => ({
-      direccion: 'cartucho',
-      esquema: 'sistema',
-      nomenclatura: 'latina',
-      sonidosDeInterfaz: true,
+      ...AJUSTES_INICIALES,
       fijar: (cambios) => set(cambios),
     }),
     {
       name: CLAVE_AJUSTES,
-      version: 1,
-      partialize: ({ direccion, esquema, nomenclatura, sonidosDeInterfaz }) => ({ direccion, esquema, nomenclatura, sonidosDeInterfaz }),
+      version: VERSION_DE_AJUSTES,
+      migrate: (guardado) => migrar(guardado),
+      partialize: ({ esquema, nomenclatura, sonidosDeInterfaz, timbre }) => ({ esquema, nomenclatura, sonidosDeInterfaz, timbre }),
     },
   ),
 )

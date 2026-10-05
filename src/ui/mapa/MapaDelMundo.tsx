@@ -1,31 +1,29 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { useEsquemaResuelto } from '../../../app/ajustes.ts'
-import type { PropsDeMapa } from '../../mapa/nodos.ts'
-import { Icono } from '../../Icono.tsx'
+import { Icono } from '../Icono.tsx'
 import { ANCHO, type EdificioDeNodo, TESELA, pintarMapa, trazarPlano } from './mapa-pixel.ts'
+import type { PropsDeMapa } from './nodos.ts'
 
-/** Cada píxel lógico del mapa son 2 px de CSS, como en el resto de la dirección. */
+/** Cada píxel lógico del mapa son 2 px de CSS, como en los marcos. */
 const ESCALA = 2
 const PASO = TESELA * ESCALA
 
 /** Mapa del mundo en píxeles: un lienzo pintado por código y, encima, un botón por mundo. */
-export function MapaCartucho({ nodos, elegido, alElegir }: PropsDeMapa) {
+export function MapaDelMundo({ nodos, elegido, alElegir }: PropsDeMapa) {
   const lienzo = useRef<HTMLCanvasElement>(null)
-  const esquema = useEsquemaResuelto()
   const plano = useMemo(() => trazarPlano(nodos.length), [nodos.length])
 
   useEffect(() => {
     const ctx = lienzo.current?.getContext('2d')
     if (!ctx) return
     const edificios: EdificioDeNodo[] = nodos.map((nodo) => (nodo.final ? 'castillo' : nodo.estado === 'abierto' ? 'casa' : 'cartel'))
-    pintarMapa(ctx, plano, esquema === 'oscuro' ? 'noche' : 'dia', edificios)
-  }, [plano, esquema, nodos])
+    pintarMapa(ctx, plano, edificios)
+  }, [plano, nodos])
 
   return (
-    <div className="mapa-cartucho">
-      <div className="mapa-cartucho__plano" style={{ width: ANCHO * PASO, height: plano.alto * PASO }}>
-        <canvas ref={lienzo} className="mapa-cartucho__lienzo" width={ANCHO * TESELA} height={plano.alto * TESELA} aria-hidden="true" />
-        <ol className="mapa-cartucho__nodos">
+    <div className="mapa-mundo">
+      <div className="mapa-mundo__plano" style={{ width: ANCHO * PASO, height: plano.alto * PASO }}>
+        <canvas ref={lienzo} className="mapa-mundo__lienzo" width={ANCHO * TESELA} height={plano.alto * TESELA} aria-hidden="true" />
+        <ol className="mapa-mundo__nodos">
           {nodos.map((nodo, i) => {
             const lugar = plano.nodos[i]
             if (!lugar) return null

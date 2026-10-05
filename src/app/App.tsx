@@ -20,22 +20,21 @@ const PianoRoll = lazy(() => import('../pantallas/PianoRoll.tsx').then((m) => ({
 const Diagnostico = lazy(() => import('../pantallas/Diagnostico.tsx').then((m) => ({ default: m.Diagnostico })))
 const Muestrario = lazy(() => import('../pantallas/Muestrario.tsx').then((m) => ({ default: m.Muestrario })))
 
-/** Aplica al documento la dirección visual y el esquema elegidos, y sus sonidos. */
+/** Aplica al documento el esquema de color elegido, y a la interfaz sus sonidos. */
 function useAspecto(): void {
-  const direccion = useAjustes((a) => a.direccion)
   const sonidos = useAjustes((a) => a.sonidosDeInterfaz)
+  const timbre = useAjustes((a) => a.timbre)
   const resuelto = useEsquemaResuelto()
 
   useLayoutEffect(() => {
     const raiz = document.documentElement
-    raiz.dataset.direccion = direccion
     raiz.dataset.esquema = resuelto
     // La barra del navegador y la de estado toman el color del fondo.
     const fondo = getComputedStyle(raiz).getPropertyValue('--fondo').trim()
     if (fondo) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', fondo)
-  }, [direccion, resuelto])
+  }, [resuelto])
 
-  useEffect(() => fijarTimbreDeInterfaz(direccion === 'cartucho' ? 'chip' : 'campana'), [direccion])
+  useEffect(() => fijarTimbreDeInterfaz(timbre), [timbre])
   useEffect(() => silenciarInterfaz(!sonidos), [sonidos])
 }
 

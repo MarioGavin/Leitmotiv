@@ -24,8 +24,8 @@ export async function abrirDiagnostico(pagina: Page): Promise<void> {
   await expect(pagina.getByRole('heading', { name: 'Diagnóstico' })).toBeVisible()
 }
 
-/** Las dos direcciones visuales, mientras convivan. */
-export const DIRECCIONES = ['cartucho', 'vinilo'] as const
+/** Los dos esquemas de color. */
+export const ESQUEMAS = ['oscuro', 'claro'] as const
 
 /** Cada pantalla, con un selector que solo existe cuando ha terminado de cargar. */
 export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = [
@@ -39,9 +39,9 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/diagnostico', '.instrumento-fila'],
 ]
 
-/** Deja elegida una dirección visual antes de que la app arranque. */
-export async function elegirDireccion(pagina: Page, direccion: string): Promise<void> {
-  await pagina.addInitScript((d) => {
-    localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { direccion: d, esquema: 'oscuro', nomenclatura: 'latina', sonidosDeInterfaz: true }, version: 1 }))
-  }, direccion)
+/** Deja elegido un esquema de color antes de que la app arranque. */
+export async function elegirEsquema(pagina: Page, esquema: string): Promise<void> {
+  await pagina.addInitScript((e) => {
+    localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip' }, version: 2 }))
+  }, esquema)
 }

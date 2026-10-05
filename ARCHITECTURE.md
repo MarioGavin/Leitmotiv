@@ -15,7 +15,7 @@ public/content (JSON)                                                 │
 │  app/        arranque, rutas, ajustes, lectura del contenido                 │
 │  pantallas/  una por ruta                                                    │
 │  ejercicios/ un componente por tipo de paso                                  │
-│  ui/         componentes, direcciones visuales, vistas de música             │
+│  ui/         componentes, tema, iconos, mapa y vistas de música              │
 │  audio/      motor (Tone.js + smplr + Web Audio), reproductor, sonidos       │
 │  musica/     tiempo, notas, tonalidad, pieza, taquigrafía, comprobaciones    │
 │  contenido/  esquemas (fuente) y tipos (compilado)                           │
@@ -71,7 +71,7 @@ Límite: 300 KB de JavaScript comprimido antes de pintar la primera pantalla, si
 | Carga inicial (React, Zustand, Tonal, carcasa, título, mapa, ajustes) | 94 KB |
 | Motor de audio (Tone.js y smplr), al quedar ociosa la app | 71 KB |
 | Lección, piano roll, diagnóstico y muestrario, al abrirlos | 2 a 3 KB cada uno |
-| Hojas de estilo (las dos direcciones) | 11 KB |
+| Hojas de estilo | 8 KB |
 
 Queda un 69 % de margen. Lo que se añada en el Tramo B (Dexie 35 KB, ts-fsrs 7 KB, Motion con `LazyMotion` 34 KB, @tonejs/midi 10 KB) debe entrar como trozos aparte.
 
@@ -151,7 +151,7 @@ Fijados midiendo: con el bus de música a +2 dB y el limitador a −1,5 dB, un e
 - **Una pantalla por archivo** en `pantallas/`; las pesadas se cargan con `lazy()`.
 - **Un componente por tipo de paso** en `ejercicios/`. `Leccion.tsx` elige cuál pintar; los tipos que aún no existen caen en `PasoPendiente`, que enseña el enunciado y deja saltar el paso.
 - **Reproducción desde React**: el gancho `useReproductor(pieza)` prepara el reproductor al primer «Escuchar», sigue su estado y lo libera al salir. El cabezal se mueve escribiendo en el estilo del elemento, sin pasar por React.
-- **Dos direcciones visuales** conviviendo hasta la Parada 1: ver DESIGN.md.
+- **Un solo tema**, en claro y en oscuro: ver DESIGN.md.
 
 ## PWA y funcionamiento sin conexión
 
@@ -173,7 +173,7 @@ Fijados midiendo: con el bus de música a +2 dB y el limitador a −1,5 dB, un e
 | Lógica musical, taquigrafía y validadores | Vitest | `src/musica/*.test.ts` |
 | Compilador de contenido y contenido real | Vitest | `scripts/contenido/*.test.ts` |
 | Proceso de muestras y créditos | Vitest | `scripts/muestras/*.test.ts` |
-| Contraste AA de las dos direcciones | Vitest | `scripts/diseno/contraste.test.ts` |
+| Contraste AA de los dos esquemas | Vitest | `scripts/diseno/contraste.test.ts` |
 | Rutas, iconos, mapa | Vitest | `src/app`, `src/ui` |
 | Arranque, lección completa, piano roll, PWA, sin conexión, audio, tamaño de los controles, tildes sin recortar | Playwright | `e2e/` |
 | Afinación, tiempos y niveles del audio | Chromium + ffmpeg | `npm run audio:check` |

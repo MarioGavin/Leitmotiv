@@ -3,8 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './app/App.tsx'
 import './ui/estilos/base.css'
 import './ui/estilos/componentes.css'
-import './ui/direcciones/cartucho/cartucho.css'
-import './ui/direcciones/vinilo/vinilo.css'
+import './ui/estilos/tema.css'
 import './pantallas/pantallas.css'
 
 const raiz = document.getElementById('raiz')

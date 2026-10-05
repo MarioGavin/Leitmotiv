@@ -71,19 +71,14 @@ Se sirven desde la propia app (paquetes de Fontsource) y todas tienen la licenci
 
 | Tipografía | Titulares de los derechos | Licencia | Paquete |
 | --- | --- | --- | --- |
-| Jersey 10 | The Soft Type Project Authors (https://github.com/scfried/soft-type-jersey) | OFL-1.1 | `@fontsource/jersey-10` |
-| Jersey 15 | The Soft Type Project Authors (https://github.com/scfried/soft-type-jersey) | OFL-1.1 | `@fontsource/jersey-15` |
-| Atkinson Hyperlegible Next | The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next) | OFL-1.1 | `@fontsource-variable/atkinson-hyperlegible-next` |
 | Big Shoulders Display | The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders) | OFL-1.1 | `@fontsource-variable/big-shoulders-display` |
 | Archivo | The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo) | OFL-1.1 | `@fontsource-variable/archivo` |
 
-Las dos fuentes de signos musicales (`src/ui/fuentes/leitmotiv-signos.otf` y `leitmotiv-signos-pixel.otf`: sostenido, bemol, becuadro y los indicadores ordinales) son dibujos propios, generados por `scripts/fuentes/signos.ts`. No derivan de ninguna otra fuente.
-
-Cuando se elija dirección visual en la Parada 1, se quitarán de aquí y de `package.json` las tipografías de la dirección descartada.
+La fuente de signos musicales (`src/ui/fuentes/leitmotiv-signos.otf`: sostenido, bemol y becuadro) es un dibujo propio, generado por `scripts/fuentes/signos.ts`. No deriva de ninguna otra fuente.
 
 ## Iconos e ilustraciones
 
-Los dos juegos de iconos, el emblema, los iconos de la app y el mapa del mundo en píxeles (terreno, árboles, casas y castillo) son dibujos propios, hechos por código en `src/ui` y `scripts/iconos.ts`. No se usa ninguna librería de iconos ni imagen de terceros.
+Los iconos, el emblema, los iconos de la app y el mapa del mundo en píxeles (terreno, árboles, casas y castillo) son dibujos propios, hechos por código en `src/ui` y `scripts/iconos.ts`. No se usa ninguna librería de iconos ni imagen de terceros.
 
 ## Librerías que viajan en la app
 

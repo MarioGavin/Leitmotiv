@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { DIRECCIONES, PANTALLAS, elegirDireccion } from './ayudas.ts'
+import { ESQUEMAS, PANTALLAS, elegirEsquema } from './ayudas.ts'
 
 /**
  * Todo lo que se toca mide al menos 44 × 44 px. Quedan fuera los términos del
@@ -8,9 +8,9 @@ import { DIRECCIONES, PANTALLAS, elegirDireccion } from './ayudas.ts'
  */
 const MINIMO = 44
 
-for (const direccion of DIRECCIONES) {
-  test(`los controles miden al menos ${MINIMO} px en «${direccion}»`, async ({ page }) => {
-    await elegirDireccion(page, direccion)
+for (const esquema of ESQUEMAS) {
+  test(`los controles miden al menos ${MINIMO} px en el esquema ${esquema}`, async ({ page }) => {
+    await elegirEsquema(page, esquema)
     for (const [ruta, lista] of PANTALLAS) {
       await page.goto(`./${ruta}`)
       await expect(page.locator(lista).first()).toBeVisible()

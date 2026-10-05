@@ -1,6 +1,6 @@
 /*
- * Componentes: estructura y medidas comunes a las dos direcciones visuales.
- * El aspecto (marcos, cursores, sombras) lo pone cada dirección en su archivo.
+ * Componentes: estructura y medidas.
+ * El aspecto (colores, marcos, cursores, sombras) está en tema.css.
  *
  * Todo lo que lleva marco pinta su «cara» en ::before, de modo que la caja del
  * elemento incluye el marco y la sombra: nada se sale de su sitio ni hace falta

@@ -57,7 +57,7 @@ Niveles de partida por papel: melodía 0 dB, bajo −1, contramelodía −3, per
 
 ## C. Sonidos de la interfaz
 
-En **Diagnóstico de audio → Sonidos de interfaz**, con cada dirección visual (cambia en Ajustes): «Cartucho» usa una onda de pulso y «Vinilo» una campana FM.
+En **Diagnóstico de audio → Sonidos de interfaz**, con cada uno de los dos timbres (se cambian en **Ajustes → Sonidos de la interfaz**): «Chip» es una onda de pulso y «Campana», una campana FM.
 
 - [ ] **C1. El motivo.** «Inicio» toca La, Mi, Si, Mi. *Decide*: si te gusta como firma de la app.
 - [ ] **C2. Cursor.** Suena cada vez que se mueve la selección. *Problema*: que canse en una sesión de diez minutos.

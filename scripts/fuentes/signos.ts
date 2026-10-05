@@ -1,15 +1,12 @@
 /**
- * Genera las dos fuentes de signos de Leitmotiv: sostenido (♯), bemol (♭) y
- * becuadro (♮) y, en la de píxeles, los indicadores ordinales (ª y º).
+ * Genera la fuente de signos de Leitmotiv: sostenido (♯), bemol (♭) y
+ * becuadro (♮).
  *
  *   npm run fonts:build
  *
  * Las fuentes de texto de la app no traen estos tres signos (o los dejan en
  * manos de la fuente del sistema, que cambia de un móvil a otro). Aquí se
- * dibujan a medida y se guardan en src/ui/fuentes:
- *
- *   leitmotiv-signos-pixel.otf  → de píxeles, a juego con la familia Jersey
- *   leitmotiv-signos.otf        → geométricos, para el resto de las tipografías
+ * dibujan a medida y se guardan en src/ui/fuentes/leitmotiv-signos.otf.
  *
  * Son dibujos propios: no derivan de ninguna otra fuente.
  */
@@ -29,49 +26,6 @@ const DESTINO = path.resolve(import.meta.dirname, '../../src/ui/fuentes')
 const SOSTENIDO = 0x266f
 const BEMOL = 0x266d
 const BECUADRO = 0x266e
-/** Indicadores ordinales («2.ª mayor», «1.º»): en Jersey son letras de tamaño normal; aquí, voladitas. */
-const ORDINAL_FEMENINO = 0xaa
-const ORDINAL_MASCULINO = 0xba
-
-// ───────────────────────────── de píxeles ─────────────────────────────
-
-/**
- * Mismas medidas que Jersey 10: 1400 unidades por em y píxeles de 75 unidades,
- * con diez píxeles de altura de mayúscula. Así casan a cualquier tamaño.
- */
-const EM_PIXEL = 1400
-const PIXEL = 75
-
-const MAPAS: ReadonlyArray<readonly [nombre: string, codigo: number, filas: readonly string[]]> = [
-  ['sostenido', SOSTENIDO, ['.#..#.', '.#..#.', '.#.###', '####..', '.#..#.', '.#..#.', '.#.###', '####..', '.#..#.', '.#..#.']],
-  ['bemol', BEMOL, ['#....', '#....', '#....', '#....', '#.##.', '##..#', '#...#', '#..#.', '#.#..', '##...']],
-  ['becuadro', BECUADRO, ['#....', '#....', '#.###', '###.#', '#...#', '#...#', '#.###', '###.#', '....#', '....#']],
-  ['ordinalfemenino', ORDINAL_FEMENINO, ['.##.', '...#', '.###', '#..#', '.###', '....', '####', '....', '....', '....']],
-  ['ordinalmasculino', ORDINAL_MASCULINO, ['.##.', '#..#', '#..#', '#..#', '.##.', '....', '####', '....', '....', '....']],
-]
-
-/** Un rectángulo por cada tira horizontal de píxeles, con la fila de abajo apoyada en la línea base. */
-function trazadoDePixeles(filas: readonly string[]): Path {
-  const trazado = new Path()
-  filas.forEach((fila, i) => {
-    const y = (filas.length - 1 - i) * PIXEL
-    let x = 0
-    while (x < fila.length) {
-      if (fila[x] !== '#') {
-        x++
-        continue
-      }
-      let fin = x
-      while (fila[fin] === '#') fin++
-      rectangulo(trazado, x * PIXEL, y, fin * PIXEL, y + PIXEL)
-      x = fin
-    }
-  })
-  return trazado
-}
-
-// ───────────────────────────── geométricos ─────────────────────────────
-
 const EM = 1000
 
 function rectangulo(trazado: Path, x0: number, y0: number, x1: number, y1: number): void {
@@ -167,12 +121,6 @@ function construir(familia: string, em: number, glifos: Glyph[]): Buffer {
   return Buffer.from(fuente.toArrayBuffer())
 }
 
-const pixel = construir(
-  'Leitmotiv Signos Pixel',
-  EM_PIXEL,
-  MAPAS.map(([nombre, codigo, filas]) => new Glyph({ name: nombre, unicode: codigo, advanceWidth: ((filas[0]?.length ?? 5) + 1) * PIXEL, path: trazadoDePixeles(filas) })),
-)
-
 const lisa = construir('Leitmotiv Signos', EM, [
   new Glyph({ name: 'sostenido', unicode: SOSTENIDO, advanceWidth: 515, path: sostenido() }),
   new Glyph({ name: 'bemol', unicode: BEMOL, advanceWidth: 480, path: bemol() }),
@@ -180,6 +128,5 @@ const lisa = construir('Leitmotiv Signos', EM, [
 ])
 
 mkdirSync(DESTINO, { recursive: true })
-writeFileSync(path.join(DESTINO, 'leitmotiv-signos-pixel.otf'), pixel)
 writeFileSync(path.join(DESTINO, 'leitmotiv-signos.otf'), lisa)
-console.log(`Fuentes de signos escritas en src/ui/fuentes (${pixel.length} y ${lisa.length} bytes).`)
+console.log(`Fuente de signos escrita en src/ui/fuentes (${lisa.length} bytes).`)

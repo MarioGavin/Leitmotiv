@@ -1,7 +1,6 @@
 /*
  * Estilos propios de cada pantalla. Los componentes compartidos están en
- * src/ui/estilos/componentes.css y el aspecto de cada dirección en
- * src/ui/direcciones.
+ * src/ui/estilos/componentes.css y el aspecto, en src/ui/estilos/tema.css.
  */
 
 .pila--junta {
@@ -258,8 +257,7 @@
 
 /* El título de la pieza cabe entero antes que lucir grande. */
 .pantalla--pianoroll .cabecera__titulo {
-  font-family: var(--fuente-boton, var(--fuente-titulos));
-  font-size: var(--t-pixel, var(--t-xl));
+  font-size: var(--t-xl);
 }
 
 .pianoroll__marco {

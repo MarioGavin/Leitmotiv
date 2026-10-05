@@ -1,73 +1,58 @@
 /*
- * Dirección «Cartucho»: el menú de un RPG de consola portátil de 16 bits.
+ * El aspecto de Leitmotiv: el menú de un RPG de consola portátil.
  *
- * Ventanas con marco de píxeles y esquinas escalonadas, cursor ▶, tipografía
- * de píxel para títulos y datos, y un mapa del mundo dibujado punto a punto.
- * El esquema oscuro es la noche (ventanas azules sobre un cielo marino); el
- * claro, el día (ventanas blancas sobre un cielo pálido).
+ * Ventanas con marco de píxeles y esquinas escalonadas, cursor ▶, iconos de
+ * mapa de bits y un mapa del mundo dibujado punto a punto, con títulos
+ * condensados en mayúsculas. El esquema oscuro es la noche (ventanas azules
+ * sobre un cielo marino); el claro, el día (ventanas blancas sobre un cielo
+ * pálido). El mapa del mundo se ve siempre de día.
  *
  * Un píxel lógico son 2 px de CSS. Todas las medidas de marco son múltiplos.
+ * La estructura de los componentes está en componentes.css; aquí, los colores
+ * y cómo se dibuja cada cosa. DESIGN.md lo explica entero.
  */
 
-:root[data-direccion='cartucho'] {
-  /*
-   * Tipografía de píxel: la familia Jersey, cuyo número es la altura de las
-   * mayúsculas en píxeles. Los tamaños están elegidos para que cada píxel de
-   * la fuente mida un número entero de px:
-   *   Jersey 10 a 18,67 px → píxeles de 1 px (texto de interfaz)
-   *   Jersey 15 a 27 px    → píxeles de 1 px (subtítulos y enunciados)
-   *   Jersey 10 a 37,33 px → píxeles de 2 px, como los de los marcos (títulos)
-   * El texto corrido usa Atkinson Hyperlegible Next.
-   */
-  --fuente-titulos: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
-  --fuente-subtitulos: 'Leitmotiv Signos Pixel', 'Jersey 15', 'Arial Narrow', sans-serif;
-  --fuente-enunciado: 'Leitmotiv Signos Pixel', 'Jersey 15', 'Arial Narrow', sans-serif;
-  --fuente-boton: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
-  --fuente-texto: 'Leitmotiv Signos', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
-  --fuente-datos: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
-  --fuente-opcion: 'Leitmotiv Signos Pixel', 'Jersey 10', 'Arial Narrow', sans-serif;
-  --t-pixel: 1.16667rem;
-  --t-pixel-medio: 1.6875rem;
-  --t-pixel-doble: 2.33333rem;
-  --t-titulo: var(--t-pixel-doble);
-  --t-subtitulo: var(--t-pixel-medio);
-  --t-cabecera: var(--t-pixel-medio);
-  --fuente-cabecera: 'Leitmotiv Signos Pixel', 'Jersey 15', 'Arial Narrow', sans-serif;
-  --t-boton: var(--t-pixel);
-  --t-opcion: var(--t-pixel);
-  --t-etiqueta: var(--t-pixel);
-  --t-dato: var(--t-pixel);
-  --t-navegacion: var(--t-pixel);
-  --t-conmutador: var(--t-pixel);
-  --t-enunciado: var(--t-pixel-medio);
-  --interlinea-enunciado: 1;
-  --t-vista: var(--t-pixel);
-  --vista-margen: 60px;
-  /* El nombre de la app en la pantalla de título: píxeles de 4 px. */
-  --t-nombre: 4.66667rem;
-  /* Las Jersey solo tienen un peso; una negrita sintética emborronaría los píxeles. */
-  --peso-titulos: 400;
-  --peso-etiqueta: 400;
-  --peso-dato: 400;
-  --peso-boton: 400;
-  --peso-opcion: 400;
-  --interlinea-titulos: 1;
-  --tracking-titulos: 0;
+:root {
+  /* Títulos: Big Shoulders Display, condensada y en mayúsculas. Texto y datos: Archivo. */
+  --fuente-titulos: 'Leitmotiv Signos', 'Big Shoulders Display', 'Archivo', 'Arial Narrow', sans-serif;
+  --fuente-texto: 'Leitmotiv Signos', 'Archivo', system-ui, sans-serif;
+  --fuente-datos: 'Leitmotiv Signos', 'Archivo', system-ui, sans-serif;
+  --fuente-opcion: 'Leitmotiv Signos', 'Archivo', system-ui, sans-serif;
+  --peso-titulos: 800;
+  --interlinea-titulos: 0.95;
+  --tracking-titulos: 0.01em;
+  --caja-titulos: uppercase;
+  --peso-etiqueta: 600;
+  --t-etiqueta: 0.8125rem;
   --tracking-etiqueta: 0;
-  --tracking-boton: 0;
-  --caja-titulos: none;
   --caja-etiqueta: none;
-  --caja-boton: none;
+  --peso-dato: 700;
+  --peso-boton: 800;
+  --t-boton: 1.375rem;
+  --tracking-boton: 0.03em;
+  --caja-boton: uppercase;
+  --peso-opcion: 600;
+  --t-opcion: 1.0625rem;
+  --t-cabecera: var(--t-2xl);
+  --t-titulo: var(--t-3xl);
+  --t-subtitulo: var(--t-2xl);
+  --t-conmutador: 1.125rem;
+  --t-dato: var(--t-s);
+  --t-enunciado: var(--t-2xl);
+  --interlinea-enunciado: 1;
+  --t-vista: 0.8125rem;
   --ancho-marca: 24px;
+  /* Los marcos «vuelan» 6 px por fuera de su caja: con 8 px de margen quedan a 14 px del borde de la pantalla. */
   --margen: var(--e-2);
   --carril-alto: 8px;
   /* Alto de la navegación: 56 de los enlaces, 12 del marco y 8 de relleno. */
   --alto-navegacion: 76px;
-  font-synthesis: style;
+  /* El mar del mapa del mundo: el mismo de día y de noche. */
+  --mapa-mar: #5aa9e0;
 }
 
 /* ── Noche ── */
-:root[data-direccion='cartucho'][data-esquema='oscuro'] {
+:root[data-esquema='oscuro'] {
   --fondo: #0c1226;
   --fondo-2: #131c3a;
   --superficie: #1a2d5a;
@@ -108,7 +93,7 @@
 }
 
 /* ── Día ── */
-:root[data-direccion='cartucho'][data-esquema='claro'] {
+:root[data-esquema='claro'] {
   --fondo: #cfe2ee;
   --fondo-2: #bdd5e5;
   --superficie: #fdfcf6;
@@ -153,7 +138,7 @@
  * esquinas y, por fuera, un contorno fino que rellena esas esquinas: el
  * resultado es la esquina escalonada de las ventanas de 16 bits.
  */
-[data-direccion='cartucho'] .marco {
+.marco {
   --_b: 4px;
   --_o: 2px;
   --_borde: var(--borde);
@@ -164,7 +149,7 @@
   --_vuelo-izquierda: 6px;
 }
 
-[data-direccion='cartucho'] .boton {
+.boton {
   --_b: 2px;
   --_o: 2px;
   --_borde: var(--borde);
@@ -177,7 +162,7 @@
   filter: drop-shadow(0 4px 0 var(--sombra-dura));
 }
 
-[data-direccion='cartucho'] :is(.marco, .boton)::before {
+:is(.marco, .boton)::before {
   box-shadow:
     calc(-1 * var(--_b)) 0 0 0 var(--_borde),
     var(--_b) 0 0 0 var(--_borde),
@@ -193,106 +178,126 @@
     var(--_b) var(--_b) 0 0 var(--_contorno);
 }
 
-[data-direccion='cartucho'] .boton:active:not(:disabled) {
+.boton:active:not(:disabled) {
   transform: translateY(4px);
   filter: none;
 }
 
-[data-direccion='cartucho'] .boton--fantasma {
+.boton--fantasma {
   --_borde: transparent;
   --_contorno: transparent;
   filter: none;
 }
 
-[data-direccion='cartucho'] .boton--fantasma:active:not(:disabled) {
+.boton--fantasma:active:not(:disabled) {
   transform: none;
 }
 
-[data-direccion='cartucho'] .boton:disabled {
+.boton:disabled {
   --_borde: var(--separador);
   filter: none;
 }
 
+/* Botón de dos posiciones encendido (bucle activado, herramienta elegida). */
+.boton--activo {
+  --_relleno: var(--tinta);
+  --_tinta: var(--superficie);
+}
+
+/* El rótulo de un marco: una etiqueta con la letra de los títulos. */
+.marco__rotulo {
+  padding: 3px var(--e-2) 2px;
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 /* ── Opciones: sin marco propio, con el cursor a la izquierda ── */
-[data-direccion='cartucho'] .opcion + .opcion {
+.opcion + .opcion {
   background-image: repeating-linear-gradient(90deg, var(--separador) 0 4px, transparent 4px 8px);
   background-size: 100% 2px;
   background-repeat: no-repeat;
 }
 
-[data-direccion='cartucho'] .opcion__marca::before {
-  content: none;
-}
-
-[data-direccion='cartucho'] .opcion__marca .icono {
+.opcion__marca .icono {
   --icono: 18px;
   visibility: hidden;
   color: var(--acento-tinta);
 }
 
-[data-direccion='cartucho'] .opcion[aria-checked='true'] .opcion__marca .icono {
+.opcion[aria-checked='true'] .opcion__marca .icono {
   visibility: visible;
-  animation: cartucho-cursor 0.7s steps(1) infinite;
+  animation: cursor-paso 0.7s steps(1) infinite;
 }
 
-@keyframes cartucho-cursor {
+@keyframes cursor-paso {
   50% {
     transform: translateX(4px);
   }
 }
 
-[data-direccion='cartucho'] .opcion--correcta[aria-checked='true'],
-[data-direccion='cartucho'] .opcion--incorrecta[aria-checked='true'] {
-  background-color: var(--superficie-2);
+/* Al corregir, la fila elegida se rellena: verde si era la buena, rojo si no. */
+.opcion--correcta[aria-checked='true'] {
+  background: var(--exito);
+  color: var(--sobre-exito);
+}
+
+.opcion--incorrecta[aria-checked='true'] {
+  background: var(--error);
+  color: var(--sobre-error);
+}
+
+.opcion:is(.opcion--correcta, .opcion--incorrecta)[aria-checked='true'] .opcion__marca .icono {
+  color: inherit;
+  animation: none;
 }
 
 /* ── Avance ── */
-[data-direccion='cartucho'] .avance__tramo {
+.avance {
+  gap: 6px;
+  padding: 2px;
+}
+
+.avance__tramo {
   height: 8px;
   box-shadow: 0 0 0 2px var(--contorno);
   --avance-vacio: var(--hundido);
 }
 
-[data-direccion='cartucho'] .avance {
-  gap: 6px;
-  padding: 2px;
-}
-
 /* ── Navegación: la ventana de comandos ── */
-[data-direccion='cartucho'] .navegacion__enlace[aria-current='page'] {
+.navegacion__enlace[aria-current='page'] {
   background: var(--tinta);
   color: var(--superficie);
 }
 
-[data-direccion='cartucho'][data-esquema='claro'] .navegacion__enlace[aria-current='page'] {
-  color: var(--superficie);
-}
-
 /* ── Conmutador ── */
-[data-direccion='cartucho'] .conmutador__opcion[aria-pressed='true'] {
+.conmutador__opcion[aria-pressed='true'] {
   background: var(--tinta);
   color: var(--superficie);
 }
 
 /* ── Deslizador ── */
-[data-direccion='cartucho'] .deslizador input[type='range']::-webkit-slider-runnable-track {
+.deslizador input[type='range']::-webkit-slider-runnable-track {
   background: var(--hundido);
   box-shadow: 0 0 0 2px var(--borde);
 }
 
-[data-direccion='cartucho'] .deslizador input[type='range']::-moz-range-track {
+.deslizador input[type='range']::-moz-range-track {
   background: var(--hundido);
   box-shadow: 0 0 0 2px var(--borde);
 }
 
-[data-direccion='cartucho'] .deslizador input[type='range']::-webkit-slider-thumb {
+.deslizador input[type='range']::-webkit-slider-thumb {
   width: 16px;
   box-shadow:
     0 0 0 2px var(--borde),
     0 0 0 4px var(--contorno);
 }
 
-[data-direccion='cartucho'] .deslizador input[type='range']::-moz-range-thumb {
+.deslizador input[type='range']::-moz-range-thumb {
   width: 16px;
   box-shadow:
     0 0 0 2px var(--borde),
@@ -300,32 +305,20 @@
 }
 
 /* ── Iconos y rejillas: píxeles nítidos ── */
-[data-direccion='cartucho'] .icono,
-[data-direccion='cartucho'] .vista-pieza__rejilla svg,
-[data-direccion='cartucho'] .rollo__lienzo svg {
+.icono,
+.vista-pieza__rejilla svg,
+.rollo__lienzo svg {
   shape-rendering: crispEdges;
 }
 
-/* Botón de dos posiciones encendido (bucle activado, herramienta elegida). */
-[data-direccion='cartucho'] .boton--activo {
-  --_relleno: var(--tinta);
-  --_tinta: var(--superficie);
-}
-
-/* ── Texto ── */
-[data-direccion='cartucho'] :focus-visible {
+/* ── Foco ── */
+:focus-visible {
   outline: 4px solid var(--acento-tinta);
   outline-offset: 2px;
 }
 
-/* ── Texto con datos ── */
-[data-direccion='cartucho'] .dato {
-  font-size: var(--t-pixel);
-  line-height: 1;
-}
-
 /* ── Marco fino, para piezas pequeñas (insignias, rótulos del mapa) ── */
-:root[data-direccion='cartucho'] {
+:root {
   --marco-fino:
     -2px 0 0 0 var(--borde), 2px 0 0 0 var(--borde), 0 -2px 0 0 var(--borde), 0 2px 0 0 var(--borde), -4px 0 0 0 var(--contorno), 4px 0 0 0 var(--contorno),
     0 -4px 0 0 var(--contorno), 0 4px 0 0 var(--contorno), -2px -2px 0 0 var(--contorno), 2px -2px 0 0 var(--contorno), -2px 2px 0 0 var(--contorno),
@@ -333,38 +326,30 @@
 }
 
 /* ── Mapa del mundo ── */
-:root[data-direccion='cartucho'][data-esquema='oscuro'] {
-  --mapa-mar: #14285a;
-}
-
-:root[data-direccion='cartucho'][data-esquema='claro'] {
-  --mapa-mar: #5aa9e0;
-}
-
-.pantalla--mapa-cartucho {
+.pantalla--mapa {
   background: var(--mapa-mar);
 }
 
-.mapa-cartucho {
+.mapa-mundo {
   display: flex;
   flex: 1;
   justify-content: center;
   overflow: hidden;
 }
 
-.mapa-cartucho__plano {
+.mapa-mundo__plano {
   position: relative;
   flex: none;
 }
 
-.mapa-cartucho__lienzo {
+.mapa-mundo__lienzo {
   display: block;
   width: 100%;
   height: 100%;
   image-rendering: pixelated;
 }
 
-.mapa-cartucho__nodos {
+.mapa-mundo__nodos {
   position: absolute;
   inset: 0;
 }
@@ -381,9 +366,12 @@
   gap: 10px;
   min-height: 48px;
   padding: 0 6px;
-  font-family: var(--fuente-datos);
-  font-size: var(--t-pixel);
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 1.0625rem;
   line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
@@ -402,13 +390,15 @@
   width: 32px;
   height: 32px;
   flex: none;
+  font-weight: 900;
+  font-size: 1.375rem;
   background: var(--acento);
   color: var(--sobre-acento);
   box-shadow: var(--marco-fino);
 }
 
 .nodo-pixel__nombre {
-  padding: 4px 8px;
+  padding: 5px 8px 4px;
   background: var(--superficie);
   color: var(--tinta);
   box-shadow: var(--marco-fino);
@@ -435,7 +425,7 @@
   color: var(--acento);
   transform: rotate(90deg);
   filter: drop-shadow(2px 0 0 var(--contorno)) drop-shadow(-2px 0 0 var(--contorno)) drop-shadow(0 2px 0 var(--contorno)) drop-shadow(0 -2px 0 var(--contorno));
-  animation: cartucho-cursor-mapa 0.7s steps(1) infinite;
+  animation: cursor-mapa 0.7s steps(1) infinite;
 }
 
 .nodo-pixel--derecha .nodo-pixel__cursor {
@@ -446,21 +436,26 @@
   right: 10px;
 }
 
-@keyframes cartucho-cursor-mapa {
+@keyframes cursor-mapa {
   50% {
     transform: rotate(90deg) translateX(4px);
   }
 }
 
 /* ── Lista de lecciones ── */
-[data-direccion='cartucho'] .lecciones li,
-[data-direccion='cartucho'] .unidad__vacia {
+.lecciones li,
+.unidad__vacia {
   background-image: repeating-linear-gradient(90deg, var(--separador) 0 4px, transparent 4px 8px);
   background-size: 100% 2px;
   background-repeat: no-repeat;
 }
 
-[data-direccion='cartucho'] .leccion-enlace__numero {
-  font-size: var(--t-pixel-doble);
+.leccion-enlace__numero {
+  font-weight: 900;
+  font-size: 2rem;
   color: var(--acento-tinta);
+}
+
+.leccion-enlace__titulo {
+  font-weight: 700;
 }

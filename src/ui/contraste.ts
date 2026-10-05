@@ -1,8 +1,8 @@
 /**
  * Contraste de color según WCAG 2.x, y la lista de parejas de colores que la
- * interfaz usa de verdad. La prueba (contraste.test.ts) lee los colores de los
- * CSS de cada dirección visual y comprueba todas las parejas en los cuatro
- * esquemas; DESIGN.md recoge la tabla que resulta.
+ * interfaz usa de verdad. La prueba (scripts/diseno/contraste.test.ts) lee los
+ * colores de tema.css y comprueba todas las parejas en los dos esquemas;
+ * DESIGN.md recoge la tabla que resulta.
  */
 
 /** Luminancia relativa de un color `#rrggbb`. */
@@ -27,20 +27,18 @@ export function contraste(a: string, b: string): number {
 export type Colores = Readonly<Record<string, string>>
 
 /**
- * Extrae los colores de cada esquema de un CSS de dirección visual: todas las
- * declaraciones `--nombre: #rrggbb` de los bloques cuyo selector fija
- * `data-direccion` y `data-esquema`. Devuelve `{ oscuro: {...}, claro: {...} }`.
+ * Extrae los colores de cada esquema de la hoja del tema: todas las
+ * declaraciones `--nombre: #rrggbb` de los bloques `:root[data-esquema='…']`.
+ * Devuelve `{ oscuro: {...}, claro: {...} }`.
  */
-export function leerColores(css: string, direccion: string): Record<string, Record<string, string>> {
+export function leerColores(css: string): Record<string, Record<string, string>> {
   const esquemas: Record<string, Record<string, string>> = {}
   const sinComentarios = css.replace(/\/\*[\s\S]*?\*\//g, '')
   const bloque = /([^{}]+)\{([^{}]*)\}/g
-  // Solo los bloques de raíz: selectores hechos únicamente de atributos data-*, sin bajar a ningún componente.
-  const deRaiz = /^(:root)?(\[data-[\w-]+='[\w-]+'\])+$/
+  // Solo los bloques de raíz: el selector es `:root[data-esquema='x']` y nada más, sin bajar a ningún componente.
+  const deRaiz = /^:root\[data-esquema='(\w+)'\]$/
   for (const [, selector = '', cuerpo = ''] of sinComentarios.matchAll(bloque)) {
-    const limpio = selector.trim()
-    if (!deRaiz.test(limpio) || !limpio.includes(`[data-direccion='${direccion}']`)) continue
-    const esquema = /\[data-esquema='(\w+)'\]/.exec(limpio)?.[1]
+    const esquema = deRaiz.exec(selector.trim())?.[1]
     if (!esquema) continue
     const colores = (esquemas[esquema] ??= {})
     for (const [, nombre = '', valor = ''] of cuerpo.matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6})\s*;/g)) colores[nombre] = valor.toLowerCase()
@@ -59,7 +57,7 @@ export interface Pareja {
   uso: string
 }
 
-/** Parejas que usan las dos direcciones. Los nombres son los de las variables CSS, sin los guiones. */
+/** Las parejas de colores de la interfaz. Los nombres son los de las variables CSS, sin los guiones. */
 export const PAREJAS: readonly Pareja[] = [
   { sobre: 'tinta', fondo: 'fondo', minimo: 4.5, uso: 'Texto sobre el fondo' },
   { sobre: 'tinta', fondo: 'superficie', minimo: 4.5, uso: 'Texto dentro de un marco' },
@@ -72,28 +70,16 @@ export const PAREJAS: readonly Pareja[] = [
   { sobre: 'acento-tinta', fondo: 'fondo', minimo: 4.5, uso: 'Texto de acento sobre el fondo' },
   { sobre: 'acento-tinta', fondo: 'superficie', minimo: 4.5, uso: 'Texto de acento dentro de un marco' },
   { sobre: 'acento-tinta', fondo: 'hundido', minimo: 4.5, uso: 'Nombre de la tónica en la rejilla' },
-  { sobre: 'sobre-exito', fondo: 'exito', minimo: 4.5, uso: 'Rótulo de acierto' },
-  { sobre: 'exito-tinta', fondo: 'superficie', minimo: 4.5, uso: 'Opción correcta' },
-  { sobre: 'sobre-error', fondo: 'error', minimo: 4.5, uso: 'Rótulo de fallo' },
-  { sobre: 'error-tinta', fondo: 'superficie', minimo: 4.5, uso: 'Opción incorrecta' },
+  { sobre: 'sobre-exito', fondo: 'exito', minimo: 4.5, uso: 'Rótulo de acierto y opción acertada (rellena)' },
+  { sobre: 'exito-tinta', fondo: 'superficie', minimo: 4.5, uso: 'Opción correcta que no se había elegido' },
+  { sobre: 'sobre-error', fondo: 'error', minimo: 4.5, uso: 'Rótulo de fallo y opción fallada (rellena)' },
+  { sobre: 'error-tinta', fondo: 'superficie', minimo: 4.5, uso: 'Texto de error dentro de un marco' },
   { sobre: 'fondo', fondo: 'tinta', minimo: 4.5, uso: 'Rótulo de un marco (texto invertido)' },
   { sobre: 'superficie', fondo: 'tinta', minimo: 4.5, uso: 'Sección activa de la navegación (invertida)' },
+  { sobre: 'tinta', fondo: 'boton-relleno', minimo: 4.5, uso: 'Texto de un botón secundario' },
   { sobre: 'borde', fondo: 'fondo', minimo: 3, uso: 'Borde de un marco contra el fondo' },
   { sobre: 'acento-tinta', fondo: 'fondo', minimo: 3, uso: 'Contorno de foco' },
 ]
-
-/** Parejas que solo existen en una dirección. */
-export const PAREJAS_PROPIAS: Readonly<Record<string, readonly Pareja[]>> = {
-  cartucho: [
-    { sobre: 'exito-tinta', fondo: 'superficie-2', minimo: 4.5, uso: 'Opción correcta sobre la fila elegida' },
-    { sobre: 'error-tinta', fondo: 'superficie-2', minimo: 4.5, uso: 'Opción incorrecta sobre la fila elegida' },
-    { sobre: 'tinta', fondo: 'boton-relleno', minimo: 4.5, uso: 'Texto de un botón secundario' },
-  ],
-  vinilo: [
-    { sobre: 'nav-tinta', fondo: 'nav-fondo', minimo: 4.5, uso: 'Secciones de la navegación' },
-    { sobre: 'fondo', fondo: 'tinta', minimo: 4.5, uso: 'Botón de dos posiciones encendido' },
-  ],
-}
 
 /** Papeles de pista que tienen color propio en el piano roll. */
 export const COLORES_DE_PISTA = ['pista-melodia', 'pista-contramelodia', 'pista-armonia', 'pista-colchon', 'pista-bajo', 'pista-percusion', 'pista-efecto'] as const
@@ -106,14 +92,14 @@ export interface Medida extends Pareja {
   cumple: boolean
 }
 
-/** Mide todas las parejas de una dirección en un esquema. Lanza un error si falta algún color. */
-export function medir(colores: Colores, direccion: string): Medida[] {
+/** Mide todas las parejas en un esquema. Lanza un error si falta algún color. */
+export function medir(colores: Colores): Medida[] {
   const color = (nombre: string): string => {
     const valor = colores[nombre]
     if (!valor) throw new Error(`Falta el color --${nombre}.`)
     return valor
   }
-  const medidas: Medida[] = [...PAREJAS, ...(PAREJAS_PROPIAS[direccion] ?? [])].map((pareja) => {
+  const medidas: Medida[] = PAREJAS.map((pareja) => {
     const valor = contraste(color(pareja.sobre), color(pareja.fondo))
     return { ...pareja, valor, cumple: valor >= pareja.minimo }
   })

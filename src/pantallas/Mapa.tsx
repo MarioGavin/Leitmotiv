@@ -1,12 +1,10 @@
 import { use, useEffect, useMemo, useState } from 'react'
-import { useAjustes } from '../app/ajustes.ts'
 import { leerIndice } from '../app/contenido.ts'
 import { navegar } from '../app/rutas.ts'
 import { sonar } from '../audio/audio.ts'
 import { Boton } from '../ui/Boton.tsx'
 import { Marco } from '../ui/Marco.tsx'
-import { MapaCartucho } from '../ui/direcciones/cartucho/MapaCartucho.tsx'
-import { MapaVinilo } from '../ui/direcciones/vinilo/MapaVinilo.tsx'
+import { MapaDelMundo } from '../ui/mapa/MapaDelMundo.tsx'
 import { nodosDelCurso } from '../ui/mapa/nodos.ts'
 
 function plural(cantidad: number, uno: string, varios: string): string {
@@ -16,7 +14,6 @@ function plural(cantidad: number, uno: string, varios: string): string {
 /** Mapa del curso: un punto por mundo. Al elegir uno, la ventana de abajo dice qué hay y deja entrar. */
 export function Mapa() {
   const indice = use(leerIndice())
-  const direccion = useAjustes((a) => a.direccion)
   const nodos = useMemo(() => nodosDelCurso(indice), [indice])
   const [elegido, setElegido] = useState(() => nodos.find((n) => n.estado === 'abierto')?.id ?? nodos[0]?.id ?? '')
   const nodo = nodos.find((n) => n.id === elegido) ?? nodos[0]
@@ -34,12 +31,10 @@ export function Mapa() {
     setElegido(id)
   }
 
-  const VistaDeMapa = direccion === 'cartucho' ? MapaCartucho : MapaVinilo
-
   return (
-    <main className={`pantalla pantalla--mapa pantalla--mapa-${direccion}`}>
+    <main className="pantalla pantalla--mapa">
       <h1 className="solo-lectores">Mapa del curso</h1>
-      <VistaDeMapa nodos={nodos} elegido={elegido} alElegir={elegir} />
+      <MapaDelMundo nodos={nodos} elegido={elegido} alElegir={elegir} />
       {nodo && (
         <div className="mapa__detalle" aria-live="polite">
           <Marco relleno="ajustado" rotulo={nodo.final ? 'Final del camino' : `Mundo ${nodo.numero}`}>

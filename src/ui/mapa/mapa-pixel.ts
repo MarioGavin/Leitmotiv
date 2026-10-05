@@ -1,11 +1,11 @@
 /**
- * Mapa del mundo de la dirección «Cartucho»: un mapa de RPG de 16 bits
- * generado y pintado por código, píxel a píxel.
+ * Mapa del mundo: un mapa de RPG de 16 bits generado y pintado por código,
+ * píxel a píxel.
  *
  * No hay imágenes: el terreno sale de una ruta (un nodo por mundo), un campo
  * de distancias y ruido determinista, y los árboles, montañas y casas son
- * pequeños dibujos de texto. El mismo plano se pinta con la paleta del día o
- * con la de la noche.
+ * pequeños dibujos de texto. Se pinta siempre de día, también con el esquema
+ * oscuro: el mundo conserva sus colores y son las ventanas las que oscurecen.
  */
 
 /** Lado de una tesela, en píxeles lógicos. En pantalla cada píxel lógico son 2 px de CSS. */
@@ -31,7 +31,7 @@ interface Bioma {
   radio: number
 }
 
-/** Paleta de día. La de noche se deriva de esta (ver `aNoche`). */
+/** Paleta del mapa. */
 const C = {
   mar: '#5aa9e0',
   marClaro: '#7dc0ee',
@@ -395,67 +395,36 @@ export function trazarPlano(numNodos: number): PlanoDelMapa {
 
 // ───────────────────────────── pintura ─────────────────────────────
 
-/** El mar de noche tiene sus propios colores: más oscuro que la tierra, para que la isla destaque a la luz de la luna. */
-const MAR_DE_NOCHE: Readonly<Record<string, string>> = {
-  [C.mar]: '#14285a',
-  [C.marClaro]: '#1e3a78',
-  [C.espuma]: '#4a70b8',
-  [C.costa]: '#0c1a40',
-}
-
-/** De día a noche: se oscurece y se tiñe de azul, salvo las luces. */
-function aNoche(hex: string): string {
-  const mar = MAR_DE_NOCHE[hex]
-  if (mar) return mar
-  const n = Number.parseInt(hex.slice(1), 16)
-  const r = (n >> 16) & 255
-  const g = (n >> 8) & 255
-  const b = n & 255
-  const rr = Math.round(r * 0.42 + 8)
-  const gg = Math.round(g * 0.5 + 16)
-  const bb = Math.round(b * 0.62 + 40)
-  return `rgb(${rr} ${gg} ${bb})`
-}
-
-export type MomentoDelDia = 'dia' | 'noche'
-
 /** Estado de un nodo, que decide qué edificio se dibuja encima. */
 export type EdificioDeNodo = 'casa' | 'cartel' | 'castillo'
 
 /** Pinta el mapa completo en un lienzo de `ancho × TESELA` por `alto × TESELA` píxeles. */
-export function pintarMapa(ctx: CanvasRenderingContext2D, plano: PlanoDelMapa, momento: MomentoDelDia, edificios: readonly EdificioDeNodo[]): void {
+export function pintarMapa(ctx: CanvasRenderingContext2D, plano: PlanoDelMapa, edificios: readonly EdificioDeNodo[]): void {
   const { ancho, alto, tierra, camino, bioma, adorno, nodos } = plano
   const T = TESELA
   const en = (x: number, y: number): number => y * ancho + x
   const esTierra = (x: number, y: number): boolean => x >= 0 && y >= 0 && x < ancho && y < alto && tierra[en(x, y)] === 1
   const esCamino = (x: number, y: number): boolean => x >= 0 && y >= 0 && x < ancho && y < alto && camino[en(x, y)] === 1
-  const noche = momento === 'noche'
-  const color = (hex: string): string => (noche ? aNoche(hex) : hex)
-  // Las luces (ventanas, lava, bandera) no se apagan de noche: al contrario.
-  const luz = (hex: string): string => hex
   const punto = (x: number, y: number, c: string, w = 1, h = 1): void => {
     ctx.fillStyle = c
     ctx.fillRect(x, y, w, h)
   }
-  const dibujar = (dibujo: Dibujo, colores: Colores, px: number, py: number, luces: Colores = {}): void => {
+  const dibujar = (dibujo: Dibujo, colores: Colores, px: number, py: number): void => {
     dibujo.forEach((fila, y) => {
       for (let x = 0; x < fila.length; x++) {
-        const letra = fila[x] as string
-        if (letra === '.') continue
-        const encendida = luces[letra]
-        const c = encendida ?? colores[letra]
-        if (c) punto(px + x, py + y, encendida ? luz(encendida) : color(c))
+        const c = colores[fila[x] as string]
+        if (c) punto(px + x, py + y, c)
       }
     })
   }
 
   // Mar, con algunas olas.
-  punto(0, 0, color(C.mar), ancho * T, alto * T)
+  punto(0, 0, C.mar, ancho * T, alto * T)
   for (let y = 0; y < alto; y++) {
     for (let x = 0; x < ancho; x++) {
       if (tierra[en(x, y)]) continue
       const r = azar(x, y, 11)
-      if (r < 0.16) punto(x * T + 1 + Math.floor(r * 30), y * T + 2 + Math.floor(azar(x, y, 12) * 4), color(C.marClaro), 3, 1)
+      if (r < 0.16) punto(x * T + 1 + Math.floor(r * 30), y * T + 2 + Math.floor(azar(x, y, 12) * 4), C.marClaro, 3, 1)
     }
   }
 
@@ -464,18 +433,18 @@ export function pintarMapa(ctx: CanvasRenderingContext2D, plano: PlanoDelMapa, m
     for (let x = 0; x < ancho; x++) {
       const i = en(x, y)
       if (!tierra[i]) {
-        if (esTierra(x, y - 1)) punto(x * T, y * T, color(C.costa), T, 2)
+        if (esTierra(x, y - 1)) punto(x * T, y * T, C.costa, T, 2)
         continue
       }
       const b = DATOS_DE_BIOMA[BIOMAS[bioma[i] as number] as NombreDeBioma]
-      punto(x * T, y * T, color(b.suelo[0]), T, T)
+      punto(x * T, y * T, b.suelo[0], T, T)
       for (let k = 0; k < 3; k++) {
         const r = azar(x * 3 + k, y, 21)
-        if (r < 0.5) punto(x * T + Math.floor(azar(x, y, 30 + k) * 7), y * T + Math.floor(azar(x, y, 40 + k) * 7), color(r < 0.25 ? b.suelo[1] : b.suelo[2]), r < 0.12 ? 2 : 1, 1)
+        if (r < 0.5) punto(x * T + Math.floor(azar(x, y, 30 + k) * 7), y * T + Math.floor(azar(x, y, 40 + k) * 7), r < 0.25 ? b.suelo[1] : b.suelo[2], r < 0.12 ? 2 : 1, 1)
       }
-      if (!esTierra(x, y - 1)) punto(x * T, y * T, color(C.espuma), T, 1)
-      if (!esTierra(x - 1, y)) punto(x * T, y * T, color(C.espuma), 1, T)
-      if (!esTierra(x + 1, y)) punto(x * T + T - 1, y * T, color(C.espuma), 1, T)
+      if (!esTierra(x, y - 1)) punto(x * T, y * T, C.espuma, T, 1)
+      if (!esTierra(x - 1, y)) punto(x * T, y * T, C.espuma, 1, T)
+      if (!esTierra(x + 1, y)) punto(x * T + T - 1, y * T, C.espuma, 1, T)
     }
   }
 
@@ -486,18 +455,18 @@ export function pintarMapa(ctx: CanvasRenderingContext2D, plano: PlanoDelMapa, m
       const px = x * T
       const py = y * T
       if (tierra[en(x, y)]) {
-        punto(px, py, color(C.camino), T, T)
-        if (!esCamino(x, y - 1)) punto(px, py, color(C.caminoBorde), T, 1)
-        if (!esCamino(x, y + 1)) punto(px, py + T - 1, color(C.caminoBorde), T, 1)
-        if (!esCamino(x - 1, y)) punto(px, py, color(C.caminoBorde), 1, T)
-        if (!esCamino(x + 1, y)) punto(px + T - 1, py, color(C.caminoBorde), 1, T)
-        if (azar(x, y, 51) < 0.4) punto(px + 2 + Math.floor(azar(x, y, 52) * 4), py + 2 + Math.floor(azar(x, y, 53) * 4), color(C.caminoBorde))
+        punto(px, py, C.camino, T, T)
+        if (!esCamino(x, y - 1)) punto(px, py, C.caminoBorde, T, 1)
+        if (!esCamino(x, y + 1)) punto(px, py + T - 1, C.caminoBorde, T, 1)
+        if (!esCamino(x - 1, y)) punto(px, py, C.caminoBorde, 1, T)
+        if (!esCamino(x + 1, y)) punto(px + T - 1, py, C.caminoBorde, 1, T)
+        if (azar(x, y, 51) < 0.4) punto(px + 2 + Math.floor(azar(x, y, 52) * 4), py + 2 + Math.floor(azar(x, y, 53) * 4), C.caminoBorde)
       } else {
         const vertical = esCamino(x, y - 1) || esCamino(x, y + 1)
-        punto(px, py, color(C.tronco), T, T)
+        punto(px, py, C.tronco, T, T)
         for (let k = 1; k < T; k += 2) {
-          if (vertical) punto(px + 1, py + k, color(C.camino), T - 2, 1)
-          else punto(px + k, py + 1, color(C.camino), 1, T - 2)
+          if (vertical) punto(px + 1, py + k, C.camino, T - 2, 1)
+          else punto(px + k, py + 1, C.camino, 1, T - 2)
         }
       }
     }
@@ -509,7 +478,7 @@ export function pintarMapa(ctx: CanvasRenderingContext2D, plano: PlanoDelMapa, m
       const a = adorno[en(x, y)] as number
       if (a === 0) continue
       const { dibujo, colores } = DIBUJOS[ADORNOS[a - 1] as Adorno]
-      dibujar(dibujo, colores, x * T, y * T, noche ? { W: C.bandera } : {})
+      dibujar(dibujo, colores, x * T, y * T)
     }
   }
 
@@ -519,9 +488,9 @@ export function pintarMapa(ctx: CanvasRenderingContext2D, plano: PlanoDelMapa, m
     const py = (nodo.y - 2) * T
     const edificio = edificios[i] ?? 'cartel'
     if (edificio === 'casa') {
-      dibujar(CASA, { o: C.contorno, T: C.tejado, P: C.pared, W: C.ventana, d: C.puerta }, px, py, noche ? { W: C.bandera } : {})
+      dibujar(CASA, { o: C.contorno, T: C.tejado, P: C.pared, W: C.ventana, d: C.puerta }, px, py)
     } else if (edificio === 'castillo') {
-      dibujar(CASTILLO, { o: C.contorno, S: C.piedra, D: C.piedraOscura, W: C.ventana, d: C.puerta, B: C.bandera }, px, py, noche ? { W: C.bandera, B: C.bandera } : { B: C.tejado })
+      dibujar(CASTILLO, { o: C.contorno, S: C.piedra, D: C.piedraOscura, W: C.ventana, d: C.puerta, B: C.tejado }, px, py)
     } else {
       dibujar(CARTEL, { o: C.contorno, M: C.camino, m: C.caminoBorde }, px, py)
     }

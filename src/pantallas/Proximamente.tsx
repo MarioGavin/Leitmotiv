@@ -19,7 +19,7 @@ export function Proximamente({ titulo, descripcion, children }: Props) {
         <Marco rotulo="En construcción">
           <div className="pila">
             <p>{descripcion}</p>
-            <p className="suave">Esta sección se construye en el Tramo B de la Fase 1, después de elegir la dirección visual.</p>
+            <p className="suave">Esta sección se construye en el Tramo B de la Fase 1.</p>
           </div>
         </Marco>
         {children}

@@ -1,4 +1,4 @@
-/** Iconos disponibles. Cada dirección visual dibuja su propio juego con estos mismos nombres. */
+/** Iconos disponibles. Sus dibujos están en dibujos.ts. */
 export const NOMBRES_DE_ICONO = [
   'cursor',
   'reproducir',

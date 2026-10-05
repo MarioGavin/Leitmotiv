@@ -10,14 +10,14 @@ La Fase 1 se hace en dos tramos, cada uno con su parada:
 
 | | Qué incluye | Estado |
 | --- | --- | --- |
-| **Tramo A** | Investigación, andamiaje, formato del contenido, audio base, sistema de diseño con dos direcciones sobre pantallas reales | **Hecho.** En la Parada 1 |
-| **Tramo B** | Motor completo, los siete ejercicios, progreso y repaso, todas las pantallas, contenido del Mundo 0 y dos lecciones del Mundo 1 | Sin empezar |
+| **Tramo A** | Investigación, andamiaje, formato del contenido, audio base, sistema de diseño con dos direcciones sobre pantallas reales | **Hecho** |
+| **Tramo B** | Motor completo, los siete ejercicios, progreso y repaso, todas las pantallas, contenido del Mundo 0 y dos lecciones del Mundo 1 | En curso |
 
 ### Qué espera a Mario (Parada 1)
 
-1. **Elegir dirección visual**: «Cartucho» o «Vinilo». Se comparan en `docs/diseno/` y en la app (Ajustes → Dirección visual). Hasta que elija conviven las dos, y no se construyen pantallas nuevas.
-2. **Crear el repositorio en GitHub, activar Pages y hacer el primer push**. Los pasos están en el README. Desde las sesiones de trabajo no ha habido acceso de escritura a GitHub.
-3. **Probar en el móvil** la instalación y el audio, con la lista de AUDIO_REVIEW.md. Lo que encuentre pasa a «Problemas conocidos».
+1. ~~Elegir dirección visual.~~ **Hecho**: una mezcla, descrita al principio de DESIGN.md.
+2. ~~Crear el repositorio en GitHub y hacer el primer push.~~ **Hecho**: `MarioGavin/Leitmotiv`. Desde las sesiones de trabajo no hay acceso a GitHub: no se ha podido ver si los flujos de Actions han pasado.
+3. **Probar en el móvil** la instalación y el audio, con la lista de AUDIO_REVIEW.md. Todavía no lo ha hecho. Lo que encuentre pasa a «Problemas conocidos».
 4. Decidir si el repositorio lleva licencia. Ahora no tiene ninguna.
 
 ## Hecho
@@ -44,14 +44,14 @@ Todo lo de esta lista se ha ejecutado y pasa: `npm run check` (252 pruebas unita
 - Un solo `AudioContext`; arranque con el primer gesto; suspensión al pasar a segundo plano y reanudación al volver.
 - Cuatro instrumentos muestreados (piano, sección de cuerda, bajo eléctrico y batería) construidos desde bancos en dominio público o CC0, con la afinación corregida y los niveles igualados: 76 muestras, 2,1 MB. Dos instrumentos de chip sintetizados (pulso y triangular).
 - Reproductor de piezas: bucle, cambio de tempo y de tono en marcha, silenciar pistas, posición para el cabezal.
-- Siete sonidos de interfaz derivados del motivo La-Mi-Si-Mi, con un timbre por dirección visual.
+- Siete sonidos de interfaz derivados del motivo La-Mi-Si-Mi, con dos timbres a elegir.
 - Descarga de cada instrumento la primera vez que suena, guardado en el dispositivo y resto del banco en segundo plano.
 - Render sin altavoces y medidas automáticas de afinación, tiempos, niveles y sonoridad.
 - Pantalla de diagnóstico de audio.
 
 **Interfaz**
 
-- Sistema de diseño (DESIGN.md) con dos direcciones completas, cada una en claro y en oscuro: tipografías, marcos, 28 iconos propios por dirección, mapa y timbre.
+- Sistema de diseño (DESIGN.md) con un tema en claro y en oscuro: tipografías, marcos de píxeles, 28 iconos propios y mapa del mundo.
 - Componentes: marco, botón, opciones con cursor, diálogo, avance, cabecera, navegación, conmutador, deslizador, vista de pieza, ejemplo sonoro y rollo de piano.
 - Pantallas: título, mapa del mundo, mundo, lección (pasos de teoría y de oído con preguntas, pista, corrección, repetición de la pregunta fallada y final), piano roll de prueba, ajustes, diagnóstico y muestrario.
 - Contraste AA medido en los cuatro esquemas y tamaño de los controles medido en ocho pantallas, las dos cosas con prueba automática. Otra prueba vigila que ningún título recortado pierda las tildes.
@@ -63,10 +63,6 @@ Todo lo de esta lista se ha ejecutado y pasa: `npm run check` (252 pruebas unita
 - Funciona sin conexión en las pruebas automáticas: carga, navegación, contenido de una lección y sonido de un instrumento ya usado.
 
 ## Pendiente
-
-### Al elegir dirección
-
-Seguir «Después de elegir» en DESIGN.md: borrar la dirección descartada, sus tipografías y su hoja de capturas, y actualizar CREDITS.md. Si se elige «Vinilo», regenerar los iconos de la app y el color del tema.
 
 ### Tramo B, en este orden
 
@@ -92,7 +88,6 @@ Seguir «Después de elegir» en DESIGN.md: borrar la dirección descartada, sus
 - **No se guarda nada del progreso.** Completar una lección no deja rastro, y lo que se edita en el piano roll se pierde al salir.
 - **El piano roll es una prueba de diseño.** Abre siempre la misma pieza. Tocar una casilla pone una nota del tamaño de la rejilla y tocar una nota la quita; no hay arrastre, ni deshacer, ni ampliación. Editar mientras suena detiene la reproducción. No se puede usar con teclado ni con lector de pantalla. Sus casillas miden 28 px.
 - Repaso, Repertorio y Glosario son pantallas provisionales.
-- Mientras convivan las dos direcciones, la app descarga las hojas de estilo y las tipografías de ambas.
 
 **Audio** (medido, pendiente de juzgar de oído: AUDIO_REVIEW.md)
 
@@ -133,4 +128,4 @@ npm run audio:check               # 56 comprobaciones; necesita ffmpeg
 npm run dev
 ```
 
-Después: leer CLAUDE.md, mirar el estado de la Parada 1 con Mario (dirección elegida, lo que haya oído y probado en el móvil) y seguir por «Pendiente».
+Después: leer CLAUDE.md, preguntar a Mario qué ha oído y probado en el móvil, y seguir por «Pendiente».

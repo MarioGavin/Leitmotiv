@@ -13,7 +13,7 @@ import { NOMBRES_DE_ICONO } from '../ui/iconos/nombres.ts'
 
 /**
  * Muestrario del sistema de diseño: todos los componentes en sus estados,
- * para juzgar una dirección visual de un vistazo. Lo describe DESIGN.md.
+ * para juzgar el aspecto de un vistazo. Lo describe DESIGN.md.
  */
 export function Muestrario() {
   const [opcion, setOpcion] = useState<string | undefined>('3M')

@@ -26,13 +26,26 @@ test('el mapa enseña los once mundos y el proyecto final, y solo deja entrar en
   await expect(page.getByRole('heading', { name: 'Pulso y compás' })).toBeVisible()
 })
 
-test('el aspecto elegido se recuerda al volver a abrir la app', async ({ page }) => {
+test('el esquema de color elegido se recuerda al volver a abrir la app', async ({ page }) => {
   await page.goto('./#/ajustes')
-  await page.getByRole('button', { name: 'Vinilo' }).click()
   await page.getByRole('button', { name: 'Claro' }).click()
-  await expect(page.locator('html')).toHaveAttribute('data-direccion', 'vinilo')
   await expect(page.locator('html')).toHaveAttribute('data-esquema', 'claro')
   await page.reload()
-  await expect(page.locator('html')).toHaveAttribute('data-direccion', 'vinilo')
   await expect(page.locator('html')).toHaveAttribute('data-esquema', 'claro')
+  await page.getByRole('button', { name: 'Oscuro' }).click()
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-esquema', 'oscuro')
+})
+
+test('unos ajustes guardados por la versión anterior siguen valiendo', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (localStorage.getItem('leitmotiv-ajustes') === null) {
+      localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { direccion: 'vinilo', esquema: 'claro', nomenclatura: 'anglosajona', sonidosDeInterfaz: true }, version: 1 }))
+    }
+  })
+  await page.goto('./#/ajustes')
+  await expect(page.locator('html')).toHaveAttribute('data-esquema', 'claro')
+  await expect(page.getByRole('button', { name: 'C D E' })).toHaveAttribute('aria-pressed', 'true')
+  // Quien tenía la dirección «Vinilo» conserva su timbre de campana.
+  await expect(page.getByRole('button', { name: 'Campana' })).toHaveAttribute('aria-pressed', 'true')
 })

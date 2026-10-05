@@ -11,7 +11,7 @@ import { dbAGanancia } from './niveles.ts'
 
 export type SonidoDeInterfaz = 'inicio' | 'cursor' | 'aceptar' | 'atras' | 'acierto' | 'fallo' | 'completar'
 
-/** Timbre de los sonidos: lo fija la dirección visual. */
+/** Timbre de los sonidos: se elige en los ajustes. */
 export type TimbreDeInterfaz = 'chip' | 'campana'
 
 /** El motivo: La4, Mi5, Si4, Mi5. */

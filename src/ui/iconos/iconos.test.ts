@@ -1,13 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { LADO, MAPAS_DE_BITS, trazadoDe } from '../direcciones/cartucho/iconos.ts'
-import { FORMAS } from '../direcciones/vinilo/iconos.tsx'
+import { LADO, MAPAS_DE_BITS, trazadoDe } from './dibujos.ts'
 import { NOMBRES_DE_ICONO } from './nombres.ts'
 
 describe('iconos', () => {
-  it('las dos direcciones dibujan exactamente los mismos iconos', () => {
-    const esperados = [...NOMBRES_DE_ICONO].sort()
-    expect(Object.keys(MAPAS_DE_BITS).sort()).toEqual(esperados)
-    expect(Object.keys(FORMAS).sort()).toEqual(esperados)
+  it('hay un dibujo para cada nombre, y ninguno de más', () => {
+    expect(Object.keys(MAPAS_DE_BITS).sort()).toEqual([...NOMBRES_DE_ICONO].sort())
   })
 
   it.each(NOMBRES_DE_ICONO)('el mapa de bits de «%s» mide 12 × 12 y solo usa «.» y «#»', (nombre) => {

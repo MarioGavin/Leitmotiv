@@ -19,6 +19,9 @@ informes/capturas
 *.log
 npm-debug.log*
 
+# Lo que la app de Claude deja en la carpeta del proyecto
+Claude outputs
+
 # Editores y sistema
 .vscode/*
 !.vscode/extensions.json

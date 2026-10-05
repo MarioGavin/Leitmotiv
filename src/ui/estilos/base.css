@@ -1,44 +1,9 @@
 /*
  * Base del sistema de diseño de Leitmotiv: fuentes, escalas y estructura común.
- * Los colores y el carácter de cada dirección visual están en cartucho.css y
- * vinilo.css. La descripción completa está en DESIGN.md.
+ * Los colores y el aspecto están en tema.css. La descripción completa, en DESIGN.md.
  */
 
-/* ── Fuentes (licencia OFL 1.1, alojadas en la propia app; ver CREDITS.md) ──
- * Cada dirección visual usa las suyas; el navegador solo descarga las que hacen falta.
- */
-@font-face {
-  font-family: 'Jersey 10';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../../node_modules/@fontsource/jersey-10/files/jersey-10-latin-400-normal.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Jersey 15';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../../node_modules/@fontsource/jersey-15/files/jersey-15-latin-400-normal.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Atkinson Hyperlegible Next';
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url('../../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Atkinson Hyperlegible Next';
-  font-style: italic;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url('../../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-italic.woff2') format('woff2');
-}
-
+/* ── Fuentes (licencia OFL 1.1, alojadas en la propia app; ver CREDITS.md) ── */
 @font-face {
   font-family: 'Big Shoulders Display';
   font-style: normal;
@@ -68,16 +33,6 @@
  * El rango Unicode hace que solo se usen para esos tres caracteres, vayan donde
  * vayan en la lista de fuentes.
  */
-@font-face {
-  font-family: 'Leitmotiv Signos Pixel';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: block;
-  src: url('../fuentes/leitmotiv-signos-pixel.otf') format('opentype');
-  /* Además de los signos musicales, las voladitas de los ordinales (2.ª), que en Jersey no vuelan. */
-  unicode-range: U+00AA, U+00BA, U+266D-266F;
-}
-
 @font-face {
   font-family: 'Leitmotiv Signos';
   font-style: normal;
@@ -113,7 +68,7 @@
   /* Estructura de pantalla. */
   --ancho-app: 480px;
   --alto-cabecera: 56px;
-  /* Alto de la navegación principal; cada dirección pone el suyo. */
+  /* Alto de la navegación principal; el tema pone el suyo. */
   --alto-navegacion: 64px;
   --margen: var(--e-4);
 
