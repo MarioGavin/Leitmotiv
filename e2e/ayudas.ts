@@ -42,6 +42,6 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
 /** Deja elegido un esquema de color antes de que la app arranque. */
 export async function elegirEsquema(pagina: Page, esquema: string): Promise<void> {
   await pagina.addInitScript((e) => {
-    localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip' }, version: 2 }))
+    localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip', latenciaMs: 0 }, version: 3 }))
   }, esquema)
 }

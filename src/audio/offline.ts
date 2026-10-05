@@ -4,11 +4,28 @@
  * servirá para exportar las piezas del usuario.
  */
 import { Gain, Limiter, OfflineContext } from 'tone'
-import { type Pieza, duracionEnTicks } from '../musica/pieza.ts'
+import type { IdInstrumento } from '../musica/instrumentos.ts'
+import { type Nota, type Pieza, duracionEnTicks } from '../musica/pieza.ts'
+import type { PlanDeRitmo } from '../musica/ritmo.ts'
 import { ticksASegundos } from '../musica/tiempo.ts'
 import { NIVEL_MUSICA_DB, UMBRAL_LIMITADOR_DB, dbAGanancia } from './niveles.ts'
-import { crearReproductor } from './reproductor.ts'
-import type { EntornoDeAudio } from './voces.ts'
+import { type Cuando, type Reproductor, crearReproductor } from './reproductor.ts'
+import { programarRitmo } from './ritmo.ts'
+import { type EntornoDeAudio, crearVoz } from './voces.ts'
+
+/** Algo que se le pide al reproductor durante un render, para comprobar sin altavoces lo que en la app ocurre al tocar. */
+export type AccionDeGuion =
+  | { tipo: 'capas'; activas: string[]; cuando?: Cuando; fundido?: number }
+  | { tipo: 'seccion'; seccion?: string; cuando?: Cuando }
+  | { tipo: 'notas'; pista: string; notas: Nota[] }
+  | { tipo: 'instrumento'; pista: string; instrumento: IdInstrumento }
+  | { tipo: 'tempo'; tempo: number }
+
+export interface PasoDeGuion {
+  /** Segundos desde el principio del render. */
+  en: number
+  accion: AccionDeGuion
+}
 
 export interface OpcionesDeRender {
   frecuenciaDeMuestreo?: number
@@ -20,16 +37,53 @@ export interface OpcionesDeRender {
   nivelDb?: number
   /** Si es `false`, el render no pasa por el limitador: sirve para medir los picos reales. */
   limitador?: boolean
+  /** Segundos que se renderizan, sin mirar lo que dura la pieza: un bucle sigue dando vueltas hasta entonces. */
+  duracion?: number
+  /** Acciones que se hacen antes de empezar a sonar. */
+  antes?: AccionDeGuion[]
+  /** Acciones que se hacen mientras suena. */
+  guion?: PasoDeGuion[]
+}
+
+function ejecutar(reproductor: Reproductor, accion: AccionDeGuion): void {
+  switch (accion.tipo) {
+    case 'capas':
+      reproductor.fijarCapas(accion.activas, { ...(accion.cuando ? { cuando: accion.cuando } : {}), ...(accion.fundido === undefined ? {} : { fundido: accion.fundido }) })
+      break
+    case 'seccion':
+      reproductor.irASeccion(accion.seccion, accion.cuando)
+      break
+    case 'notas':
+      reproductor.fijarNotas(accion.pista, accion.notas)
+      break
+    case 'instrumento':
+      void reproductor.fijarInstrumento(accion.pista, accion.instrumento)
+      break
+    case 'tempo':
+      reproductor.fijarTempo(accion.tempo)
+      break
+  }
+}
+
+function contextoOffline(segundos: number, sr: number): EntornoDeAudio & { tone: OfflineContext } {
+  const nativo = new OfflineAudioContext(2, Math.ceil(segundos * sr), sr)
+  const tone = new OfflineContext(nativo as unknown as ConstructorParameters<typeof OfflineContext>[0])
+  return { tone, nativo, offline: true }
+}
+
+async function renderizar(tone: OfflineContext): Promise<AudioBuffer> {
+  const buffer = (await tone.render()).get()
+  if (!buffer) throw new Error('El render no ha producido audio.')
+  return buffer
 }
 
 export async function renderizarPieza(pieza: Pieza, opciones: OpcionesDeRender = {}): Promise<AudioBuffer> {
   const sr = opciones.frecuenciaDeMuestreo ?? 48000
   const vueltas = Math.max(1, opciones.vueltas ?? 1)
   const duracionMusical = ticksASegundos(duracionEnTicks(pieza), pieza.tempo) * vueltas
-  const total = duracionMusical + (opciones.cola ?? 1.5)
-  const nativo = new OfflineAudioContext(2, Math.ceil(total * sr), sr)
-  const tone = new OfflineContext(nativo as unknown as ConstructorParameters<typeof OfflineContext>[0])
-  const entorno: EntornoDeAudio = { tone, nativo, offline: true }
+  const total = opciones.duracion ?? duracionMusical + (opciones.cola ?? 1.5)
+  const entorno = contextoOffline(total, sr)
+  const { tone } = entorno
 
   const bus = new Gain({ context: tone, gain: dbAGanancia(opciones.nivelDb ?? NIVEL_MUSICA_DB) })
   if (opciones.limitador === false) {
@@ -38,16 +92,29 @@ export async function renderizarPieza(pieza: Pieza, opciones: OpcionesDeRender =
     bus.chain(new Limiter({ context: tone, threshold: UMBRAL_LIMITADOR_DB }), tone.destination)
   }
 
-  const reproductor = await crearReproductor(pieza, entorno, bus, { bucle: vueltas > 1 })
-  if (vueltas > 1) {
+  const reproductor = await crearReproductor(pieza, entorno, bus, opciones.duracion === undefined ? { bucle: vueltas > 1 } : {})
+  if (opciones.duracion === undefined && vueltas > 1) {
     // Al acabar la última vuelta se detiene, para que la cola sea solo la de las notas.
     tone.transport.schedule((tiempo) => tone.transport.stop(tiempo), duracionMusical)
   }
+  for (const accion of opciones.antes ?? []) ejecutar(reproductor, accion)
+  // El reloj del contexto offline también hace correr los temporizadores de Tone.js.
+  for (const paso of opciones.guion ?? []) tone.setTimeout(() => ejecutar(reproductor, paso.accion), paso.en)
   reproductor.reproducir(0)
-  const resultado = await tone.render()
+  const buffer = await renderizar(tone)
   reproductor.liberar()
-  const buffer = resultado.get()
-  if (!buffer) throw new Error('El render no ha producido audio.')
+  return buffer
+}
+
+/** Renderiza lo que suena en un ejercicio de ritmo. El plan empieza en el segundo `inicio`. */
+export async function renderizarRitmo(plan: PlanDeRitmo, opciones: { frecuenciaDeMuestreo?: number; inicio?: number } = {}): Promise<AudioBuffer> {
+  const inicio = opciones.inicio ?? 0.5
+  const entorno = contextoOffline(inicio + plan.duracion + 1, opciones.frecuenciaDeMuestreo ?? 48000)
+  const bateria = await crearVoz('bateria', entorno)
+  bateria.salida.toDestination()
+  programarRitmo(plan, bateria, inicio)
+  const buffer = await renderizar(entorno.tone)
+  bateria.liberar()
   return buffer
 }
 

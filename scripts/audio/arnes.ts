@@ -1,6 +1,6 @@
 // Página de apoyo para `npm run audio:check`: expone el render offline del motor
 // a Playwright. No forma parte de la app publicada.
-import { aWav, renderizarPieza } from '../../src/audio/offline.ts'
+import { aWav, renderizarPieza, renderizarRitmo } from '../../src/audio/offline.ts'
 
 function aBase64(bytes: ArrayBuffer): string {
   const u8 = new Uint8Array(bytes)
@@ -10,3 +10,4 @@ function aBase64(bytes: ArrayBuffer): string {
 }
 
 window.renderizar = async (pieza, opciones) => aBase64(aWav(await renderizarPieza(pieza, opciones)))
+window.renderizarRitmo = async (plan, opciones) => aBase64(aWav(await renderizarRitmo(plan, opciones)))

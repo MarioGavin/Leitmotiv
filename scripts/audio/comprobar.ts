@@ -15,9 +15,12 @@ import path from 'node:path'
 import { promisify } from 'node:util'
 import { chromium } from '@playwright/test'
 import { createServer } from 'vite'
-import type { Leccion, Paso, TerminoDeGlosario } from '../../src/contenido/tipos.ts'
+import type { OpcionesDeRender, PasoDeGuion } from '../../src/audio/offline.ts'
+import type { BloqueDePrueba, Ficha, Leccion, Paso, TerminoDeGlosario } from '../../src/contenido/tipos.ts'
 import { INSTRUMENTOS, type IdInstrumento, type Instrumento } from '../../src/musica/instrumentos.ts'
-import type { Pieza } from '../../src/musica/pieza.ts'
+import { azarConSemilla, generarPreguntas } from '../../src/musica/oido.ts'
+import type { Nota, Pieza } from '../../src/musica/pieza.ts'
+import { type PlanDeRitmo, planDeRitmo } from '../../src/musica/ritmo.ts'
 import { SR, aDb, detectarTono, detectarTonoAgudo, midiAHz, pico, rms } from '../muestras/dsp.ts'
 
 const exec = promisify(execFile)
@@ -62,20 +65,45 @@ function notaSuelta(instrumento: IdInstrumento, nota: number, velocidad = 100): 
   return { tempo: 60, compas: [4, 4], compases: 1, pistas: [{ id: 'p', rol: 'melodia', instrumento, notas: [{ t: 480, d: 960, n: nota, v: velocidad }] }] }
 }
 
-/** Todas las piezas que aparecen en una lección compilada, con un nombre que diga dónde están. */
-function piezasDe(leccion: Leccion): Array<{ nombre: string; pieza: Pieza }> {
-  const salida: Array<{ nombre: string; pieza: Pieza }> = []
+interface PiezaConNombre {
+  nombre: string
+  pieza: Pieza
+}
+
+/** Todas las piezas que pueden sonar en unos pasos, con un nombre que diga dónde están. */
+function piezasDe(origen: string, pasos: readonly Paso[]): PiezaConNombre[] {
+  const salida: PiezaConNombre[] = []
   const anotar = (nombre: string, pieza: Pieza | undefined): void => {
-    if (pieza && pieza.pistas.some((p) => p.notas.length > 0)) salida.push({ nombre: `${leccion.id} ${nombre}`, pieza })
+    if (pieza && pieza.pistas.some((p) => p.notas.length > 0)) salida.push({ nombre: `${origen} ${nombre}`, pieza })
   }
-  leccion.pasos.forEach((paso: Paso, i) => {
+  pasos.forEach((paso, i) => {
     const n = `paso ${i + 1} (${paso.tipo})`
     if (paso.tipo === 'teoria') anotar(n, paso.ejemplo)
     else if (paso.tipo === 'oido' && paso.modo === 'preguntas') paso.preguntas.forEach((q, k) => anotar(`${n} pregunta ${k + 1}`, q.pieza))
-    else if (paso.tipo === 'construccion' || paso.tipo === 'analisis' || paso.tipo === 'capas') anotar(n, paso.pieza)
+    else if (paso.tipo === 'oido') {
+      // Las preguntas de estos modos salen al azar: se comprueban dos tandas de muestra, siempre las mismas.
+      const preguntas = [...generarPreguntas(paso, 'latina', azarConSemilla(1)), ...generarPreguntas(paso, 'latina', azarConSemilla(2))]
+      const vistas = new Set<number>()
+      for (const q of preguntas) {
+        if (vistas.has(q.correcta)) continue
+        vistas.add(q.correcta)
+        anotar(`${n} ${paso.modo} «${q.opciones[q.correcta] ?? ''}»`, q.pieza)
+      }
+    } else if (paso.tipo === 'construccion' && paso.modo === 'completar-melodia') {
+      // Suena la pieza con cada una de las opciones puesta en el hueco.
+      paso.opciones.forEach((opcion, k) => {
+        anotar(`${n} opción ${k + 1}`, { ...paso.pieza, pistas: paso.pieza.pistas.map((p) => (p.id === paso.hueco.pista ? { ...p, notas: [...p.notas, ...opcion.notas] } : p)) })
+      })
+    } else if (paso.tipo === 'construccion' || paso.tipo === 'analisis' || paso.tipo === 'capas') anotar(n, paso.pieza)
     else if (paso.tipo === 'pianoroll' || paso.tipo === 'encargo') anotar(n, paso.plantilla)
   })
   return salida
+}
+
+/** Onda triangular con una redonda por compás: afinación limpia y entrada exacta, para medir. */
+function redondas(alturas: readonly number[], extra: Partial<Pieza> = {}, capa?: string): Pieza {
+  const notas: Nota[] = alturas.map((n, i) => ({ t: i * 1920, d: 1920, n, v: 100 }))
+  return { tempo: 120, compas: [4, 4], compases: alturas.length, pistas: [{ id: 'p', rol: 'melodia', instrumento: 'chip-triangulo', ...(capa === undefined ? {} : { capa }), notas }], ...extra }
 }
 
 async function principal(): Promise<void> {
@@ -93,12 +121,17 @@ async function principal(): Promise<void> {
 
   const medidas: Medida[] = []
   let indice = 0
-  const renderizar = async (nombre: string, pieza: Pieza, opciones: Record<string, unknown> = {}) => {
-    const base64 = await pagina.evaluate(([p, o]) => window.renderizar(p as Pieza, o as never), [pieza, opciones] as const)
+  const guardar = (nombre: string, base64: string) => {
     const bytes = Buffer.from(base64, 'base64')
     const archivo = path.join(TMP, `${String(indice++).padStart(3, '0')}-${nombre.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.wav`)
     writeFileSync(archivo, bytes)
     return { ...leerWav(bytes), archivo }
+  }
+  const renderizar = async (nombre: string, pieza: Pieza, opciones: OpcionesDeRender = {}) => {
+    return guardar(nombre, await pagina.evaluate(([p, o]) => window.renderizar(p as Pieza, o as OpcionesDeRender), [pieza, opciones] as const))
+  }
+  const renderizarRitmo = async (nombre: string, plan: PlanDeRitmo, inicio: number) => {
+    return guardar(nombre, await pagina.evaluate(([p, i]) => window.renderizarRitmo(p as PlanDeRitmo, { inicio: i as number }), [plan, inicio] as const))
   }
 
   // ── 1. Cada instrumento afinado suena a la altura pedida y entra a tiempo ──
@@ -161,12 +194,21 @@ async function principal(): Promise<void> {
   }
 
   // ── 4. Los ejemplos del contenido: ni saturan ni quedan en silencio, y se anota su sonoridad ──
-  const dirLecciones = path.join(RAIZ, 'public/content/lecciones')
-  const piezas: Array<{ nombre: string; pieza: Pieza }> = []
-  for (const f of readdirSync(dirLecciones).sort()) piezas.push(...piezasDe(JSON.parse(readFileSync(path.join(dirLecciones, f), 'utf8')) as Leccion))
-  for (const t of JSON.parse(readFileSync(path.join(RAIZ, 'public/content/glosario.json'), 'utf8')) as TerminoDeGlosario[]) {
+  const leerJson = <T>(...ruta: string[]): T => JSON.parse(readFileSync(path.join(RAIZ, 'public/content', ...ruta), 'utf8')) as T
+  const piezas: PiezaConNombre[] = []
+  for (const f of readdirSync(path.join(RAIZ, 'public/content/lecciones')).sort()) {
+    const leccion = leerJson<Leccion>('lecciones', f)
+    piezas.push(...piezasDe(leccion.id, leccion.pasos))
+  }
+  for (const t of leerJson<TerminoDeGlosario[]>('glosario.json')) {
     if (t.ejemplo) piezas.push({ nombre: `glosario ${t.id}`, pieza: t.ejemplo })
   }
+  for (const ficha of leerJson<Ficha[]>('fichas.json')) {
+    ficha.bloques.forEach((bloque, i) => {
+      if (bloque.ejemplo) piezas.push({ nombre: `ficha ${ficha.id} bloque ${i + 1}`, pieza: bloque.ejemplo })
+    })
+  }
+  for (const bloque of leerJson<BloqueDePrueba[]>('prueba-de-nivel.json')) piezas.push(...piezasDe(`prueba de nivel ${bloque.unidad}`, bloque.pasos))
   for (const { nombre, pieza } of piezas) {
     const { canales, archivo } = await renderizar(nombre, pieza, { vueltas: pieza.bucle ? 2 : 1 })
     const x = canales[0] as Float32Array
@@ -180,6 +222,157 @@ async function principal(): Promise<void> {
       detalle: ok ? '' : saturadas > 0 || picoReal > -0.3 ? 'satura' : 'sonoridad fuera de margen',
       datos: { lufs: +lufs.toFixed(1), picoRealDb: +picoReal.toFixed(1), muestrasSaturadas: saturadas },
     })
+  }
+
+  // ── 5. El motor: lo que en la app ocurre al tocar un control, comprobado sobre el render ──
+  const nivel = (x: Float32Array, sr: number, desde: number, hasta: number): number => {
+    const db = aDb(rms(x, Math.round(desde * sr), Math.round(hasta * sr)))
+    return Number.isFinite(db) ? +db.toFixed(1) : -120
+  }
+  /** Nota que suena a partir de un instante: distingue un Do4 de un Sol4. */
+  const notaEn = (x: Float32Array, desde: number): number => +detectarTono(x, { minHz: 180, maxHz: 520, desdeSeg: desde, ventanaSeg: 0.3 }).midi.toFixed(1)
+  const anotar = (caso: string, ok: boolean, detalle: string, datos: Record<string, number | string>): void => {
+    medidas.push({ caso, ok, detalle: ok ? '' : detalle, datos })
+  }
+  const DO = 60
+  const SOL = 67
+  const AUDIBLE = -40
+  const CALLADO = -70
+
+  // 5a. Swing: la corchea a contratiempo se retrasa hasta el segundo tercio del pulso cuando el swing vale 1.
+  for (const [swing, esperado] of [
+    [0, 0.25],
+    [0.5, 0.25 + 0.5 / 12],
+    [1, 0.25 + 1 / 12],
+  ] as const) {
+    const pieza: Pieza = { tempo: 120, compas: [4, 4], compases: 1, swing, pistas: [{ id: 'p', rol: 'melodia', instrumento: 'chip-pulso', notas: [{ t: 240, d: 120, n: 72, v: 110 }] }] }
+    const { canales, sr } = await renderizar(`swing-${swing}`, pieza, { limitador: false })
+    const inicio = primerSonido(canales[0] as Float32Array, 0.003) / sr
+    anotar(`swing ${swing}: la corchea a contratiempo entra en ${esperado.toFixed(3)} s`, Math.abs(inicio - esperado) < 0.004, 'el swing no cae donde debe', { inicioSeg: +inicio.toFixed(4), esperadoSeg: +esperado.toFixed(4) })
+  }
+
+  // 5b. Edición en vivo: al cambiar las notas de una pista mientras suena, el compás siguiente ya es el nuevo.
+  {
+    const { canales } = await renderizar('edicion-en-vivo', redondas([DO, DO, DO, DO]), {
+      guion: [{ en: 1, accion: { tipo: 'notas', pista: 'p', notas: [0, 1, 2, 3].map((c) => ({ t: c * 1920, d: 1920, n: SOL, v: 100 })) } }],
+    })
+    const x = canales[0] as Float32Array
+    const [antes, despues, final] = [notaEn(x, 0.5), notaEn(x, 2.5), notaEn(x, 6.5)]
+    anotar('edición en vivo: las notas nuevas suenan desde el compás siguiente', antes === DO && despues === SOL && final === SOL, 'no suenan las notas nuevas', { compas1: antes, compas2: despues, compas4: final })
+  }
+
+  // 5c. Capas: una capa entra en la barra de compás que se pidió y sale en el pulso que se pidió.
+  {
+    const { canales, sr } = await renderizar('capas-cuantizadas', redondas([SOL, SOL, SOL, SOL], {}, 'tension'), {
+      limitador: false,
+      antes: [{ tipo: 'capas', activas: [], cuando: 'inmediato', fundido: 0.01 }],
+      guion: [
+        { en: 0.5, accion: { tipo: 'capas', activas: ['tension'], cuando: 'compas', fundido: 0.2 } },
+        { en: 4.6, accion: { tipo: 'capas', activas: [], cuando: 'tiempo', fundido: 0.1 } },
+      ],
+    })
+    const x = canales[0] as Float32Array
+    const datos = { antesDb: nivel(x, sr, 1, 1.95), dentroDb: nivel(x, sr, 2.4, 4.4), aunDentroDb: nivel(x, sr, 4.65, 4.95), despuesDb: nivel(x, sr, 5.3, 5.9) }
+    const ok = datos.antesDb < CALLADO && datos.dentroDb > AUDIBLE && datos.aunDentroDb > AUDIBLE && datos.despuesDb < CALLADO
+    anotar('capas: entra en la barra de compás y sale en el pulso siguiente', ok, 'la capa no entra o no sale cuando debe', datos)
+  }
+  {
+    const { canales, sr } = await renderizar('capas-inmediato', redondas([SOL, SOL], {}, 'tension'), {
+      limitador: false,
+      antes: [{ tipo: 'capas', activas: [], cuando: 'inmediato', fundido: 0.01 }],
+      guion: [{ en: 0.5, accion: { tipo: 'capas', activas: ['tension'], cuando: 'inmediato', fundido: 0.05 } }],
+    })
+    const x = canales[0] as Float32Array
+    const datos = { antesDb: nivel(x, sr, 0.1, 0.45), despuesDb: nivel(x, sr, 0.85, 1.4) }
+    anotar('capas: un cambio inmediato se oye enseguida', datos.antesDb < CALLADO && datos.despuesDb > AUDIBLE, 'el cambio inmediato tarda', datos)
+  }
+
+  // 5d. Secciones: el salto ocurre justo en la frontera pedida, y la sección de llegada se repite.
+  const dosSecciones = redondas([DO, DO, SOL, SOL], {
+    bucle: true,
+    secciones: [
+      { id: 'a', desde: 1, hasta: 2 },
+      { id: 'b', desde: 3, hasta: 4 },
+    ],
+  })
+  {
+    const { canales, sr } = await renderizar('seccion-en-la-barra', dosSecciones, { limitador: false, duracion: 9, antes: [{ tipo: 'seccion', seccion: 'a' }], guion: [{ en: 0.5, accion: { tipo: 'seccion', seccion: 'b', cuando: 'compas' } }] })
+    const x = canales[0] as Float32Array
+    const datos = { s0: notaEn(x, 0.5), s2: notaEn(x, 2.5), s4: notaEn(x, 4.5), s6: notaEn(x, 6.5), s8: notaEn(x, 8.5), enLaCosturaDb: nivel(x, sr, 2.02, 2.12) }
+    const ok = datos.s0 === DO && datos.s2 === SOL && datos.s4 === SOL && datos.s6 === SOL && datos.s8 === SOL && datos.enLaCosturaDb > AUDIBLE
+    anotar('secciones: salta en la barra de compás y repite la sección nueva', ok, 'el salto de sección falla', datos)
+  }
+  {
+    const { canales } = await renderizar('seccion-al-acabar', dosSecciones, { limitador: false, duracion: 9, antes: [{ tipo: 'seccion', seccion: 'a' }], guion: [{ en: 0.5, accion: { tipo: 'seccion', seccion: 'b', cuando: 'seccion' } }] })
+    const x = canales[0] as Float32Array
+    const datos = { s2: notaEn(x, 2.5), s4: notaEn(x, 4.5), s6: notaEn(x, 6.5), s8: notaEn(x, 8.5) }
+    anotar('secciones: con «al acabar la sección», la termina antes de saltar', datos.s2 === DO && datos.s4 === SOL && datos.s6 === SOL && datos.s8 === SOL, 'no espera al final de la sección', datos)
+  }
+  {
+    const { canales } = await renderizar('seccion-sin-saltar', dosSecciones, { limitador: false, duracion: 9, antes: [{ tipo: 'seccion', seccion: 'a' }] })
+    const x = canales[0] as Float32Array
+    const datos = { s2: notaEn(x, 2.5), s4: notaEn(x, 4.5), s6: notaEn(x, 6.5) }
+    anotar('secciones: sin pedir nada, la sección elegida se repite', datos.s2 === DO && datos.s4 === DO && datos.s6 === DO, 'la sección no se repite', datos)
+  }
+  {
+    const { canales } = await renderizar('seccion-a-la-pieza', dosSecciones, { limitador: false, duracion: 9, antes: [{ tipo: 'seccion', seccion: 'b' }], guion: [{ en: 0.5, accion: { tipo: 'seccion', cuando: 'compas' } }] })
+    const x = canales[0] as Float32Array
+    const datos = { s0: notaEn(x, 0.5), s2: notaEn(x, 2.5), s4: notaEn(x, 4.5), s6: notaEn(x, 6.5) }
+    anotar('secciones: sin sección, vuelve a la pieza entera', datos.s0 === SOL && datos.s2 === DO && datos.s4 === DO && datos.s6 === SOL, 'no vuelve a la pieza entera', datos)
+  }
+
+  // 5e. Capas y sección pedidas a la vez, en cualquier orden: las dos cosas pasan en la misma barra.
+  for (const orden of ['capas-seccion', 'seccion-capas'] as const) {
+    const capas: PasoDeGuion = { en: 0.5, accion: { tipo: 'capas', activas: ['tension'], cuando: 'compas', fundido: 0.05 } }
+    const seccion: PasoDeGuion = { en: 0.5, accion: { tipo: 'seccion', seccion: 'b', cuando: 'compas' } }
+    const pieza: Pieza = { ...dosSecciones, pistas: dosSecciones.pistas.map((p) => ({ ...p, capa: 'tension' })) }
+    const { canales, sr } = await renderizar(`estado-${orden}`, pieza, {
+      limitador: false,
+      duracion: 5,
+      antes: [
+        { tipo: 'seccion', seccion: 'a' },
+        { tipo: 'capas', activas: [], cuando: 'inmediato', fundido: 0.01 },
+      ],
+      guion: orden === 'capas-seccion' ? [capas, seccion] : [seccion, capas],
+    })
+    const x = canales[0] as Float32Array
+    const datos = { antesDb: nivel(x, sr, 1, 1.95), despuesDb: nivel(x, sr, 2.2, 3.8), nota: notaEn(x, 2.5) }
+    anotar(`estado de juego (${orden}): capa y sección cambian en la misma barra`, datos.antesDb < CALLADO && datos.despuesDb > AUDIBLE && datos.nota === SOL, 'capa y sección no cambian juntas', datos)
+  }
+
+  // 5f. Cambio de instrumento sobre la marcha: sigue sonando la misma nota, con otro timbre.
+  {
+    const { canales, sr } = await renderizar('cambio-de-instrumento', redondas([DO, DO, DO, DO]), { limitador: false, guion: [{ en: 0.05, accion: { tipo: 'instrumento', pista: 'p', instrumento: 'chip-pulso' } }] })
+    const x = canales[0] as Float32Array
+    // La onda triangular y la de pulso suenan a niveles distintos: el del último compás tiene que ser el de la segunda.
+    const referencia = async (instrumento: IdInstrumento): Promise<number> => {
+      const pieza = redondas([DO])
+      const r = await renderizar(`referencia-${instrumento}`, { ...pieza, pistas: pieza.pistas.map((p) => ({ ...p, instrumento })) }, { limitador: false })
+      return nivel(r.canales[0] as Float32Array, r.sr, 0.3, 1.8)
+    }
+    const datos = { nota: notaEn(x, 6.5), alPrincipioDb: nivel(x, sr, 0.1, 0.3), alFinalDb: nivel(x, sr, 6.3, 7.8), trianguloDb: await referencia('chip-triangulo'), pulsoDb: await referencia('chip-pulso') }
+    const ok = datos.nota === DO && Math.abs(datos.alPrincipioDb - datos.trianguloDb) < 1 && Math.abs(datos.alFinalDb - datos.pulsoDb) < 1 && Math.abs(datos.trianguloDb - datos.pulsoDb) > 2
+    anotar('cambio de instrumento: misma nota, otro timbre', ok, 'el instrumento no cambia', datos)
+  }
+
+  // 5g. Ritmo: cada clic de claqueta y cada golpe del patrón suenan en su instante, y el turno del usuario queda en silencio.
+  {
+    const plan = planDeRitmo({ modo: 'eco', tempo: 100, compas: [4, 4], golpes: [0, 480, 1440], acentos: [true, false, false], duracion: 1920, cuentaAtras: 1, repeticiones: 1, guia: 'nada' })
+    const inicio = 0.5
+    const { canales, sr } = await renderizarRitmo('ritmo-eco', plan, inicio)
+    const x = canales[0] as Float32Array
+    const instantes = [...plan.claqueta, ...plan.patron].map((g) => g.t).sort((a, b) => a - b)
+    let peor = 0
+    for (const t of instantes) {
+      // Entre dos golpes hay al menos 0,6 s: la entrada es el primer sonido por encima del umbral cerca del instante.
+      const desde = Math.round((inicio + t - 0.05) * sr)
+      const entrada = primerSonido(x.subarray(desde, Math.round((inicio + t + 0.1) * sr)), 0.02)
+      const desvio = entrada < 0 ? 1 : Math.abs(entrada / sr - 0.05)
+      peor = Math.max(peor, desvio)
+    }
+    const turno = plan.tramos.find((tramo) => tramo.tipo === 'toca')
+    const silencio = turno ? nivel(x, sr, inicio + turno.desde + 0.6, inicio + turno.hasta) : 0
+    anotar('ritmo: claqueta y patrón suenan en su instante', peor < 0.015 && silencio < -60, 'algún golpe entra a destiempo o suena algo en el turno del usuario', { golpes: instantes.length, peorDesvioMs: +(peor * 1000).toFixed(1), turnoDb: silencio })
   }
 
   await navegador.close()

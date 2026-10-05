@@ -10,6 +10,7 @@
 import { useSyncExternalStore } from 'react'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { acotarLatencia } from '../audio/pulsacion.ts'
 import type { TimbreDeInterfaz } from '../audio/sonidos.ts'
 import type { Nomenclatura } from '../musica/notas.ts'
 
@@ -18,7 +19,7 @@ export type EsquemaResuelto = 'oscuro' | 'claro'
 
 export const CLAVE_AJUSTES = 'leitmotiv-ajustes'
 /** Versión de la forma guardada. Si cambia, hay que revisar `migrar` y el script de index.html. */
-export const VERSION_DE_AJUSTES = 2
+export const VERSION_DE_AJUSTES = 3
 
 export interface ValoresDeAjustes {
   esquema: Esquema
@@ -27,6 +28,12 @@ export interface ValoresDeAjustes {
   sonidosDeInterfaz: boolean
   /** Con qué suena la interfaz: el pitido de una consola de 8 bits o una campana. */
   timbre: TimbreDeInterfaz
+  /**
+   * Retardo del sonido medido en la calibración, en milisegundos: lo que tarda
+   * el usuario en oír algo desde que el reloj de audio dice que sale. Se resta
+   * a sus toques en los ejercicios de ritmo.
+   */
+  latenciaMs: number
 }
 
 interface Ajustes extends ValoresDeAjustes {
@@ -38,12 +45,14 @@ export const AJUSTES_INICIALES: ValoresDeAjustes = {
   nomenclatura: 'latina',
   sonidosDeInterfaz: true,
   timbre: 'chip',
+  latenciaMs: 0,
 }
 
 /**
  * Lee unos ajustes guardados por cualquier versión anterior (o venidos de una
  * copia de seguridad) y se queda solo con lo que sigue valiendo. La versión 1
- * guardaba además una «dirección visual», de la que se hereda el timbre.
+ * guardaba además una «dirección visual», de la que se hereda el timbre; el
+ * retardo calibrado llegó en la 3.
  */
 export function migrar(guardado: unknown): ValoresDeAjustes {
   const g = (typeof guardado === 'object' && guardado !== null ? guardado : {}) as Record<string, unknown>
@@ -52,6 +61,7 @@ export function migrar(guardado: unknown): ValoresDeAjustes {
     nomenclatura: g.nomenclatura === 'anglosajona' || g.nomenclatura === 'latina' ? g.nomenclatura : AJUSTES_INICIALES.nomenclatura,
     sonidosDeInterfaz: typeof g.sonidosDeInterfaz === 'boolean' ? g.sonidosDeInterfaz : AJUSTES_INICIALES.sonidosDeInterfaz,
     timbre: g.timbre === 'chip' || g.timbre === 'campana' ? g.timbre : g.direccion === 'vinilo' ? 'campana' : AJUSTES_INICIALES.timbre,
+    latenciaMs: typeof g.latenciaMs === 'number' ? acotarLatencia(g.latenciaMs) : AJUSTES_INICIALES.latenciaMs,
   }
 }
 
@@ -65,7 +75,7 @@ export const useAjustes = create<Ajustes>()(
       name: CLAVE_AJUSTES,
       version: VERSION_DE_AJUSTES,
       migrate: (guardado) => migrar(guardado),
-      partialize: ({ esquema, nomenclatura, sonidosDeInterfaz, timbre }) => ({ esquema, nomenclatura, sonidosDeInterfaz, timbre }),
+      partialize: ({ esquema, nomenclatura, sonidosDeInterfaz, timbre, latenciaMs }) => ({ esquema, nomenclatura, sonidosDeInterfaz, timbre, latenciaMs }),
     },
   ),
 )

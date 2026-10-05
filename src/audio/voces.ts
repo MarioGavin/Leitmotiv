@@ -34,7 +34,7 @@ export interface Voz {
    * @param velocidad De 1 a 127.
    */
   tocar(nota: number, tiempo: number, duracion: number, velocidad: number): void
-  /** Corta todo lo que esté sonando. */
+  /** Corta todo lo que esté sonando y descarta lo que estuviera programado para más tarde. */
   callar(): void
   liberar(): void
 }
@@ -83,7 +83,10 @@ async function crearVozMuestreada(id: IdInstrumento, entorno: EntornoDeAudio, al
       sampler.start(esPercusion ? { note: nota, velocity: velocidad, time: tiempo } : { note: nota, velocity: velocidad, time: tiempo, duration: duracion })
     },
     callar() {
-      sampler.stop()
+      // `stop` corta lo que ya suena; las notas programadas para más tarde esperan en la cola del planificador.
+      sampler.scheduler.stop()
+      // Con la hora de Tone.js: en un render sin altavoces, el reloj del contexto nativo aún no ha echado a andar.
+      sampler.stop({ time: entorno.tone.currentTime })
     },
     liberar() {
       sampler.dispose()
@@ -136,6 +139,7 @@ function crearVozDeChip(id: IdInstrumento, ajuste: AjusteDeChip, entorno: Entorn
         nivel: dbAGanancia(ajuste.nivel) * (ajuste.velocidadFija ? 0.8 : velocidad / 127),
         envolvente: ENVOLVENTE_DE_CHIP,
         alAcabar: () => sonando.delete(programada),
+        ahora: () => entorno.tone.currentTime,
       })
       sonando.add(programada)
     },

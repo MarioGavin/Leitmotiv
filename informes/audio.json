@@ -1,6 +1,6 @@
 {
  "frecuenciaDeMuestreo": 48000,
- "casos": 56,
+ "casos": 70,
  "fallos": 0,
  "medidas": [
   {
@@ -573,6 +573,150 @@
     "lufs": -16.6,
     "picoRealDb": -1.2,
     "muestrasSaturadas": 0
+   }
+  },
+  {
+   "caso": "swing 0: la corchea a contratiempo entra en 0.250 s",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 0.25,
+    "esperadoSeg": 0.25
+   }
+  },
+  {
+   "caso": "swing 0.5: la corchea a contratiempo entra en 0.292 s",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 0.2917,
+    "esperadoSeg": 0.2917
+   }
+  },
+  {
+   "caso": "swing 1: la corchea a contratiempo entra en 0.333 s",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "inicioSeg": 0.3334,
+    "esperadoSeg": 0.3333
+   }
+  },
+  {
+   "caso": "edición en vivo: las notas nuevas suenan desde el compás siguiente",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "compas1": 60,
+    "compas2": 67,
+    "compas4": 67
+   }
+  },
+  {
+   "caso": "capas: entra en la barra de compás y sale en el pulso siguiente",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "antesDb": -103.2,
+    "dentroDb": -14.6,
+    "aunDentroDb": -14.6,
+    "despuesDb": -103.2
+   }
+  },
+  {
+   "caso": "capas: un cambio inmediato se oye enseguida",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "antesDb": -103.2,
+    "despuesDb": -14.6
+   }
+  },
+  {
+   "caso": "secciones: salta en la barra de compás y repite la sección nueva",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "s0": 60,
+    "s2": 67,
+    "s4": 67,
+    "s6": 67,
+    "s8": 67,
+    "enLaCosturaDb": -14.6
+   }
+  },
+  {
+   "caso": "secciones: con «al acabar la sección», la termina antes de saltar",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "s2": 60,
+    "s4": 67,
+    "s6": 67,
+    "s8": 67
+   }
+  },
+  {
+   "caso": "secciones: sin pedir nada, la sección elegida se repite",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "s2": 60,
+    "s4": 60,
+    "s6": 60
+   }
+  },
+  {
+   "caso": "secciones: sin sección, vuelve a la pieza entera",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "s0": 67,
+    "s2": 60,
+    "s4": 60,
+    "s6": 67
+   }
+  },
+  {
+   "caso": "estado de juego (capas-seccion): capa y sección cambian en la misma barra",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "antesDb": -103.3,
+    "despuesDb": -14.6,
+    "nota": 67
+   }
+  },
+  {
+   "caso": "estado de juego (seccion-capas): capa y sección cambian en la misma barra",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "antesDb": -103.3,
+    "despuesDb": -14.6,
+    "nota": 67
+   }
+  },
+  {
+   "caso": "cambio de instrumento: misma nota, otro timbre",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "nota": 60,
+    "alPrincipioDb": -14.6,
+    "alFinalDb": -21.8,
+    "trianguloDb": -14.6,
+    "pulsoDb": -21.8
+   }
+  },
+  {
+   "caso": "ritmo: claqueta y patrón suenan en su instante",
+   "ok": true,
+   "detalle": "",
+   "datos": {
+    "golpes": 11,
+    "peorDesvioMs": 2.1,
+    "turnoDb": -120
    }
   }
  ]

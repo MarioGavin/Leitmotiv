@@ -122,7 +122,7 @@ try {
         reducedMotion: 'reduce',
       })
       await contexto.addInitScript((e) => {
-        localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip' }, version: 2 }))
+        localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip', latenciaMs: 0 }, version: 3 }))
       }, esquema)
       for (const escena of escenas) {
         const pagina = await contexto.newPage()

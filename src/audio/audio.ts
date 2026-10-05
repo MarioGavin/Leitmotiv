@@ -5,9 +5,10 @@
  */
 import type { IdInstrumento } from '../musica/instrumentos.ts'
 import type { Pieza } from '../musica/pieza.ts'
+import type { PlanDeRitmo } from '../musica/ritmo.ts'
 import { useAudio } from './estado.ts'
 import type * as Motor from './motor.ts'
-import type { Diagnostico, NotaSuelta } from './motor.ts'
+import type { Diagnostico, NotaSuelta, SesionDeRitmo } from './motor.ts'
 import type { OpcionesDeReproductor, Reproductor } from './reproductor.ts'
 import type * as Sonidos from './sonidos.ts'
 import type { SonidoDeInterfaz, TimbreDeInterfaz } from './sonidos.ts'
@@ -61,6 +62,13 @@ export async function prepararPieza(pieza: Pieza, opciones?: OpcionesDeReproduct
   const m = await cargarMotor()
   if (!m.iniciado()) await m.iniciar()
   return m.prepararPieza(pieza, opciones)
+}
+
+/** Empieza un ejercicio de ritmo: suenan la claqueta y el patrón del plan. */
+export async function empezarRitmo(plan: PlanDeRitmo): Promise<SesionDeRitmo> {
+  const m = await cargarMotor()
+  if (!m.iniciado()) await m.iniciar()
+  return m.empezarRitmo(plan)
 }
 
 export async function precargarInstrumento(id: IdInstrumento): Promise<void> {

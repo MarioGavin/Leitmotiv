@@ -1,17 +1,22 @@
 {
   "limite": 300000,
-  "inicial": 92338,
-  "diferido": 89099,
+  "inicial": 92609,
+  "diferido": 90759,
   "css": 8038,
   "archivos": [
     {
       "archivo": "assets/index.js",
-      "bytes": 88788,
+      "bytes": 89059,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 71379,
+      "bytes": 72493,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/useReproductor.js",
+      "bytes": 3625,
       "inicial": false
     },
     {
@@ -21,17 +26,12 @@
     },
     {
       "archivo": "assets/PianoRoll.js",
-      "bytes": 3182,
-      "inicial": false
-    },
-    {
-      "archivo": "assets/useReproductor.js",
-      "bytes": 3158,
+      "bytes": 3184,
       "inicial": false
     },
     {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2257,
+      "bytes": 2256,
       "inicial": false
     },
     {
@@ -56,22 +56,22 @@
     },
     {
       "archivo": "assets/instrumentos.js",
-      "bytes": 881,
+      "bytes": 902,
       "inicial": false
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 731,
+      "bytes": 734,
       "inicial": false
     },
     {
       "archivo": "assets/Deslizador.js",
-      "bytes": 350,
+      "bytes": 352,
       "inicial": false
     },
     {
       "archivo": "assets/pieza.js",
-      "bytes": 258,
+      "bytes": 310,
       "inicial": false
     }
   ]

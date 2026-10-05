@@ -68,10 +68,15 @@ interface OpcionesDeNota {
   envolvente: Envolvente
   /** Se llama cuando la nota ha terminado de sonar. */
   alAcabar?: () => void
+  /**
+   * Reloj con el que se corta la nota. Por defecto, el del contexto; en un
+   * render sin altavoces ese no avanza hasta el final y hay que dar el de Tone.js.
+   */
+  ahora?: () => number
 }
 
 /** Programa una nota: fuente → envolvente → destino. */
-export function programarNota({ ctx, destino, fuente, tiempo, duracion, nivel, envolvente, alAcabar }: OpcionesDeNota): NotaNativa {
+export function programarNota({ ctx, destino, fuente, tiempo, duracion, nivel, envolvente, alAcabar, ahora: reloj }: OpcionesDeNota): NotaNativa {
   const ganancia = ctx.createGain()
   ganancia.connect(destino)
   const osciladores = fuente(ganancia)
@@ -100,7 +105,7 @@ export function programarNota({ ctx, destino, fuente, tiempo, duracion, nivel, e
   }
   return {
     cortar() {
-      const ahora = ctx.currentTime
+      const ahora = reloj ? reloj() : ctx.currentTime
       // Se congela la envolvente donde esté y se funde a cero: cancelar a secas daría un salto audible.
       if (typeof g.cancelAndHoldAtTime === 'function') g.cancelAndHoldAtTime(ahora)
       else g.cancelScheduledValues(ahora)

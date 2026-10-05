@@ -12,10 +12,13 @@
 import { Gain, Limiter, Meter, getContext, setContext } from 'tone'
 import type { IdInstrumento } from '../musica/instrumentos.ts'
 import type { Pieza } from '../musica/pieza.ts'
+import type { PlanDeRitmo } from '../musica/ritmo.ts'
 import { useAudio } from './estado.ts'
 import { limpiarCachesAntiguas } from './muestras.ts'
 import { NIVEL_INTERFAZ_DB, NIVEL_MUSICA_DB, UMBRAL_LIMITADOR_DB, dbAGanancia } from './niveles.ts'
+import { instanteDelToque, leerRelojes } from './pulsacion.ts'
 import { type OpcionesDeReproductor, type Reproductor, crearReproductor } from './reproductor.ts'
+import { programarRitmo } from './ritmo.ts'
 import { type EntornoDeAudio, type Voz, crearVoz } from './voces.ts'
 
 interface Motor {
@@ -156,6 +159,42 @@ export async function tocar(id: IdInstrumento, notas: readonly NotaSuelta[]): Pr
 export function prepararPieza(pieza: Pieza, opciones?: OpcionesDeReproductor): Promise<Reproductor> {
   const m = exigir()
   return crearReproductor(pieza, m.entorno, m.musica, opciones)
+}
+
+export interface SesionDeRitmo {
+  /** Instante del reloj de audio en el que empieza el plan. */
+  readonly inicio: number
+  /**
+   * Segundos desde el principio del plan en los que ha caído un toque.
+   * @param marca Hora del toque (`event.timeStamp`).
+   * @param latenciaMs Retardo calibrado por el usuario.
+   */
+  instante(marca: number, latenciaMs: number): number
+  /** Segundos del plan que el usuario lleva oídos. */
+  transcurrido(latenciaMs: number): number
+  /** Corta lo que suena y lo que quedaba por sonar. */
+  detener(): void
+}
+
+/** Margen entre que se pide un ejercicio de ritmo y su primer sonido: lo que tarda el planificador en tenerlo todo en cola. */
+const MARGEN_DE_RITMO = 0.3
+
+/** Empieza un ejercicio de ritmo: programa la claqueta y el patrón y devuelve cómo situar los toques en su tiempo. */
+export async function empezarRitmo(plan: PlanDeRitmo): Promise<SesionDeRitmo> {
+  const m = exigir()
+  // Solo suena una cosa a la vez: si había una pieza en marcha, se para.
+  m.entorno.tone.transport.pause()
+  const bateria = await voz('bateria')
+  const ctx = m.entorno.nativo
+  const inicio = ctx.currentTime + MARGEN_DE_RITMO
+  programarRitmo(plan, bateria, inicio)
+  const instante = (marca: number, latenciaMs: number): number => instanteDelToque(leerRelojes(ctx, performance.now()), marca, latenciaMs) - inicio
+  return {
+    inicio,
+    instante,
+    transcurrido: (latenciaMs) => instante(performance.now(), latenciaMs),
+    detener: () => bateria.callar(),
+  }
 }
 
 export function entorno(): Motor['entorno'] {
