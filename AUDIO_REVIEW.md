@@ -56,6 +56,7 @@ Niveles de partida por papel: melodía 0 dB, bajo −1, contramelodía −3, per
 - [ ] **B8. La composición.** «Camino de la pradera» y las melodías de las dos lecciones son originales y sencillas a propósito. *Decide*: si suenan a música o a ejercicio, y si el nivel de partida es el adecuado para ti.
 
 - [ ] **B7. Ejercicios de ritmo** («El pulso», pasos 2 y 4; «El tempo», pasos 4 y 5). Suena una cuenta previa y el patrón; hay que tocar el pad grande. *Escucha*: haz uno en el móvil, con altavoz y con auriculares. *Problema*: que la cuenta previa no se distinga del patrón, o que tus golpes salgan corregidos como adelantados o atrasados cuando tú los sientes a tiempo (sería el retardo del dispositivo; la calibración todavía no está hecha).
+- [ ] **B8. Mezcla por capas** (aún sin lección que la use; se prueba en cuanto haya una). Al marcar un estado de juego, las capas entran y salen con un fundido de medio segundo al empezar el compás siguiente. *Problema*: un golpe de volumen, un corte en seco o que el cambio llegue a destiempo.
 
 ## C. Sonidos de la interfaz
 

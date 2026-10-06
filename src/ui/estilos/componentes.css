@@ -841,3 +841,31 @@
   font-size: var(--t-opcion, var(--t-l));
   line-height: 1.2;
 }
+
+/* ── Capas de música adaptativa: cuáles suenan en el estado elegido ── */
+.capas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1) var(--e-3);
+  margin: 0;
+  padding: 0 var(--e-2);
+  list-style: none;
+}
+
+.capa {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  min-height: 28px;
+  font-family: var(--fuente-datos, var(--fuente-titulos));
+  font-size: var(--t-etiqueta);
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: var(--caja-etiqueta);
+}
+
+/* La luz va hueca si la capa calla y llena si suena: se distingue por la forma, no solo por el color. */
+.capa__luz {
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+}

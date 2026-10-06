@@ -520,3 +520,17 @@
 .orden__puesto {
   color: var(--acento-tinta);
 }
+
+/* ── Capas ── */
+.capa {
+  color: var(--tinta-suave);
+}
+
+.capa--suena {
+  color: var(--tinta);
+}
+
+.capa--suena .capa__luz {
+  background: var(--exito);
+  border-color: var(--tinta);
+}

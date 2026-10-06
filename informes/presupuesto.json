@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 95346,
-  "diferido": 267282,
-  "css": 8430,
+  "inicial": 95348,
+  "diferido": 267825,
+  "css": 8509,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,7 +11,7 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 90578,
+      "bytes": 90580,
       "inicial": true
     },
     {
@@ -21,7 +21,7 @@
     },
     {
       "archivo": "assets/Leccion.js",
-      "bytes": 10494,
+      "bytes": 11039,
       "inicial": false
     },
     {
@@ -51,7 +51,7 @@
     },
     {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2294,
+      "bytes": 2293,
       "inicial": false
     },
     {
@@ -61,7 +61,7 @@
     },
     {
       "archivo": "assets/Avance.js",
-      "bytes": 1938,
+      "bytes": 1937,
       "inicial": false
     },
     {
@@ -86,7 +86,7 @@
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 734,
+      "bytes": 735,
       "inicial": false
     },
     {
@@ -106,7 +106,7 @@
     },
     {
       "archivo": "assets/Deslizador.js",
-      "bytes": 371,
+      "bytes": 370,
       "inicial": false
     }
   ]
