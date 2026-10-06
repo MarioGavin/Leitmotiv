@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 95348,
-  "diferido": 267825,
-  "css": 8509,
+  "inicial": 96202,
+  "diferido": 311697,
+  "css": 8601,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,7 +11,7 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 90580,
+      "bytes": 88158,
       "inicial": true
     },
     {
@@ -20,8 +20,18 @@
       "inicial": false
     },
     {
+      "archivo": "assets/base.js",
+      "bytes": 31560,
+      "inicial": false
+    },
+    {
       "archivo": "assets/Leccion.js",
-      "bytes": 11039,
+      "bytes": 16400,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/EditorDePiano.js",
+      "bytes": 10536,
       "inicial": false
     },
     {
@@ -30,18 +40,13 @@
       "inicial": false
     },
     {
-      "archivo": "assets/PianoRoll.js",
-      "bytes": 7958,
+      "archivo": "assets/operaciones.js",
+      "bytes": 7460,
       "inicial": false
     },
     {
       "archivo": "assets/Pentagrama.js",
-      "bytes": 4145,
-      "inicial": false
-    },
-    {
-      "archivo": "assets/useReproductor.js",
-      "bytes": 3692,
+      "bytes": 4160,
       "inicial": false
     },
     {
@@ -50,8 +55,13 @@
       "inicial": true
     },
     {
+      "archivo": "assets/Marco.js",
+      "bytes": 2969,
+      "inicial": true
+    },
+    {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2293,
+      "bytes": 2315,
       "inicial": false
     },
     {
@@ -61,17 +71,17 @@
     },
     {
       "archivo": "assets/Avance.js",
-      "bytes": 1937,
+      "bytes": 1951,
       "inicial": false
     },
     {
       "archivo": "assets/Muestrario.js",
-      "bytes": 1758,
+      "bytes": 1763,
       "inicial": false
     },
     {
       "archivo": "assets/midi.js",
-      "bytes": 1263,
+      "bytes": 1260,
       "inicial": false
     },
     {
@@ -91,7 +101,7 @@
     },
     {
       "archivo": "assets/pieza.js",
-      "bytes": 573,
+      "bytes": 656,
       "inicial": false
     },
     {
@@ -105,9 +115,19 @@
       "inicial": true
     },
     {
-      "archivo": "assets/Deslizador.js",
-      "bytes": 370,
+      "archivo": "assets/PianoRoll.js",
+      "bytes": 470,
       "inicial": false
+    },
+    {
+      "archivo": "assets/Deslizador.js",
+      "bytes": 369,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/jsx-runtime.js",
+      "bytes": 307,
+      "inicial": true
     }
   ]
 }

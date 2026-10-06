@@ -869,3 +869,32 @@
   height: 12px;
   border: 2px solid currentColor;
 }
+
+/* ── Lista de requisitos de un piano roll o un encargo ── */
+.requisitos {
+  display: grid;
+  gap: var(--e-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.requisito {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--e-2);
+}
+
+.requisito > .icono {
+  margin-top: 2px;
+}
+
+.requisito__texto {
+  display: grid;
+  gap: 2px;
+}
+
+.requisito__titulo {
+  font-weight: var(--peso-titulos);
+}

@@ -2,11 +2,11 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-5 (mezcla por capas). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
+**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-6 (composición y encargo): **los siete tipos de ejercicio funcionan**. **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
 
 ## Pausa a mitad del Tramo B: qué hay y qué falta
 
-**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 23 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
+**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 24 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
 
 ### Hecho y comprobado en el Tramo B (commits `4ef1650` a `05b5b16`)
 
@@ -57,18 +57,27 @@ Cada uno pasó `npm run check` al hacerse (511 pruebas unitarias), `npm run e2e`
 - CSS de `.capas` y `.capa*`. `e2e/capas.spec.ts` comprueba con el audio en marcha que marcar un estado cambia las capas, y un acierto y un fallo.
 - **No comprobado:** cómo suenan las entradas y salidas (AUDIO_REVIEW.md, B8) y la resecuenciación por secciones en el navegador (solo pruebas unitarias del motor).
 
+### Paso B4-6 (composición y encargo): hecho
+
+- `Composicion.tsx` lleva los pasos `pianoroll` y `encargo`: enunciado (o el encargo con su cliente) y la lista de requisitos, que se corrige en vivo con `requisitos.ts`; luego el editor a pantalla completa con un contador «n/m» que abre la lista, la pista si falta algo y la explicación al cumplirlo todo. Un encargo sin plantilla parte de `plantillaParaRequisitos`. Lo escrito se guarda como borrador (`m00.u01.l08#5`) a los 0,8 s sin tocar y al salir del editor; sobrevive a recargar. Entregar un encargo lo guarda en el repertorio con la lección como origen y borra el borrador.
+- `VistaDePaso.tsx` elige el componente de cada paso. `PasoPendiente` ya no existe.
+- `Leccion.tsx` reescrita: suma lo acertado a la primera por concepto y, al terminar, llama a `completarLeccion` y enseña la experiencia ganada, los aciertos y la subida de nivel. Avisa si el dispositivo no deja guardar.
+- `e2e/composicion.spec.ts`: requisitos que se cumplen al escribir, candado en la pista no editable, borrador que sobrevive a recargar, entrega al repertorio (leída de IndexedDB) y +40 de experiencia. `e2e/leccion.spec.ts` comprueba la recompensa de «El tempo».
+- **Pasado a B5:** el candado de las lecciones bloqueadas. Necesita el progreso cargado al arrancar y que las pruebas siembren lecciones completadas; hoy se puede abrir cualquier lección por su URL.
+- **No comprobado:** volver a abrir la pantalla final (recargar en ella) registra la lección otra vez, con la experiencia de repetirla (5 puntos). El piano roll dentro de una lección en un móvil real (tacto y espacio).
+
 ### Lo que falta del CSS de lo nuevo
 
 `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.boton--activo`. Se hace con el ejercicio o la pantalla que lo usa.
 
 ### Ruta acordada con Mario (un commit y una parada por paso)
 
-~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · ~~B4-4 análisis~~ · ~~B4-5 mezcla por capas~~ · B4-6 composición y encargo (`Composicion.tsx`, `VistaDePaso`, quitar `PasoPendiente`, reescribir `Leccion.tsx`) · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
+~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · ~~B4-4 análisis~~ · ~~B4-5 mezcla por capas~~ · ~~B4-6 composición y encargo~~ · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
 
 ### Lo que queda del Tramo B, en orden
 
 1. **Ejercicios**: `Composicion.tsx` (paso de piano roll y de encargo: lista de requisitos con `requisitos.ts`, borradores, guardar en el repertorio); un repartidor `VistaDePaso` que elija el componente por tipo de paso; quitar `PasoPendiente`; reescribir `Leccion.tsx` (resultado por concepto, `completarLeccion`, pantalla final con experiencia, candado si la lección está bloqueada); el CSS de arriba.
-2. **Pantallas**: enlazar todo en `App.tsx` y llamar a `useProgreso.cargar()` al arrancar; Repaso, Repertorio, Glosario con fichas, Prueba de nivel, Calibración de latencia, piano roll que abra una pieza del repertorio; nivel, experiencia, racha y candados en Título, Mapa y Mundo; Ajustes con latencia, copia de seguridad (exportar e importar) y borrar datos; vistas `teclado`, `rejilla` y `pentagrama` en `EjemploSonoro`; `manipulable: instrumento`; transiciones con Motion.
+2. **Pantallas**: enlazar todo en `App.tsx` y llamar a `useProgreso.cargar()` al arrancar; Repaso, Repertorio, Glosario con fichas, Prueba de nivel, Calibración de latencia, piano roll que abra una pieza del repertorio; nivel, experiencia, racha y candados en Título, Mapa, Mundo y en la propia lección; Ajustes con latencia, copia de seguridad (exportar e importar) y borrar datos; vistas `teclado`, `rejilla` y `pentagrama` en `EjemploSonoro`; `manipulable: instrumento`; transiciones con Motion.
 3. **Contenido**: Mundo 0 entero (faltan 22 lecciones; tres unidades de ocho, cada una acabada en un encargo), dos lecciones del Mundo 1, glosario, conceptos, fichas y `prueba-de-nivel.yaml`. Corregir el texto de la lección l01, que dice «bombo» donde suena la caja.
 4. **Pruebas de navegador**: los siete tipos de ejercicio, piano roll, exportación a MIDI, copia de seguridad, ritmo y sin conexión; capturas en los dos esquemas; presupuesto de carga.
 5. **Documentos**: README, CLAUDE.md (dice que Dexie, ts-fsrs, @tonejs/midi y abcjs «todavía no se usan»: ya no es cierto; tampoco recoge `src/progreso/`), CONTENT_GUIDE (campos `registro`, `swing` y `guia`), DESIGN, CREDITS, ARCHITECTURE (incluido el evento `leitmotiv:ritmo`), AUDIO_REVIEW, y el mapa de unidades de todos los mundos para la Fase 2.

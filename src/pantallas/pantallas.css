@@ -221,6 +221,19 @@
   justify-items: start;
 }
 
+/* Lo ganado al completar una lección: rótulo a la izquierda, cifra a la derecha. */
+.recompensa {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: var(--e-1) var(--e-4);
+  margin: 0;
+}
+
+.recompensa dd {
+  margin: 0;
+}
+
 /* La pista y la corrección: al aparecer se traen a la vista, por encima del pie fijo. */
 .respuesta {
   scroll-margin-bottom: 104px;

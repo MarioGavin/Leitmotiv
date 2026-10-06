@@ -1,15 +1,12 @@
-import { use, useEffect } from 'react'
+import { type ReactNode, use, useEffect, useRef, useState } from 'react'
 import { leerLeccion } from '../app/contenido.ts'
 import { navegar } from '../app/rutas.ts'
 import { sonar } from '../audio/audio.ts'
-import type { Paso } from '../contenido/tipos.ts'
-import { Analisis } from '../ejercicios/Analisis.tsx'
-import { Capas } from '../ejercicios/Capas.tsx'
-import { Construccion } from '../ejercicios/Construccion.tsx'
-import { Oido } from '../ejercicios/Oido.tsx'
-import { PasoDeTeoria } from '../ejercicios/PasoDeTeoria.tsx'
-import { PasoPendiente } from '../ejercicios/PasoPendiente.tsx'
-import { Ritmo } from '../ejercicios/Ritmo.tsx'
+import type { Leccion as DatosDeLeccion } from '../contenido/tipos.ts'
+import { VistaDePaso } from '../ejercicios/VistaDePaso.tsx'
+import type { ResultadoDePaso } from '../ejercicios/tipos.ts'
+import type { RecompensaDeLeccion } from '../progreso/operaciones.ts'
+import { useProgreso } from '../progreso/progreso.ts'
 import { Avance } from '../ui/Avance.tsx'
 import { Boton } from '../ui/Boton.tsx'
 import { Cabecera } from '../ui/Cabecera.tsx'
@@ -23,30 +20,70 @@ interface Props {
   paso: number
 }
 
-function vistaDe(paso: Paso, alTerminar: () => void) {
-  if (paso.tipo === 'teoria') return <PasoDeTeoria paso={paso} alTerminar={alTerminar} />
-  // El resultado del paso todavía no se guarda: el progreso se enlaza con la lección en el paso B5.
-  if (paso.tipo === 'oido') return <Oido paso={paso} alTerminar={() => alTerminar()} />
-  if (paso.tipo === 'ritmo') return <Ritmo paso={paso} alTerminar={() => alTerminar()} />
-  if (paso.tipo === 'construccion') return <Construccion paso={paso} alTerminar={() => alTerminar()} />
-  if (paso.tipo === 'analisis') return <Analisis paso={paso} alTerminar={() => alTerminar()} />
-  if (paso.tipo === 'capas') return <Capas paso={paso} alTerminar={() => alTerminar()} />
-  return <PasoPendiente paso={paso} alTerminar={alTerminar} />
-}
+type Resultados = Record<string, ResultadoDePaso>
 
-function Completada({ titulo, alSalir }: { titulo: string; alSalir: () => void }) {
+function Completada({ leccion, resultados, alSalir }: { leccion: DatosDeLeccion; resultados: Readonly<Resultados>; alSalir: () => void }) {
+  const [recompensa, setRecompensa] = useState<RecompensaDeLeccion>()
+  const [fallo, setFallo] = useState(false)
+  const carga = useProgreso((p) => p.carga)
+  // En modo estricto los efectos se ejecutan dos veces: la lección no puede contarse dos.
+  const registrada = useRef(false)
+
   useEffect(() => {
     sonar('completar')
-  }, [])
+    if (registrada.current) return
+    registrada.current = true
+    useProgreso
+      .getState()
+      .completarLeccion({ id: leccion.id, conEncargo: leccion.pasos.some((p) => p.tipo === 'encargo'), conceptos: resultados })
+      .then(setRecompensa)
+      .catch((error: unknown) => {
+        console.warn('No se ha podido registrar la lección', error)
+        setFallo(true)
+      })
+  }, [leccion, resultados])
+
   return (
     <>
       <div className="pantalla__cuerpo leccion-completada">
         <Emblema ancho={96} />
         <h2 className="titulo">Lección completada</h2>
-        <p className="suave">{titulo}</p>
-        <Marco rotulo="Tramo A">
-          <p>El registro del progreso, la experiencia y el repaso espaciado se construyen en el Tramo B: de momento, esta lección no queda guardada.</p>
-        </Marco>
+        <p className="suave">{leccion.titulo}</p>
+        {recompensa ? (
+          <Marco rotulo="Recompensa">
+            <div className="pila pila--junta">
+              <dl className="recompensa">
+                <dt>Experiencia</dt>
+                <dd className="dato">+{recompensa.xp}</dd>
+                {recompensa.total > 0 && (
+                  <>
+                    <dt>A la primera</dt>
+                    <dd className="dato">
+                      {recompensa.aciertos} de {recompensa.total}
+                    </dd>
+                  </>
+                )}
+              </dl>
+              {recompensa.nivelDespues > recompensa.nivelAntes && (
+                <p>
+                  <strong>Subes al nivel {recompensa.nivelDespues}.</strong>
+                </p>
+              )}
+              {!recompensa.primeraVez && <p className="suave">Ya la habías completado: repetirla da menos experiencia, pero refuerza el repaso.</p>}
+            </div>
+          </Marco>
+        ) : (
+          !fallo && (
+            <p className="etiqueta" role="status">
+              Guardando…
+            </p>
+          )
+        )}
+        {(fallo || carga === 'sin-guardar') && (
+          <p className="nota-al-pie" role="alert">
+            Este dispositivo no deja guardar el progreso: se perderá al cerrar la app.
+          </p>
+        )}
       </div>
       <div className="pie">
         <Boton variante="primario" bloque sonido="atras" onClick={alSalir}>
@@ -64,17 +101,29 @@ export function Leccion({ id, paso }: Props) {
   const numero = Math.min(paso, total + 1)
   const actual = leccion.pasos[numero - 1]
   const mundo = id.slice(0, 3)
+  // Cómo va cada concepto en esta pasada. Vive mientras la lección está abierta: si se recarga a medias, la cuenta empieza de cero.
+  const [resultados, setResultados] = useState<Resultados>({})
 
   const salir = (): void => navegar({ pantalla: 'mundo', id: mundo }, { reemplazar: true })
   // Los pasos no se apilan en el historial: «atrás» sale de la lección en vez de retroceder un paso.
-  const siguiente = (): void => {
+  const siguiente = (resultado: ResultadoDePaso): void => {
+    if (actual && resultado.total > 0) {
+      // La teoría no lleva concepto propio; el resto de los pasos, sí (el compilador pone el de la lección si no lo dice).
+      const concepto = 'concepto' in actual ? actual.concepto : leccion.conceptos[0]
+      if (concepto !== undefined) {
+        setResultados((anteriores) => {
+          const previo = anteriores[concepto] ?? { aciertos: 0, total: 0 }
+          return { ...anteriores, [concepto]: { aciertos: previo.aciertos + resultado.aciertos, total: previo.total + resultado.total } }
+        })
+      }
+    }
     // El paso nuevo se empieza a leer desde arriba.
     window.scrollTo(0, 0)
     navegar({ pantalla: 'leccion', id, paso: numero + 1 }, { reemplazar: true })
   }
 
-  return (
-    <main className="pantalla pantalla--leccion" key={numero}>
+  const envoltorio = (contenido: ReactNode): ReactNode => (
+    <main className="pantalla pantalla--leccion">
       <Cabecera antes={<Boton variante="fantasma" soloIcono icono="cerrar" sonido="atras" aria-label="Salir de la lección" onClick={salir} />}>
         <Avance total={total} actual={numero} />
         <span className="cabecera__dato" aria-hidden="true">
@@ -82,7 +131,11 @@ export function Leccion({ id, paso }: Props) {
         </span>
       </Cabecera>
       <h1 className="solo-lectores">{leccion.titulo}</h1>
-      {actual ? vistaDe(actual, siguiente) : <Completada titulo={leccion.titulo} alSalir={salir} />}
+      {contenido}
     </main>
   )
+
+  if (!actual) return envoltorio(<Completada leccion={leccion} resultados={resultados} alSalir={salir} />)
+  // La clave hace que cada paso empiece de cero, aunque dos seguidos sean del mismo tipo.
+  return <VistaDePaso key={numero} paso={actual} clave={`${id}#${numero}`} leccion={id} envoltorio={envoltorio} alTerminar={siguiente} />
 }

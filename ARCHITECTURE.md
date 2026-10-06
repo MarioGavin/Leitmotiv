@@ -149,7 +149,7 @@ Fijados midiendo: con el bus de música a +2 dB y el limitador a −1,5 dB, un e
 - **Ajustes en localStorage**, no en IndexedDB: hay que leerlos de forma síncrona antes de pintar para no dar un destello con otro tema (lo hace un script en `index.html`).
 - **Contenido con `use()`**: las funciones de `contenido.ts` devuelven siempre la misma promesa por recurso, así que las pantallas la leen con `use()` dentro de un límite de suspense y otro de errores (`Limite.tsx`).
 - **Una pantalla por archivo** en `pantallas/`; las pesadas se cargan con `lazy()`.
-- **Un componente por tipo de paso** en `ejercicios/`. `Leccion.tsx` elige cuál pintar; los tipos que aún no existen caen en `PasoPendiente`, que enseña el enunciado y deja saltar el paso.
+- **Un componente por tipo de paso** en `ejercicios/`. `VistaDePaso.tsx` elige cuál pintar y `Leccion.tsx` le da la cabecera con el avance (`envoltorio`). Los pasos de componer (`Composicion.tsx`) solo la usan para el enunciado: mientras se edita, el piano roll ocupa la pantalla entera. Cada paso devuelve cuántas cosas acertó a la primera; la lección lo suma por concepto y, al acabar, llama a `completarLeccion`.
 - **Reproducción desde React**: el gancho `useReproductor(pieza)` prepara el reproductor al primer «Escuchar», sigue su estado y lo libera al salir. El cabezal se mueve escribiendo en el estilo del elemento, sin pasar por React.
 - **Un solo tema**, en claro y en oscuro: ver DESIGN.md.
 

@@ -534,3 +534,12 @@
   background: var(--exito);
   border-color: var(--tinta);
 }
+
+/* ── Requisitos: el icono dice si se cumple; el color lo acompaña ── */
+.requisito > .icono {
+  color: var(--error-tinta);
+}
+
+.requisito--cumplido > .icono {
+  color: var(--exito-tinta);
+}

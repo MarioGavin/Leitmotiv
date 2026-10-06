@@ -36,6 +36,9 @@ test('se completa una lección de principio a fin', async ({ page }) => {
   }
 
   await expect(page.getByRole('heading', { name: 'Lección completada' })).toBeVisible()
+  // Primera vez y sin encargo: 20 puntos. Las tres preguntas de oído, a la primera; los dos ritmos, superados al primer intento.
+  await expect(page.locator('.recompensa')).toContainText('+20')
+  await expect(page.locator('.recompensa')).toContainText('5 de 5')
   await page.getByRole('button', { name: 'Volver al mundo' }).click()
   await expect(page).toHaveURL(/#\/mundo\/m00$/)
   expect(errores).toEqual([])

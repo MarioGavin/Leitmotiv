@@ -67,7 +67,7 @@ No se reabren. Si alguna estorba, se le plantea a Mario antes de tocar nada.
 | Pruebas | Vitest 5 y Playwright **1.56.0 (fijada)** | Solo Chromium |
 | Estilo de código | oxlint | |
 
-Dexie, ts-fsrs, @tonejs/midi, abcjs y Motion están instaladas y medidas, pero todavía no se usan. Las razones de cada elección están en ARCHITECTURE.md. Además:
+Motion está instalada y medida, pero todavía no se usa. Las razones de cada elección están en ARCHITECTURE.md. Además:
 
 - Rutas en el fragmento de la URL (`#/mapa`), con enrutador propio. Sin librería de rutas.
 - Sin librería de iconos, ni de componentes, ni de CSS.
@@ -107,7 +107,7 @@ src/
   main.tsx               Entrada: monta App e importa las hojas de estilo
   app/                   App.tsx (carcasa), rutas.ts, ajustes.ts, contenido.ts (lectura con use()), Avisos.tsx (PWA)
   pantallas/             Una por ruta: Titulo, Mapa, Mundo, Leccion, PianoRoll, Ajustes, Diagnostico, Muestrario
-  ejercicios/            Un componente por tipo de paso. Los tipos sin componente caen en PasoPendiente
+  ejercicios/            Un componente por tipo de paso; VistaDePaso elige cuál pintar
   ui/                    Componentes (Marco, Boton, Opciones, Dialogo…), contraste.ts
     estilos/             base.css (fuentes, escalas, reinicio), componentes.css (estructura) y tema.css (colores y aspecto)
     iconos/              nombres.ts y dibujos.ts (mapas de bits de 12 × 12)
@@ -174,7 +174,7 @@ docs/diseno/             Hojas de capturas de la interfaz
 ## Recetas
 
 - **Lección nueva**: un YAML en la carpeta de su unidad. Nada más.
-- **Componente de un tipo de paso**: los esquemas, los tipos y el compilador de los siete tipos ya existen. Falta el componente en `src/ejercicios/` y su rama en `src/pantallas/Leccion.tsx`.
+- **Componente de un tipo de paso**: el componente en `src/ejercicios/` y su caso en `VistaDePaso.tsx`. Los pasos de componer ocupan la pantalla entera mientras se edita: ver `Composicion.tsx`.
 - **Campo nuevo en el contenido**: `src/contenido/esquemas.ts`, `src/contenido/tipos.ts`, `scripts/contenido/`, su prueba, `npm run content:schemas` y CONTENT_GUIDE.md.
 - **Pantalla nueva**: `src/app/rutas.ts`, un archivo en `src/pantallas/`, `App.tsx`, una escena en `scripts/capturas.ts` y su ruta en la lista `PANTALLAS` de `e2e/ayudas.ts`.
 - **Componente o icono nuevo**: ver «Cómo se toca el sistema» en DESIGN.md.
