@@ -199,6 +199,12 @@
   text-wrap: balance;
 }
 
+/* Texto propio de una pregunta, cuando cada una del cuestionario lleva el suyo. */
+.pregunta {
+  padding: 0 var(--e-2);
+  font-weight: var(--peso-titulos);
+}
+
 .boton.escucha {
   --icono: 36px;
   align-self: start;

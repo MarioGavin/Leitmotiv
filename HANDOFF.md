@@ -2,11 +2,11 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 6 de octubre de 2026. **Trabajo en pausa a mitad del Tramo B**, a petición de Mario. Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
+**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-1 (ejercicio de oído). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
 
 ## Pausa a mitad del Tramo B: qué hay y qué falta
 
-**El último commit («En curso…») no compila.** Se subió tal cual porque Mario pidió parar y guardar todo. El anterior que compila y pasa todas las pruebas es `05b5b16` («Progreso…»).
+**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 19 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
 
 ### Hecho y comprobado en el Tramo B (commits `4ef1650` a `05b5b16`)
 
@@ -24,13 +24,20 @@ Cada uno pasó `npm run check` al hacerse (511 pruebas unitarias), `npm run e2e`
 - `src/ui/`: `Ventana.tsx`, `musica/Audicion.tsx`, `PadDeToques.tsx`, `RejillaDeRitmo.tsx`, `Pentagrama.tsx` (abcjs, carga diferida), `EditorDePiano.tsx` (editor completo: historial, ampliación, herramientas, exportar MIDI, vista de pentagrama) y `RolloDePiano.tsx` reescrito (arrastre, selección, cursor de teclado).
 - `src/app/descargas.ts`; nueve iconos nuevos; rutas nuevas en `rutas.ts` (`ficha/:id`, `pianoroll/:id?`, `prueba`, `calibracion`).
 
-### Por qué no compila (lo primero que hay que arreglar)
+### Paso B4-1 (ejercicio de oído): hecho
 
-1. `src/pantallas/Leccion.tsx` importa `OidoPreguntas.tsx`, que ya no existe (ahora es `Oido.tsx`, exporta `Oido`).
-2. `src/app/App.tsx`: su `switch` de rutas no tiene caso para las rutas nuevas.
-3. `src/pantallas/PianoRoll.tsx` usa las propiedades antiguas de `RolloDePiano` (`alCambiar`). Debe pasar a usar `EditorDePiano`.
-4. **Falta todo el CSS de lo nuevo**: `.pregunta`, `.orden*`, `.capas`, `.capa*`, `.ritmo*`, `.casilla*`, `.pad`, `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.vista-pieza__resaltado`, `.boton--activo`.
-5. `e2e/pianoroll.spec.ts` y la lista `PANTALLAS` de `e2e/ayudas.ts` describen el piano roll antiguo.
+- `Leccion.tsx` usa `Oido.tsx` para todos los modos de oído: preguntas escritas y los siete generados con `src/musica/oido.ts`. El resultado del paso todavía no se guarda (llega en B5).
+- Para que compile, de forma provisional: las rutas `ficha`, `prueba` y `calibracion` llevan a `Proximamente`, y `PianoRoll.tsx` abre la pieza de prueba en `EditorDePiano` sin guardar nada.
+- `e2e/oido.spec.ts`: sirve una lección propia con pasos de intervalo y de acorde generados y los recorre con pista, corrección y repetición. `e2e/pianoroll.spec.ts` está adaptado al editor nuevo.
+- **No comprobado:** cómo suenan las preguntas generadas (va a AUDIO_REVIEW.md cuando haya lecciones que las usen), el resto de modos generados en el navegador (solo intervalo y acorde) y la compilación bajo `BASE_PATH`. Ninguna lección del curso usa todavía pasos de oído generados: llegan con el contenido (B7).
+
+### Lo que falta del CSS de lo nuevo
+
+`.orden*`, `.capas`, `.capa*`, `.ritmo*`, `.casilla*`, `.pad`, `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.vista-pieza__resaltado`, `.boton--activo`. Se hace con el ejercicio o la pantalla que lo usa.
+
+### Ruta acordada con Mario (un commit y una parada por paso)
+
+B4-2 ritmo · B4-3 construcción guiada · B4-4 análisis · B4-5 mezcla por capas · B4-6 composición y encargo (`Composicion.tsx`, `VistaDePaso`, quitar `PasoPendiente`, reescribir `Leccion.tsx`) · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
 
 ### Lo que queda del Tramo B, en orden
 

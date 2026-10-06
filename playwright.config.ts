@@ -15,6 +15,8 @@ export default defineConfig({
   testDir: 'e2e',
   outputDir: 'test-results',
   fullyParallel: true,
+  // Con un navegador por núcleo, en Windows las pruebas se quedan sin tiempo: en local van de dos en dos.
+  ...(process.env.CI ? {} : { workers: 2 }),
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',

@@ -107,6 +107,12 @@ function pantallaDe(ruta: Ruta): { contenido: ReactNode; conNavegacion: boolean 
         contenido: <Proximamente titulo="Glosario" descripcion="Todos los términos del curso y las fichas de consulta rápida, con su ejemplo sonoro." />,
         conNavegacion: true,
       }
+    case 'ficha':
+      return { contenido: <Proximamente titulo="Ficha" descripcion="Una ficha de consulta rápida, con su ejemplo sonoro." />, conNavegacion: true }
+    case 'prueba':
+      return { contenido: <Proximamente titulo="Prueba de nivel" descripcion="Unas preguntas para saltarte lo que ya sabes." />, conNavegacion: true }
+    case 'calibracion':
+      return { contenido: <Proximamente titulo="Calibración" descripcion="Toca al ritmo de la claqueta para medir el retardo del sonido en tu dispositivo." />, conNavegacion: false }
     case 'ajustes':
       return { contenido: <Ajustes />, conNavegacion: true }
     case 'diagnostico':

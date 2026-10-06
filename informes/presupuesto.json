@@ -1,37 +1,57 @@
 {
   "limite": 300000,
-  "inicial": 92609,
-  "diferido": 90759,
-  "css": 8038,
+  "inicial": 95304,
+  "diferido": 260974,
+  "css": 8050,
   "archivos": [
     {
+      "archivo": "assets/abcjs.js",
+      "bytes": 147453,
+      "inicial": false
+    },
+    {
       "archivo": "assets/index.js",
-      "bytes": 89059,
+      "bytes": 90536,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 72493,
+      "bytes": 72520,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Midi.js",
+      "bytes": 8993,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/PianoRoll.js",
+      "bytes": 7948,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Leccion.js",
+      "bytes": 5315,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Pentagrama.js",
+      "bytes": 4150,
       "inicial": false
     },
     {
       "archivo": "assets/useReproductor.js",
-      "bytes": 3625,
+      "bytes": 3688,
       "inicial": false
     },
     {
-      "archivo": "assets/estado.js",
-      "bytes": 3550,
+      "archivo": "assets/react.js",
+      "bytes": 3010,
       "inicial": true
     },
     {
-      "archivo": "assets/PianoRoll.js",
-      "bytes": 3184,
-      "inicial": false
-    },
-    {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2256,
+      "bytes": 2293,
       "inicial": false
     },
     {
@@ -40,18 +60,18 @@
       "inicial": false
     },
     {
-      "archivo": "assets/Leccion.js",
-      "bytes": 2146,
+      "archivo": "assets/Muestrario.js",
+      "bytes": 1606,
       "inicial": false
     },
     {
-      "archivo": "assets/Muestrario.js",
-      "bytes": 1542,
+      "archivo": "assets/midi.js",
+      "bytes": 1261,
       "inicial": false
     },
     {
       "archivo": "assets/Avance.js",
-      "bytes": 1016,
+      "bytes": 1037,
       "inicial": false
     },
     {
@@ -60,18 +80,33 @@
       "inicial": false
     },
     {
+      "archivo": "assets/preload-helper.js",
+      "bytes": 749,
+      "inicial": true
+    },
+    {
       "archivo": "assets/sonidos.js",
-      "bytes": 734,
+      "bytes": 733,
       "inicial": false
     },
     {
-      "archivo": "assets/Deslizador.js",
-      "bytes": 352,
-      "inicial": false
+      "archivo": "assets/rolldown-runtime.js",
+      "bytes": 510,
+      "inicial": true
     },
     {
       "archivo": "assets/pieza.js",
-      "bytes": 310,
+      "bytes": 505,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/estado.js",
+      "bytes": 499,
+      "inicial": true
+    },
+    {
+      "archivo": "assets/Deslizador.js",
+      "bytes": 371,
       "inicial": false
     }
   ]
