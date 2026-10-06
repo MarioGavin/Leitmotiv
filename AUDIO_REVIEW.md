@@ -55,6 +55,8 @@ Niveles de partida por papel: melodía 0 dB, bajo −1, contramelodía −3, per
 - [ ] **B7. Costura del bucle.** En el piano roll, deja sonar «Camino de la pradera» varias vueltas. *Problema*: un hueco, un golpe doble o una nota cortada al volver al principio.
 - [ ] **B8. La composición.** «Camino de la pradera» y las melodías de las dos lecciones son originales y sencillas a propósito. *Decide*: si suenan a música o a ejercicio, y si el nivel de partida es el adecuado para ti.
 
+- [ ] **B7. Ejercicios de ritmo** («El pulso», pasos 2 y 4; «El tempo», pasos 4 y 5). Suena una cuenta previa y el patrón; hay que tocar el pad grande. *Escucha*: haz uno en el móvil, con altavoz y con auriculares. *Problema*: que la cuenta previa no se distinga del patrón, o que tus golpes salgan corregidos como adelantados o atrasados cuando tú los sientes a tiempo (sería el retardo del dispositivo; la calibración todavía no está hecha).
+
 ## C. Sonidos de la interfaz
 
 En **Diagnóstico de audio → Sonidos de interfaz**, con cada uno de los dos timbres (se cambian en **Ajustes → Sonidos de la interfaz**): «Chip» es una onda de pulso y «Campana», una campana FM.

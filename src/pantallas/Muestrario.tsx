@@ -10,11 +10,16 @@ import { Icono } from '../ui/Icono.tsx'
 import { Marco } from '../ui/Marco.tsx'
 import { Opciones } from '../ui/Opciones.tsx'
 import { NOMBRES_DE_ICONO } from '../ui/iconos/nombres.ts'
+import { PadDeToques } from '../ui/musica/PadDeToques.tsx'
+import { RejillaDeRitmo } from '../ui/musica/RejillaDeRitmo.tsx'
 
 /**
  * Muestrario del sistema de diseño: todos los componentes en sus estados,
  * para juzgar el aspecto de un vistazo. Lo describe DESIGN.md.
  */
+/** Patrón de muestra: un compás de 4/4 en corcheas, con el primer golpe acentuado. */
+const PATRON = { compas: [4, 4] as [number, number], paso: 240, golpes: [0, 480, 840, 960, 1440], acentos: [true, false, false, false, false], duracion: 1920 }
+
 export function Muestrario() {
   const [opcion, setOpcion] = useState<string | undefined>('3M')
   const [tempo, setTempo] = useState(96)
@@ -96,6 +101,16 @@ export function Muestrario() {
                 </button>
               ))}
             </div>
+          </div>
+        </Marco>
+
+        <Marco rotulo="Ritmo">
+          <div className="pila">
+            <RejillaDeRitmo patron={PATRON} />
+            <RejillaDeRitmo patron={PATRON} marcas={[0, -70, null, 15, 60]} rotulo="Corregido" />
+            <PadDeToques activo alTocar={() => undefined}>
+              Toca aquí
+            </PadDeToques>
           </div>
         </Marco>
 

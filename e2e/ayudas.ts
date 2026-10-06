@@ -33,6 +33,7 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/mundo/m00', '.leccion-enlace'],
   ['#/leccion/m00.u01.l02/1', '.pie .boton'],
   ['#/leccion/m00.u01.l02/2', '.opcion'],
+  ['#/leccion/m00.u01.l02/4', '.pad'],
   ['#/pianoroll', '.rollo'],
   ['#/ajustes', '.conmutador'],
   ['#/repertorio', '.pantalla__cuerpo .boton'],
@@ -44,4 +45,25 @@ export async function elegirEsquema(pagina: Page, esquema: string): Promise<void
   await pagina.addInitScript((e) => {
     localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip', latenciaMs: 0 }, version: 3 }))
   }, esquema)
+}
+
+/**
+ * Prepara la página para tocar al ritmo en el próximo ejercicio que empiece:
+ * cuando el ejercicio publica en `leitmotiv:ritmo` cuándo va cada golpe, se
+ * pulsa el pad en esos instantes. Hay que llamarla antes de tocar «Empezar».
+ */
+export async function tocarAlRitmo(pagina: Page): Promise<void> {
+  await pagina.evaluate(() => {
+    document.addEventListener(
+      'leitmotiv:ritmo',
+      (evento) => {
+        const { instantes } = (evento as CustomEvent<{ instantes: number[] }>).detail
+        const pad = document.querySelector('.pad')
+        for (const instante of instantes) {
+          setTimeout(() => pad?.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })), instante - performance.now())
+        }
+      },
+      { once: true },
+    )
+  })
 }

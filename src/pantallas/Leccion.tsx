@@ -6,6 +6,7 @@ import type { Paso } from '../contenido/tipos.ts'
 import { Oido } from '../ejercicios/Oido.tsx'
 import { PasoDeTeoria } from '../ejercicios/PasoDeTeoria.tsx'
 import { PasoPendiente } from '../ejercicios/PasoPendiente.tsx'
+import { Ritmo } from '../ejercicios/Ritmo.tsx'
 import { Avance } from '../ui/Avance.tsx'
 import { Boton } from '../ui/Boton.tsx'
 import { Cabecera } from '../ui/Cabecera.tsx'
@@ -23,6 +24,7 @@ function vistaDe(paso: Paso, alTerminar: () => void) {
   if (paso.tipo === 'teoria') return <PasoDeTeoria paso={paso} alTerminar={alTerminar} />
   // El resultado del paso todavía no se guarda: el progreso se enlaza con la lección en el paso B5.
   if (paso.tipo === 'oido') return <Oido paso={paso} alTerminar={() => alTerminar()} />
+  if (paso.tipo === 'ritmo') return <Ritmo paso={paso} alTerminar={() => alTerminar()} />
   return <PasoPendiente paso={paso} alTerminar={alTerminar} />
 }
 

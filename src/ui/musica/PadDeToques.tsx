@@ -41,7 +41,7 @@ export function PadDeToques({ activo, alTocar, children }: Props) {
   }
 
   return (
-    <button ref={boton} type="button" className="pad" aria-disabled={!activo || undefined} onPointerDown={alPulsar} onKeyDown={alTeclear} onContextMenu={(e) => e.preventDefault()}>
+    <button ref={boton} type="button" className="boton boton--primario pad" aria-disabled={!activo || undefined} onPointerDown={alPulsar} onKeyDown={alTeclear} onContextMenu={(e) => e.preventDefault()}>
       {children}
     </button>
   )

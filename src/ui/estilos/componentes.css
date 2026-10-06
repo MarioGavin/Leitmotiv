@@ -729,3 +729,79 @@
   opacity: 0;
   pointer-events: none;
 }
+
+/* ── Rejilla de ritmo: una fila por compás, una casilla por figura ── */
+.ritmo {
+  display: grid;
+  gap: var(--e-1);
+}
+
+.ritmo__compas {
+  display: grid;
+  gap: 2px;
+}
+
+.casilla {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 28px;
+}
+
+.casilla--golpe::after,
+.casilla--acento::after {
+  content: '';
+  width: 40%;
+  aspect-ratio: 1;
+}
+
+.casilla--acento::after {
+  width: 70%;
+}
+
+.casilla--acierto::after,
+.casilla--fallo::after {
+  content: none;
+}
+
+/* Un golpe que llega antes o después se marca con una barra en ese lado: se lee sin depender del color. */
+.casilla--antes::before,
+.casilla--despues::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.casilla--antes::before {
+  left: 0;
+}
+
+.casilla--despues::before {
+  right: 0;
+}
+
+.casilla .icono {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Pad de toques: el botón grande con el que se marca el ritmo ── */
+.pad {
+  display: flex;
+  width: 100%;
+  min-height: 132px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ritmo__momento {
+  min-height: 1.2em;
+  font-family: var(--fuente-titulos);
+  font-weight: var(--peso-titulos);
+  font-size: var(--t-titulo);
+  line-height: 1.2;
+  text-align: center;
+  text-transform: var(--caja-titulos);
+}

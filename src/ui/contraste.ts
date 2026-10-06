@@ -66,6 +66,7 @@ export const PAREJAS: readonly Pareja[] = [
   { sobre: 'tinta-suave', fondo: 'fondo', minimo: 4.5, uso: 'Texto secundario sobre el fondo' },
   { sobre: 'tinta-suave', fondo: 'superficie', minimo: 4.5, uso: 'Texto secundario dentro de un marco' },
   { sobre: 'tinta-suave', fondo: 'hundido', minimo: 4.5, uso: 'Rótulos de la rejilla' },
+  { sobre: 'tinta-suave', fondo: 'superficie-2', minimo: 4.5, uso: 'Texto del pad de toques cuando no cuenta y raya de pulso de la rejilla de ritmo' },
   { sobre: 'sobre-acento', fondo: 'acento', minimo: 4.5, uso: 'Texto del botón principal' },
   { sobre: 'acento-tinta', fondo: 'fondo', minimo: 4.5, uso: 'Texto de acento sobre el fondo' },
   { sobre: 'acento-tinta', fondo: 'superficie', minimo: 4.5, uso: 'Texto de acento dentro de un marco' },

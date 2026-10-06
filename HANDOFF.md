@@ -2,11 +2,11 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-1 (ejercicio de oído). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
+**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-2 (ejercicio de ritmo). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
 
 ## Pausa a mitad del Tramo B: qué hay y qué falta
 
-**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 19 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
+**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 20 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
 
 ### Hecho y comprobado en el Tramo B (commits `4ef1650` a `05b5b16`)
 
@@ -31,13 +31,20 @@ Cada uno pasó `npm run check` al hacerse (511 pruebas unitarias), `npm run e2e`
 - `e2e/oido.spec.ts`: sirve una lección propia con pasos de intervalo y de acorde generados y los recorre con pista, corrección y repetición. `e2e/pianoroll.spec.ts` está adaptado al editor nuevo.
 - **No comprobado:** cómo suenan las preguntas generadas (va a AUDIO_REVIEW.md cuando haya lecciones que las usen), el resto de modos generados en el navegador (solo intervalo y acorde) y la compilación bajo `BASE_PATH`. Ninguna lección del curso usa todavía pasos de oído generados: llegan con el contenido (B7).
 
+### Paso B4-2 (ejercicio de ritmo): hecho
+
+- `Leccion.tsx` usa `Ritmo.tsx`: cuenta previa, patrón, pad de toques, corrección golpe a golpe (adelantado, atrasado, perdido), repetir y, tras dos fallos, «Seguir de todos modos». Los cuatro pasos de ritmo de las dos lecciones ya se pueden hacer.
+- CSS de `.ritmo*`, `.casilla*` y `.pad` (el pad usa el marco de `.boton`). Muestra en el Muestrario. Pareja de contraste nueva medida: `tinta-suave` sobre `superficie-2`.
+- `e2e/ayudas.ts` tiene `tocarAlRitmo`, que pulsa el pad en los instantes que publica el evento `leitmotiv:ritmo`. `e2e/leccion.spec.ts` completa la lección «El tempo» tocando a tiempo, y prueba un intento sin toques y su repetición.
+- **No comprobado:** la precisión en un teléfono real y cómo suena (AUDIO_REVIEW.md, B7). El enlace «Calibrarlo» del fallo lleva a una pantalla provisional hasta B6. Los modos `eco` y `leer` no tienen prueba de navegador, porque ninguna lección los usa todavía.
+
 ### Lo que falta del CSS de lo nuevo
 
-`.orden*`, `.capas`, `.capa*`, `.ritmo*`, `.casilla*`, `.pad`, `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.vista-pieza__resaltado`, `.boton--activo`. Se hace con el ejercicio o la pantalla que lo usa.
+`.orden*`, `.capas`, `.capa*`, `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.vista-pieza__resaltado`, `.boton--activo`. Se hace con el ejercicio o la pantalla que lo usa.
 
 ### Ruta acordada con Mario (un commit y una parada por paso)
 
-B4-2 ritmo · B4-3 construcción guiada · B4-4 análisis · B4-5 mezcla por capas · B4-6 composición y encargo (`Composicion.tsx`, `VistaDePaso`, quitar `PasoPendiente`, reescribir `Leccion.tsx`) · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
+~~B4-2 ritmo~~ · B4-3 construcción guiada · B4-4 análisis · B4-5 mezcla por capas · B4-6 composición y encargo (`Composicion.tsx`, `VistaDePaso`, quitar `PasoPendiente`, reescribir `Leccion.tsx`) · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
 
 ### Lo que queda del Tramo B, en orden
 
@@ -134,7 +141,6 @@ Todo lo de esta lista se ha ejecutado y pasa: `npm run check` (252 pruebas unita
 
 **Funcionamiento**
 
-- **Los pasos de ritmo de las dos lecciones no se pueden hacer.** Enseñan el enunciado y un botón para saltarlos.
 - **No se guarda nada del progreso.** Completar una lección no deja rastro, y lo que se edita en el piano roll se pierde al salir.
 - **El piano roll es una prueba de diseño.** Abre siempre la misma pieza. Tocar una casilla pone una nota del tamaño de la rejilla y tocar una nota la quita; no hay arrastre, ni deshacer, ni ampliación. Editar mientras suena detiene la reproducción. No se puede usar con teclado ni con lector de pantalla. Sus casillas miden 28 px.
 - Repaso, Repertorio y Glosario son pantallas provisionales.

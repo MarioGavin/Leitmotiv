@@ -459,3 +459,53 @@
 .leccion-enlace__titulo {
   font-weight: 700;
 }
+
+/* ── Rejilla de ritmo ── */
+.casilla {
+  background: var(--superficie-2);
+  color: var(--tinta);
+}
+
+/* El primer golpe de cada pulso lleva una raya a la izquierda: separa los pulsos sin huecos. */
+.casilla--pulso {
+  box-shadow: inset 2px 0 0 var(--tinta-suave);
+}
+
+.casilla--golpe::after,
+.casilla--acento::after,
+.casilla--antes::before,
+.casilla--despues::before {
+  background: currentColor;
+}
+
+.casilla--actual {
+  outline: 2px solid var(--tinta);
+  outline-offset: -2px;
+}
+
+/* El acierto y el fallo llevan además su icono dentro de la casilla. */
+.casilla--acierto {
+  background: var(--exito);
+  color: var(--sobre-exito);
+}
+
+.casilla--fallo {
+  background: var(--error);
+  color: var(--sobre-error);
+}
+
+/* ── Pad de toques ── */
+.pad[aria-disabled] {
+  --_relleno: var(--superficie-2);
+  --_tinta: var(--tinta-suave);
+}
+
+.pad--golpe::before {
+  animation: pad-golpe 120ms steps(2, end);
+}
+
+@keyframes pad-golpe {
+  from {
+    background: var(--tinta);
+  }
+}

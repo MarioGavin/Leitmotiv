@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test'
-import { vigilarErrores } from './ayudas.ts'
+import { tocarAlRitmo, vigilarErrores } from './ayudas.ts'
 
 test('se completa una lección de principio a fin', async ({ page }) => {
+  // Los dos ejercicios de ritmo suenan de verdad: unos 25 segundos.
+  test.setTimeout(90_000)
   const errores = vigilarErrores(page)
   await page.goto('./#/mundo/m00')
   await page.getByRole('link', { name: /El tempo/ }).click()
@@ -24,9 +26,14 @@ test('se completa una lección de principio a fin', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'El tempo cuenta lo que pasa' })).toBeVisible()
   await page.getByRole('button', { name: 'Continuar' }).click()
 
-  // Pasos 4 y 5: ejercicios de ritmo, que en el Tramo A todavía se saltan.
-  await page.getByRole('button', { name: 'Saltar este paso' }).click()
-  await page.getByRole('button', { name: 'Saltar este paso' }).click()
+  // Pasos 4 y 5: ejercicios de ritmo, tocados a tiempo.
+  for (const bpm of ['72 BPM · 4/4', '144 BPM · 4/4']) {
+    await expect(page.getByText(bpm)).toBeVisible()
+    await tocarAlRitmo(page)
+    await page.getByRole('button', { name: 'Empezar' }).click()
+    await expect(page.getByRole('status').filter({ hasText: 'Superado' })).toBeVisible({ timeout: 30_000 })
+    await page.getByRole('button', { name: 'Continuar' }).click()
+  }
 
   await expect(page.getByRole('heading', { name: 'Lección completada' })).toBeVisible()
   await page.getByRole('button', { name: 'Volver al mundo' }).click()
@@ -70,4 +77,27 @@ test('un término del glosario abre su definición', async ({ page }) => {
   await expect(ventana).toContainText('Latido regular')
   await ventana.getByRole('button', { name: 'Cerrar' }).click()
   await expect(ventana).toBeHidden()
+})
+
+test('un ejercicio de ritmo sin toques se explica y se puede repetir', async ({ page }) => {
+  test.setTimeout(60_000)
+  const errores = vigilarErrores(page)
+  await page.goto('./#/leccion/m00.u01.l02/5')
+  await page.getByRole('button', { name: 'Pista' }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Pista' })).toContainText('Relaja la mano')
+
+  // Primer intento: no se toca nada.
+  await page.getByRole('button', { name: 'Empezar' }).click()
+  const fallo = page.getByRole('status').filter({ hasText: 'Todavía no' })
+  await expect(fallo).toContainText('No ha llegado ningún toque', { timeout: 30_000 })
+  await expect(page.getByRole('img', { name: /Patrón de 16 golpes/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Continuar|Seguir de todos modos/ })).toHaveCount(0)
+
+  // Segundo intento, a tiempo.
+  await tocarAlRitmo(page)
+  await page.getByRole('button', { name: 'Repetir' }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Superado' })).toContainText('16 de 16', { timeout: 30_000 })
+  await page.getByRole('button', { name: 'Continuar' }).click()
+  await expect(page.getByRole('heading', { name: 'Lección completada' })).toBeVisible()
+  expect(errores).toEqual([])
 })
