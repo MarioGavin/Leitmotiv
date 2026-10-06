@@ -19,6 +19,19 @@ describe('rutas', () => {
     expect(leerRuta('#/leccion/m00.u01.l02/4')).toEqual({ pantalla: 'leccion', id: 'm00.u01.l02', paso: 4 })
   })
 
+  it('lee una ficha y una pieza del repertorio por su identificador', () => {
+    expect(leerRuta('#/ficha/intervalos')).toEqual({ pantalla: 'ficha', id: 'intervalos' })
+    expect(leerRuta('#/pianoroll/3f2a-77')).toEqual({ pantalla: 'pianoroll', id: '3f2a-77' })
+    expect(leerRuta('#/prueba')).toEqual({ pantalla: 'prueba' })
+    expect(leerRuta('#/calibracion')).toEqual({ pantalla: 'calibracion' })
+  })
+
+  it('un identificador con caracteres raros no vale', () => {
+    expect(leerRuta('#/ficha/..%2F..')).toEqual({ pantalla: 'mapa' })
+    expect(leerRuta('#/ficha')).toEqual({ pantalla: 'mapa' })
+    expect(leerRuta('#/pianoroll/<script>')).toEqual({ pantalla: 'pianoroll' })
+  })
+
   it('empieza por el primer paso si falta o no es un número válido', () => {
     expect(leerRuta('#/leccion/m00.u01.l02')).toEqual({ pantalla: 'leccion', id: 'm00.u01.l02', paso: 1 })
     expect(leerRuta('#/leccion/m00.u01.l02/0')).toEqual({ pantalla: 'leccion', id: 'm00.u01.l02', paso: 1 })
@@ -39,6 +52,11 @@ describe('rutas', () => {
       { pantalla: 'leccion', id: 'm01.u04.l08', paso: 7 },
       { pantalla: 'repertorio' },
       { pantalla: 'diagnostico' },
+      { pantalla: 'ficha', id: 'acordes' },
+      { pantalla: 'pianoroll' },
+      { pantalla: 'pianoroll', id: 'abc-123' },
+      { pantalla: 'prueba' },
+      { pantalla: 'calibracion' },
     ]
     for (const ruta of rutas) expect(leerRuta(escribirRuta(ruta))).toEqual(ruta)
   })

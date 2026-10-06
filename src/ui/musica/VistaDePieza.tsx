@@ -13,6 +13,8 @@ interface Props {
   sonando?: boolean
   /** Identificadores de las pistas silenciadas: se dibujan atenuadas. */
   apagadas?: ReadonlySet<string>
+  /** Tramo que se destaca: el hueco de un ejercicio, el compás por el que se pregunta. */
+  resaltado?: { t: number; d: number } | undefined
 }
 
 /** Orden de las piezas de la batería de arriba abajo: platos, charles, toms, caja y bombo. */
@@ -37,7 +39,7 @@ function esPercusion(pista: Pista): boolean {
  * tónica (o los Do, si la pieza no declara tonalidad) y las piezas de la
  * batería. No se edita: para eso está el piano roll completo.
  */
-export function VistaDePieza({ pieza, posicion, sonando = false, apagadas }: Props) {
+export function VistaDePieza({ pieza, posicion, sonando = false, apagadas, resaltado }: Props) {
   const cabezal = useRef<HTMLDivElement>(null)
   const nomenclatura = useAjustes((a) => a.nomenclatura)
 
@@ -124,7 +126,7 @@ export function VistaDePieza({ pieza, posicion, sonando = false, apagadas }: Pro
     return alias ? instrumento.percusion?.[alias]?.corto : undefined
   }
 
-  if (filas === 0 && teclas.length === 0) return <p className="vista-pieza__vacia suave">Esta pieza no tiene notas todavía.</p>
+  if (filas === 0 && teclas.length === 0 && !resaltado) return <p className="vista-pieza__vacia suave">Esta pieza no tiene notas todavía.</p>
 
   return (
     <div className="vista-pieza">
@@ -157,6 +159,7 @@ export function VistaDePieza({ pieza, posicion, sonando = false, apagadas }: Pro
           {teclas.map((tecla, i) => (
             <rect key={`linea-${tecla}`} className="vista-pieza__linea-percusion" x={0} y={inicioDePercusion + i * ALTO_DE_LINEA + 0.15} width={total} height={ALTO_DE_LINEA - 0.3} />
           ))}
+          {resaltado && <rect className="vista-pieza__resaltado" x={resaltado.t} y={0} width={resaltado.d} height={unidades} />}
           {lineas.map((t) => (
             <line key={`t-${t}`} className={t % porCompas === 0 ? 'vista-pieza__compas' : 'vista-pieza__tiempo'} x1={t} x2={t} y1={0} y2={unidades} />
           ))}

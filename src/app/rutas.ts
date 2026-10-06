@@ -11,17 +11,27 @@ export type Ruta =
   | { pantalla: 'mundo'; id: string }
   /** `paso` empieza en 1. */
   | { pantalla: 'leccion'; id: string; paso: number }
-  | { pantalla: 'pianoroll' }
+  /** El piano roll con una pieza del repertorio. Sin `id`, la pantalla manda al repertorio. */
+  | { pantalla: 'pianoroll'; id?: string }
   | { pantalla: 'repaso' }
   | { pantalla: 'repertorio' }
   | { pantalla: 'glosario' }
+  /** Una ficha de consulta rápida. */
+  | { pantalla: 'ficha'; id: string }
+  /** La prueba de nivel, para saltarse lo que ya se sabe. */
+  | { pantalla: 'prueba' }
+  /** Calibración del retardo del sonido. */
+  | { pantalla: 'calibracion' }
   | { pantalla: 'ajustes' }
   | { pantalla: 'diagnostico' }
   | { pantalla: 'muestrario' }
 
 export type Pantalla = Ruta['pantalla']
 
-const SIMPLES: ReadonlySet<string> = new Set(['mapa', 'pianoroll', 'repaso', 'repertorio', 'glosario', 'ajustes', 'diagnostico', 'muestrario'])
+const SIMPLES: ReadonlySet<string> = new Set(['mapa', 'pianoroll', 'repaso', 'repertorio', 'glosario', 'prueba', 'calibracion', 'ajustes', 'diagnostico', 'muestrario'])
+
+/** Identificadores que pueden ir en una ruta: letras, cifras y guiones. */
+const IDENTIFICADOR = /^[a-z0-9][a-z0-9-]{0,63}$/i
 
 export function leerRuta(hash: string): Ruta {
   const partes = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
@@ -32,6 +42,8 @@ export function leerRuta(hash: string): Ruta {
     const paso = Number(tercera)
     return { pantalla: 'leccion', id: segunda, paso: Number.isInteger(paso) && paso >= 1 ? paso : 1 }
   }
+  if (primera === 'ficha' && segunda && IDENTIFICADOR.test(segunda)) return { pantalla: 'ficha', id: segunda }
+  if (primera === 'pianoroll' && segunda && IDENTIFICADOR.test(segunda)) return { pantalla: 'pianoroll', id: segunda }
   if (SIMPLES.has(primera)) return { pantalla: primera } as Ruta
   return { pantalla: 'mapa' }
 }
@@ -44,6 +56,10 @@ export function escribirRuta(ruta: Ruta): string {
       return `#/mundo/${ruta.id}`
     case 'leccion':
       return `#/leccion/${ruta.id}/${ruta.paso}`
+    case 'ficha':
+      return `#/ficha/${ruta.id}`
+    case 'pianoroll':
+      return ruta.id === undefined ? '#/pianoroll' : `#/pianoroll/${ruta.id}`
     default:
       return `#/${ruta.pantalla}`
   }

@@ -28,6 +28,15 @@ export const NOMBRES_DE_ICONO = [
   'nota',
   'estrella',
   'pianoroll',
+  'subir',
+  'bajar',
+  'deshacer',
+  'rehacer',
+  'papelera',
+  'pentagrama',
+  'llama',
+  'cargar',
+  'puntero',
 ] as const
 
 export type NombreDeIcono = (typeof NOMBRES_DE_ICONO)[number]

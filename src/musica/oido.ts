@@ -10,6 +10,7 @@
  */
 import { Chord } from 'tonal'
 import type { OidoAcorde, OidoCompas, OidoContorno, OidoEscala, OidoIntervalo, OidoProgresion, OidoTimbre, PasoOido } from '../contenido/tipos.ts'
+import { apilar, enPosicionCerrada } from './acordes.ts'
 import { INSTRUMENTOS, type IdInstrumento, teclaDePercusion } from './instrumentos.ts'
 import { type Nomenclatura, cifradoVisible, croma, cromaDeMidi, midiDe, nombreDeIntervalo, nombreVisible, notaDeMidi, semitonos, transportar } from './notas.ts'
 import type { Nota, Pieza } from './pieza.ts'
@@ -173,19 +174,6 @@ export function nombreDeCalidad(calidad: string): string {
   return NOMBRES_DE_CALIDAD[calidad] ?? calidad.replace(/b(?=\d)/g, '♭').replaceAll('#', '♯')
 }
 
-/** Apila las notas de un acorde por encima de su fundamental: cada una, la primera con ese nombre que queda más arriba de la anterior. */
-function apilar(fundamental: number, clases: readonly string[]): number[] {
-  const salida: number[] = []
-  let anterior = fundamental - 1
-  for (const clase of clases) {
-    let midi = anterior + 1
-    while (cromaDeMidi(midi) !== croma(clase)) midi++
-    salida.push(midi)
-    anterior = midi
-  }
-  return salida
-}
-
 function deAcorde(paso: OidoAcorde, nomenclatura: Nomenclatura, azar: Azar): PreguntaGenerada[] {
   const opciones = paso.calidades.map(nombreDeCalidad)
   const [min, max] = INSTRUMENTOS[paso.instrumento].rango
@@ -231,17 +219,6 @@ function deAcorde(paso: OidoAcorde, nomenclatura: Nomenclatura, azar: Azar): Pre
 
 // ───────────────────────────── progresión ─────────────────────────────
 
-/** Coloca las notas de un acorde en posición cerrada dentro de una octava fija, para que los enlaces sean suaves. */
-function cerrado(clases: readonly string[], desde: number): number[] {
-  return clases
-    .map((clase) => {
-      let midi = desde
-      while (cromaDeMidi(midi) !== croma(clase)) midi++
-      return midi
-    })
-    .sort((a, b) => a - b)
-}
-
 function deProgresion(paso: OidoProgresion, nomenclatura: Nomenclatura, azar: Azar): PreguntaGenerada[] {
   const opciones = paso.progresiones.map((p) => p.join(' – '))
   const [min, max] = INSTRUMENTOS[paso.instrumento].rango
@@ -255,8 +232,8 @@ function deProgresion(paso: OidoProgresion, nomenclatura: Nomenclatura, azar: Az
       simbolos.push(cifradoVisible(acorde.simbolo.replace(/^([A-G][#b]?)M$/, '$1')))
       const t = i * PPQ * 4
       // Mano derecha entre La3 y Sol♯4; el bajo, una octava y media por debajo.
-      for (const n of cerrado(acorde.notas, Math.max(min, 57))) if (n <= max) eventos.push(nota(t, PPQ * 4, n))
-      const bajo = cerrado([acorde.fundamental], Math.max(min, 40))[0]
+      for (const n of enPosicionCerrada(acorde.notas, Math.max(min, 57))) if (n <= max) eventos.push(nota(t, PPQ * 4, n))
+      const bajo = enPosicionCerrada([acorde.fundamental], Math.max(min, 40))[0]
       if (bajo !== undefined) eventos.push(nota(t, PPQ * 4, bajo, 84))
     })
     return {

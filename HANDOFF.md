@@ -2,7 +2,50 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 3 de octubre de 2026, al cerrar el Tramo A de la Fase 1.
+**Última actualización:** 6 de octubre de 2026. **Trabajo en pausa a mitad del Tramo B**, a petición de Mario. Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
+
+## Pausa a mitad del Tramo B: qué hay y qué falta
+
+**El último commit («En curso…») no compila.** Se subió tal cual porque Mario pidió parar y guardar todo. El anterior que compila y pasa todas las pruebas es `05b5b16` («Progreso…»).
+
+### Hecho y comprobado en el Tramo B (commits `4ef1650` a `05b5b16`)
+
+Cada uno pasó `npm run check` al hacerse (511 pruebas unitarias), `npm run e2e` (18) y `npm run audio:check` (70 comprobaciones).
+
+- **Diseño**: una sola dirección, la mezcla que eligió Mario.
+- **Lógica musical** (`src/musica/`): corrección de encargos (`requisitos.ts`), ritmo (`ritmo.ts`), generadores de preguntas de oído (`oido.ts`), exportación a MIDI (`midi.ts`), paso a ABC para el pentagrama (`abc.ts`), armaduras y compases compuestos.
+- **Motor de audio** (`src/audio/`): edición en vivo (`fijarNotas`), cambio de instrumento en marcha, capas con fundido, salto a secciones, swing, claqueta y patrón de ritmo, lectura del instante de un toque contra el reloj de audio (`pulsacion.ts`), ajuste `latenciaMs`.
+- **Progreso** (`src/progreso/`): experiencia y nivel, racha, desbloqueo, repaso espaciado con ts-fsrs, base de datos con Dexie, copia de seguridad en JSON y el almacén `useProgreso`. **Ninguna pantalla lo usa todavía.**
+
+### En el commit «En curso»: escrito, sin terminar y sin probar en navegador
+
+- `src/ejercicios/`: `tipos.ts`, `Cuestionario.tsx` (armazón común de preguntas), `Oido.tsx` (antes `OidoPreguntas.tsx`), `Analisis.tsx`, `Construccion.tsx`, `Capas.tsx`, `Ritmo.tsx`, `usePulsaciones.ts` (emite el evento `leitmotiv:ritmo` con los instantes de los toques, pensado para las pruebas de navegador).
+- `src/musica/`: `acordes.ts`, `construccion.ts`, `secciones.ts`, `edicion.ts` (poner, quitar, mover y estirar notas; historial de deshacer), `plantilla.ts`. Estos cuatro últimos tienen pruebas unitarias y pasaban.
+- `src/ui/`: `Ventana.tsx`, `musica/Audicion.tsx`, `PadDeToques.tsx`, `RejillaDeRitmo.tsx`, `Pentagrama.tsx` (abcjs, carga diferida), `EditorDePiano.tsx` (editor completo: historial, ampliación, herramientas, exportar MIDI, vista de pentagrama) y `RolloDePiano.tsx` reescrito (arrastre, selección, cursor de teclado).
+- `src/app/descargas.ts`; nueve iconos nuevos; rutas nuevas en `rutas.ts` (`ficha/:id`, `pianoroll/:id?`, `prueba`, `calibracion`).
+
+### Por qué no compila (lo primero que hay que arreglar)
+
+1. `src/pantallas/Leccion.tsx` importa `OidoPreguntas.tsx`, que ya no existe (ahora es `Oido.tsx`, exporta `Oido`).
+2. `src/app/App.tsx`: su `switch` de rutas no tiene caso para las rutas nuevas.
+3. `src/pantallas/PianoRoll.tsx` usa las propiedades antiguas de `RolloDePiano` (`alCambiar`). Debe pasar a usar `EditorDePiano`.
+4. **Falta todo el CSS de lo nuevo**: `.pregunta`, `.orden*`, `.capas`, `.capa*`, `.ritmo*`, `.casilla*`, `.pad`, `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.vista-pieza__resaltado`, `.boton--activo`.
+5. `e2e/pianoroll.spec.ts` y la lista `PANTALLAS` de `e2e/ayudas.ts` describen el piano roll antiguo.
+
+### Lo que queda del Tramo B, en orden
+
+1. **Ejercicios**: `Composicion.tsx` (paso de piano roll y de encargo: lista de requisitos con `requisitos.ts`, borradores, guardar en el repertorio); un repartidor `VistaDePaso` que elija el componente por tipo de paso; quitar `PasoPendiente`; reescribir `Leccion.tsx` (resultado por concepto, `completarLeccion`, pantalla final con experiencia, candado si la lección está bloqueada); el CSS de arriba.
+2. **Pantallas**: enlazar todo en `App.tsx` y llamar a `useProgreso.cargar()` al arrancar; Repaso, Repertorio, Glosario con fichas, Prueba de nivel, Calibración de latencia, piano roll que abra una pieza del repertorio; nivel, experiencia, racha y candados en Título, Mapa y Mundo; Ajustes con latencia, copia de seguridad (exportar e importar) y borrar datos; vistas `teclado`, `rejilla` y `pentagrama` en `EjemploSonoro`; `manipulable: instrumento`; transiciones con Motion.
+3. **Contenido**: Mundo 0 entero (faltan 22 lecciones; tres unidades de ocho, cada una acabada en un encargo), dos lecciones del Mundo 1, glosario, conceptos, fichas y `prueba-de-nivel.yaml`. Corregir el texto de la lección l01, que dice «bombo» donde suena la caja.
+4. **Pruebas de navegador**: los siete tipos de ejercicio, piano roll, exportación a MIDI, copia de seguridad, ritmo y sin conexión; capturas en los dos esquemas; presupuesto de carga.
+5. **Documentos**: README, CLAUDE.md (dice que Dexie, ts-fsrs, @tonejs/midi y abcjs «todavía no se usan»: ya no es cierto; tampoco recoge `src/progreso/`), CONTENT_GUIDE (campos `registro`, `swing` y `guia`), DESIGN, CREDITS, ARCHITECTURE (incluido el evento `leitmotiv:ritmo`), AUDIO_REVIEW, y el mapa de unidades de todos los mundos para la Fase 2.
+
+### No comprobado de lo nuevo
+
+- Ningún componente del commit «En curso» se ha visto funcionar en un navegador.
+- El dibujo del pentagrama con abcjs dentro de la app, y la exportación a MIDI dentro del paquete de Vite (solo probadas desde Node).
+- La precisión de los toques de ritmo y la latencia en un teléfono real.
+- Que GitHub Actions y Pages funcionen. Ojo: **con el commit «En curso» la CI fallará**, porque no compila.
 
 ## Dónde estamos
 
