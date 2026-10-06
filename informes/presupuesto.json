@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 95344,
-  "diferido": 264911,
-  "css": 8342,
+  "inicial": 95349,
+  "diferido": 267203,
+  "css": 8430,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,12 +11,17 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 90576,
+      "bytes": 90581,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 72519,
+      "bytes": 72514,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Leccion.js",
+      "bytes": 10424,
       "inicial": false
     },
     {
@@ -25,23 +30,18 @@
       "inicial": false
     },
     {
-      "archivo": "assets/Leccion.js",
-      "bytes": 8207,
-      "inicial": false
-    },
-    {
       "archivo": "assets/PianoRoll.js",
-      "bytes": 7949,
+      "bytes": 7953,
       "inicial": false
     },
     {
       "archivo": "assets/Pentagrama.js",
-      "bytes": 4150,
+      "bytes": 4144,
       "inicial": false
     },
     {
       "archivo": "assets/useReproductor.js",
-      "bytes": 3686,
+      "bytes": 3693,
       "inicial": false
     },
     {
@@ -51,7 +51,7 @@
     },
     {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2292,
+      "bytes": 2293,
       "inicial": false
     },
     {
@@ -66,12 +66,12 @@
     },
     {
       "archivo": "assets/Muestrario.js",
-      "bytes": 1754,
+      "bytes": 1758,
       "inicial": false
     },
     {
       "archivo": "assets/midi.js",
-      "bytes": 1260,
+      "bytes": 1262,
       "inicial": false
     },
     {
@@ -90,14 +90,14 @@
       "inicial": false
     },
     {
+      "archivo": "assets/pieza.js",
+      "bytes": 573,
+      "inicial": false
+    },
+    {
       "archivo": "assets/rolldown-runtime.js",
       "bytes": 510,
       "inicial": true
-    },
-    {
-      "archivo": "assets/pieza.js",
-      "bytes": 505,
-      "inicial": false
     },
     {
       "archivo": "assets/estado.js",

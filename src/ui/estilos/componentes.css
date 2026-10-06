@@ -523,6 +523,12 @@
   fill: var(--rejilla-tonica);
 }
 
+/* El hueco de un ejercicio de construcción: un velo sobre los tiempos que faltan, por debajo de las notas. */
+.vista-pieza__resaltado {
+  fill: var(--acento);
+  fill-opacity: 0.22;
+}
+
 .vista-pieza__linea-percusion {
   fill: var(--rejilla-fila-clara);
 }
@@ -804,4 +810,34 @@
   line-height: 1.2;
   text-align: center;
   text-transform: var(--caja-titulos);
+}
+
+/* ── Orden de fragmentos: una fila por fragmento, con su puesto y sus botones ── */
+.orden {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.orden__fila {
+  display: grid;
+  grid-template-columns: var(--ancho-marca, 32px) 1fr auto auto auto;
+  align-items: center;
+  gap: var(--e-1);
+  padding: var(--e-1) var(--e-2);
+}
+
+.orden__puesto {
+  font-family: var(--fuente-datos, var(--fuente-titulos));
+  font-weight: var(--peso-dato);
+  font-size: var(--t-dato);
+  text-align: center;
+}
+
+.orden__nombre {
+  font-family: var(--fuente-opcion, var(--fuente-titulos));
+  font-weight: var(--peso-opcion, var(--peso-boton));
+  font-size: var(--t-opcion, var(--t-l));
+  line-height: 1.2;
 }

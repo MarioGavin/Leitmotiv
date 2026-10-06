@@ -509,3 +509,14 @@
     background: var(--tinta);
   }
 }
+
+/* ── Orden de fragmentos: la misma raya de puntos que separa las opciones ── */
+.orden__fila + .orden__fila {
+  background-image: repeating-linear-gradient(90deg, var(--separador) 0 4px, transparent 4px 8px);
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+}
+
+.orden__puesto {
+  color: var(--acento-tinta);
+}
