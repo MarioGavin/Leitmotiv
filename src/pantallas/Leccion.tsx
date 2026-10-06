@@ -3,6 +3,7 @@ import { leerLeccion } from '../app/contenido.ts'
 import { navegar } from '../app/rutas.ts'
 import { sonar } from '../audio/audio.ts'
 import type { Paso } from '../contenido/tipos.ts'
+import { Analisis } from '../ejercicios/Analisis.tsx'
 import { Construccion } from '../ejercicios/Construccion.tsx'
 import { Oido } from '../ejercicios/Oido.tsx'
 import { PasoDeTeoria } from '../ejercicios/PasoDeTeoria.tsx'
@@ -27,6 +28,7 @@ function vistaDe(paso: Paso, alTerminar: () => void) {
   if (paso.tipo === 'oido') return <Oido paso={paso} alTerminar={() => alTerminar()} />
   if (paso.tipo === 'ritmo') return <Ritmo paso={paso} alTerminar={() => alTerminar()} />
   if (paso.tipo === 'construccion') return <Construccion paso={paso} alTerminar={() => alTerminar()} />
+  if (paso.tipo === 'analisis') return <Analisis paso={paso} alTerminar={() => alTerminar()} />
   return <PasoPendiente paso={paso} alTerminar={alTerminar} />
 }
 

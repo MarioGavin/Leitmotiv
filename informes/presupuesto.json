@@ -1,7 +1,7 @@
 {
   "limite": 300000,
-  "inicial": 95349,
-  "diferido": 267203,
+  "inicial": 95346,
+  "diferido": 267282,
   "css": 8430,
   "archivos": [
     {
@@ -11,17 +11,17 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 90581,
+      "bytes": 90578,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 72514,
+      "bytes": 72515,
       "inicial": false
     },
     {
       "archivo": "assets/Leccion.js",
-      "bytes": 10424,
+      "bytes": 10494,
       "inicial": false
     },
     {
@@ -31,17 +31,17 @@
     },
     {
       "archivo": "assets/PianoRoll.js",
-      "bytes": 7953,
+      "bytes": 7958,
       "inicial": false
     },
     {
       "archivo": "assets/Pentagrama.js",
-      "bytes": 4144,
+      "bytes": 4145,
       "inicial": false
     },
     {
       "archivo": "assets/useReproductor.js",
-      "bytes": 3693,
+      "bytes": 3692,
       "inicial": false
     },
     {
@@ -51,7 +51,7 @@
     },
     {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2293,
+      "bytes": 2294,
       "inicial": false
     },
     {
@@ -61,7 +61,7 @@
     },
     {
       "archivo": "assets/Avance.js",
-      "bytes": 1937,
+      "bytes": 1938,
       "inicial": false
     },
     {
@@ -71,7 +71,7 @@
     },
     {
       "archivo": "assets/midi.js",
-      "bytes": 1262,
+      "bytes": 1263,
       "inicial": false
     },
     {
@@ -86,7 +86,7 @@
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 735,
+      "bytes": 734,
       "inicial": false
     },
     {
@@ -106,7 +106,7 @@
     },
     {
       "archivo": "assets/Deslizador.js",
-      "bytes": 370,
+      "bytes": 371,
       "inicial": false
     }
   ]

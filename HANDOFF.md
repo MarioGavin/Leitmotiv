@@ -2,11 +2,11 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-3 (construcción guiada). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
+**Última actualización:** 7 de octubre de 2026, al cerrar el paso B4-4 (análisis). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
 
 ## Pausa a mitad del Tramo B: qué hay y qué falta
 
-**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 21 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
+**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (569 pruebas unitarias y 22 de navegador, ejecutadas en Windows). En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
 
 ### Hecho y comprobado en el Tramo B (commits `4ef1650` a `05b5b16`)
 
@@ -45,13 +45,19 @@ Cada uno pasó `npm run check` al hacerse (511 pruebas unitarias), `npm run e2e`
 - `e2e/leccion-de-prueba.ts` compila pasos escritos en YAML con el compilador real, para probar en el navegador tipos de paso que ninguna lección usa todavía. `e2e/construccion.spec.ts` recorre los tres modos, con un fallo explicado.
 - **No comprobado:** cómo suena la opción puesta en el hueco (en particular el acorde añadido y la fundamental en el bajo) y el tamaño táctil de la lista de fragmentos (`tactil.spec.ts` solo mide pantallas de lecciones reales, y ninguna lleva todavía construcción).
 
+### Paso B4-4 (análisis): hecho
+
+- `Leccion.tsx` usa `Analisis.tsx`: la pieza a la vista y en escucha libre, con preguntas sobre tonalidad, compás, forma, función, acorde de un compás (que se destaca en la pieza) y preguntas libres.
+- `e2e/analisis.spec.ts` recorre las seis clases de pregunta, con un fallo que vuelve al final.
+- **No comprobado:** cómo se ve el texto de la pregunta (`.pregunta`) en el móvil; no se han sacado capturas.
+
 ### Lo que falta del CSS de lo nuevo
 
 `.capas`, `.capa*`, `.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.boton--activo`. Se hace con el ejercicio o la pantalla que lo usa.
 
 ### Ruta acordada con Mario (un commit y una parada por paso)
 
-~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · B4-4 análisis · B4-5 mezcla por capas · B4-6 composición y encargo (`Composicion.tsx`, `VistaDePaso`, quitar `PasoPendiente`, reescribir `Leccion.tsx`) · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
+~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · ~~B4-4 análisis~~ · B4-5 mezcla por capas · B4-6 composición y encargo (`Composicion.tsx`, `VistaDePaso`, quitar `PasoPendiente`, reescribir `Leccion.tsx`) · B5 progreso en la interfaz · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
 
 ### Lo que queda del Tramo B, en orden
 
