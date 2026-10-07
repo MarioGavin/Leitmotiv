@@ -1,27 +1,37 @@
+import { readFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
+import type { TerminoDeGlosario } from '../src/contenido/tipos.ts'
 import { vigilarErrores } from './ayudas.ts'
 import { FICHA_DE_PRUEBA as FICHA } from './leccion-de-prueba.ts'
 
 // El service worker serviría el contenido real sin pasar por `page.route`.
 test.use({ serviceWorkers: 'block' })
 
+/** Los términos del glosario real, compilado en dist/, en el orden en que los enseña la pantalla. */
+const TERMINOS = (JSON.parse(readFileSync(new URL('../dist/content/glosario.json', import.meta.url), 'utf8')) as TerminoDeGlosario[])
+  .map((t) => t.termino)
+  .sort((a, b) => a.localeCompare(b, 'es'))
+
 test('el glosario lista, busca y abre los términos, con su ejemplo sonoro', async ({ page }) => {
   const errores = vigilarErrores(page)
   await page.route('**/content/fichas.json', (ruta) => ruta.fulfill({ json: [] }))
   await page.goto('./#/glosario')
 
-  // De la A a la Z.
+  // De la A a la Z, todos los del curso. Están los básicos del Mundo 0.
   const terminos = page.getByRole('region', { name: 'Términos' }).locator('.leccion-enlace__titulo')
-  await expect(terminos).toHaveText(['BPM', 'Bucle', 'Compás', 'Pulso', 'Tempo'])
+  await expect(terminos).toHaveText(TERMINOS)
+  expect(TERMINOS).toEqual(expect.arrayContaining(['Pulso', 'Compás', 'Negra', 'Semitono', 'Intervalo', 'Escala mayor', 'Tríada', 'Tónica', 'Bucle']))
   // Sin fichas, no hay sección de fichas.
   await expect(page.getByRole('region', { name: 'Fichas' })).toHaveCount(0)
 
   // Se busca sin tildes, por el nombre o por la definición.
   const buscador = page.getByRole('searchbox', { name: 'Buscar' })
-  await buscador.fill('compas')
-  await expect(terminos).toHaveText(['Compás'])
+  await buscador.fill('semicorchea')
+  await expect(terminos).toHaveText(['Figura', 'Semicorchea', 'Subdivisión'])
   await buscador.fill('velocidad')
   await expect(terminos).toHaveText(['Tempo'])
+  await buscador.fill('TRITONO')
+  await expect(terminos).toHaveText(['Disonancia', 'Tritono'])
   await buscador.fill('xilófono')
   await expect(page.getByText('Nada coincide con «xilófono».')).toBeVisible()
   await buscador.fill('')
@@ -38,6 +48,32 @@ test('el glosario lista, busca y abre los términos, con su ejemplo sonoro', asy
   await expect(ventana.getByRole('heading', { name: 'Compás' })).toBeVisible()
   await ventana.getByRole('button', { name: 'Cerrar' }).click()
   await expect(page.getByRole('dialog')).toHaveCount(0)
+  expect(errores).toEqual([])
+})
+
+test('las fichas del curso están en el glosario, y una se abre y suena', async ({ page }) => {
+  const errores = vigilarErrores(page)
+  await page.goto('./#/glosario')
+  const fichas = page.getByRole('region', { name: 'Fichas' })
+  // Una por unidad del Mundo 0.
+  await expect(fichas.getByRole('link')).toHaveCount(3)
+  for (const titulo of ['Compases y figuras', 'Intervalos', 'Escalas y tríadas']) await expect(fichas.getByRole('link', { name: new RegExp(titulo) })).toBeVisible()
+  // El buscador también encuentra fichas.
+  await page.getByRole('searchbox', { name: 'Buscar' }).fill('acorde')
+  await expect(fichas.getByRole('link')).toHaveCount(1)
+  await page.getByRole('searchbox', { name: 'Buscar' }).fill('')
+
+  await fichas.getByRole('link', { name: /Intervalos/ }).click()
+  await expect(page).toHaveURL(/#\/ficha\/intervalos$/)
+  await expect(page.getByRole('heading', { name: 'Intervalos' })).toBeVisible()
+  const bloque = page.getByRole('region', { name: 'El tritono' })
+  await bloque.getByRole('button', { name: 'Escuchar' }).click()
+  await expect(bloque.getByRole('button', { name: 'Parar' })).toBeVisible({ timeout: 20_000 })
+  await bloque.getByRole('button', { name: 'Parar' }).click()
+  // Los términos del texto abren su definición.
+  await bloque.getByRole('button', { name: 'tritono', exact: true }).click()
+  await expect(page.getByRole('dialog').getByRole('heading', { name: 'Tritono' })).toBeVisible()
+  await page.getByRole('dialog').getByRole('button', { name: 'Cerrar' }).click()
   expect(errores).toEqual([])
 })
 

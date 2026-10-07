@@ -134,6 +134,7 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/calibracion', '.pad'],
   ['#/repaso', '.repaso__lista'],
   ['#/glosario', '.glosario__fila'],
+  ['#/ficha/intervalos', '.ficha-de-consulta__resumen'],
   ['#/prueba', '.pie .boton'],
 ]
 

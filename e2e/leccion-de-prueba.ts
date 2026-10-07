@@ -49,7 +49,7 @@ export function fichaDePrueba(id: string, yaml: string): Ficha {
   return ficha
 }
 
-/** Todavía no hay fichas en el curso (llegan con el contenido): las pruebas y las capturas sirven esta. */
+/** Ficha de prueba, servida con `page.route`: tiene un bloque sin ejemplo, que ninguna ficha del curso tiene. */
 export const FICHA_DE_PRUEBA = fichaDePrueba(
   'compases',
   `

@@ -11,7 +11,7 @@ pasos:
       [[figura]]. La [[negra]] dura un pulso; la [[blanca]], dos; la [[redonda]],
       cuatro: un compás entero de 4/4.
 
-      Escucha este tema de posada en el pentagrama: el primer compás va en negras, el
+      Escucha este tema de posada en el [[pentagrama]]: el primer compás va en negras, el
       segundo en blancas y el último es una redonda. Cuanto más hueca la cabeza de la
       nota, más dura.
     vista: pentagrama
@@ -116,7 +116,7 @@ pasos:
     patron: "x.x.|xxx.|xxxx|x..."
     repeticiones: 2
     tolerancia: amplia
-    pista: Primer compás, dos blancas; luego dos negras y una blanca; luego cuatro negras; al final, una redonda. Sigue la claqueta y no toques en las casillas vacías.
+    pista: Primer compás, dos blancas; luego dos negras y una blanca; luego cuatro negras; al final, una redonda. Sigue la [[claqueta]] y no toques en las casillas vacías.
     explicacion: |
       Leer ritmo es contar: cada figura empieza en un pulso concreto. Si tocas en una
       casilla vacía, has acortado la nota anterior.

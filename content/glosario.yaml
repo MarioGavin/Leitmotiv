@@ -94,6 +94,26 @@ puntillo:
 
 # ── Notas e intervalos ──
 
+nota:
+  termino: Nota
+  definicion: Sonido de una altura concreta. Tiene nombre (Do, Re, Mi, Fa, Sol, La, Si), una octava que dice cómo de grave o agudo es ({n:C4} es el Do central) y una duración.
+  ver: [octava, figura, piano-roll]
+
+pentagrama:
+  termino: Pentagrama
+  definicion: Las cinco líneas en las que se escribe la música tradicional. Cuanto más arriba la nota, más aguda; la forma de la cabeza y de la plica dice cuánto dura.
+  ver: [piano-roll, figura]
+
+piano-roll:
+  termino: Piano roll
+  definicion: Rejilla en la que cada fila es una tecla y cada barra una nota, tan larga como lo que dura. Las agudas van arriba y el tiempo corre hacia la derecha. Es donde se compone en esta app.
+  ver: [pentagrama, nota]
+
+transportar:
+  termino: Transportar
+  definicion: Mover una melodía o una pieza entera más arriba o más abajo sin cambiar las distancias entre sus notas. Cambian los nombres; el carácter se mantiene.
+  ver: [intervalo, tonalidad]
+
 semitono:
   termino: Semitono
   definicion: La distancia más pequeña entre dos notas en nuestra música, la que hay de una tecla del piano a la de al lado. De Mi a Fa y de Si a Do hay un semitono.
@@ -287,8 +307,54 @@ cadencia:
   termino: Cadencia
   definicion: Manera de cerrar una frase con acordes. La más fuerte es la de dominante a tónica, {g:V} → {g:I}.
   ver: [dominante, tonica]
+  ejemplo:
+    titulo: Cadencia en Do
+    tempo: 80
+    tonalidad: C mayor
+    compases: 4
+    acordes: "C:1 | F:1 | G:1 | C:1"
+    pistas:
+      - rol: armonia
+        instrumento: piano
+        notas: "[E4 G4 C5]:1 | [F4 A4 C5]:1 | [D4 G4 B4]:1 | [E4 G4 C5]:1"
+      - rol: bajo
+        instrumento: piano
+        notas: "C3:1 | F2:1 | G2:1 | C3:1"
 
 # ── Música de videojuego ──
+
+claqueta:
+  termino: Claqueta
+  definicion: Golpe regular que marca el pulso antes de empezar y, a veces, mientras se toca, para no perder el tempo. En los ejercicios de ritmo suena con el golpe de aro de la caja.
+  ver: [pulso, tempo]
+
+ostinato:
+  termino: Ostinato
+  definicion: Figura corta que se repite sin parar debajo del resto de la música. Da empuje y es la base de muchos temas de combate.
+  ver: [bucle, subdivision]
+  ejemplo:
+    titulo: Emboscada en el desfiladero
+    tempo: 120
+    tonalidad: A menor
+    compases: 2
+    bucle: true
+    pistas:
+      - rol: melodia
+        instrumento: chip-pulso
+        notas: "A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 F5:16 C5:16 A4:16 C5:16 F5:16 C5:16 | G4:16 B4:16 E5:16 B4:16 G4:16 B4:16 E5:16 B4:16 G#4:16 B4:16 E5:16 B4:16 G#4:16 B4:16 D5:16 B4:16"
+      - rol: bajo
+        instrumento: chip-triangulo
+        notas: "A2:4 A2:4 F2:4 F2:4 | G2:4 G2:4 E2:4 E2:4"
+
+seccion:
+  termino: Sección
+  definicion: Cada una de las partes de una pieza, como la entrada, la A o la B. Se nombran con letras, y su orden es la forma de la pieza (AABA, ABAB…).
+  ver: [bucle, frase]
+
+leitmotiv:
+  termino: Leitmotiv
+  definicion: Tema musical asociado a un personaje, un lugar o una idea, que vuelve cada vez que aparece y se transforma con la historia. Esta app se llama así por él.
+  ver: [motivo, frase]
 
 bucle:
   termino: Bucle

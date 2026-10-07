@@ -19,7 +19,7 @@ import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
 import type { IndiceDelCurso } from '../src/contenido/tipos.ts'
 import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
-import { FICHA_DE_PRUEBA, PRUEBA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
+import { PRUEBA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
 const DESTINO = path.join(RAIZ, 'informes/capturas')
@@ -35,11 +35,6 @@ interface Escena {
   preparar?: (pagina: Page) => Promise<void>
   /** Si no es `true`, la escena solo se captura cuando se pide por su nombre. */
   principal?: boolean
-}
-
-/** Todavía no hay fichas en el curso: se sirve la de las pruebas. */
-async function servirFicha(pagina: Page): Promise<void> {
-  await pagina.route('**/content/fichas.json', (ruta) => ruta.fulfill({ json: [FICHA_DE_PRUEBA] }))
 }
 
 /** Todavía no hay prueba de nivel en el curso: se sirve la de las pruebas. */
@@ -143,7 +138,7 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'diagnostico', ruta: '#/diagnostico' },
   { nombre: 'calibracion', ruta: '#/calibracion' },
   { nombre: 'repaso', ruta: '#/repaso' },
-  { nombre: 'glosario', ruta: '#/glosario', antes: servirFicha },
+  { nombre: 'glosario', ruta: '#/glosario' },
   {
     nombre: 'glosario-buscar',
     ruta: '#/glosario',
@@ -159,7 +154,7 @@ const ESCENAS: readonly Escena[] = [
       await pagina.getByRole('dialog').getByRole('button', { name: 'Escuchar' }).waitFor()
     },
   },
-  { nombre: 'ficha', ruta: '#/ficha/compases', antes: servirFicha },
+  { nombre: 'ficha', ruta: '#/ficha/intervalos' },
   { nombre: 'prueba', ruta: '#/prueba', antes: servirPrueba },
   {
     nombre: 'muestrario-vistas',

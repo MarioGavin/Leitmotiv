@@ -39,7 +39,7 @@ pasos:
   - tipo: teoria
     titulo: En el piano roll, arriba es agudo
     texto: |
-      El piano roll es el mismo teclado puesto de pie: cada fila es una tecla, las
+      El [[piano-roll|piano roll]] es el mismo teclado puesto de pie: cada fila es una tecla, las
       agudas arriba y las graves abajo. El tiempo corre de izquierda a derecha, y cada
       nota es una barra tan larga como lo que dura.
 

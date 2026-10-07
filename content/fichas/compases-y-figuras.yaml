@@ -1,0 +1,87 @@
+titulo: Compases y figuras
+resumen: Cuánto dura cada [[figura]] y cómo se agrupan los [[pulso|pulsos]] en los compases que más vas a usar.
+bloques:
+  - titulo: Las figuras
+    texto: |
+      Contadas en pulsos de negra:
+
+      - **Redonda**: cuatro pulsos.
+      - **Blanca**: dos.
+      - **Negra**: uno.
+      - **Corchea**: medio; dos llenan un pulso.
+      - **Semicorchea**: un cuarto; cuatro llenan un pulso.
+
+      El ejemplo las toca de la más larga a la más corta, sobre el mismo pulso.
+    ejemplo:
+      tempo: 84
+      tonalidad: C mayor
+      compases: 5
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C5:1 | C5:2 C5:2 | C5:4 C5:4 C5:4 C5:4 | C5:8 C5:8 C5:8 C5:8 C5:8 C5:8 C5:8 C5:8 | C5:16 C5:16 C5:16 C5:16 C5:16 C5:16 C5:16 C5:16 C5:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla: { paso: "4", lineas: { charles_pedal: "Xxxx" } }
+  - titulo: Silencios y puntillo
+    texto: |
+      Cada figura tiene su [[silencio]], que dura lo mismo. Un [[puntillo]] alarga una
+      figura la mitad: la negra con puntillo dura un pulso y medio y suele ir seguida de
+      una corchea.
+    ejemplo:
+      tempo: 96
+      tonalidad: C mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C4:4. G4:8 C5:4 r:4 | E5:4. D5:8 C5:2"
+  - titulo: Cuatro por cuatro
+    texto: |
+      Cuatro pulsos por compás, el primero más fuerte y el tercero un poco. Es el compás
+      de casi toda la música de exploración y de combate.
+    ejemplo:
+      tempo: 112
+      compases: 2
+      pistas:
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "x.x.x.x."
+              caja: "..x...x."
+              bombo: "x...x..."
+  - titulo: Tres por cuatro
+    texto: |
+      Tres pulsos por compás, «UNO, dos, tres». El compás del vals, de las cajas de
+      música y de las tabernas.
+    ejemplo:
+      tempo: 132
+      compas: 3/4
+      compases: 2
+      pistas:
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "4"
+            lineas:
+              bombo: "x.."
+              charles: ".xx"
+  - titulo: Seis por ocho
+    texto: |
+      Seis corcheas que se sienten como **dos pulsos** de tres: «UNO-y-a, DOS-y-a». Es un
+      [[compas-compuesto|compás compuesto]], balanceado, de galopes y de barcos.
+    ejemplo:
+      tempo: 120
+      compas: 6/8
+      compases: 2
+      pistas:
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              bombo: "x....."
+              aro: "...x.."
+              charles: "xxxxxx"
