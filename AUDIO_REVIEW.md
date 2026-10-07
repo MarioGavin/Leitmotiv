@@ -6,7 +6,8 @@ Quien ha construido el audio de Leitmotiv no puede oírlo. Todo lo que se puede 
 
 - Instrumentos sueltos y sonidos de interfaz: **Ajustes → Diagnóstico de audio**.
 - Ejemplos de las lecciones: **Mapa → Repaso exprés → Entrar**, lecciones «El pulso» y «El tempo».
-- La pieza con cuatro pistas: **Repertorio → Abrir el piano roll de prueba**.
+- Una pieza con cuatro pistas: **Glosario → Bucle → Escuchar**. En **Repertorio → Pieza nueva** se puede escribir una y oírla en el piano roll.
+- La claqueta de la calibración: **Ajustes → Retardo del sonido → Calibrar**.
 - Para oír un ejemplo fuera de la app, `npm run audio:check -- --guardar` deja un WAV de cada caso en `informes/tmp`.
 
 Conviene hacer la revisión dos veces: con auriculares y con el altavoz del móvil.
@@ -80,6 +81,14 @@ Esto no se ha podido probar en ningún teléfono: ver «No comprobado» en HANDO
 - [ ] **D6. Modo silencio.** Con el móvil en silencio o en vibración, comprueba si la app suena (en Android depende del volumen multimedia).
 - [ ] **D7. Primera carga con datos móviles.** El primer ejemplo con piano descarga 0,9 MB. *Problema*: una espera larga sin que se entienda qué pasa (debe leerse «Cargando…»).
 - [ ] **D8. Sin conexión.** Después de usar la app un rato con conexión, ponla en modo avión y ábrela. Deben sonar todos los instrumentos.
+
+## E. Pantallas nuevas del paso B6
+
+- [ ] **E1. Claqueta de la calibración.** Suena el golpe de aro de la batería a 90 BPM, más fuerte en el primer tiempo de cada compás. *Problema*: que no se oiga bien en el altavoz del móvil o que cueste distinguir el tiempo fuerte.
+- [ ] **E2. Retardo medido.** Calibra con el altavoz y luego con auriculares Bluetooth y apunta las dos cifras. *Problema*: que con Bluetooth salga parecido al altavoz (debería salir 100 ms o más por encima), o que tras calibrar los ejercicios de ritmo sigan diciendo «vas por detrás».
+- [ ] **E3. Cambiar de instrumento con el ejemplo sonando.** Aún no hay ninguna lección que lo pida: se oye en la prueba de navegador `e2e/ejemplos.spec.ts`, o en cuanto una lección use `manipulable: [instrumento]`. *Problema*: un chasquido o un hueco al cambiar, o que el instrumento nuevo suene mucho más fuerte o más flojo que el anterior (la onda de pulso, sobre todo).
+- [ ] **E4. Teclado que se enciende.** En un ejemplo con `vista: teclado`, las teclas se encienden al sonar. *Problema*: que la luz vaya visiblemente por delante o por detrás de lo que se oye.
+- [ ] **E5. Repaso y prueba de nivel.** Repiten ejercicios de las lecciones, con su mismo sonido: basta con comprobar que suenan igual que dentro de la lección.
 
 ## Cómo anotar lo que encuentres
 

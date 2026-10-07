@@ -109,6 +109,15 @@ const ESCENAS: readonly Escena[] = [
     },
   },
   { nombre: 'pianoroll', ruta: '#/pianoroll/pradera', principal: true },
+  {
+    nombre: 'pianoroll-edicion',
+    ruta: '#/pianoroll/pradera',
+    preparar: async (pagina) => {
+      // El cursor del teclado y una nota elegida, con su asa.
+      await pagina.getByRole('application', { name: /^Rejilla de/ }).press('ArrowDown')
+      await pagina.locator('[data-nota="0"]').click()
+    },
+  },
   { nombre: 'repertorio', ruta: '#/repertorio' },
   {
     nombre: 'repertorio-pieza',
@@ -275,6 +284,7 @@ const TITULOS: Readonly<Record<string, string>> = {
   'leccion-completada': 'Lección completada',
   'glosario-ventana': 'Término del glosario',
   pianoroll: 'Piano roll',
+  'pianoroll-edicion': 'Piano roll editando',
   repertorio: 'Mi repertorio',
   'repertorio-pieza': 'Una pieza del repertorio',
   titulo: 'Título',

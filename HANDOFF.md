@@ -2,11 +2,11 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 7 de octubre de 2026, al cerrar el paso B5 (progreso en la interfaz). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
+**Última actualización:** 7 de octubre de 2026, al cerrar el paso B6 (pantallas). **Trabajo a mitad del Tramo B.** Lee primero la sección siguiente: manda sobre el resto del archivo, que en parte describe el estado al cerrar el Tramo A.
 
 ## Pausa a mitad del Tramo B: qué hay y qué falta
 
-**Vuelve a compilar desde el paso B4-1.** `npm run check` y `npm run e2e` pasan (574 pruebas unitarias y 27 de navegador, ejecutadas en Windows). Carga inicial: 99 KB de 300. En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
+**Compila y pasa.** `npm run check` y `npm run e2e` pasan (584 pruebas unitarias y 46 de navegador, ejecutadas en Windows). Carga inicial: 101 KB de 300. `npm run audio:check` no se ha podido ejecutar en B6: esta máquina no tiene ffmpeg. En local, Playwright va de dos en dos procesos: con más, en Windows se agotan los tiempos.
 
 ### Hecho y comprobado en el Tramo B (commits `4ef1650` a `05b5b16`)
 
@@ -76,28 +76,41 @@ Cada uno pasó `npm run check` al hacerse (511 pruebas unitarias), `npm run e2e`
 - **Pruebas**: `sembrarProgreso()` en `e2e/ayudas.ts` escribe en IndexedDB antes de arrancar la app (las mismas tablas que `base.ts`; si cambia su esquema, hay que cambiarlo también ahí). La lección de prueba de las e2e pasa a ser la l01, que siempre está abierta. Nuevas: candado en el mundo y en la lección, recarga de la pantalla final sin sumar experiencia, ficha en título, mapa y mundo. `npm run shots` siembra «El pulso» hecha; la escena `leccion-completada` enseña ahora «Tu marca», no la recompensa.
 - **No comprobado:** el aspecto de un mundo bloqueado en el mapa (ningún mundo después del 0 tiene lecciones todavía: solo con pruebas unitarias); el título con ficha, sin captura (sí con prueba de navegador); la racha al pasar la medianoche con la app abierta (el día se fija al abrir cada pantalla).
 
-### Lo que falta del CSS de lo nuevo
+### Paso B6 (pantallas): hecho
 
-`.pentagrama*`, `.rollo__nota--elegida`, `.rollo__asa`, `.rollo__cursor`, `.instrumentos`, `.boton--activo`. Se hace con el ejercicio o la pantalla que lo usa.
+Nueve subpasos, un commit cada uno (de `cc8ebce`, B6-1, al de B6-9). Todas las rutas tienen ya su pantalla; `Proximamente.tsx` no existe.
+
+- **B6-1 Calibración** (`#/calibracion`, `pantallas/Calibracion.tsx`): cuenta previa y cuatro compases tocando con la claqueta a 90 BPM; mide con `pulsacion.ts` y `calibrar` (`musica/ritmo.ts`: mediana de las desviaciones; hacen falta seis de cada diez toques y una dispersión de 60 ms como mucho) y guarda `latenciaMs`. «Volver» tira del historial si se llegó desde la app (`volver` en `rutas.ts`), así que la calibración devuelve al ejercicio de ritmo que la pidió. La lección recuerda lo acertado en la pasada aunque se salga a calibrar (mapa `pasadas` en `Leccion.tsx`). El ejercicio de ritmo ofrece calibrar también cuando todos los toques caen fuera (el caso típico de un retardo grande, que antes no lo ofrecía).
+- **B6-2 Ajustes**: retardo calibrado con su botón de calibrar; «Tus datos» con exportar copia (descarga un JSON), importar copia (con confirmación; restaura progreso y ajustes) y borrar todo (con confirmación; progreso a cero y ajustes de fábrica). `copia.ts` se descarga aparte. También llevan a la prueba de nivel.
+- **B6-3 Repaso** (`#/repaso`): los conceptos que tocan hoy según FSRS, cada uno con un ejercicio de una lección hecha (`VistaDePaso`), a pantalla completa (`usePantallaCompleta` en `app/ventanas.ts` esconde la navegación). Al terminar, `registrarRepaso` y la experiencia. Estados vacíos: sin lecciones hechas, y sin nada pendiente (dice cuándo toca y deja adelantar un repaso corto). **Arreglo:** el compilador apuntaba los pasos de cada concepto contando desde 0 y el repaso los lee desde 1; ahora cuentan desde 1, como la dirección de la lección y los borradores.
+- **B6-4 Mi repertorio** (`#/repertorio`): lista de piezas; cada una en una ventana para verla, escucharla, abrirla en el piano roll, exportarla a MIDI o borrarla (con confirmación). «Pieza nueva». El piano roll (`#/pianoroll/:id`) guarda solo, 0,8 s después de cada cambio, al salir y al esconderse la app; sin identificador empieza una pieza nueva que entra en el repertorio con el primer cambio. Se le puede cambiar el título en las opciones (`.campo`). `descargarMidi` en `app/descargas.ts`.
+- **B6-5 Glosario y fichas** (`#/glosario`, `#/ficha/:id`): fichas y términos de la A a la Z, con buscador sin tildes que mira también las definiciones (`ui/texto-de-prosa.ts`). La ventana del glosario enseña y hace sonar el ejemplo del término (`EjemploSuelto`, cargado aparte). La ficha pinta cada bloque con su ejemplo. Arreglo en `VistaDePieza`: las líneas de percusión miden al menos su rótulo (se pisaban «Charles», «Caja» y «Bombo»).
+- **B6-6 Prueba de nivel** (`#/prueba`): un bloque por unidad, en el orden del archivo; tras cada bloque dice si la unidad queda sabida; al primero que no se supera termina. Se saltan las unidades ya hechas o sabidas; salir a medias no guarda nada. Al acabar, `superarUnidades`. Se llega desde el título (solo quien empieza de cero: «Ya sé algo: prueba de nivel») y desde Ajustes.
+- **B6-7 Ejemplo sonoro**: `vista` `teclado` (`TecladoDePieza`), `rejilla` (`RejillaDePasos`) y `pentagrama` (abcjs, aparte), además de `pianoroll`. `manipulable: instrumento` cambia el instrumento de la melodía (o de la primera pista afinada) entre los que caben en su registro y su polifonía (`instrumentosQueCaben`); `useReproductor` gana `fijarInstrumento`. El pentagrama se dibuja con la tinta del tema (en oscuro salía negro sobre azul).
+- **B6-8 Motion**: la entrada de cada pantalla (aparece y sube 6 px en 160 ms) con `LazyMotion`, `domAnimation` y `m`, en `ui/movimiento/Entrada.tsx`, que se descarga cuando la app está ociosa (26 KB). Con `prefers-reduced-motion`, sin movimiento. Fuera la animación CSS de `.pantalla`.
+- **B6-9 CSS pendiente**: `.rollo__nota--elegida`, `.rollo__asa` y `.rollo__cursor` (variable `--nota-elegida` por esquema). `.pentagrama*` e `.instrumentos` entraron en B6-7, donde se usan por primera vez; `.boton--activo` ya existía desde B4-6 y se ha comprobado en captura (la goma del piano roll).
+- **Pruebas**: e2e nuevas `calibracion`, `ajustes`, `repaso`, `repertorio`, `glosario`, `prueba`, `ejemplos` y `movimiento`; `pianoroll` sobre una pieza sembrada. `sembrarProgreso()` siembra también tarjetas y piezas (`PIEZA_GUARDADA`). Contenido de prueba compilado con el compilador real en `e2e/leccion-de-prueba.ts`: `FICHA_DE_PRUEBA` y `PRUEBA_DE_PRUEBA` (aún no hay fichas ni prueba en `content/`). `scripts/capturas.ts` admite `antes` para servir ese contenido; escenas nuevas de cada pantalla.
+- **No comprobado:** `npm run audio:check` no se ha podido ejecutar: esta máquina Windows no tiene ffmpeg (no se ha tocado el motor de audio, pero sí `useReproductor`). Lo que hay que oír está en AUDIO_REVIEW.md, sección E. Nada de esto se ha visto en un móvil real: la calibración con altavoz y con Bluetooth, el guardado al cerrar la app (`pagehide` y `visibilitychange`), la descarga del JSON y del MIDI en Android, el selector de archivos al importar. El cambio de instrumento y el pentagrama solo se han visto en pruebas: ninguna lección del curso los usa todavía.
+- **Notas para Windows:** las pruebas nuevas que no tratan de la PWA bloquean el service worker: su precarga en cada contexto nuevo, con dos procesos a la vez, a veces deja colgadas peticiones del servidor de `vite preview`. Una vez, al lanzar `movimiento.spec.ts` justo después de compilar, las dos pruebas fallaron en `page.goto` por el arranque del servidor; repetidas seis veces seguidas, pasan.
 
 ### Ruta acordada con Mario (un commit y una parada por paso)
 
-~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · ~~B4-4 análisis~~ · ~~B4-5 mezcla por capas~~ · ~~B4-6 composición y encargo~~ · ~~B5 progreso en la interfaz~~ · B6 pantallas · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
+~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · ~~B4-4 análisis~~ · ~~B4-5 mezcla por capas~~ · ~~B4-6 composición y encargo~~ · ~~B5 progreso en la interfaz~~ · ~~B6 pantallas~~ · B7 contenido · B8 cierre. El detalle de cada uno, en la lista siguiente.
 
 ### Lo que queda del Tramo B, en orden
 
-1. **Ejercicios**: `Composicion.tsx` (paso de piano roll y de encargo: lista de requisitos con `requisitos.ts`, borradores, guardar en el repertorio); un repartidor `VistaDePaso` que elija el componente por tipo de paso; quitar `PasoPendiente`; reescribir `Leccion.tsx` (resultado por concepto, `completarLeccion`, pantalla final con experiencia, candado si la lección está bloqueada); el CSS de arriba.
-2. **Pantallas** (B6): enlazar todo en `App.tsx`; Repaso, Repertorio, Glosario con fichas, Prueba de nivel, Calibración de latencia, piano roll que abra una pieza del repertorio; Ajustes con latencia, copia de seguridad (exportar e importar) y borrar datos; vistas `teclado`, `rejilla` y `pentagrama` en `EjemploSonoro`; `manipulable: instrumento`; transiciones con Motion.
+1. ~~**Ejercicios**~~ (hecho en B4-6 y B5): `Composicion.tsx` (paso de piano roll y de encargo: lista de requisitos con `requisitos.ts`, borradores, guardar en el repertorio); un repartidor `VistaDePaso` que elija el componente por tipo de paso; quitar `PasoPendiente`; reescribir `Leccion.tsx` (resultado por concepto, `completarLeccion`, pantalla final con experiencia, candado si la lección está bloqueada); el CSS de arriba.
+2. ~~**Pantallas** (B6)~~: hecho; ver «Paso B6».
 3. **Contenido**: Mundo 0 entero (faltan 22 lecciones; tres unidades de ocho, cada una acabada en un encargo), dos lecciones del Mundo 1, glosario, conceptos, fichas y `prueba-de-nivel.yaml`. Corregir el texto de la lección l01, que dice «bombo» donde suena la caja.
 4. **Pruebas de navegador**: los siete tipos de ejercicio, piano roll, exportación a MIDI, copia de seguridad, ritmo y sin conexión; capturas en los dos esquemas; presupuesto de carga.
 5. **Documentos**: README, CLAUDE.md (dice que Dexie, ts-fsrs, @tonejs/midi y abcjs «todavía no se usan»: ya no es cierto; tampoco recoge `src/progreso/`), CONTENT_GUIDE (campos `registro`, `swing` y `guia`), DESIGN, CREDITS, ARCHITECTURE (incluido el evento `leitmotiv:ritmo`), AUDIO_REVIEW, y el mapa de unidades de todos los mundos para la Fase 2.
 
 ### No comprobado de lo nuevo
 
-- Ningún componente del commit «En curso» se ha visto funcionar en un navegador.
-- El dibujo del pentagrama con abcjs dentro de la app, y la exportación a MIDI dentro del paquete de Vite (solo probadas desde Node).
+- Todo lo de B4 a B6 tiene prueba de navegador, pero solo en un Chromium de escritorio que imita un móvil.
+- El pentagrama con abcjs y la exportación a MIDI ya se prueban en el navegador (B6); no en un móvil.
 - La precisión de los toques de ritmo y la latencia en un teléfono real.
-- Que GitHub Actions y Pages funcionen. Ojo: **con el commit «En curso» la CI fallará**, porque no compila.
+- Que GitHub Actions y Pages funcionen.
 
 ## Dónde estamos
 
@@ -179,9 +192,9 @@ Todo lo de esta lista se ha ejecutado y pasa: `npm run check` (252 pruebas unita
 
 **Funcionamiento**
 
-- ~~No se guarda nada del progreso.~~ Resuelto en B4-6 y B5: las lecciones, la experiencia y los encargos se guardan en el dispositivo. Lo que se edita en el piano roll suelto (fuera de una lección) todavía se pierde al salir (B6).
-- **El piano roll es una prueba de diseño.** Abre siempre la misma pieza. Tocar una casilla pone una nota del tamaño de la rejilla y tocar una nota la quita; no hay arrastre, ni deshacer, ni ampliación. Editar mientras suena detiene la reproducción. No se puede usar con teclado ni con lector de pantalla. Sus casillas miden 28 px.
-- Repaso, Repertorio y Glosario son pantallas provisionales.
+- ~~No se guarda nada del progreso.~~ Resuelto en B4-6 y B5: las lecciones, la experiencia y los encargos se guardan en el dispositivo. Desde B6, lo que se edita en el piano roll suelto tampoco se pierde: va a Mi repertorio.
+- ~~El piano roll es una prueba de diseño.~~ Resuelto en B4 y B6: editor completo que abre y guarda piezas de Mi repertorio.
+- ~~Repaso, Repertorio y Glosario son pantallas provisionales.~~ Resuelto en B6.
 
 **Audio** (medido, pendiente de juzgar de oído: AUDIO_REVIEW.md)
 
@@ -191,6 +204,9 @@ Todo lo de esta lista se ha ejecutado y pasa: `npm run check` (252 pruebas unita
 - El nivel de los sonidos de interfaz está puesto por cálculo.
 
 **Técnicos**
+
+- Un paso de piano roll o de encargo dentro de una lección guarda el borrador 0,8 s después de cada cambio y al salir de la pantalla, pero no al esconderse la app, como sí hace el piano roll suelto desde B6: cerrar la app en ese margen pierde el último cambio.
+- Ir a calibrar desde un ejercicio de ritmo del repaso o de la prueba de nivel saca de la sesión, que vuelve a empezar (en una lección sí se retoma).
 
 - Tone.js 15 obliga a tres rodeos, explicados en ARCHITECTURE.md: ticks repetidos, canal en mono y sintetizador monofónico. Por el tercero, los sonidos de interfaz y los instrumentos de chip se sintetizan con osciladores nativos de Web Audio y no con sintetizadores de Tone.js. **Es una desviación del encargo**, que pedía los sonidos de interfaz «con Tone.js»: siguen sin usar archivos y salen por los buses de Tone.js, pero la fuente es un oscilador nativo.
 - Tonal está fijada en la versión 6.4.3. Antes de subirla hay que comprobar que la nueva se puede importar desde Node.
@@ -204,7 +220,7 @@ Nada de esto se ha podido verificar desde el entorno de trabajo. No hay motivo c
 - **En un teléfono real.** Instalación en Android, arranque del audio, retardo al tocar, paso a segundo plano, bloqueo de pantalla, llamadas, auriculares Bluetooth y uso sin conexión. Todo se ha probado en un Chromium de escritorio que imita un móvil.
 - **Cómo suena.** Nadie ha escuchado todavía ningún instrumento, ejemplo ni sonido de interfaz.
 - **La publicación.** Los flujos de GitHub Actions no se han ejecutado nunca. Se ha comprobado que las versiones de las acciones existen y qué entradas y salidas tienen, y la app se ha probado compilada bajo una subruta como la de Pages, pero no se ha desplegado.
-- **Windows.** Se ha desarrollado y probado en Linux. Los guiones se han revisado para que no dependan de las rutas de Linux y se han probado desde una carpeta con espacios en el nombre, pero no se han ejecutado en Windows.
+- **Windows.** Desde el Tramo B, `npm run check`, `npm run e2e` y `npm run shots` se ejecutan en Windows (desde una carpeta con espacios). `npm run audio:check` y `npm run samples:build` no, porque esa máquina no tiene ffmpeg.
 - **Otros navegadores.** Ni Safari, ni iOS, ni Firefox.
 - **Rendimiento** en un móvil modesto: fluidez del piano roll y cortes de audio.
 - **Lectores de pantalla.** Los papeles y los nombres accesibles están puestos y las pruebas los usan para encontrar los controles, pero no se ha probado con TalkBack.
@@ -223,3 +239,31 @@ npm run dev
 ```
 
 Después: leer CLAUDE.md, preguntar a Mario qué ha oído y probado en el móvil, y seguir por «Pendiente».
+
+## Prompt para B7
+
+El prompt de la sesión siguiente, tal como se le dio a Mario al cerrar B6:
+
+> Lee CLAUDE.md, CONTENT_GUIDE.md y la sección «Pausa a mitad del Tramo B» de HANDOFF.md (incluido «Paso B6»). Haz solo el paso B7 de la ruta (contenido). Es largo: pártelo en subpasos B7-1, B7-2…, con un commit cada uno («feat: … (B7-n)»), y para solo al final. Toda la música, original; nada transcrito de obras con derechos.
+>
+> 1. Mundo 0 entero: faltan 22 lecciones. Tres unidades de ocho (u01 «Pulso y compás», u02 «Notas e intervalos», u03 «Escalas y tríadas»); la l08 de cada una acaba en un encargo, cuya pieza va a Mi repertorio con el título del encargo. Sesiones de 5 a 10 minutos, teoría mínima y siempre con un ejemplo que suena. Cuando una unidad tenga sus ocho lecciones, quítale `estado: borrador`.
+> 2. En la l01, cambiar «bombo» por lo que suena de verdad. En los pasos de ritmo el patrón suena con la caja y la claqueta con el golpe de aro (src/audio/ritmo.ts); en los ejemplos de teoría suena lo que diga su rejilla (ahí `bombo:` sí es bombo). Revisa cada mención contra lo que suena.
+> 3. Dos lecciones del Mundo 1 (m01.u01.l01 y l02). Ojo: con ellas el mapa cambia (el Mundo 1 pasa de «en obras» a bloqueado) y hay que adaptar e2e/arranque.spec.ts.
+> 4. conceptos.yaml: un concepto por cada `concepto` de los ejercicios, con `nombre` y `definicion` (el repaso enseña el nombre). Que ninguno dé el aviso «concepto-sin-practica». Solo entran en el repaso los pasos de oído, ritmo, construcción, análisis y capas, y solo de lecciones hechas: cada concepto debería tener al menos uno.
+> 5. glosario.yaml: todo término enlazado con [[…]] y los básicos del Mundo 0. Campos: `termino`, `definicion`, `ver` y `ejemplo` (opcional; si lo tiene, el glosario lo marca con un altavoz y lo hace sonar en su ventana).
+> 6. Fichas en content/fichas/*.yaml (la pantalla #/ficha/<nombre del archivo>): `titulo`, `resumen` y `bloques` con `titulo`, `texto` y `ejemplo` opcional, que se ve en piano roll en miniatura. Al menos una por unidad del Mundo 0 (compases y figuras; intervalos; escalas y tríadas).
+> 7. prueba-de-nivel.yaml: un bloque por unidad del Mundo 0, en orden (la prueba se para en el primero que no se supera), con `unidad`, `aprobado` (de 0,5 a 1; por defecto 0,8) y de 2 a 8 `pasos` de oído, ritmo, construcción o análisis, cada uno con su `concepto`. Ejercicios distintos de los de las lecciones.
+> 8. Usa en las lecciones lo que B6 dejó sin estrenar: `vista` en los pasos de teoría (`teclado` para acordes y escalas; `rejilla` para ritmos de batería; `pentagrama` para leer; por defecto `pianoroll`) y `manipulable: [instrumento]` (cambia el instrumento de la melodía, o de la primera pista afinada, y solo aparece si caben al menos dos por registro y polifonía). Los modos de oído generados (intervalo, acorde, progresión, escala, timbre, contorno, compás) y los modos de ritmo `eco` y `leer` tampoco los usa aún ninguna lección.
+>
+> Pruebas que cambian al llegar el contenido real (están escritas contra el de ahora):
+> - e2e/glosario.spec.ts espera exactamente cinco términos (BPM, Bucle, Compás, Pulso, Tempo) y dos búsquedas concretas: reescríbelas con el glosario nuevo. La ficha que usa es FICHA_DE_PRUEBA (e2e/leccion-de-prueba.ts), servida con page.route: añade una prueba con una ficha real.
+> - e2e/prueba.spec.ts sirve PRUEBA_DE_PRUEBA: añade una prueba con la prueba de nivel real. El estado «La prueba aún no está lista» deja de verse.
+> - e2e/ayudas.ts, PANTALLAS: añade una ficha real (#/ficha/…). Las escenas glosario, ficha, prueba y prueba-balance de scripts/capturas.ts sirven contenido de prueba con `antes`: pásalas al real.
+> - e2e/leccion.spec.ts y las escenas de capturas dependen de «El tempo» (m00.u01.l02): textos «72 BPM · 4/4» y «144 BPM · 4/4», cinco aciertos, +20 de experiencia, una opción en el paso 2 y el pad en el paso 4. PROGRESO_DE_PANTALLAS da «El pulso» por hecha y siembra la tarjeta del concepto `pulso`. Si cambias esas lecciones o ese concepto, cambia las pruebas.
+> - e2e/arranque.spec.ts: mundos «en obras» frente a bloqueados (punto 3).
+>
+> `npm run content:check` tiene que acabar con cero errores y cero avisos. Lo que haya que oír de cada lección nueva (ejemplos, preguntas generadas, la pista de cada ejercicio de ritmo) va a AUDIO_REVIEW.md, porque no se puede oír desde aquí. `npm run audio:check` mide la sonoridad de todos los ejemplos del contenido, pero necesita ffmpeg; en esta máquina Windows no lo hay: si sigue sin haberlo, dilo en el informe y no lo des por pasado.
+>
+> En esta máquina (Windows) Playwright va de dos en dos procesos. Al acabar: npm run check, npm run e2e y npm run audio:check, todos en verde; capturas del mundo 0, de lecciones con cada tipo de paso y de las pantallas que ya no salen vacías, en los dos esquemas, revisadas; HANDOFF.md al día, e informe breve con hecho / no hecho / no comprobado.
+>
+> Antes de parar, escríbeme el «Prompt para B8» con el prompt de la siguiente sesión, en este mismo formato. B8 es el cierre del Tramo B: las pruebas de navegador que falten (sin conexión con las pantallas nuevas, un encargo de cada unidad), capturas en los dos esquemas, presupuesto de carga, los documentos (README, CLAUDE.md, CONTENT_GUIDE con los campos `registro`, `swing` y `guia`, DESIGN, CREDITS, ARCHITECTURE con el evento `leitmotiv:ritmo`, AUDIO_REVIEW) y el mapa de unidades de todos los mundos para la Fase 2. Enséñame ese prompt en el informe y para.

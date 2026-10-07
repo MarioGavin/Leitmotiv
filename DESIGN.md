@@ -126,7 +126,10 @@ Todos están en `src/ui`. La estructura y las medidas, en `src/ui/estilos/compon
 | Icono | Icono propio, de mapa de bits | `Icono.tsx` |
 | Prosa | Pinta los textos del contenido: nombres de notas en la nomenclatura elegida y términos del glosario que se pueden tocar | `ProsaVista.tsx` |
 | Vista de pieza | Piano roll en miniatura de un ejemplo, entero y sin desplazamiento | `musica/VistaDePieza.tsx` |
-| Ejemplo sonoro | La vista de pieza con sus controles: tempo, transposición, pistas | `musica/EjemploSonoro.tsx` |
+| Ejemplo sonoro | La pieza en la vista que pida la lección (piano roll en miniatura, teclado, rejilla de pasos o pentagrama) con sus controles: tempo, transposición, pistas e instrumento | `musica/EjemploSonoro.tsx` |
+| Teclado | La pieza sobre un teclado: teclas usadas marcadas y las que suenan encendidas con el color de su pista | `musica/TecladoDePieza.tsx` |
+| Rejilla de pasos | La pieza como una caja de ritmos: una fila por pieza de la batería o pista, un bloque por compás | `musica/RejillaDePasos.tsx` |
+| Campo de texto | Hundido y con el marco fino: buscar en el glosario, el título de una pieza | `.campo` |
 | Rollo de piano | La rejilla editable, con nombres de notas y compases fijos en los bordes | `musica/RolloDePiano.tsx` |
 | Emblema | Las cuatro notas del motivo | `Emblema.tsx` |
 | Ficha del jugador | Nivel, barra de experiencia con su cifra y racha. En el mapa, el mundo y, si hay algo hecho, el título | `FichaDelJugador.tsx` |
@@ -160,7 +163,7 @@ Las letras L, E, T y M de «Leitmotiv», leídas como notas, dan **La, Mi, Si (T
 
 ## Movimiento
 
-- Una sola animación de entrada por pantalla (160 ms). Nada se mueve solo después, salvo el cursor, que da un paso corto para señalar.
+- Una sola animación de entrada por pantalla (160 ms: aparece y sube 6 px), hecha con Motion en `src/ui/movimiento/Entrada.tsx`. Motion se descarga aparte cuando la app está ociosa, así que la primera pantalla aparece quieta. Los pasos de una lección no repiten la entrada; el mapa y el piano roll entran quietos. Las ventanas y los avisos suben con una animación CSS (`entrar`). Nada se mueve solo después, salvo el cursor, que da un paso corto para señalar.
 - Lo que responde a un toque sí se mueve: el botón se hunde, el cabezal recorre la rejilla.
 - Con `prefers-reduced-motion`, todo queda quieto.
 

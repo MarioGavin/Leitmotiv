@@ -86,6 +86,8 @@
   --pista-efecto: #d7dbe8;
   --nota-contorno: #04060f;
   --tecla-blanca: #f6efd9;
+  /* Contorno de la nota elegida: el acento (lo elegido) y distinto del contorno normal y del color de las pistas. De noche, la tinta, porque el ámbar es el de la melodía. */
+  --nota-elegida: #f6efd9;
   --tecla-negra: #0a1022;
   --rejilla-linea: #22366b;
   --rejilla-compas: #5f79bd;
@@ -129,6 +131,7 @@
   --pista-efecto: #b8c0d4;
   --nota-contorno: #17224a;
   --tecla-blanca: #fdfcf6;
+  --nota-elegida: #8a4b00;
   --tecla-negra: #17224a;
   --rejilla-linea: #d3dfe9;
   --rejilla-compas: #7d93b3;
@@ -706,4 +709,26 @@
 /* ── Pentagrama: abcjs dibuja con el color del texto ── */
 .pentagrama__dibujo {
   color: var(--tinta);
+}
+
+/* ── Piano roll: la nota elegida, su asa para estirarla y el cursor del teclado ── */
+.rollo__notas .rollo__nota--elegida {
+  stroke: var(--nota-elegida);
+  stroke-width: 3px;
+}
+
+/* El asa es una pestaña que asoma por arriba y por abajo del final de la nota: se ve y se agarra con el dedo. */
+.rollo__asa {
+  fill: var(--nota-elegida);
+  stroke: var(--nota-contorno);
+  stroke-width: 2px;
+  cursor: ew-resize;
+}
+
+.rollo__cursor {
+  fill: none;
+  stroke: var(--acento-tinta);
+  stroke-width: 2px;
+  stroke-dasharray: 4 2;
+  pointer-events: none;
 }

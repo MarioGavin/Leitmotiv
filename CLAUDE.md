@@ -67,7 +67,7 @@ No se reabren. Si alguna estorba, se le plantea a Mario antes de tocar nada.
 | Pruebas | Vitest 5 y Playwright **1.56.0 (fijada)** | Solo Chromium |
 | Estilo de código | oxlint | |
 
-Motion está instalada y medida, pero todavía no se usa. Las razones de cada elección están en ARCHITECTURE.md. Además:
+Motion solo mueve la entrada de las pantallas (`src/ui/movimiento/Entrada.tsx`), en un trozo que se descarga cuando la app está ociosa. Las razones de cada elección están en ARCHITECTURE.md. Además:
 
 - Rutas en el fragmento de la URL (`#/mapa`), con enrutador propio. Sin librería de rutas.
 - Sin librería de iconos, ni de componentes, ni de CSS.
@@ -106,13 +106,15 @@ content/                 Fuente del curso (YAML). mundos/mNN-…/uNN-…/lNN-…
 src/
   main.tsx               Entrada: monta App e importa las hojas de estilo
   app/                   App.tsx (carcasa), rutas.ts, ajustes.ts, contenido.ts (lectura con use()), Avisos.tsx (PWA)
-  pantallas/             Una por ruta: Titulo, Mapa, Mundo, Leccion, PianoRoll, Ajustes, Diagnostico, Muestrario
+  pantallas/             Una por ruta: Titulo, Mapa, Mundo, Leccion, Repaso, Repertorio, PianoRoll, Glosario, Ficha, Prueba,
+                         Calibracion, Ajustes, Diagnostico, Muestrario
   ejercicios/            Un componente por tipo de paso; VistaDePaso elige cuál pintar
   ui/                    Componentes (Marco, Boton, Opciones, Dialogo…), contraste.ts
     estilos/             base.css (fuentes, escalas, reinicio), componentes.css (estructura) y tema.css (colores y aspecto)
     iconos/              nombres.ts y dibujos.ts (mapas de bits de 12 × 12)
     mapa/                El mapa del mundo en píxeles y sus nodos
-    musica/              VistaDePieza, EjemploSonoro, RolloDePiano, useReproductor
+    musica/              VistaDePieza, TecladoDePieza, RejillaDePasos, EjemploSonoro, EditorDePiano, RolloDePiano, useReproductor
+    movimiento/          Entrada.tsx: la entrada de pantalla con Motion (trozo aparte)
   audio/                 audio.ts (fachada), estado.ts, motor.ts, reproductor.ts, voces.ts, nativo.ts, sonidos.ts,
                          muestras.ts, niveles.ts, offline.ts
   musica/                tiempo, notas, tonalidad, pieza (formato único), taquigrafia, comprobaciones, instrumentos
