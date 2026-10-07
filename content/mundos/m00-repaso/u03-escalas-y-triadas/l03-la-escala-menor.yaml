@@ -1,0 +1,106 @@
+titulo: La escala menor
+resumen: Construir la escala menor natural y distinguirla de oído de la mayor.
+minutos: 8
+conceptos: [escala-menor, tonica]
+
+pasos:
+  - tipo: teoria
+    titulo: Otra receta, otro color
+    texto: |
+      La [[escala-menor|escala menor]] natural usa otra receta: **tono, semitono, tono,
+      tono, semitono, tono, tono**. El semitono llega antes, en el segundo escalón, y eso
+      oscurece la tercera nota. Es la escala de las mazmorras, de las despedidas y de los
+      bosques en los que no conviene perderse.
+
+      Escucha {t:A menor}: solo teclas blancas, pero con la casa en La.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Escala de La menor
+      tempo: 88
+      tonalidad: A menor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A3:8 B3:8 C4:8 D4:8 E4:8 F4:8 G4:8 A4:8 | G4:8 F4:8 E4:8 D4:8 C4:8 B3:8 A3:4"
+
+  - tipo: oido
+    modo: escala
+    concepto: escala-menor
+    enunciado: ¿Escala mayor o menor?
+    pista: Fíjate en la tercera nota. En la mayor, la escala se abre; en la menor, se recoge.
+    explicacion: |
+      Las dos escalas empiezan con un tono. La diferencia está en el segundo paso: en la
+      mayor es otro tono y en la menor, un semitono. Esa tercera más baja tiñe toda la
+      escala.
+    escalas: [mayor, menor]
+    tonicas: [C, D, F, G, A]
+    presentacion: escala
+    rondas: 6
+
+  - tipo: teoria
+    titulo: Mismas notas, otra casa
+    texto: |
+      {t:C mayor} y {t:A menor} usan exactamente las mismas notas: todas las teclas
+      blancas. Lo que cambia es la tónica, la nota donde todo descansa. Por eso se
+      llaman tonalidades [[relativa|relativas]].
+
+      Esta melodía de bosque usa solo teclas blancas, pero gira alrededor de La, empieza
+      y acaba en La, y el bajo insiste en La. Suena a menor.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: El bosque de los susurros
+      tempo: 84
+      tonalidad: A menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A4:4 C5:4 B4:4 A4:4 | E5:2 D5:4 C5:4 | B4:4 C5:4 D5:4 B4:4 | A4:2. E4:4"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[A3 C4 E4]:1 | [A3 C4 E4]:1 | [G3 B3 D4]:1 | [A3 C4 E4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "A1:2 E2:2 | A1:2 E2:2 | G1:2 D2:2 | A1:2 E2:2"
+
+  - tipo: analisis
+    concepto: escala-menor
+    enunciado: Escucha la mazmorra y descubre su tonalidad.
+    pista: No mires solo las teclas negras, porque aquí no hay. Busca dónde descansa la melodía y qué nota toca el bajo.
+    explicacion: |
+      Solo usa teclas blancas, así que podría ser {t:C mayor} o {t:A menor}. La melodía
+      empieza y acaba en La y el bajo vuelve a La: la casa es La, {t:A menor}.
+    pieza:
+      titulo: Mazmorra húmeda
+      tempo: 92
+      tonalidad: A menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A4:8 r:8 A4:8 B4:8 C5:4 B4:4 | A4:8 r:8 G4:8 A4:8 E4:2 | F4:8 r:8 F4:8 G4:8 A4:4 B4:4 | C5:4 B4:4 A4:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "A1:4 A1:4 A1:4 A1:4 | A1:4 A1:4 E2:4 E2:4 | F1:4 F1:4 F1:4 F1:4 | E2:4 E2:4 A1:2"
+    preguntas:
+      - sobre: tonalidad
+        opciones: [C mayor, A menor]
+        explicacion: Las mismas notas que {t:C mayor}, pero con la casa en La.
+
+  - tipo: oido
+    modo: escala
+    concepto: escala-menor
+    enunciado: Ahora en una melodía. ¿Mayor o menor?
+    pista: La melodía sube por saltos y baja por pasos hasta la tónica. Escucha el color general, no nota a nota.
+    explicacion: |
+      En una melodía el carácter mayor o menor se oye igual de claro que en la escala:
+      la tercera nota decide si la música suena abierta o recogida.
+    escalas: [mayor, menor]
+    tonicas: [C, D, E, G, A]
+    presentacion: melodia
+    rondas: 6

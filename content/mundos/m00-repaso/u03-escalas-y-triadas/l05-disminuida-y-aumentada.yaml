@@ -1,0 +1,113 @@
+titulo: Tríadas disminuida y aumentada
+resumen: Reconocer las dos tríadas inestables y para qué escenas sirven.
+minutos: 7
+conceptos: [disminuida-y-aumentada, triadas]
+
+pasos:
+  - tipo: teoria
+    titulo: Dos terceras menores
+    texto: |
+      Si se apilan **dos terceras menores**, sale una tríada **disminuida** ({a:Bdim}): la
+      quinta queda un semitono más baja de lo normal y el acorde se tensa. Aparece en las
+      escalas mayores sobre el séptimo grado, y casi siempre quiere resolver en el acorde
+      de la tónica.
+
+      Escucha cómo {a:Bdim} se apoya en {a:C}, como un paso en falso que encuentra suelo.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      tempo: 72
+      tonalidad: C mayor
+      compases: 2
+      acordes: "Bdim:2 C:2 | Bdim:2 C:2"
+      pistas:
+        - rol: armonia
+          instrumento: piano
+          notas: "[B3 D4 F4]:2 [C4 E4 G4]:2 | [B3 D4 F4]:2 [C4 E4 G4]:2"
+        - rol: bajo
+          instrumento: piano
+          notas: "B2:2 C3:2 | B2:2 C3:2"
+
+  - tipo: oido
+    modo: acorde
+    concepto: disminuida-y-aumentada
+    enunciado: ¿Mayor, menor o disminuido?
+    pista: El disminuido es el más estrecho y el más tenso de los tres. Suena a que algo va a pasar.
+    explicacion: |
+      Mayor, tercera mayor y tercera menor. Menor, tercera menor y tercera mayor.
+      Disminuido, dos terceras menores: la quinta se encoge y el acorde se tensa.
+    calidades: [M, m, dim]
+    presentacion: bloque
+    registro: [C3, C4]
+    rondas: 6
+
+  - tipo: teoria
+    titulo: Dos terceras mayores
+    texto: |
+      Con **dos terceras mayores** sale la tríada **aumentada** ({a:Caug}): la quinta
+      sube un semitono. No pertenece a la escala mayor, flota sin dirección clara, y por
+      eso suena a sueño, a recuerdo o a hechizo.
+
+      En este despertar mágico, el Sol de {a:C} sube a {n:G#4} y el acorde se queda
+      flotando antes de llegar a {a:F}.
+    vista: teclado
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: El hechizo despierta
+      tempo: 66
+      tonalidad: C mayor
+      cromatismos: [G#]
+      compases: 4
+      bucle: true
+      acordes: "C:1 | Caug:1 | F:1 | C:1"
+      pistas:
+        - rol: colchon
+          instrumento: cuerdas
+          notas: "[C4 E4 G4]:1 | [C4 E4 G#4]:1 | [C4 F4 A4]:1 | [C4 E4 G4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:1 | C2:1 | F1:1 | C2:1"
+
+  - tipo: oido
+    modo: acorde
+    concepto: disminuida-y-aumentada
+    enunciado: Los cuatro tipos de tríada, arpegiados. ¿Cuál suena?
+    pista: Escucha primero la tercera (mayor o menor) y luego la quinta. ¿Es normal, se encoge o se estira?
+    explicacion: |
+      Mayor y menor tienen la quinta justa. La disminuida la encoge un semitono y la
+      aumentada la estira un semitono.
+    calidades: [M, m, dim, aug]
+    presentacion: arpegio
+    registro: [C3, C4]
+    rondas: 8
+
+  - tipo: analisis
+    concepto: disminuida-y-aumentada
+    enunciado: Escucha la entrada a la cueva y responde.
+    pista: Mira el acorde del tercer compás en el teclado o en el piano roll y cuenta sus terceras.
+    explicacion: |
+      En el tercer compás suena {a:Bdim}: Si, Re y Fa, dos terceras menores. Es la tensión
+      justo antes de volver a {a:C}.
+    pieza:
+      titulo: Entrada a la cueva
+      tempo: 80
+      tonalidad: C mayor
+      compases: 4
+      acordes: "C:1 | F:1 | Bdim:1 | C:1"
+      pistas:
+        - rol: armonia
+          instrumento: cuerdas
+          notas: "[C4 E4 G4]:1 | [C4 F4 A4]:1 | [B3 D4 F4]:1 | [C4 E4 G4]:1"
+        - rol: melodia
+          instrumento: piano
+          notas: "E5:4 D5:4 C5:4 G4:4 | A4:2 C5:2 | D5:4 F5:4 D5:4 B4:4 | C5:1"
+    preguntas:
+      - sobre: acorde
+        compas: 3
+        opciones: [B, Bm, Bdim]
+        explicacion: Si, Re y Fa natural. Dos terceras menores, así que es disminuida.
+      - sobre: libre
+        pregunta: ¿Qué hace la música justo después de ese acorde?
+        opciones: [Vuelve al acorde de la tónica, Se queda flotando, Se para en seco]
+        correcta: 1
+        explicacion: La disminuida sobre el séptimo grado resuelve en la tónica, {a:C}.

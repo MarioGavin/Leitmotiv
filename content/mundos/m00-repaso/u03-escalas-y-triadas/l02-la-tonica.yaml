@@ -1,0 +1,163 @@
+titulo: La tónica, la nota que es casa
+resumen: Oír cuándo una melodía vuelve a casa y reconocer en qué tonalidad está.
+minutos: 7
+conceptos: [tonica, escala-mayor]
+
+pasos:
+  - tipo: teoria
+    titulo: Volver a casa
+    texto: |
+      La primera nota de una escala es su [[tonica|tónica]]: la nota en la que todo
+      descansa. Una melodía que termina en la tónica suena acabada; si termina en otra
+      nota, se queda en el aire, esperando.
+
+      Este tema de posada está en {t:G mayor}. Escucha cómo su última nota, {n:G4},
+      cierra la frase como quien llega a casa.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Fuego de la chimenea
+      tempo: 96
+      tonalidad: G mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "B4:4 D5:4 C5:4 B4:4 | A4:2 D4:2 | E4:4 G4:4 A4:4 C5:4 | B4:4 A4:4 G4:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:2 D2:2 | D2:2 F#2:2 | C2:2 E2:2 | D2:2 G1:2"
+
+  - tipo: oido
+    modo: preguntas
+    concepto: tonica
+    enunciado: ¿La melodía vuelve a casa o se queda en el aire?
+    pista: Cuando acabe, pregúntate si podrías levantarte e irte. Si sientes que falta algo, se ha quedado en el aire.
+    explicacion: |
+      Terminar en la tónica da sensación de final. Terminar en otro grado deja una
+      pregunta abierta, y eso también sirve: es lo que hace que un bucle quiera volver a
+      empezar.
+    preguntas:
+      - opciones: [Vuelve a casa, Se queda en el aire]
+        correcta: 1
+        explicacion: Termina en {n:C5}, la tónica de {t:C mayor}.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "E5:4 D5:4 G4:4 B4:4 | D5:4 B4:4 C5:2"
+      - opciones: [Vuelve a casa, Se queda en el aire]
+        correcta: 2
+        explicacion: Termina en {n:D5}, el segundo grado. La frase pide continuación.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "E5:4 C5:4 A4:4 G4:4 | F4:4 B4:4 D5:2"
+      - opciones: [Vuelve a casa, Se queda en el aire]
+        correcta: 2
+        explicacion: Termina en {n:B4}, a un semitono de la tónica. Es la nota que más ganas tiene de volver.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C5:4 E5:4 G5:4 E5:4 | F5:4 D5:4 B4:2"
+      - opciones: [Vuelve a casa, Se queda en el aire]
+        correcta: 1
+        explicacion: Termina en {n:C4}, la tónica, una octava por debajo de donde empezó.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C5:4 G4:4 A4:4 F4:4 | E4:4 D4:4 C4:2"
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: tonica
+    enunciado: Elige la última nota para que el tema de la posada cierre de verdad.
+    pista: La melodía está en {t:G mayor}. Busca la nota que se llama como la tonalidad.
+    explicacion: |
+      Para cerrar, la tónica: {n:G4}. El {n:F#4} está a un semitono y se queda
+      suspendido; el {n:C5} suena bonito, pero deja la historia sin terminar.
+    pieza:
+      tempo: 96
+      tonalidad: G mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "B4:4 D5:4 C5:4 B4:4 | A4:2 D4:2 | E4:4 G4:4 A4:4 C5:4 | B4:4 A4:4 ?:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:2 D2:2 | D2:2 F#2:2 | C2:2 E2:2 | D2:2 G1:2"
+    opciones:
+      - notas: "G4:2"
+        correcta: true
+        porque: Es la tónica. La frase llega a casa y descansa.
+      - notas: "F#4:2"
+        correcta: false
+        porque: El séptimo grado, a un semitono de casa. Suena a «casi».
+      - notas: "C5:2"
+        correcta: false
+        porque: El cuarto grado. No choca, pero deja la frase abierta.
+
+  - tipo: teoria
+    titulo: La tonalidad
+    texto: |
+      La [[tonalidad]] de una pieza es su tónica más su escala: {t:D mayor} quiere decir
+      que la casa es Re y que las notas son las de la escala mayor de Re. Para
+      descubrirla, mira dónde descansa la melodía, qué nota repite el bajo y qué teclas
+      negras aparecen.
+
+      En el piano roll la tónica se marca al margen. Este tema empieza y acaba en Re, y
+      usa {n:F#4} y {n:C#5}.
+    manipulable: [tempo, transposicion]
+    ejemplo:
+      titulo: El molino del río
+      tempo: 104
+      tonalidad: D mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D5:4. C#5:8 B4:4 A4:4 | F#4:4 A4:4 D5:2 | E5:4. D5:8 C#5:4 B4:4 | A4:4 C#5:4 D5:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "D2:2 A1:2 | D2:2 F#2:2 | G2:2 E2:2 | A1:2 D2:2"
+
+  - tipo: analisis
+    concepto: tonica
+    enunciado: Escucha el tema del herrero y descubre su tonalidad.
+    pista: Busca la nota en la que acaba la melodía y la que más repite el bajo. Luego mira qué teclas negras usa.
+    explicacion: |
+      Empieza y acaba en Sol, el bajo insiste en Sol y aparece el {n:F#4}: es
+      {t:G mayor}. {t:C mayor} no tiene sostenidos, y {t:D mayor} llevaría también
+      {n:C#5}.
+    pieza:
+      titulo: La herrería
+      tempo: 112
+      tonalidad: G mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:8 B4:8 D5:4 C5:8 B4:8 A4:4 | B4:8 A4:8 G4:4 F#4:4 D4:4 | E4:8 G4:8 C5:4 B4:8 A4:8 G4:4 | A4:4 F#4:4 G4:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:4 D2:4 G2:4 D2:4 | G2:4 D2:4 D2:4 F#2:4 | C2:4 G2:4 C2:4 E2:4 | D2:4 D2:4 G1:2"
+    preguntas:
+      - sobre: tonalidad
+        opciones: [C mayor, G mayor, D mayor]
+        explicacion: La casa es Sol y la única tecla negra es el Fa sostenido.

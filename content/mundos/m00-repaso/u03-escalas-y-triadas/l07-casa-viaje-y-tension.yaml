@@ -1,0 +1,143 @@
+titulo: Casa, viaje y tensión
+resumen: Reconocer la tónica, la subdominante y la dominante, y oír una cadencia.
+minutos: 9
+conceptos: [funciones, grados]
+
+pasos:
+  - tipo: teoria
+    titulo: Tres funciones
+    texto: |
+      No todos los acordes hacen lo mismo. El {g:I} es la **tónica**: la casa, el
+      reposo. El {g:IV} es la [[subdominante]]: se aleja de casa, abre camino. El {g:V}
+      es la [[dominante]]: tensión que empuja de vuelta al {g:I}.
+
+      Escucha {g:I}, {g:IV}, {g:V} y {g:I} en {t:C mayor}: salir de casa, viajar, ver el
+      castillo a lo lejos y llegar.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      tempo: 80
+      tonalidad: C mayor
+      compases: 4
+      acordes: "C:1 | F:1 | G:1 | C:1"
+      pistas:
+        - rol: armonia
+          instrumento: piano
+          notas: "[E4 G4 C5]:1 | [F4 A4 C5]:1 | [D4 G4 B4]:1 | [E4 G4 C5]:1"
+        - rol: bajo
+          instrumento: piano
+          notas: "C3:1 | F2:1 | G2:1 | C3:1"
+
+  - tipo: oido
+    modo: progresion
+    concepto: funciones
+    enunciado: ¿Qué vuelta de acordes suena?
+    pista: Todas empiezan en casa. Fíjate en el último acorde. ¿Descansa, o se queda tenso esperando volver?
+    explicacion: |
+      Si la vuelta termina en {g:I}, descansa. Si termina en {g:V}, queda tensa, con
+      ganas de volver a empezar. El {g:IV} suena a alejarse sin prisa.
+    tonalidades: [C mayor, G mayor, F mayor]
+    progresiones: ["I IV V I", "I V IV I", "I IV I V"]
+    tempo: 84
+    rondas: 6
+
+  - tipo: analisis
+    concepto: funciones
+    enunciado: Escucha el tema del puerto y di qué función cumple cada acorde.
+    pista: Busca el grado de cada acorde en {t:D mayor}. El {g:I} es tónica; el {g:IV}, subdominante; el {g:V}, dominante.
+    explicacion: |
+      {a:D} es el {g:I} (tónica), {a:G} el {g:IV} (subdominante) y {a:A} el {g:V}
+      (dominante). El orden tónica, subdominante, dominante y tónica es el viaje
+      completo.
+    pieza:
+      titulo: Llegada al puerto
+      tempo: 96
+      tonalidad: D mayor
+      compases: 4
+      acordes: "D:1 | G:1 | A:1 | D:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "F#5:4 E5:4 D5:4 A4:4 | B4:4 D5:4 G5:2 | E5:4 C#5:4 A4:4 E5:4 | D5:1"
+        - rol: armonia
+          instrumento: cuerdas
+          matiz: mp
+          notas: "[D4 F#4 A4]:1 | [D4 G4 B4]:1 | [C#4 E4 A4]:1 | [D4 F#4 A4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "D2:2 A1:2 | G1:2 D2:2 | A1:2 E2:2 | D2:1"
+    preguntas:
+      - sobre: funcion
+        compas: 2
+      - sobre: funcion
+        compas: 3
+      - sobre: funcion
+        compas: 4
+
+  - tipo: teoria
+    titulo: La cadencia
+    texto: |
+      Una [[cadencia]] es la manera de terminar una frase. La más fuerte es {g:V} → {g:I}:
+      la dominante cae en la tónica y todo se resuelve. Por eso tantos bucles de juego
+      acaban en el {g:V}: dejan la tensión puesta y el bucle, al volver al principio,
+      la resuelve.
+
+      Este bucle de la ciudadela acaba en {a:G} y vuelve a {a:C}. Déjalo sonar varias
+      vueltas y escucha la costura.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: La ciudadela
+      tempo: 100
+      tonalidad: C mayor
+      compases: 4
+      bucle: true
+      acordes: "C:1 | Am:1 | F:1 | G:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:4 C5:4 E5:4 D5:4 | C5:4 A4:4 E4:2 | F4:4 A4:4 C5:4 A4:4 | B4:4 D5:4 G4:2"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[C4 E4 G4]:1 | [C4 E4 A4]:1 | [C4 F4 A4]:1 | [B3 D4 G4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:2 G2:2 | A1:2 E2:2 | F1:2 C2:2 | G1:2 D2:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "x.x.x.x."
+              caja: "....x..."
+              bombo: "x.....x."
+
+  - tipo: construccion
+    modo: ordenar-secciones
+    concepto: funciones
+    enunciado: Ordena las tres partes del viaje.
+    pista: Una sale de la tónica, otra se aleja y la tercera llega de la dominante a la tónica. Escúchalas por separado.
+    explicacion: |
+      Primero la salida, sobre el {g:I}. Luego el camino, sobre el {g:IV} y el {g:vi}.
+      Al final la llegada: dominante y tónica, la cadencia que cierra.
+    pieza:
+      titulo: El viaje
+      tempo: 96
+      tonalidad: G mayor
+      compases: 6
+      secciones:
+        - { id: salida, nombre: La salida, desde: 1, hasta: 2 }
+        - { id: camino, nombre: El camino, desde: 3, hasta: 4 }
+        - { id: llegada, nombre: La llegada, desde: 5, hasta: 6 }
+      acordes: "G:1 | G:1 | C:1 | Em:1 | D:1 | G:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:4 B4:4 D5:4 B4:4 | G4:2 D4:2 | E4:4 G4:4 C5:4 E5:4 | D5:4 B4:4 G4:2 | A4:4 C5:4 F#5:4 A5:4 | G5:1"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[G3 B3 D4]:1 | [G3 B3 D4]:1 | [G3 C4 E4]:1 | [G3 B3 E4]:1 | [F#3 A3 D4]:1 | [G3 B3 D4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:1 | G2:1 | C2:1 | E2:1 | D2:1 | G1:1"

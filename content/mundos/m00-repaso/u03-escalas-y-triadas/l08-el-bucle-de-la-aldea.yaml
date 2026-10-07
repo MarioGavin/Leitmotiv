@@ -1,0 +1,161 @@
+titulo: El bucle de la aldea
+resumen: Apoyar una melodía en los acordes y componer tu primer bucle con melodía y armonía.
+minutos: 10
+conceptos: [melodia-y-acordes, funciones]
+
+pasos:
+  - tipo: teoria
+    titulo: Melodía sobre acordes
+    texto: |
+      Una melodía y sus acordes se entienden cuando, en los pulsos fuertes, la melodía
+      toca notas del acorde que suena. Entre medias puede pasar por otras notas de la
+      escala: son notas de paso que unen unas con otras.
+
+      En esta aldea, mira el primer pulso de cada compás: {n:E5} sobre {a:C}, {n:C5}
+      sobre {a:Am}, {n:A4} sobre {a:F} y {n:B4} sobre {a:G}. Todas son del acorde.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: La aldea del molino
+      tempo: 96
+      tonalidad: C mayor
+      compases: 4
+      bucle: true
+      acordes: "C:1 | Am:1 | F:1 | G:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E5:4 D5:8 C5:8 G4:4 C5:4 | C5:4 B4:8 A4:8 E4:4 A4:4 | A4:4 G4:8 F4:8 C5:4 A4:4 | B4:4 C5:8 D5:8 G4:2"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[C4 E4 G4]:1 | [C4 E4 A4]:1 | [C4 F4 A4]:1 | [B3 D4 G4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:4. G2:8 C2:2 | A1:4. E2:8 A1:2 | F1:4. C2:8 F1:2 | G1:4. D2:8 G1:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "x.x.x.x."
+              caja: "....x..."
+              bombo: "x..x...."
+
+  - tipo: construccion
+    modo: elegir-acorde
+    concepto: melodia-y-acordes
+    enunciado: Elige el acorde del tercer compás.
+    pista: En el tercer compás la melodía apoya {n:D5}, {n:F5} y {n:A5}. Busca la tríada que las contiene.
+    explicacion: |
+      {n:D5}, {n:F5} y {n:A5} son las notas de {a:Dm}, el {g:ii} de {t:C mayor}. Con
+      {a:F} faltaría el Re; con {a:Bdim}, el La.
+    pieza:
+      tempo: 96
+      tonalidad: C mayor
+      compases: 4
+      acordes: "C:1 | Am:1 | ?:1 | G:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G5:4 E5:4 C5:4 E5:4 | A5:4 E5:4 C5:2 | D5:4 F5:4 A5:4 F5:4 | G5:4 D5:4 B4:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:1 | A1:1 | D2:1 | G1:1"
+    opciones:
+      - acorde: Dm
+        correcta: true
+        porque: Re, Fa y La, las tres notas que apoya la melodía.
+      - acorde: F
+        correcta: false
+        porque: Tiene Fa y La, pero no Re. La primera nota del compás quedaría fuera del acorde.
+      - acorde: Bdim
+        correcta: false
+        porque: Tiene Re y Fa, pero no La, y su tensión no pinta nada en mitad de la frase.
+
+  - tipo: analisis
+    concepto: melodia-y-acordes
+    enunciado: Escucha otra vez la aldea y responde.
+    pista: Mira el acorde que suena en cada compás y su grado en {t:C mayor}.
+    explicacion: |
+      El segundo compás está sobre {a:Am}, el {g:vi}. El cuarto, sobre {a:G}, el {g:V}:
+      una dominante que deja el bucle tenso para que vuelva a empezar.
+    pieza:
+      titulo: La aldea del molino
+      tempo: 96
+      tonalidad: C mayor
+      compases: 4
+      bucle: true
+      acordes: "C:1 | Am:1 | F:1 | G:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E5:4 D5:8 C5:8 G4:4 C5:4 | C5:4 B4:8 A4:8 E4:4 A4:4 | A4:4 G4:8 F4:8 C5:4 A4:4 | B4:4 C5:8 D5:8 G4:2"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[C4 E4 G4]:1 | [C4 E4 A4]:1 | [C4 F4 A4]:1 | [B3 D4 G4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:4. G2:8 C2:2 | A1:4. E2:8 A1:2 | F1:4. C2:8 F1:2 | G1:4. D2:8 G1:2"
+    preguntas:
+      - sobre: acorde
+        compas: 2
+        opciones: [A, Am, C]
+      - sobre: funcion
+        compas: 4
+
+  - tipo: encargo
+    titulo: El bucle de la aldea
+    cliente: Estudio Farolillo
+    concepto: melodia-y-acordes
+    brief: |
+      La aldea donde empieza la aventura necesita su tema. Los acordes ya están:
+      {a:C}, {a:Am}, {a:F} y {a:G}, con las cuerdas y el bajo. Escribe una **melodía** de
+      cuatro compases, a una sola voz, que se apoye en las notas de cada acorde. Como la
+      música se repetirá mientras el jugador esté en la aldea, que **acabe en una nota
+      del acorde de {a:G}** y enlace sin saltos con el principio.
+    pista: |
+      En el primer pulso de cada compás pon una nota del acorde: Do, Mi o Sol sobre
+      {a:C}; La, Do o Mi sobre {a:Am}; Fa, La o Do sobre {a:F}; Sol, Si o Re sobre
+      {a:G}. Después une esas notas con pasos de la escala.
+    explicacion: |
+      Una melodía que se apoya en los acordes suena segura aunque sea sencilla. Acabar
+      sobre la dominante deja la frase abierta, y el bucle la cierra al volver a la
+      tónica: ya tienes una pieza que puede sonar en un juego.
+    plantilla:
+      titulo: El bucle de la aldea
+      tempo: 96
+      tonalidad: C mayor
+      compases: 4
+      bucle: true
+      acordes: "C:1 | Am:1 | F:1 | G:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: ""
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[C4 E4 G4]:1 | [C4 E4 A4]:1 | [C4 F4 A4]:1 | [B3 D4 G4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:4. G2:8 C2:2 | A1:4. E2:8 A1:2 | F1:4. C2:8 F1:2 | G1:4. D2:8 G1:2"
+    requisitos:
+      - regla: tonalidad
+        valores: [C mayor]
+      - regla: compases
+        valor: 4
+      - regla: notas-minimas
+        pista: melodia
+        valor: 8
+      - regla: polifonia
+        pista: melodia
+        max: 1
+      - regla: rango
+        pista: melodia
+        min: C4
+        max: C6
+      - regla: termina-en
+        pista: melodia
+        grados: [2, 5, 7]
+      - regla: bucle

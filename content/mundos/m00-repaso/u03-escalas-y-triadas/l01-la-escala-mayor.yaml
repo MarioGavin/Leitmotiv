@@ -1,0 +1,167 @@
+titulo: La escala mayor
+resumen: Construir una escala mayor desde cualquier nota con la receta de tonos y semitonos.
+minutos: 8
+conceptos: [escala-mayor, semitonos]
+
+pasos:
+  - tipo: teoria
+    titulo: Tono, tono, semitono…
+    texto: |
+      Una [[escala]] es una escalera de notas que va de una nota a su octava. La
+      [[escala-mayor|escala mayor]] sigue siempre la misma receta de pasos: **tono, tono,
+      semitono, tono, tono, tono, semitono**.
+
+      Empezando en Re, esa receta obliga a usar dos teclas negras, {n:F#4} y {n:C#5}.
+      Míralas encenderse en el teclado.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Escala de Re mayor
+      tempo: 92
+      tonalidad: D mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D4:8 E4:8 F#4:8 G4:8 A4:8 B4:8 C#5:8 D5:8 | C#5:8 B4:8 A4:8 G4:8 F#4:8 E4:8 D4:4"
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: escala-mayor
+    enunciado: Completa la escala de {t:G mayor}.
+    pista: Los dos últimos pasos de la receta son tono y semitono. Desde {n:E5}, un tono arriba; desde ahí, un semitono hasta {n:G5}.
+    explicacion: |
+      En {t:G mayor} el séptimo grado es {n:F#5}: queda a un semitono de la tónica y
+      la llama. Con Fa natural la escala sonaría a otra cosa.
+    pieza:
+      tempo: 96
+      tonalidad: G mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:8 A4:8 B4:8 C5:8 D5:8 E5:8 ?:8 G5:8 | G5:1"
+    opciones:
+      - notas: "F#5:8"
+        correcta: true
+        porque: Tono de {n:E5} a {n:F#5} y semitono hasta {n:G5}. Es la receta de la escala mayor.
+      - notas: "F5:8"
+        correcta: false
+        porque: De {n:F5} a {n:G5} hay un tono, no un semitono. La escala pierde su final.
+
+  - tipo: teoria
+    titulo: La misma receta en cualquier sitio
+    texto: |
+      Como la receta es siempre la misma, una melodía en escala mayor se puede llevar a
+      cualquier altura sin que cambie su carácter: se llama **transportar**. Las notas
+      cambian de nombre; los pasos entre ellas, no.
+
+      Usa el control de transposición para mover esta melodía de tienda: suena igual de
+      amable un poco más arriba o un poco más abajo.
+    manipulable: [tempo, transposicion]
+    ejemplo:
+      titulo: La tienda de la esquina
+      tempo: 108
+      tonalidad: C mayor
+      compases: 4
+      bucle: true
+      acordes: "C:1 | F:1 | G:1 | C:2 G:2"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E5:8 D5:8 C5:8 D5:8 E5:4 G5:4 | F5:8 E5:8 D5:8 C5:8 A4:2 | B4:8 C5:8 D5:8 E5:8 F5:4 D5:4 | C5:2 B4:4 D5:4"
+        - rol: armonia
+          instrumento: cuerdas
+          matiz: mp
+          notas: "[C4 E4 G4]:1 | [C4 F4 A4]:1 | [B3 D4 G4]:1 | [C4 E4 G4]:2 [B3 D4 G4]:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:4 G2:4 C2:4 G2:4 | F2:4 C2:4 F2:4 C2:4 | G2:4 D2:4 G2:4 D2:4 | C2:4 G2:4 G1:4 D2:4"
+
+  - tipo: oido
+    modo: preguntas
+    concepto: escala-mayor
+    enunciado: ¿Es una escala mayor o tiene una nota cambiada?
+    pista: La escala mayor suena familiar, como un «do, re, mi» cantado. Busca el escalón que se tuerce.
+    explicacion: |
+      Si un escalón no respeta la receta (tono, tono, semitono, tono, tono, tono,
+      semitono), el oído lo nota enseguida: la escala deja de sonar a mayor.
+    preguntas:
+      - opciones: [Escala mayor, Tiene una nota cambiada]
+        correcta: 2
+        explicacion: El cuarto escalón es {n:F#4} en lugar de {n:F4}. De Mi a Fa sostenido hay un tono, no un semitono.
+        pieza:
+          tempo: 100
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C4:8 D4:8 E4:8 F#4:8 G4:8 A4:8 B4:8 C5:8 | C5:2 r:2"
+      - opciones: [Escala mayor, Tiene una nota cambiada]
+        correcta: 1
+        explicacion: Es la escala de {t:F mayor}, con su {n:Bb4}. Respeta la receta entera.
+        pieza:
+          tempo: 100
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "F4:8 G4:8 A4:8 Bb4:8 C5:8 D5:8 E5:8 F5:8 | F5:2 r:2"
+      - opciones: [Escala mayor, Tiene una nota cambiada]
+        correcta: 2
+        explicacion: El tercer escalón es {n:Eb4} en lugar de {n:E4}. Suena a menor.
+        pieza:
+          tempo: 100
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C4:8 D4:8 Eb4:8 F4:8 G4:8 A4:8 B4:8 C5:8 | C5:2 r:2"
+      - opciones: [Escala mayor, Tiene una nota cambiada]
+        correcta: 1
+        explicacion: Es la escala de {t:A mayor}, con tres sostenidos. Respeta la receta entera.
+        pieza:
+          tempo: 100
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "A3:8 B3:8 C#4:8 D4:8 E4:8 F#4:8 G#4:8 A4:8 | A4:2 r:2"
+
+  - tipo: pianoroll
+    concepto: escala-mayor
+    enunciado: Escribe la escala de {t:F mayor} subiendo, de {n:F4} a {n:F5}.
+    pista: Aplica la receta desde Fa. El cuarto escalón cae en una tecla negra, el {n:Bb4}. Las filas claras de la rejilla son las notas de la escala.
+    explicacion: |
+      Fa, Sol, La, Si bemol, Do, Re, Mi y Fa. El {n:Bb4} hace falta para que entre La y
+      la cuarta nota haya un semitono, como pide la receta.
+    plantilla:
+      titulo: La escala de Fa
+      tempo: 90
+      tonalidad: F mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: ""
+    editables: [melodia]
+    requisitos:
+      - regla: tonalidad
+        valores: [F mayor]
+        minimo: 1
+      - regla: rango
+        pista: melodia
+        min: F4
+        max: F5
+      - regla: notas-minimas
+        pista: melodia
+        valor: 8
+      - regla: polifonia
+        pista: melodia
+        max: 1
+      - regla: empieza-en
+        pista: melodia
+        grados: [1]
+      - regla: termina-en
+        pista: melodia
+        grados: [1]

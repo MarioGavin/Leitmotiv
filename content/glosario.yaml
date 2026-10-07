@@ -171,6 +171,123 @@ tritono:
         instrumento: bajo-electrico
         notas: "E2:2 Bb2:2 | E2:2 Bb2:2"
 
+# ── Escalas y acordes ──
+
+escala:
+  termino: Escala
+  definicion: Sucesión ordenada de notas que va de una nota a su octava siguiendo una receta de tonos y semitonos. Las notas de una pieza suelen salir de una escala.
+  ver: [escala-mayor, escala-menor, tonica]
+
+escala-mayor:
+  termino: Escala mayor
+  definicion: Escala con la receta tono, tono, semitono, tono, tono, tono, semitono. Suena abierta y luminosa.
+  ver: [escala, escala-menor]
+  ejemplo:
+    titulo: Escala de Re mayor
+    tempo: 92
+    tonalidad: D mayor
+    compases: 2
+    pistas:
+      - rol: melodia
+        instrumento: piano
+        notas: "D4:8 E4:8 F#4:8 G4:8 A4:8 B4:8 C#5:8 D5:8 | C#5:8 B4:8 A4:8 G4:8 F#4:8 E4:8 D4:4"
+
+escala-menor:
+  termino: Escala menor
+  definicion: Escala con la receta tono, semitono, tono, tono, semitono, tono, tono. Su tercera más baja le da un color oscuro.
+  ver: [escala, escala-mayor, relativa]
+  ejemplo:
+    titulo: Escala de La menor
+    tempo: 88
+    tonalidad: A menor
+    compases: 2
+    pistas:
+      - rol: melodia
+        instrumento: piano
+        notas: "A3:8 B3:8 C4:8 D4:8 E4:8 F4:8 G4:8 A4:8 | G4:8 F4:8 E4:8 D4:8 C4:8 B3:8 A3:4"
+
+tonica:
+  termino: Tónica
+  definicion: Primera nota de una escala y centro de la tonalidad. Es donde la música descansa.
+  ver: [tonalidad, escala]
+
+tonalidad:
+  termino: Tonalidad
+  definicion: La tónica de una pieza junto con su escala. {t:D mayor} quiere decir casa en Re y notas de la escala mayor de Re.
+  ver: [tonica, escala, relativa]
+
+relativa:
+  termino: Tonalidad relativa
+  definicion: Tonalidad mayor y menor que comparten las mismas notas con distinta tónica, como {t:C mayor} y {t:A menor}.
+  ver: [tonalidad, escala-menor]
+
+acorde:
+  termino: Acorde
+  definicion: Tres o más notas que suenan juntas, o se entienden como un bloque aunque suenen una tras otra. Se nombran en cifrado americano, como {a:C}, {a:Am} o {a:G7}.
+  ver: [triada, arpegio, cifrado]
+
+triada:
+  termino: Tríada
+  definicion: Acorde de tres notas apiladas por terceras, la fundamental, la tercera y la quinta. Puede ser mayor, menor, disminuida o aumentada.
+  ver: [acorde, fundamental]
+  ejemplo:
+    tempo: 72
+    compases: 4
+    acordes: "C:1 | Cm:1 | Bdim:1 | Caug:1"
+    pistas:
+      - rol: armonia
+        instrumento: piano
+        notas: "[C4 E4 G4]:1 | [C4 Eb4 G4]:1 | [B3 D4 F4]:1 | [C4 E4 G#4]:1"
+
+fundamental:
+  termino: Fundamental
+  definicion: Nota sobre la que se construye un acorde y que le da nombre. La fundamental de {a:Am} es La.
+  ver: [triada, acorde]
+
+arpegio:
+  termino: Arpegio
+  definicion: Las notas de un acorde tocadas una detrás de otra en lugar de a la vez. Es el truco de los chips de 8 bits para sonar a acorde con una sola voz.
+  ver: [acorde]
+  ejemplo:
+    titulo: Pantalla de continuar
+    tempo: 120
+    tonalidad: A menor
+    compases: 2
+    bucle: true
+    acordes: "Am:1 | F:1"
+    pistas:
+      - rol: armonia
+        instrumento: chip-pulso
+        notas: "A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 E5:16 C5:16 | A4:16 C5:16 F5:16 C5:16 A4:16 C5:16 F5:16 C5:16 A4:16 C5:16 F5:16 C5:16 A4:16 C5:16 F5:16 C5:16"
+      - rol: bajo
+        instrumento: chip-triangulo
+        notas: "A2:4 A2:4 A2:4 A2:4 | F2:4 F2:4 F2:4 F2:4"
+
+cifrado:
+  termino: Cifrado
+  definicion: Forma de escribir un acorde con letras y símbolos. La letra es la fundamental (A es La, B es Si, C es Do…), «m» indica menor y «dim», disminuido.
+  ver: [acorde, grado]
+
+grado:
+  termino: Grado
+  definicion: Posición de una nota o de un acorde dentro de la escala, escrita en cifras romanas. En mayúscula si el acorde es mayor ({g:IV}) y en minúscula si es menor ({g:vi}).
+  ver: [tonica, subdominante, dominante]
+
+subdominante:
+  termino: Subdominante
+  definicion: El acorde del cuarto grado, {g:IV}. Se aleja de la tónica sin tensión, como quien sale de viaje.
+  ver: [dominante, grado]
+
+dominante:
+  termino: Dominante
+  definicion: El acorde del quinto grado, {g:V}. Crea tensión y empuja de vuelta a la tónica.
+  ver: [subdominante, cadencia, grado]
+
+cadencia:
+  termino: Cadencia
+  definicion: Manera de cerrar una frase con acordes. La más fuerte es la de dominante a tónica, {g:V} → {g:I}.
+  ver: [dominante, tonica]
+
 # ── Música de videojuego ──
 
 bucle:

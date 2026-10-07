@@ -69,3 +69,37 @@ consonancia:
 intervalos:
   nombre: Intervalos de una octava
   definicion: Reconocer de oído cualquier intervalo de la segunda a la octava, primero por su tamaño y después por su color.
+
+# ── Mundo 0 · Escalas y tríadas ──
+
+escala-mayor:
+  nombre: La escala mayor
+  definicion: La escalera de tono, tono, semitono, tono, tono, tono, semitono. Desde cualquier nota, la misma receta.
+
+tonica:
+  nombre: Tónica y tonalidad
+  definicion: La tónica es la nota en la que todo descansa; la tonalidad, la tónica más su escala.
+
+escala-menor:
+  nombre: La escala menor
+  definicion: La escalera de tono, semitono, tono, tono, semitono, tono, tono. Su tercera más baja la oscurece.
+
+triadas:
+  nombre: Tríadas mayores y menores
+  definicion: Tres notas apiladas por terceras. Con la tercera mayor abajo, la tríada es mayor; con la menor, menor.
+
+disminuida-y-aumentada:
+  nombre: Tríadas disminuida y aumentada
+  definicion: Dos terceras menores forman la disminuida, tensa; dos mayores, la aumentada, que flota.
+
+grados:
+  nombre: Los acordes de la escala
+  definicion: Una tríada sobre cada nota de la escala, numerada con cifras romanas. En mayor, I, IV y V son mayores; ii, iii y vi, menores; vii°, disminuido.
+
+funciones:
+  nombre: Tónica, subdominante y dominante
+  definicion: El I es la casa, el IV se aleja y el V tensa y empuja de vuelta al I. La cadencia V–I cierra la frase.
+
+melodia-y-acordes:
+  nombre: Melodía sobre acordes
+  definicion: En los pulsos fuertes, la melodía toca notas del acorde que suena; entre medias, notas de paso de la escala.

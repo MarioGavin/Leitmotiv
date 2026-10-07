@@ -35,7 +35,7 @@ test('quien empieza no ve ficha en el título, y en el mapa y el mundo empieza e
   await expect(ficha).toContainText('Nivel')
   await expect(ficha).toContainText('0/50 XP')
   await expect(ficha).toContainText('0 días')
-  await expect(page.locator('.mapa__detalle')).toContainText('0 de 8 lecciones hechas')
+  await expect(page.locator('.mapa__detalle')).toContainText('0 de 24 lecciones hechas')
 })
 
 test('el nivel, la experiencia y la racha se ven en el título, el mapa y el mundo', async ({ page }) => {

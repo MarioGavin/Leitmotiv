@@ -1,0 +1,132 @@
+titulo: Los acordes de la escala
+resumen: Formar una tríada sobre cada nota de la escala y nombrarla por su grado.
+minutos: 8
+conceptos: [grados, triadas]
+
+pasos:
+  - tipo: teoria
+    titulo: Una tríada sobre cada nota
+    texto: |
+      Si sobre cada nota de la escala se apila una tríada usando solo notas de esa
+      escala, salen siete acordes. Se numeran con cifras romanas, los [[grado|grados]]:
+      mayúscula si el acorde es mayor y minúscula si es menor.
+
+      En {t:C mayor}: {g:I} {a:C}, {g:ii} {a:Dm}, {g:iii} {a:Em}, {g:IV} {a:F}, {g:V}
+      {a:G}, {g:vi} {a:Am} y {g:vii°} {a:Bdim}. Míralos subir por el teclado.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      tempo: 84
+      tonalidad: C mayor
+      compases: 2
+      acordes: "C:4 Dm:4 Em:4 F:4 | G:4 Am:4 Bdim:4 C:4"
+      pistas:
+        - rol: armonia
+          instrumento: piano
+          notas: "[C4 E4 G4]:4 [D4 F4 A4]:4 [E4 G4 B4]:4 [F4 A4 C5]:4 | [G4 B4 D5]:4 [A4 C5 E5]:4 [B4 D5 F5]:4 [C5 E5 G5]:4"
+
+  - tipo: analisis
+    concepto: grados
+    enunciado: Escucha el bucle de la granja y responde.
+    pista: Mira la línea de acordes y el teclado. Cuenta desde la tónica, Sol, para saber el grado.
+    explicacion: |
+      En {t:G mayor}, {a:G} es el {g:I}, {a:Em} el {g:vi}, {a:C} el {g:IV} y {a:D} el
+      {g:V}. Es una de las vueltas de acordes más usadas en música de juegos y de pop.
+    pieza:
+      titulo: La granja al amanecer
+      tempo: 100
+      tonalidad: G mayor
+      compases: 4
+      bucle: true
+      acordes: "G:1 | Em:1 | C:1 | D:1"
+      pistas:
+        - rol: armonia
+          instrumento: piano
+          notas: "[G3 B3 D4]:2 [G3 B3 D4]:2 | [G3 B3 E4]:2 [G3 B3 E4]:2 | [G3 C4 E4]:2 [G3 C4 E4]:2 | [F#3 A3 D4]:2 [F#3 A3 D4]:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:2 D2:2 | E2:2 B1:2 | C2:2 G1:2 | D2:2 A1:2"
+    preguntas:
+      - sobre: acorde
+        compas: 2
+        opciones: [E, Em, C]
+        explicacion: Mi, Sol y Si. Una tríada menor sobre Mi.
+      - sobre: libre
+        pregunta: ¿Qué grado es {a:D} en {t:G mayor}?
+        opciones: ["{g:IV}", "{g:V}", "{g:vi}"]
+        correcta: 2
+        explicacion: Re es la quinta nota de la escala de Sol. {a:D} es el {g:V}.
+
+  - tipo: teoria
+    titulo: Mayúsculas y minúsculas
+    texto: |
+      En cualquier tonalidad mayor el reparto es el mismo: {g:I}, {g:IV} y {g:V} son
+      mayores; {g:ii}, {g:iii} y {g:vi} son menores; {g:vii°} es disminuido. Por eso los
+      músicos hablan en grados: un «{g:I} {g:vi} {g:IV} {g:V}» suena igual en cualquier
+      tonalidad.
+
+      Transporta esta vuelta y fíjate en que, aunque cambien los nombres de los acordes,
+      su carácter no cambia.
+    manipulable: [tempo, transposicion]
+    ejemplo:
+      titulo: Créditos finales
+      tempo: 88
+      tonalidad: F mayor
+      compases: 4
+      bucle: true
+      acordes: "F:1 | Dm:1 | Bb:1 | C:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A4:4 C5:4 F5:4 E5:4 | D5:2 A4:2 | Bb4:4 D5:4 F5:4 D5:4 | E5:2 C5:2"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[F3 A3 C4]:1 | [F3 A3 D4]:1 | [F3 Bb3 D4]:1 | [E3 G3 C4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "F2:2 C2:2 | D2:2 A1:2 | Bb1:2 F2:2 | C2:2 G1:2"
+
+  - tipo: construccion
+    modo: elegir-acorde
+    concepto: grados
+    enunciado: Elige el acorde que va en el tercer compás.
+    pista: La melodía del tercer compás toca {n:G4}, {n:B4} y {n:D5}. ¿Qué acorde de {t:D mayor} tiene esas tres notas?
+    explicacion: |
+      {n:G4}, {n:B4} y {n:D5} forman {a:G}, el {g:IV} de {t:D mayor}. {a:Gm} llevaría
+      Si bemol, que no es de la tonalidad, y {a:Em} no tiene el Re de la melodía.
+    pieza:
+      tempo: 104
+      tonalidad: D mayor
+      compases: 4
+      acordes: "D:1 | Bm:1 | ?:1 | A:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "F#4:4 A4:4 D5:4 A4:4 | B4:4 D5:4 F#5:2 | G4:4 B4:4 D5:2 | C#5:4 E5:4 A4:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "D2:1 | B1:1 | G1:1 | A1:1"
+    opciones:
+      - acorde: G
+        correcta: true
+        porque: Sol, Si y Re. Las tres notas de la melodía, y es el {g:IV} de la tonalidad.
+      - acorde: Gm
+        correcta: false
+        porque: Lleva Si bemol, que choca con el Si natural de la melodía y no es de {t:D mayor}.
+      - acorde: Em
+        correcta: false
+        porque: Es de la tonalidad, pero no tiene Re. La nota larga de la melodía quedaría fuera.
+
+  - tipo: oido
+    modo: acorde
+    concepto: grados
+    enunciado: Los tres colores de los acordes de la escala. ¿Cuál suena?
+    pista: Mayor como {g:I}, {g:IV} o {g:V}; menor como {g:ii}, {g:iii} o {g:vi}; disminuido como {g:vii°}.
+    explicacion: |
+      Una escala mayor da tres acordes mayores, tres menores y uno disminuido. Reconocer
+      el color de oído es el primer paso para saber qué grado suena.
+    calidades: [M, m, dim]
+    presentacion: ambos
+    registro: [C3, C4]
+    rondas: 6
