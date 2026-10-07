@@ -95,7 +95,16 @@ const ESCENAS: readonly Escena[] = [
       await pagina.getByRole('heading', { name: 'Lección completada' }).waitFor()
     },
   },
-  { nombre: 'pianoroll', ruta: '#/pianoroll', principal: true },
+  { nombre: 'pianoroll', ruta: '#/pianoroll/pradera', principal: true },
+  { nombre: 'repertorio', ruta: '#/repertorio' },
+  {
+    nombre: 'repertorio-pieza',
+    ruta: '#/repertorio',
+    preparar: async (pagina) => {
+      await pagina.locator('.repertorio__pieza').first().click()
+      await pagina.getByRole('dialog').waitFor()
+    },
+  },
   { nombre: 'titulo', ruta: '#/' },
   { nombre: 'ajustes', ruta: '#/ajustes' },
   {
@@ -213,6 +222,8 @@ const TITULOS: Readonly<Record<string, string>> = {
   'leccion-completada': 'Lección completada',
   'glosario-ventana': 'Término del glosario',
   pianoroll: 'Piano roll',
+  repertorio: 'Mi repertorio',
+  'repertorio-pieza': 'Una pieza del repertorio',
   titulo: 'Título',
   ajustes: 'Ajustes',
   'ajustes-borrar': 'Borrar los datos',

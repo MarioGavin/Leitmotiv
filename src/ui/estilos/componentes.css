@@ -961,3 +961,14 @@
 .ficha__racha .dato {
   white-space: nowrap;
 }
+
+/* ── Campo de texto ── */
+.campo {
+  width: 100%;
+  min-height: var(--toque);
+  padding: var(--e-2) var(--e-3);
+  font: inherit;
+  font-family: var(--fuente-texto);
+  font-size: var(--t-m, 1rem);
+  line-height: 1.3;
+}

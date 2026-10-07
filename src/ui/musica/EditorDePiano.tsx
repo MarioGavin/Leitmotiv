@@ -1,6 +1,6 @@
 import { type CSSProperties, type ReactNode, Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAjustes } from '../../app/ajustes.ts'
-import { descargar } from '../../app/descargas.ts'
+import { descargarMidi } from '../../app/descargas.ts'
 import { sonar, tocarNotas } from '../../audio/audio.ts'
 import { type Edicion, type Historial, deshacer, estirarNota, hacer, historialDe, quitarNota, rehacer } from '../../musica/edicion.ts'
 import { IDS_INSTRUMENTOS, INSTRUMENTOS, type IdInstrumento, type Instrumento } from '../../musica/instrumentos.ts'
@@ -186,9 +186,7 @@ export function EditorDePiano({ inicial, alCambiar, editables, titulo, salida, d
   const exportar = async (): Promise<void> => {
     setExportando(true)
     try {
-      // El exportador se descarga aquí, la primera vez que se pide.
-      const { piezaAMidi, nombreDeArchivoMidi } = await import('../../musica/midi.ts')
-      descargar(nombreDeArchivoMidi(pieza.titulo ?? titulo), await piezaAMidi({ ...pieza, titulo: pieza.titulo ?? titulo }), 'audio/midi')
+      await descargarMidi(pieza, titulo)
       sonar('aceptar')
     } catch (error) {
       console.warn('No se ha podido exportar a MIDI', error)
@@ -295,6 +293,22 @@ export function EditorDePiano({ inicial, alCambiar, editables, titulo, salida, d
 
       <Ventana abierta={ventana === 'opciones'} alCerrar={() => setVentana(undefined)} rotulo="Opciones">
         <div className="pila">
+          {libre && (
+            <label className="pila pila--junta">
+              <span className="etiqueta">Título</span>
+              <input
+                className="campo"
+                type="text"
+                maxLength={60}
+                value={arreglo.titulo ?? ''}
+                placeholder={titulo}
+                onChange={(evento) => {
+                  const nuevo = evento.target.value
+                  setArreglo((a) => ({ ...a, titulo: nuevo.trim() === '' ? undefined : nuevo }))
+                }}
+              />
+            </label>
+          )}
           <div className="pianoroll__fila">
             <span className="etiqueta crece">Tempo</span>
             <Boton soloIcono icono="menos" sonido="cursor" aria-label="Bajar el tempo" onClick={() => cambiarTempo(arreglo.tempo - 4)} />

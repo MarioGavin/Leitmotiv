@@ -1,4 +1,6 @@
 import { type Page, expect } from '@playwright/test'
+import { piezaDePrueba } from '../src/musica/piezas-de-prueba.ts'
+import type { PiezaGuardada } from '../src/progreso/tipos.ts'
 
 /** Recoge los errores de la página (excepciones y `console.error`) para comprobar al final que no ha habido ninguno. */
 export function vigilarErrores(pagina: Page): string[] {
@@ -31,6 +33,24 @@ export interface ProgresoSembrado {
   diario?: Readonly<Record<string, number>>
   /** Conceptos en el repaso espaciado, con el día en que les toca volver (fecha ISO). */
   tarjetas?: Readonly<Record<string, string>>
+  /** Piezas de «Mi repertorio». */
+  repertorio?: readonly PiezaGuardada[]
+}
+
+/** Una pieza de «Mi repertorio» con melodía (15 notas), bajo (8) y batería (16), en Re mayor a 104 BPM. */
+export const PIEZA_GUARDADA: PiezaGuardada = {
+  id: 'pradera',
+  titulo: 'Tema de la pradera',
+  creada: '2026-10-01T10:00:00.000Z',
+  modificada: '2026-10-02T10:00:00.000Z',
+  pieza: piezaDePrueba(
+    [
+      { rol: 'melodia', notas: 'A4:4 D5:4 F#5:4. E5:8 | D5:4 B4:4 A4:4 C#5:4 | D5:4. F#5:8 E5:4 D5:4 | B4:4 G4:4 A4:2' },
+      { rol: 'bajo', instrumento: 'bajo-electrico', notas: 'D2:2 A2:2 | G2:2 A2:2 | B1:2 F#2:2 | G2:2 A2:2' },
+      { rol: 'percusion', instrumento: 'bateria', notas: 'bombo:4 caja:4 bombo:4 caja:4 | % | % | %' },
+    ],
+    { titulo: 'Tema de la pradera', tempo: 104, tonalidad: 'D mayor', bucle: true },
+  ),
 }
 
 /**
@@ -42,7 +62,7 @@ export interface ProgresoSembrado {
  */
 export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progreso: ProgresoSembrado): Promise<void> {
   await pagina.addInitScript(
-    ({ lecciones, diario, tarjetas }) => {
+    ({ lecciones, diario, tarjetas, repertorio }) => {
       const apertura = indexedDB.open('leitmotiv', 10)
       apertura.onupgradeneeded = () => {
         const db = apertura.result
@@ -59,10 +79,11 @@ export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progr
           const fsrs = { due, stability: 3, difficulty: 5, elapsed_days: 0, scheduled_days: 3, learning_steps: 0, reps: 2, lapses: 0, state: 2, last_review: ultima }
           transaccion.objectStore('tarjetas').put({ concepto, fsrs })
         }
+        for (const pieza of repertorio) transaccion.objectStore('repertorio').put(pieza)
       }
       apertura.onsuccess = () => apertura.result.close()
     },
-    { lecciones: [...(progreso.lecciones ?? [])], diario: { ...progreso.diario }, tarjetas: { ...progreso.tarjetas } },
+    { lecciones: [...(progreso.lecciones ?? [])], diario: { ...progreso.diario }, tarjetas: { ...progreso.tarjetas }, repertorio: [...(progreso.repertorio ?? [])] },
   )
 }
 
@@ -106,16 +127,20 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/leccion/m00.u01.l02/1', '.pie .boton'],
   ['#/leccion/m00.u01.l02/2', '.opcion'],
   ['#/leccion/m00.u01.l02/4', '.pad'],
-  ['#/pianoroll', '.rollo'],
+  ['#/pianoroll/pradera', '.rollo'],
   ['#/ajustes', '.conmutador'],
-  ['#/repertorio', '.pantalla__cuerpo .boton'],
+  ['#/repertorio', '.repertorio__pieza'],
   ['#/diagnostico', '.instrumento-fila'],
   ['#/calibracion', '.pad'],
   ['#/repaso', '.repaso__lista'],
 ]
 
-/** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`: «El pulso» completada y su concepto pendiente de repaso desde ayer. */
-export const PROGRESO_DE_PANTALLAS: ProgresoSembrado = { lecciones: ['m00.u01.l01'], tarjetas: { pulso: new Date(Date.now() - 86_400_000).toISOString() } }
+/** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`: «El pulso» completada, su concepto pendiente de repaso desde ayer y una pieza en el repertorio. */
+export const PROGRESO_DE_PANTALLAS: ProgresoSembrado = {
+  lecciones: ['m00.u01.l01'],
+  tarjetas: { pulso: new Date(Date.now() - 86_400_000).toISOString() },
+  repertorio: [PIEZA_GUARDADA],
+}
 
 /** Deja elegido un esquema de color antes de que la app arranque. */
 export async function elegirEsquema(pagina: Page, esquema: string): Promise<void> {

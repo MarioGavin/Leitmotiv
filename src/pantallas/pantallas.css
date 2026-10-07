@@ -420,3 +420,13 @@
   --icono: 20px;
   flex: none;
 }
+
+/* ── Mi repertorio ── */
+.repertorio__pieza {
+  width: 100%;
+  text-align: left;
+}
+
+.repertorio__confirmar {
+  padding-top: var(--e-2);
+}

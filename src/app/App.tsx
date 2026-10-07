@@ -6,19 +6,19 @@ import { Mapa } from '../pantallas/Mapa.tsx'
 import { Mundo } from '../pantallas/Mundo.tsx'
 import { Proximamente } from '../pantallas/Proximamente.tsx'
 import { Titulo } from '../pantallas/Titulo.tsx'
-import { Boton } from '../ui/Boton.tsx'
 import { Limite } from '../ui/Limite.tsx'
 import { Navegacion } from '../ui/Navegacion.tsx'
 import { VentanaDeGlosario } from '../ui/VentanaDeGlosario.tsx'
 import { Avisos } from './Avisos.tsx'
 import { useAjustes, useEsquemaResuelto } from './ajustes.ts'
 import { useVentanas } from './ventanas.ts'
-import { type Ruta, navegar, useRuta } from './rutas.ts'
+import { type Ruta, useRuta } from './rutas.ts'
 
 // Las pantallas pesadas se descargan aparte, la primera vez que se abren.
 const Leccion = lazy(() => import('../pantallas/Leccion.tsx').then((m) => ({ default: m.Leccion })))
 const PianoRoll = lazy(() => import('../pantallas/PianoRoll.tsx').then((m) => ({ default: m.PianoRoll })))
 const Diagnostico = lazy(() => import('../pantallas/Diagnostico.tsx').then((m) => ({ default: m.Diagnostico })))
+const Repertorio = lazy(() => import('../pantallas/Repertorio.tsx').then((m) => ({ default: m.Repertorio })))
 const Repaso = lazy(() => import('../pantallas/Repaso.tsx').then((m) => ({ default: m.Repaso })))
 const Calibracion = lazy(() => import('../pantallas/Calibracion.tsx').then((m) => ({ default: m.Calibracion })))
 const Muestrario = lazy(() => import('../pantallas/Muestrario.tsx').then((m) => ({ default: m.Muestrario })))
@@ -88,20 +88,11 @@ function pantallaDe(ruta: Ruta): { contenido: ReactNode; conNavegacion: boolean 
     case 'leccion':
       return { contenido: <Leccion id={ruta.id} paso={ruta.paso} />, conNavegacion: false }
     case 'pianoroll':
-      return { contenido: <PianoRoll />, conNavegacion: false }
+      return { contenido: <PianoRoll id={ruta.id} />, conNavegacion: false }
     case 'repaso':
       return { contenido: <Repaso />, conNavegacion: true }
     case 'repertorio':
-      return {
-        contenido: (
-          <Proximamente titulo="Mi repertorio" descripcion="Las piezas que compongas en los encargos, para escucharlas, seguir editándolas y exportarlas a MIDI.">
-            <Boton variante="primario" bloque icono="pianoroll" onClick={() => navegar({ pantalla: 'pianoroll' })}>
-              Abrir el piano roll de prueba
-            </Boton>
-          </Proximamente>
-        ),
-        conNavegacion: true,
-      }
+      return { contenido: <Repertorio />, conNavegacion: true }
     case 'glosario':
       return {
         contenido: <Proximamente titulo="Glosario" descripcion="Todos los términos del curso y las fichas de consulta rápida, con su ejemplo sonoro." />,
