@@ -92,6 +92,85 @@ puntillo:
   definicion: Punto detrás de una figura que la alarga la mitad de lo que dura. Una negra con puntillo dura un pulso y medio.
   ver: [figura, negra]
 
+# ── Notas e intervalos ──
+
+semitono:
+  termino: Semitono
+  definicion: La distancia más pequeña entre dos notas en nuestra música, la que hay de una tecla del piano a la de al lado. De Mi a Fa y de Si a Do hay un semitono.
+  ver: [tono, sostenido, bemol]
+
+tono:
+  termino: Tono
+  definicion: Distancia de dos [[semitono|semitonos]]. De Do a Re hay un tono.
+  ver: [semitono]
+
+sostenido:
+  termino: Sostenido
+  definicion: Alteración (♯) que sube una nota un semitono. {n:F#4} es el Fa sostenido.
+  ver: [bemol, semitono]
+
+bemol:
+  termino: Bemol
+  definicion: Alteración (♭) que baja una nota un semitono. {n:Bb3} es el Si bemol. Una tecla negra tiene un nombre con sostenido y otro con bemol.
+  ver: [sostenido, semitono]
+
+octava:
+  termino: Octava
+  definicion: Intervalo de doce semitonos. La nota de arriba se llama igual que la de abajo y suena casi idéntica, más aguda. El número de una nota ({n:C4}, {n:C5}) dice en qué octava está.
+  ver: [intervalo, registro]
+
+registro:
+  termino: Registro
+  definicion: Franja de notas en la que se mueve una voz o un instrumento. Se habla de registro grave, medio y agudo.
+  ver: [octava, timbre]
+
+timbre:
+  termino: Timbre
+  definicion: El color de un sonido, lo que distingue un piano de unas cuerdas aunque toquen la misma nota.
+  ver: [registro]
+
+intervalo:
+  termino: Intervalo
+  definicion: Distancia entre dos notas. Se nombra por el número de notas que abarca (segunda, tercera, cuarta…) y por su tamaño exacto en semitonos (mayor, menor, justa).
+  ver: [semitono, consonancia, tritono]
+  ejemplo:
+    titulo: De la segunda a la octava
+    tempo: 92
+    tonalidad: C mayor
+    compases: 4
+    pistas:
+      - rol: melodia
+        instrumento: piano
+        notas: "C4:4 D4:4 C4:4 E4:4 | C4:4 F4:4 C4:4 G4:4 | C4:4 A4:4 C4:4 B4:4 | C4:2 C5:2"
+
+consonancia:
+  termino: Consonancia
+  definicion: Intervalo o acorde que suena a reposo, como las terceras, las sextas, las quintas y las octavas.
+  ver: [disonancia, intervalo]
+
+disonancia:
+  termino: Disonancia
+  definicion: Intervalo o acorde que suena a tensión y pide moverse, como las segundas, las séptimas y el tritono. No es un error, es el motor de la música.
+  ver: [consonancia, tritono]
+
+tritono:
+  termino: Tritono
+  definicion: Intervalo de tres tonos (seis semitonos) que parte la octava por la mitad. Es la cuarta aumentada, y suena inestable e inquietante.
+  ver: [disonancia, intervalo]
+  ejemplo:
+    titulo: La cripta
+    tempo: 66
+    compases: 2
+    bucle: true
+    pistas:
+      - rol: colchon
+        instrumento: cuerdas
+        matiz: p
+        notas: "[E4 Bb4]:1 | [E4 Bb4]:1"
+      - rol: bajo
+        instrumento: bajo-electrico
+        notas: "E2:2 Bb2:2 | E2:2 Bb2:2"
+
 # ── Música de videojuego ──
 
 bucle:
@@ -123,6 +202,11 @@ bucle:
             charles: "xoxoxoxo"
             caja: "..x...x."
             bombo: "x..x.x.."
+
+motivo:
+  termino: Motivo
+  definicion: Idea musical corta, de tres a seis notas, que se reconoce cada vez que vuelve. Los temas de los personajes se construyen a partir de motivos.
+  ver: [intervalo]
 
 capa:
   termino: Capa

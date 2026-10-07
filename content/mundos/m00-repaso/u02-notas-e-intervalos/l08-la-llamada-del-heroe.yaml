@@ -1,0 +1,136 @@
+titulo: La llamada del héroe
+resumen: Reconocer cualquier intervalo de la octava y componer un motivo heroico a partir de saltos firmes.
+minutos: 10
+conceptos: [intervalos, cuartas-y-quintas]
+
+pasos:
+  - tipo: teoria
+    titulo: Un motivo hecho de intervalos
+    texto: |
+      Un [[motivo]] es una idea musical corta, de tres a seis notas, que se reconoce al
+      volver. Los motivos heroicos suelen arrancar con un salto firme (una cuarta o una
+      quinta), subir un poco más y caer en una nota larga.
+
+      Escucha esta llamada de 8 bits: salto de quinta, dos pasos y un salto de cuarta
+      hasta la nota más alta. Apaga el bajo para oír solo el motivo.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: El faro del norte
+      tempo: 112
+      tonalidad: D mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "D5:8. A5:16 A5:4 B5:8 C#6:8 F#6:4 | E6:2. r:4 | D5:8. A5:16 A5:4 B5:8 A5:8 F#5:4 | E5:2 A4:2"
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "D3:8 D3:8 A2:8 D3:8 D3:8 A2:8 D3:4 | A2:8 A2:8 E2:8 A2:8 A2:8 E2:8 A2:4 | G2:8 G2:8 D2:8 G2:8 G2:8 D2:8 G2:4 | A2:8 A2:8 E2:8 A2:8 A2:4 A2:4"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              caja: "..x...x."
+              bombo: "x..xx..."
+
+  - tipo: oido
+    modo: intervalo
+    concepto: intervalos
+    enunciado: ¿Qué intervalo suena?
+    pista: Busca primero la familia. ¿Es un paso (segunda), un salto con color (tercera o sexta), firme (cuarta o quinta) o se funde (octava)?
+    explicacion: |
+      Para reconocer un intervalo ayuda decidir primero su tamaño aproximado y después
+      el color. Con práctica, cada uno acaba teniendo su propia cara.
+    intervalos: [2M, 3M, 4J, 5J, 6M, 8J]
+    direcciones: [ascendente]
+    registro: [C4, C5]
+    rondas: 8
+
+  - tipo: analisis
+    concepto: intervalos
+    enunciado: Escucha la llamada del faro y responde.
+    pista: Fíjate en las dos primeras notas y en la nota más alta del primer compás.
+    explicacion: |
+      El motivo arranca con una quinta justa ({n:D5} a {n:A5}) y alcanza su punto más
+      alto con una cuarta ({n:C#6} a {n:F#6}). Los saltos firmes le dan el aire heroico.
+    pieza:
+      titulo: El faro del norte
+      tempo: 112
+      tonalidad: D mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "D5:8. A5:16 A5:4 B5:8 C#6:8 F#6:4 | E6:2. r:4 | D5:8. A5:16 A5:4 B5:8 A5:8 F#5:4 | E5:2 A4:2"
+    preguntas:
+      - sobre: libre
+        pregunta: ¿Con qué salto empieza el motivo?
+        opciones: ["{i:3M}", "{i:4J}", "{i:5J}"]
+        correcta: 3
+        explicacion: "{n:D5} a {n:A5}: siete semitonos, una quinta justa."
+      - sobre: libre
+        pregunta: ¿Cuál es la nota más aguda?
+        opciones: ["{n:C#6}", "{n:E6}", "{n:F#6}"]
+        correcta: 3
+        explicacion: El {n:F#6} del primer compás, justo antes de la nota larga.
+
+  - tipo: encargo
+    titulo: La llamada del héroe
+    cliente: Estudio Faro Norte
+    concepto: intervalos
+    brief: |
+      La protagonista desenvaina la espada por primera vez y necesitamos su llamada: un
+      motivo de cuatro compases en {t:C mayor} que se pueda tararear. Que **empiece en la
+      tónica o en la quinta**, que tenga algún **salto firme** de cuarta o de quinta y que
+      **acabe en Do**, con la sensación de que la aventura empieza. El bajo y la batería
+      ya están; escribe tú la melodía, a una sola voz.
+    pista: |
+      Prueba a empezar en {n:C5} o en {n:G4} y saltar una quinta o una cuarta hacia
+      arriba. Sube un poco más por pasos y termina en un Do largo.
+    explicacion: |
+      Un motivo heroico se apoya en los intervalos justos: son firmes y no tienen el
+      color triste o alegre de las terceras, así que suenan a decisión. Empezar y acabar
+      en la tónica le da a la llamada un punto de partida y de llegada claros.
+    plantilla:
+      titulo: La llamada del héroe
+      tempo: 112
+      tonalidad: C mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: ""
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "C3:8 C3:8 G2:8 C3:8 C3:8 G2:8 C3:4 | F2:8 F2:8 C2:8 F2:8 F2:8 C2:8 F2:4 | G2:8 G2:8 D2:8 G2:8 G2:8 D2:8 G2:4 | C3:8 C3:8 G2:8 C3:8 C3:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              caja: "..x...x."
+              bombo: "x..xx..."
+    requisitos:
+      - regla: tonalidad
+        valores: [C mayor]
+      - regla: compases
+        valor: 4
+      - regla: notas-minimas
+        pista: melodia
+        valor: 6
+      - regla: polifonia
+        pista: melodia
+        max: 1
+      - regla: rango
+        pista: melodia
+        min: G3
+        max: C6
+      - regla: empieza-en
+        pista: melodia
+        grados: [1, 5]
+      - regla: termina-en
+        pista: melodia
+        grados: [1]

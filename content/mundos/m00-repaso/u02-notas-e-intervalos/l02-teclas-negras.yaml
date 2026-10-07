@@ -1,0 +1,113 @@
+titulo: Teclas negras, sostenidos y bemoles
+resumen: Distinguir un tono de un semitono y nombrar las teclas negras.
+minutos: 7
+conceptos: [semitonos, notas]
+
+pasos:
+  - tipo: teoria
+    titulo: El paso más pequeño
+    texto: |
+      De una tecla a la de al lado, sea blanca o negra, hay un [[semitono]]: el paso más
+      pequeño de nuestra música. Dos semitonos forman un [[tono]]. Entre {n:E4} y {n:F4},
+      y entre {n:B4} y {n:C5}, no hay tecla negra: esas parejas están a un semitono.
+
+      Escucha cómo este fantasma se arrastra tecla a tecla, de semitono en semitono. Por
+      eso suena tan inquietante.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: El pasillo del fantasma
+      tempo: 72
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E4:4 F4:4 F#4:4 G4:4 | G#4:4 A4:4 G#4:2"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: semitonos
+    enunciado: ¿Las dos notas están a un semitono o a un tono?
+    pista: El semitono es un roce, casi la misma nota. El tono ya se oye como un paso claro.
+    explicacion: |
+      Una segunda menor es un semitono: dos teclas pegadas. Una segunda mayor es un tono:
+      salta una tecla por medio.
+    intervalos: [2m, 2M]
+    direcciones: [ascendente, descendente]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: teoria
+    titulo: Sostenidos y bemoles
+    texto: |
+      Un [[sostenido]] (♯) sube una nota un semitono; un [[bemol]] (♭) la baja un
+      semitono. Por eso la tecla negra entre Do y Re tiene dos nombres: {n:C#4} y
+      {n:Db4} son la misma tecla.
+
+      En esta melodía de {t:A menor}, el {n:G#4} sube un semitono al Sol para que la
+      frase empuje con fuerza hacia la nota final.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Despedida en el puerto
+      tempo: 80
+      tonalidad: A menor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C5:4 B4:4 A4:4 G#4:4 | A4:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "A1:2 E2:2 | A1:1"
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: semitonos
+    enunciado: Elige la nota que lleva la melodía de vuelta a su Sol.
+    pista: La melodía está en {t:G mayor}, que tiene un sostenido. Prueba las dos y escucha cuál encaja.
+    explicacion: |
+      En {t:G mayor} el Fa es siempre sostenido. El {n:F#4} está a un semitono del Sol y
+      lo empuja hacia él; el Fa natural está a un tono y suena fuera de la tonalidad.
+    pieza:
+      tempo: 92
+      tonalidad: G mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D4:4 G4:4 B4:4 A4:4 | G4:4 ?:4 G4:2"
+    opciones:
+      - notas: "F#4:4"
+        correcta: true
+        porque: Fa sostenido, a un semitono del Sol. Es la nota de la escala y lo empuja hacia casa.
+      - notas: "F4:4"
+        correcta: false
+        porque: El Fa natural no es de {t:G mayor}. Está a un tono del Sol y la vuelta suena torcida.
+
+  - tipo: analisis
+    concepto: semitonos
+    enunciado: Escucha y responde sobre las teclas negras.
+    pista: Cuenta las teclas, blancas y negras, que hay de una nota a la otra.
+    explicacion: |
+      Entre Mi y Fa no hay tecla negra, así que están a un semitono. Una tecla negra se
+      puede nombrar desde la blanca de abajo (con sostenido) o desde la de arriba (con
+      bemol).
+    pieza:
+      tempo: 80
+      compases: 1
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E4:4 F4:4 C#4:4 Db4:4"
+    preguntas:
+      - sobre: libre
+        pregunta: ¿Cuántos semitonos hay de {n:E4} a {n:F4}?
+        opciones: [Uno, Dos]
+        correcta: 1
+        explicacion: Son teclas vecinas, sin negra en medio. Un semitono.
+      - sobre: libre
+        pregunta: ¿Qué otro nombre tiene {n:C#4}?
+        opciones: ["{n:Db4}", "{n:D#4}", "{n:Cb4}"]
+        correcta: 1
+        explicacion: Do sostenido y Re bemol son la misma tecla negra, entre Do y Re.

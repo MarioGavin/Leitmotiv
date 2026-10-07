@@ -1,0 +1,102 @@
+titulo: Sextas y séptimas
+resumen: Oír los saltos grandes y para qué los usa una melodía.
+minutos: 8
+conceptos: [sextas-y-septimas, cuartas-y-quintas]
+
+pasos:
+  - tipo: teoria
+    titulo: Saltos que emocionan
+    texto: |
+      La **sexta mayor** ({i:6M}, nueve semitonos) es un salto amplio y cálido. Muchos
+      temas de reencuentro o de nostalgia arrancan con ella: la melodía se abre de golpe
+      y luego baja despacio, por grados, a recoger lo que ha abierto.
+
+      Escucha cómo este tema salta una sexta y desciende paso a paso.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Vuelta a casa
+      tempo: 76
+      tonalidad: C mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:4 E5:2 D5:4 | C5:4 B4:4 A4:2 | A4:4 F5:2 E5:4 | D5:2. r:4"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[C4 E4]:1 | [B3 D4]:2 [A3 C4]:2 | [F3 A3]:1 | [G3 B3]:1"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: sextas-y-septimas
+    enunciado: ¿Quinta, sexta u octava?
+    pista: La sexta se queda un poco por encima de la quinta, sin llegar a fundirse como la octava.
+    explicacion: |
+      La quinta mide siete semitonos; la sexta mayor, nueve; la octava, doce. La sexta es
+      la que suena más dulce de las tres.
+    intervalos: [5J, 6M, 8J]
+    direcciones: [ascendente]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: teoria
+    titulo: La séptima pide moverse
+    texto: |
+      La **séptima menor** ({i:7m}, diez semitonos) se queda a un tono de la octava, y
+      se nota: suena a algo sin terminar que pide moverse. Tras ella, la melodía suele
+      bajar un paso para resolver.
+
+      Mira en el teclado el salto de {n:D4} a {n:C5} y escucha cómo la frase se relaja
+      al bajar a {n:B4}.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Pregunta al oráculo
+      tempo: 72
+      tonalidad: G mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D4:2 C5:2 | B4:1"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: sextas-y-septimas
+    enunciado: ¿Qué intervalo suena?
+    pista: Las sextas suenan abiertas y amables. Las séptimas rozan la octava sin alcanzarla, y la séptima mayor casi duele.
+    explicacion: |
+      Sexta menor, ocho semitonos; sexta mayor, nueve; séptima menor, diez; séptima
+      mayor, once. Cuanto más cerca de la octava, más tensión.
+    intervalos: [6m, 6M, 7m, 7M]
+    direcciones: [ascendente]
+    registro: [C4, C5]
+    rondas: 8
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: sextas-y-septimas
+    enunciado: El tema del reencuentro debe abrir con una sexta. Elige su segunda nota.
+    pista: La primera nota es {n:G4}. Cuenta nueve semitonos hacia arriba.
+    explicacion: |
+      De {n:G4} a {n:E5} hay una sexta mayor. Con {n:D5} sería una quinta: más firme,
+      pero sin la calidez que pide el encargo.
+    pieza:
+      tempo: 76
+      tonalidad: C mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:4 ?:2 D5:4 | C5:1"
+    opciones:
+      - notas: "E5:2"
+        correcta: true
+        porque: "{n:G4} a {n:E5}: nueve semitonos, sexta mayor. Abre el tema con calidez."
+      - notas: "D5:2"
+        correcta: false
+        porque: "{n:G4} a {n:D5}: una quinta. Firme, pero no es la sexta que se pide."
+      - notas: "G5:2"
+        correcta: false
+        porque: "{n:G4} a {n:G5}: una octava. Suena a llamada, no a abrazo."

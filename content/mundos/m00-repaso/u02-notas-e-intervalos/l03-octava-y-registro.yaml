@@ -1,0 +1,156 @@
+titulo: La octava y el registro
+resumen: Reconocer la misma nota en otra octava y oír en qué registro suena cada instrumento.
+minutos: 7
+conceptos: [registro, notas]
+
+pasos:
+  - tipo: teoria
+    titulo: La misma nota, más arriba
+    texto: |
+      Doce semitonos más arriba vuelve la misma nota, más aguda: es una [[octava]]. Por
+      eso las notas llevan un número: {n:C4} es el Do central, {n:C5} el siguiente hacia
+      arriba y {n:C3} el de abajo.
+
+      Escucha este motivo tres veces, cada vez una octava más alto. Las notas se llaman
+      igual; lo que cambia es el brillo.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Eco en la cueva
+      tempo: 96
+      tonalidad: A menor
+      compases: 3
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E3:8 A3:8 C4:8 B3:8 A3:2 | E4:8 A4:8 C5:8 B4:8 A4:2 | E5:8 A5:8 C6:8 B5:8 A5:2"
+
+  - tipo: oido
+    modo: preguntas
+    concepto: registro
+    enunciado: ¿Es la misma nota en otra octava, o es otra nota?
+    pista: Si es la misma nota, las dos se funden y parecen una sola, más gruesa. Si es otra, se oyen como dos colores distintos.
+    explicacion: |
+      Dos notas a una octava suenan tan parecidas que casi se confunden. Cualquier otra
+      distancia se oye como dos notas distintas.
+    preguntas:
+      - opciones: [La misma nota, Otra nota]
+        correcta: 1
+        explicacion: "{n:D4} y {n:D5}: una octava."
+        pieza:
+          tempo: 80
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "D4:2 D5:2"
+      - opciones: [La misma nota, Otra nota]
+        correcta: 2
+        explicacion: "{n:D4} y {n:C5}: casi una octava, pero no llega."
+        pieza:
+          tempo: 80
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "D4:2 C5:2"
+      - opciones: [La misma nota, Otra nota]
+        correcta: 1
+        explicacion: "{n:A4} y {n:A3}: una octava hacia abajo."
+        pieza:
+          tempo: 80
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "A4:2 A3:2"
+      - opciones: [La misma nota, Otra nota]
+        correcta: 2
+        explicacion: "{n:F4} y {n:G5}: una nota distinta, más de una octava por encima."
+        pieza:
+          tempo: 80
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "F4:2 G5:2"
+
+  - tipo: teoria
+    titulo: Cada instrumento tiene su sitio
+    texto: |
+      El [[registro]] es la franja de notas en la que se mueve una voz o un instrumento.
+      El bajo vive abajo, el chip de pulso brilla arriba y las cuerdas lo cubren casi
+      todo. Lo que distingue a un instrumento de otro tocando la misma nota es su
+      [[timbre]].
+
+      Cambia el instrumento de esta melodía: las notas son las mismas, pero cada timbre
+      la coloca en un lugar distinto del juego.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: El santuario
+      tempo: 84
+      tonalidad: D mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: cuerdas
+          notas: "A4:2 F#4:4 A4:4 | B4:2 A4:2 | D5:4 C#5:4 B4:4 A4:4 | F#4:2 E4:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "D2:1 | G2:1 | B1:1 | A1:1"
+
+  - tipo: oido
+    modo: timbre
+    concepto: registro
+    enunciado: ¿Qué instrumento toca la frase?
+    pista: El piano ataca y se apaga; las cuerdas entran suaves y se sostienen; el chip suena a consola antigua, con un zumbido brillante.
+    explicacion: |
+      El timbre es lo que permite reconocer un instrumento aunque toque las mismas notas:
+      cómo empieza cada nota, cómo se mantiene y qué brillo tiene.
+    instrumentos: [piano, cuerdas, chip-pulso]
+    frase: "E4:8 G4:8 C5:4 B4:4 G4:4 | A4:2 G4:2"
+    tempo: 96
+    rondas: 6
+
+  - tipo: oido
+    modo: preguntas
+    concepto: registro
+    enunciado: ¿En qué registro suena?
+    pista: Compáralo con tu voz. Lo que podrías cantar cómodamente está en el registro medio.
+    explicacion: |
+      El registro grave es el de los bajos y la mano izquierda del piano; el medio, el de
+      la voz; el agudo, el de los pájaros, las campanillas y los destellos de magia.
+    preguntas:
+      - opciones: [Grave, Medio, Agudo]
+        correcta: 3
+        explicacion: Suena alrededor de {n:C6}, dos octavas por encima del Do central.
+        pieza:
+          tempo: 100
+          tonalidad: C mayor
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C6:8 E6:8 G6:8 E6:8 C6:2"
+      - opciones: [Grave, Medio, Agudo]
+        correcta: 1
+        explicacion: Suena alrededor de {n:C2}, dos octavas por debajo del Do central.
+        pieza:
+          tempo: 100
+          tonalidad: C mayor
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C2:8 E2:8 G2:8 E2:8 C2:2"
+      - opciones: [Grave, Medio, Agudo]
+        correcta: 2
+        explicacion: Suena alrededor de {n:C4}, el Do central, donde canta casi cualquier voz.
+        pieza:
+          tempo: 100
+          tonalidad: C mayor
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C4:8 E4:8 G4:8 E4:8 C4:2"

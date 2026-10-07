@@ -1,0 +1,98 @@
+titulo: Segundas y terceras
+resumen: Medir la distancia entre dos notas y oír la diferencia entre una tercera mayor y una menor.
+minutos: 8
+conceptos: [segundas-y-terceras, semitonos]
+
+pasos:
+  - tipo: teoria
+    titulo: La distancia entre dos notas
+    texto: |
+      Un [[intervalo]] es la distancia entre dos notas. Se cuenta por notas, incluyendo
+      las dos de los extremos: de Do a Re hay una **segunda** (Do, Re); de Do a Mi, una
+      **tercera** (Do, Re, Mi).
+
+      Escucha primero la segunda, luego la tercera y al final las dos notas de la tercera
+      a la vez. Mira en el teclado cuántas teclas quedan en medio.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      tempo: 84
+      tonalidad: C mayor
+      compases: 3
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C4:2 D4:2 | C4:2 E4:2 | [C4 E4]:1"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: segundas-y-terceras
+    enunciado: ¿Es una segunda o una tercera?
+    pista: La segunda es un paso, como subir un peldaño. La tercera se salta uno, y ya no suena a escalera.
+    explicacion: |
+      En una segunda las notas son vecinas en la escala. En una tercera hay una nota por
+      medio que no suena.
+    intervalos: [2M, 3M]
+    direcciones: [ascendente]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: teoria
+    titulo: Tercera mayor, tercera menor
+    texto: |
+      Las terceras tienen dos tamaños. La **tercera mayor**, {i:3M}, mide cuatro semitonos
+      y suena luminosa. La **tercera menor**, {i:3m}, mide tres y suena más oscura. Las
+      dos notas de los extremos son casi las mismas; cambia la del medio.
+
+      Aquí tienes el mismo arranque dos veces: primero el del héroe, con tercera mayor;
+      después el del rival, con tercera menor.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Héroe y rival
+      tempo: 92
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "G4:4 B4:4 D5:2 | B4:4 G4:4 D4:2 | G4:4 Bb4:4 D5:2 | Bb4:4 G4:4 D4:2"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: segundas-y-terceras
+    enunciado: ¿Tercera mayor o tercera menor?
+    pista: La mayor suena abierta, como un día claro. La menor, apagada, como si se nublara.
+    explicacion: |
+      La tercera mayor tiene cuatro semitonos; la menor, tres. Ese semitono de diferencia
+      es lo que separa un tema alegre de uno triste.
+    intervalos: [3m, 3M]
+    direcciones: [ascendente, armonico]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: segundas-y-terceras
+    enunciado: El estudio quiere este tema sombrío. Elige la nota que le da una tercera menor.
+    pista: La melodía empieza en La. Cuenta tres semitonos hacia arriba.
+    explicacion: |
+      De {n:A4} a {n:C5} hay una tercera menor: tres semitonos. Con {n:C#5} sería una
+      tercera mayor y el tema se iluminaría.
+    pieza:
+      tempo: 88
+      tonalidad: A menor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A4:4 ?:4 E5:2 | D5:4 C5:4 B4:4 A4:4"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "A1:1 | E2:2 A1:2"
+    opciones:
+      - notas: "C5:4"
+        correcta: true
+        porque: "{n:A4} a {n:C5}: tres semitonos, tercera menor. El tema queda en penumbra."
+      - notas: "C#5:4"
+        correcta: false
+        porque: "{n:A4} a {n:C#5}: cuatro semitonos, tercera mayor. Suena demasiado luminoso para lo que se pide."

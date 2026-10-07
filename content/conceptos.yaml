@@ -35,3 +35,37 @@ silencios:
 bucle:
   nombre: El bucle
   definicion: Música que se repite sin costura y que se adapta al juego quitando y poniendo capas.
+
+# ── Mundo 0 · Notas e intervalos ──
+
+notas:
+  nombre: Las siete notas
+  definicion: Do, Re, Mi, Fa, Sol, La y Si en el teclado y en el piano roll, y si una nota está más arriba o más abajo que otra.
+
+semitonos:
+  nombre: Tono y semitono
+  definicion: El semitono es la distancia entre dos teclas vecinas; el tono, dos semitonos. Los sostenidos suben un semitono y los bemoles lo bajan.
+
+registro:
+  nombre: Octava, registro y timbre
+  definicion: La misma nota doce semitonos más arriba es su octava. El registro es la franja de notas de un instrumento, y el timbre, su color.
+
+segundas-y-terceras:
+  nombre: Segundas y terceras
+  definicion: La segunda es un paso de la escala; la tercera, un salto pequeño. La tercera mayor (cuatro semitonos) suena luminosa y la menor (tres), oscura.
+
+cuartas-y-quintas:
+  nombre: Cuartas, quintas y octavas
+  definicion: Los intervalos justos, de cinco, siete y doce semitonos. Suenan firmes y huecos, como una fanfarria.
+
+sextas-y-septimas:
+  nombre: Sextas y séptimas
+  definicion: Saltos grandes. La sexta mayor (nueve semitonos) suena cálida; la séptima menor (diez) pide moverse.
+
+consonancia:
+  nombre: Consonancia, disonancia y tritono
+  definicion: Los intervalos que descansan (terceras, sextas, quintas, octavas) y los que rozan (segundas, séptimas y el tritono, de seis semitonos).
+
+intervalos:
+  nombre: Intervalos de una octava
+  definicion: Reconocer de oído cualquier intervalo de la segunda a la octava, primero por su tamaño y después por su color.

@@ -1,0 +1,146 @@
+titulo: Reposo y tensión
+resumen: Separar los intervalos que descansan de los que inquietan, y reconocer el tritono.
+minutos: 7
+conceptos: [consonancia, sextas-y-septimas]
+
+pasos:
+  - tipo: teoria
+    titulo: Intervalos que descansan
+    texto: |
+      Cuando dos notas suenan a la vez, unas parejas se funden y descansan: son
+      [[consonancia|consonantes]] (terceras, sextas, quintas y octavas). Otras rozan y
+      piden moverse: son [[disonancia|disonantes]] (segundas y séptimas).
+
+      Escucha cuatro parejas: dos que descansan y dos que rozan. La disonancia no es un
+      error: es la tensión que hace avanzar la música.
+    vista: teclado
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      tempo: 66
+      tonalidad: C mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "[C4 E4]:2 [C4 G4]:2 | [C4 D4]:2 [C4 B4]:2"
+
+  - tipo: oido
+    modo: preguntas
+    concepto: consonancia
+    enunciado: ¿Las dos notas descansan o rozan?
+    pista: Si las notas se mezclan y forman un solo color, descansan. Si se oye un batido, como un temblor, rozan.
+    explicacion: |
+      Terceras, sextas, quintas y octavas son consonantes: suenan a reposo. Segundas,
+      séptimas y el tritono son disonantes: suenan a tensión.
+    preguntas:
+      - opciones: [Consonante, Disonante]
+        correcta: 1
+        explicacion: "{n:F4} y {n:A4}: una tercera mayor. Descansa."
+        pieza:
+          tempo: 60
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "[F4 A4]:1"
+      - opciones: [Consonante, Disonante]
+        correcta: 2
+        explicacion: "{n:E4} y {n:F4}: una segunda menor. Roza."
+        pieza:
+          tempo: 60
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "[E4 F4]:1"
+      - opciones: [Consonante, Disonante]
+        correcta: 1
+        explicacion: "{n:D4} y {n:B4}: una sexta mayor. Descansa."
+        pieza:
+          tempo: 60
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "[D4 B4]:1"
+      - opciones: [Consonante, Disonante]
+        correcta: 2
+        explicacion: "{n:G3} y {n:F4}: una séptima menor. Pide moverse."
+        pieza:
+          tempo: 60
+          compases: 1
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "[G3 F4]:1"
+
+  - tipo: teoria
+    titulo: El tritono
+    texto: |
+      Hay un intervalo que parte la octava justo por la mitad: tres tonos, seis
+      semitonos. Es el [[tritono]], la cuarta aumentada. No suena ni a cuarta ni a
+      quinta: suena a algo torcido, y por eso aparece en mazmorras, en hechizos y en la
+      entrada de los jefes.
+
+      Escucha cómo el bajo alterna {n:E2} y {n:Bb2} mientras la cuerda aguanta la misma
+      pareja arriba.
+    vista: teclado
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: La cripta
+      tempo: 66
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[E4 Bb4]:1 | [E4 Bb4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "E2:2 Bb2:2 | E2:2 Bb2:2"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: consonancia
+    enunciado: ¿Cuarta justa, tritono o quinta justa?
+    pista: El tritono queda entre la cuarta y la quinta, y no se apoya en ninguna de las dos. Busca el que suena torcido.
+    explicacion: |
+      Cuarta justa, cinco semitonos; tritono, seis; quinta justa, siete. El tritono es el
+      único de los tres que suena inestable.
+    intervalos: [4J, 4A, 5J]
+    direcciones: [ascendente, armonico]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: analisis
+    concepto: consonancia
+    enunciado: Escucha la cripta y responde.
+    pista: Mira el bajo en el piano roll y cuenta los semitonos entre sus dos notas.
+    explicacion: |
+      El bajo y la cuerda repiten la misma pareja, {n:E4} y {n:Bb4} en el registro
+      agudo y {n:E2} y {n:Bb2} en el grave: seis semitonos, un tritono.
+    pieza:
+      titulo: La cripta
+      tempo: 66
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[E4 Bb4]:1 | [E4 Bb4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "E2:2 Bb2:2 | E2:2 Bb2:2"
+    preguntas:
+      - sobre: libre
+        pregunta: ¿Qué intervalo repite el bajo?
+        opciones: ["{i:5J}", "{i:4A}", "{i:8J}"]
+        correcta: 2
+        explicacion: De {n:E2} a {n:Bb2} hay seis semitonos, una cuarta aumentada.
+      - sobre: libre
+        pregunta: ¿Es un intervalo consonante o disonante?
+        opciones: [Consonante, Disonante]
+        correcta: 2
+        explicacion: El tritono es disonante. Esa inquietud es justo lo que pide una cripta.

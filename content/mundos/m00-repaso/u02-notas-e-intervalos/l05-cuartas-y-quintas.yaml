@@ -1,0 +1,113 @@
+titulo: Cuartas, quintas y octavas
+resumen: Reconocer los intervalos justos, los de las fanfarrias y las llamadas épicas.
+minutos: 8
+conceptos: [cuartas-y-quintas, segundas-y-terceras]
+
+pasos:
+  - tipo: teoria
+    titulo: Los intervalos firmes
+    texto: |
+      La cuarta ({i:4J}, cinco semitonos), la quinta ({i:5J}, siete) y la octava ({i:8J},
+      doce) se llaman **justas**. Suenan huecas y firmes, sin el color alegre o triste de
+      las terceras, y por eso abren tantas fanfarrias y llamadas de aventura.
+
+      Esta llamada salta por cuartas y quintas. Escúchala con el chip y luego con las
+      cuerdas.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Toque de partida
+      tempo: 108
+      tonalidad: C mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "G4:8 C5:8 G5:4 F5:8 C5:8 G4:4 | C5:4 G5:4 C6:2"
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "C3:4 G2:4 C3:4 G2:4 | C3:4 G2:4 C2:2"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: cuartas-y-quintas
+    enunciado: ¿Cuarta, quinta u octava?
+    pista: La octava se funde en una sola nota. La quinta suena ancha y estable. La cuarta parece que pide seguir subiendo.
+    explicacion: |
+      Los tres intervalos justos se parecen en lo firmes que suenan; se distinguen por el
+      tamaño: cinco, siete y doce semitonos.
+    intervalos: [4J, 5J, 8J]
+    direcciones: [ascendente]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: teoria
+    titulo: La quinta vacía
+    texto: |
+      Dos notas a una quinta, sin la tercera en medio, forman un acorde que no es ni
+      mayor ni menor. Es la **quinta vacía**: suena antigua, solemne, a punto de pasar
+      algo. Las cuerdas graves la usan antes de una batalla.
+
+      Apaga las cuerdas y escucha solo el bajo y los tambores; luego vuelve a encenderlas.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: Antes de la batalla
+      tempo: 76
+      tonalidad: D menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: colchon
+          instrumento: cuerdas
+          notas: "[D3 A3]:1 | [C3 G3]:1 | [Bb2 F3]:1 | [A2 E3]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "D2:4. D2:8 D2:2 | C2:4. C2:8 C2:2 | Bb1:4. Bb1:8 Bb1:2 | A1:4. A1:8 A1:4 A1:4"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              tom_grave: "x..xx..."
+              tom_agudo: "......x."
+              crash: "x.......|........|........|........"
+
+  - tipo: oido
+    modo: intervalo
+    concepto: cuartas-y-quintas
+    enunciado: ¿Cuarta o quinta? Ahora pueden sonar a la vez o hacia abajo.
+    pista: Cuando suenan a la vez, la quinta es más estable; la cuarta parece que quiere moverse.
+    explicacion: |
+      La cuarta y la quinta son complementarias: una cuarta hacia arriba lleva a la misma
+      nota que una quinta hacia abajo. Por eso se confunden; la quinta es la más ancha.
+    intervalos: [4J, 5J]
+    direcciones: [armonico, descendente]
+    registro: [C4, C5]
+    rondas: 6
+
+  - tipo: analisis
+    concepto: cuartas-y-quintas
+    enunciado: Escucha el toque de partida y responde.
+    pista: Cuenta los semitonos en el teclado o en el piano roll, o compara con lo que acabas de oír.
+    explicacion: |
+      De {n:G4} a {n:C5} hay una cuarta justa (cinco semitonos). De {n:C5} a {n:G5}, una
+      quinta justa (siete). De {n:C5} a {n:C6}, una octava.
+    pieza:
+      titulo: Toque de partida
+      tempo: 108
+      tonalidad: C mayor
+      compases: 2
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "G4:8 C5:8 G5:4 F5:8 C5:8 G4:4 | C5:4 G5:4 C6:2"
+    preguntas:
+      - sobre: libre
+        pregunta: ¿Qué intervalo hay entre las dos primeras notas?
+        opciones: ["{i:4J}", "{i:5J}", "{i:8J}"]
+        correcta: 1
+        explicacion: "{n:G4} a {n:C5}: cinco semitonos, una cuarta justa."
+      - sobre: libre
+        pregunta: ¿Y entre la segunda y la tercera?
+        opciones: ["{i:4J}", "{i:5J}", "{i:8J}"]
+        correcta: 2
+        explicacion: "{n:C5} a {n:G5}: siete semitonos, una quinta justa."
