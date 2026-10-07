@@ -145,3 +145,20 @@ export function aliasDePercusion(id: IdInstrumento, tecla: number): string | und
   }
   return undefined
 }
+
+/**
+ * Instrumentos afinados que pueden tocar unas notas: las que caben en su
+ * registro y, si es un chip de voces contadas, las que no suenan a la vez más
+ * de las que tiene. Sirve para ofrecer otro timbre a una pista sin romperla.
+ * @param alturas Notas MIDI de la pista.
+ * @param polifonia Máximo de notas que suenan a la vez en la pista.
+ */
+export function instrumentosQueCaben(alturas: readonly number[], polifonia: number): IdInstrumento[] {
+  const grave = alturas.length > 0 ? Math.min(...alturas) : 60
+  const aguda = alturas.length > 0 ? Math.max(...alturas) : 60
+  return IDS_INSTRUMENTOS.filter((id) => {
+    const otro: Instrumento = INSTRUMENTOS[id]
+    if (otro.percusion || otro.rango[0] > grave || otro.rango[1] < aguda) return false
+    return !('polifonia' in otro) || otro.polifonia >= polifonia
+  })
+}

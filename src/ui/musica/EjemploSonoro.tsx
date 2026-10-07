@@ -1,12 +1,17 @@
-import { type CSSProperties, useState } from 'react'
-import type { Manipulable } from '../../contenido/tipos.ts'
-import { INSTRUMENTOS } from '../../musica/instrumentos.ts'
-import { NOMBRES_ROL, type Pieza } from '../../musica/pieza.ts'
+import { type CSSProperties, type ReactNode, Suspense, lazy, useMemo, useState } from 'react'
+import type { Manipulable, Vista } from '../../contenido/tipos.ts'
+import { INSTRUMENTOS, type IdInstrumento, type Instrumento, instrumentosQueCaben } from '../../musica/instrumentos.ts'
+import { NOMBRES_ROL, type Pieza, polifoniaMaxima } from '../../musica/pieza.ts'
 import { Boton } from '../Boton.tsx'
 import { Deslizador } from '../Deslizador.tsx'
 import { Marco } from '../Marco.tsx'
+import { RejillaDePasos } from './RejillaDePasos.tsx'
+import { TecladoDePieza } from './TecladoDePieza.tsx'
 import { VistaDePieza } from './VistaDePieza.tsx'
 import type { ControlDeReproduccion } from './useReproductor.ts'
+
+// El pentagrama arrastra abcjs: se descarga la primera vez que un ejemplo lo pide.
+const Pentagrama = lazy(() => import('./Pentagrama.tsx').then((m) => ({ default: m.Pentagrama })))
 
 const TEMPO_MINIMO = 40
 const TEMPO_MAXIMO = 200
@@ -45,13 +50,21 @@ interface Props {
   reproduccion: ControlDeReproduccion
   /** Qué puede tocar el usuario en este ejemplo. */
   manipulable?: readonly Manipulable[]
+  /** Cómo se dibuja: piano roll en miniatura (por defecto), teclado, rejilla de pasos o pentagrama. */
+  vista?: Vista
+}
+
+/** La pista a la que se le puede cambiar el instrumento: la melodía o, si no hay, la primera afinada. */
+function pistaPrincipal(pieza: Pieza): Pieza['pistas'][number] | undefined {
+  const afinadas = pieza.pistas.filter((p) => !(INSTRUMENTOS[p.instrumento] as Instrumento).percusion && p.notas.length > 0)
+  return afinadas.find((p) => p.rol === 'melodia') ?? afinadas[0]
 }
 
 /**
  * Ejemplo sonoro de una lección: la pieza a la vista y los controles que la
- * lección permita tocar (tempo, transposición, pistas).
+ * lección permita tocar (tempo, transposición, pistas, instrumento).
  */
-export function EjemploSonoro({ pieza, reproduccion, manipulable = [] }: Props) {
+export function EjemploSonoro({ pieza, reproduccion, manipulable = [], vista = 'pianoroll' }: Props) {
   const [tempo, setTempo] = useState(pieza.tempo)
   const [semitonos, setSemitonos] = useState(0)
   const [apagadas, setApagadas] = useState<ReadonlySet<string>>(() => new Set(pieza.pistas.filter((p) => p.silenciada).map((p) => p.id)))
@@ -67,6 +80,25 @@ export function EjemploSonoro({ pieza, reproduccion, manipulable = [] }: Props) 
     reproduccion.fijarTransposicion(acotado)
   }
 
+  const principal = useMemo(() => pistaPrincipal(pieza), [pieza])
+  const [instrumento, setInstrumento] = useState<IdInstrumento | undefined>(principal?.instrumento)
+  const posibles = useMemo(
+    () =>
+      principal
+        ? instrumentosQueCaben(
+            principal.notas.map((n) => n.n),
+            polifoniaMaxima(principal.notas),
+          )
+        : [],
+    [principal],
+  )
+
+  const cambiarInstrumento = (id: IdInstrumento): void => {
+    if (!principal) return
+    setInstrumento(id)
+    reproduccion.fijarInstrumento(principal.id, id)
+  }
+
   const alternarPista = (id: string): void => {
     const siguiente = new Set(apagadas)
     if (siguiente.has(id)) siguiente.delete(id)
@@ -77,8 +109,8 @@ export function EjemploSonoro({ pieza, reproduccion, manipulable = [] }: Props) 
 
   return (
     <div className="transporte">
-      <Marco variante="hundido" relleno="ninguno" plano>
-        <VistaDePieza pieza={pieza} posicion={reproduccion.posicion} sonando={reproduccion.estado === 'sonando'} apagadas={apagadas} />
+      <Marco variante="hundido" relleno={vista === 'pianoroll' ? 'ninguno' : 'ajustado'} plano>
+        {dibujo(vista, pieza, reproduccion, apagadas)}
       </Marco>
       <AvisoDeSonido reproduccion={reproduccion} />
       {manipulable.includes('tempo') && <Deslizador etiqueta="Tempo" valor={tempo} min={TEMPO_MINIMO} max={TEMPO_MAXIMO} lectura={`${tempo} BPM`} alCambiar={cambiarTempo} />}
@@ -107,6 +139,45 @@ export function EjemploSonoro({ pieza, reproduccion, manipulable = [] }: Props) 
           ))}
         </div>
       )}
+      {manipulable.includes('instrumento') && principal && posibles.length > 1 && (
+        <div className="pila pila--junta">
+          <span className="etiqueta">Instrumento de la {NOMBRES_ROL[principal.rol].toLowerCase()}</span>
+          <div className="instrumentos" role="group" aria-label={`Instrumento de la ${NOMBRES_ROL[principal.rol].toLowerCase()}`}>
+            {posibles.map((id) => (
+              <button
+                key={id}
+                type="button"
+                className="pista-chip"
+                aria-pressed={id === instrumento}
+                style={{ '--_color': `var(--pista-${principal.rol})` } as CSSProperties}
+                onClick={() => cambiarInstrumento(id)}
+              >
+                <span className="pista-chip__color" />
+                {INSTRUMENTOS[id].nombre}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
+}
+
+/** La pieza dibujada en la vista que pide la lección. */
+function dibujo(vista: Vista, pieza: Pieza, reproduccion: ControlDeReproduccion, apagadas: ReadonlySet<string>): ReactNode {
+  const sonando = reproduccion.estado === 'sonando'
+  switch (vista) {
+    case 'teclado':
+      return <TecladoDePieza pieza={pieza} posicion={reproduccion.posicion} sonando={sonando} apagadas={apagadas} />
+    case 'rejilla':
+      return <RejillaDePasos pieza={pieza} posicion={reproduccion.posicion} sonando={sonando} apagadas={apagadas} />
+    case 'pentagrama':
+      return (
+        <Suspense fallback={<p className="suave nota-al-pie">Cargando el pentagrama…</p>}>
+          <Pentagrama pieza={pieza} />
+        </Suspense>
+      )
+    case 'pianoroll':
+      return <VistaDePieza pieza={pieza} posicion={reproduccion.posicion} sonando={sonando} apagadas={apagadas} />
+  }
 }

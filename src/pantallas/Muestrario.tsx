@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { navegar } from '../app/rutas.ts'
-import { NOMBRES_ROL, ROLES } from '../musica/pieza.ts'
+import { NOMBRES_ROL, type Pieza, ROLES } from '../musica/pieza.ts'
 import { Avance } from '../ui/Avance.tsx'
 import { Boton } from '../ui/Boton.tsx'
 import { Cabecera } from '../ui/Cabecera.tsx'
@@ -13,6 +13,8 @@ import { Opciones } from '../ui/Opciones.tsx'
 import { NOMBRES_DE_ICONO } from '../ui/iconos/nombres.ts'
 import { PadDeToques } from '../ui/musica/PadDeToques.tsx'
 import { RejillaDeRitmo } from '../ui/musica/RejillaDeRitmo.tsx'
+import { RejillaDePasos } from '../ui/musica/RejillaDePasos.tsx'
+import { TecladoDePieza } from '../ui/musica/TecladoDePieza.tsx'
 
 /**
  * Muestrario del sistema de diseño: todos los componentes en sus estados,
@@ -20,6 +22,27 @@ import { RejillaDeRitmo } from '../ui/musica/RejillaDeRitmo.tsx'
  */
 /** Patrón de muestra: un compás de 4/4 en corcheas, con el primer golpe acentuado. */
 const PATRON = { compas: [4, 4] as [number, number], paso: 240, golpes: [0, 480, 840, 960, 1440], acentos: [true, false, false, false, false], duracion: 1920 }
+
+/** Pieza de muestra para las vistas de un ejemplo: un acorde de Do con una melodía encima y una batería. Ticks a 480 por negra. */
+const PIEZA: Pieza = {
+  tempo: 96,
+  compas: [4, 4],
+  compases: 1,
+  pistas: [
+    { id: 'melodia', rol: 'melodia', instrumento: 'piano', notas: [0, 480, 960, 1440].map((t, i) => ({ t, d: 480, n: [76, 74, 72, 79][i] ?? 72, v: 96 })) },
+    { id: 'colchon', rol: 'colchon', instrumento: 'cuerdas', notas: [60, 64, 67].map((n) => ({ t: 0, d: 1920, n, v: 80 })) },
+    {
+      id: 'percusion',
+      rol: 'percusion',
+      instrumento: 'bateria',
+      notas: [
+        ...[0, 240, 480, 720, 960, 1200, 1440, 1680].map((t) => ({ t, d: 120, n: 42, v: 80 })),
+        ...[480, 1440].map((t) => ({ t, d: 120, n: 38, v: 100 })),
+        ...[0, 960, 1200].map((t) => ({ t, d: 120, n: 36, v: 110 })),
+      ],
+    },
+  ],
+}
 
 export function Muestrario() {
   const [opcion, setOpcion] = useState<string | undefined>('3M')
@@ -112,6 +135,19 @@ export function Muestrario() {
             <PadDeToques activo alTocar={() => undefined}>
               Toca aquí
             </PadDeToques>
+          </div>
+        </Marco>
+
+        <Marco rotulo="Vistas de un ejemplo">
+          <div className="pila">
+            <span className="etiqueta">Teclado</span>
+            <Marco variante="hundido" relleno="ajustado" plano>
+              <TecladoDePieza pieza={PIEZA} />
+            </Marco>
+            <span className="etiqueta">Rejilla de pasos, con el colchón callado</span>
+            <Marco variante="hundido" relleno="ajustado" plano>
+              <RejillaDePasos pieza={PIEZA} apagadas={new Set(['colchon'])} />
+            </Marco>
           </div>
         </Marco>
 

@@ -972,3 +972,80 @@
   font-size: var(--t-m, 1rem);
   line-height: 1.3;
 }
+
+/* ── Teclado: la pieza sobre las teclas ── */
+.teclado {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.teclado svg {
+  display: block;
+}
+
+.teclado__nombres {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 18px;
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-xs);
+  line-height: 18px;
+}
+
+.teclado__nombres span {
+  position: absolute;
+  padding-left: 2px;
+}
+
+/* ── Rejilla de pasos: un bloque por compás, una fila por pieza o pista ── */
+.pasos {
+  display: grid;
+  gap: var(--e-2);
+}
+
+.pasos__compas {
+  display: grid;
+  gap: 2px;
+}
+
+.pasos__fila {
+  display: grid;
+  grid-template-columns: 64px repeat(var(--_pasos), minmax(0, 1fr));
+  gap: 2px;
+  align-items: center;
+}
+
+.pasos__nombre {
+  padding-right: var(--e-1);
+  font-family: var(--fuente-datos);
+  font-weight: var(--peso-etiqueta);
+  font-size: var(--t-xs);
+  line-height: 1.2;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.pasos__casilla {
+  height: 16px;
+}
+
+/* ── Elegir instrumento: las fichas de pista, en varias filas si hace falta ── */
+.instrumentos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1);
+}
+
+/* ── Pentagrama ── */
+.pentagrama {
+  min-height: 72px;
+}
+
+.pentagrama__dibujo svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

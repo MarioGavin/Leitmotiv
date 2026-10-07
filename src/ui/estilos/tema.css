@@ -85,6 +85,8 @@
   --pista-percusion: #ff8fa3;
   --pista-efecto: #d7dbe8;
   --nota-contorno: #04060f;
+  --tecla-blanca: #f6efd9;
+  --tecla-negra: #0a1022;
   --rejilla-linea: #22366b;
   --rejilla-compas: #5f79bd;
   --rejilla-fila-clara: #16254c;
@@ -126,6 +128,8 @@
   --pista-percusion: #ff7d94;
   --pista-efecto: #b8c0d4;
   --nota-contorno: #17224a;
+  --tecla-blanca: #fdfcf6;
+  --tecla-negra: #17224a;
   --rejilla-linea: #d3dfe9;
   --rejilla-compas: #7d93b3;
   --rejilla-fila-clara: #fbfcfd;
@@ -642,4 +646,64 @@
 /* ── Glosario: el icono de la izquierda dice si el término suena ── */
 .glosario__fila .icono:first-child {
   color: var(--acento-tinta);
+}
+
+/* ── Teclado: blancas claras y negras oscuras en los dos esquemas; la que suena toma el color de su pista ── */
+.teclado__tecla {
+  stroke: var(--nota-contorno);
+  stroke-width: 1;
+}
+
+.teclado__tecla--blanca {
+  fill: var(--tecla-blanca);
+}
+
+.teclado__tecla--negra {
+  fill: var(--tecla-negra);
+}
+
+.teclado__tecla--suena {
+  fill: var(--_suena, var(--acento));
+}
+
+.teclado__marca {
+  stroke: var(--nota-contorno);
+  stroke-width: 1;
+}
+
+.teclado__nombres {
+  color: var(--tinta-suave);
+}
+
+/* ── Rejilla de pasos: las casillas del ritmo; el golpe, del color de su pista; apagada, hueca ── */
+.pasos__casilla {
+  background: var(--superficie-2);
+}
+
+.pasos__casilla--pulso {
+  box-shadow: inset 2px 0 0 var(--tinta-suave);
+}
+
+.pasos__casilla--golpe {
+  background: var(--_color);
+  box-shadow: inset 0 0 0 2px var(--nota-contorno);
+}
+
+.pasos__fila--apagada .pasos__casilla--golpe {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--_color);
+}
+
+.pasos__casilla--actual {
+  outline: 2px solid var(--tinta);
+  outline-offset: -2px;
+}
+
+.pasos__nombre {
+  color: var(--tinta-suave);
+}
+
+/* ── Pentagrama: abcjs dibuja con el color del texto ── */
+.pentagrama__dibujo {
+  color: var(--tinta);
 }

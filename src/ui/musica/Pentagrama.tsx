@@ -65,6 +65,8 @@ export function Pentagrama({ pieza, pistas }: Props) {
         const abcjs = 'default' in modulo ? modulo.default : modulo
         abcjs.renderAbc(elemento, escrita.abc, {
           add_classes: true,
+          // Tinta del tema: el dibujo toma el color del texto, en claro y en oscuro.
+          foregroundColor: 'currentColor',
           staffwidth: Math.max(160, ancho - 24),
           paddingleft: 8,
           paddingright: 8,

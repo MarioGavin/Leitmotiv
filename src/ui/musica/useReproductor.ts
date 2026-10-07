@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { prepararPieza } from '../../audio/audio.ts'
 import type { Cuando, OpcionesDeCambio, Reproductor } from '../../audio/reproductor.ts'
-import { INSTRUMENTOS, type Instrumento } from '../../musica/instrumentos.ts'
+import { INSTRUMENTOS, type IdInstrumento, type Instrumento } from '../../musica/instrumentos.ts'
 import type { Pieza, Pista } from '../../musica/pieza.ts'
 
 export type EstadoDeTransporte = 'parado' | 'cargando' | 'sonando' | 'pausado' | 'error'
@@ -30,6 +30,8 @@ export interface ControlDeReproduccion {
   fijarTempo: (tempo: number) => void
   fijarTransposicion: (semitonos: number) => void
   silenciar: (pista: string, silenciada: boolean) => void
+  /** Cambia el instrumento de una pista, también mientras suena. */
+  fijarInstrumento: (pista: string, instrumento: IdInstrumento) => void
   /** Deja sonando solo las capas indicadas (música adaptativa por capas). */
   fijarCapas: (activas: readonly string[], opciones?: OpcionesDeCambio) => void
   /** Salta a una sección y la repite; sin sección, vuelve a la pieza entera. */
@@ -82,6 +84,7 @@ export function useReproductor(pieza: Pieza | undefined, opciones: Opciones = {}
   const tempo = useRef<number | undefined>(undefined)
   const transposicion = useRef(0)
   const silencios = useRef(new Map<string, boolean>())
+  const instrumentos = useRef(new Map<string, IdInstrumento>())
   const capas = useRef<readonly string[] | undefined>(undefined)
   const seccion = useRef<string | undefined>(undefined)
   const { bucle } = opciones
@@ -111,6 +114,7 @@ export function useReproductor(pieza: Pieza | undefined, opciones: Opciones = {}
     tempo.current = undefined
     transposicion.current = 0
     silencios.current.clear()
+    instrumentos.current.clear()
     capas.current = undefined
     seccion.current = undefined
     setEstado('parado')
@@ -130,7 +134,18 @@ export function useReproductor(pieza: Pieza | undefined, opciones: Opciones = {}
     sonando.current = paraSonar
     setEstado('cargando')
     setError(undefined)
-    prepararPieza(paraSonar, bucle === undefined ? {} : { bucle })
+    // Los instrumentos cambiados antes de sonar se cargan ya cambiados: así no suena un instante el de antes.
+    const conInstrumentos =
+      instrumentos.current.size === 0
+        ? paraSonar
+        : {
+            ...paraSonar,
+            pistas: paraSonar.pistas.map((p) => {
+              const otro = instrumentos.current.get(p.id)
+              return otro === undefined ? p : { ...p, instrumento: otro }
+            }),
+          }
+    prepararPieza(conInstrumentos, bucle === undefined ? {} : { bucle })
       .then((nuevo) => {
         if (turno !== peticion.current) {
           // Mientras se cargaba, la pieza cambió o el componente se desmontó.
@@ -191,6 +206,11 @@ export function useReproductor(pieza: Pieza | undefined, opciones: Opciones = {}
     reproductor.current?.silenciar(pista, silenciada)
   }, [])
 
+  const fijarInstrumento = useCallback((pista: string, instrumento: IdInstrumento) => {
+    instrumentos.current.set(pista, instrumento)
+    void reproductor.current?.fijarInstrumento(pista, instrumento).catch(() => undefined)
+  }, [])
+
   const fijarCapas = useCallback((activas: readonly string[], cambio?: OpcionesDeCambio) => {
     capas.current = activas
     reproductor.current?.fijarCapas(activas, cambio)
@@ -207,7 +227,7 @@ export function useReproductor(pieza: Pieza | undefined, opciones: Opciones = {}
   }, [])
 
   return useMemo(
-    () => ({ estado, error, reproducir, pausar, detener, alternar, fijarTempo, fijarTransposicion, silenciar, fijarCapas, irASeccion, posicion }),
-    [estado, error, reproducir, pausar, detener, alternar, fijarTempo, fijarTransposicion, silenciar, fijarCapas, irASeccion, posicion],
+    () => ({ estado, error, reproducir, pausar, detener, alternar, fijarTempo, fijarTransposicion, silenciar, fijarInstrumento, fijarCapas, irASeccion, posicion }),
+    [estado, error, reproducir, pausar, detener, alternar, fijarTempo, fijarTransposicion, silenciar, fijarInstrumento, fijarCapas, irASeccion, posicion],
   )
 }

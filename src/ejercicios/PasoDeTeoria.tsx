@@ -26,7 +26,7 @@ export function PasoDeTeoria({ paso, alTerminar }: Props) {
             <ProsaVista prosa={paso.texto} />
           </div>
         </Marco>
-        {paso.ejemplo && <EjemploSonoro pieza={paso.ejemplo} reproduccion={reproduccion} manipulable={paso.manipulable} />}
+        {paso.ejemplo && <EjemploSonoro pieza={paso.ejemplo} reproduccion={reproduccion} manipulable={paso.manipulable} vista={paso.vista} />}
       </div>
       <div className="pie">
         <div className="pie__acciones">

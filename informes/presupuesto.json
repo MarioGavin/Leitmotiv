@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 101039,
-  "diferido": 328478,
-  "css": 9223,
+  "inicial": 100904,
+  "diferido": 331750,
+  "css": 9521,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,12 +11,12 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 93701,
+      "bytes": 83514,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 72527,
+      "bytes": 72535,
       "inicial": false
     },
     {
@@ -26,8 +26,13 @@
     },
     {
       "archivo": "assets/VistaDePaso.js",
-      "bytes": 13000,
+      "bytes": 12994,
       "inicial": false
+    },
+    {
+      "archivo": "assets/notas.js",
+      "bytes": 10029,
+      "inicial": true
     },
     {
       "archivo": "assets/Midi.js",
@@ -36,22 +41,22 @@
     },
     {
       "archivo": "assets/EditorDePiano.js",
-      "bytes": 8106,
+      "bytes": 8125,
       "inicial": false
     },
     {
       "archivo": "assets/operaciones.js",
-      "bytes": 7327,
-      "inicial": false
-    },
-    {
-      "archivo": "assets/Pentagrama.js",
-      "bytes": 4181,
+      "bytes": 7336,
       "inicial": false
     },
     {
       "archivo": "assets/useReproductor.js",
-      "bytes": 3775,
+      "bytes": 4473,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Pentagrama.js",
+      "bytes": 4208,
       "inicial": false
     },
     {
@@ -61,12 +66,17 @@
     },
     {
       "archivo": "assets/Repaso.js",
-      "bytes": 2924,
+      "bytes": 2918,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/TecladoDePieza.js",
+      "bytes": 2475,
       "inicial": false
     },
     {
       "archivo": "assets/Prueba.js",
-      "bytes": 2466,
+      "bytes": 2463,
       "inicial": false
     },
     {
@@ -76,8 +86,13 @@
     },
     {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2319,
+      "bytes": 2318,
       "inicial": false
+    },
+    {
+      "archivo": "assets/Marco.js",
+      "bytes": 2200,
+      "inicial": true
     },
     {
       "archivo": "assets/workbox-window.prod.es5.js",
@@ -85,9 +100,9 @@
       "inicial": false
     },
     {
-      "archivo": "assets/Marco.js",
-      "bytes": 2177,
-      "inicial": true
+      "archivo": "assets/Muestrario.js",
+      "bytes": 2193,
+      "inicial": false
     },
     {
       "archivo": "assets/ritmo.js",
@@ -96,7 +111,7 @@
     },
     {
       "archivo": "assets/Leccion.js",
-      "bytes": 1986,
+      "bytes": 1983,
       "inicial": false
     },
     {
@@ -105,13 +120,8 @@
       "inicial": false
     },
     {
-      "archivo": "assets/Muestrario.js",
-      "bytes": 1868,
-      "inicial": false
-    },
-    {
       "archivo": "assets/Repertorio.js",
-      "bytes": 1738,
+      "bytes": 1734,
       "inicial": false
     },
     {
@@ -126,22 +136,22 @@
     },
     {
       "archivo": "assets/Glosario.js",
-      "bytes": 1271,
+      "bytes": 1279,
       "inicial": false
     },
     {
       "archivo": "assets/PianoRoll.js",
-      "bytes": 1065,
-      "inicial": false
-    },
-    {
-      "archivo": "assets/Avance.js",
-      "bytes": 987,
+      "bytes": 1066,
       "inicial": false
     },
     {
       "archivo": "assets/instrumentos.js",
-      "bytes": 902,
+      "bytes": 996,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Avance.js",
+      "bytes": 988,
       "inicial": false
     },
     {
@@ -151,12 +161,12 @@
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 734,
+      "bytes": 735,
       "inicial": false
     },
     {
       "archivo": "assets/Ficha.js",
-      "bytes": 660,
+      "bytes": 659,
       "inicial": false
     },
     {
@@ -180,18 +190,13 @@
       "inicial": false
     },
     {
-      "archivo": "assets/Deslizador.js",
-      "bytes": 369,
-      "inicial": false
-    },
-    {
       "archivo": "assets/jsx-runtime.js",
       "bytes": 307,
       "inicial": true
     },
     {
       "archivo": "assets/EjemploSuelto.js",
-      "bytes": 257,
+      "bytes": 256,
       "inicial": false
     },
     {

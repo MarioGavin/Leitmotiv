@@ -151,6 +151,13 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'ficha', ruta: '#/ficha/compases', antes: servirFicha },
   { nombre: 'prueba', ruta: '#/prueba', antes: servirPrueba },
   {
+    nombre: 'muestrario-vistas',
+    ruta: '#/muestrario',
+    preparar: async (pagina) => {
+      await pagina.locator('.teclado').scrollIntoViewIfNeeded()
+    },
+  },
+  {
     nombre: 'prueba-balance',
     ruta: '#/prueba',
     antes: servirPrueba,
@@ -282,6 +289,7 @@ const TITULOS: Readonly<Record<string, string>> = {
   'glosario-ejemplo': 'Término con ejemplo',
   ficha: 'Ficha',
   prueba: 'Prueba de nivel',
+  'muestrario-vistas': 'Vistas de un ejemplo',
   'prueba-balance': 'Bloque superado',
   'repaso-sesion': 'Sesión de repaso',
 }
