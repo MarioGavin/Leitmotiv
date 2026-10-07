@@ -18,6 +18,8 @@ import { type Ruta, useRuta } from './rutas.ts'
 const Leccion = lazy(() => import('../pantallas/Leccion.tsx').then((m) => ({ default: m.Leccion })))
 const PianoRoll = lazy(() => import('../pantallas/PianoRoll.tsx').then((m) => ({ default: m.PianoRoll })))
 const Diagnostico = lazy(() => import('../pantallas/Diagnostico.tsx').then((m) => ({ default: m.Diagnostico })))
+const Glosario = lazy(() => import('../pantallas/Glosario.tsx').then((m) => ({ default: m.Glosario })))
+const Ficha = lazy(() => import('../pantallas/Ficha.tsx').then((m) => ({ default: m.Ficha })))
 const Repertorio = lazy(() => import('../pantallas/Repertorio.tsx').then((m) => ({ default: m.Repertorio })))
 const Repaso = lazy(() => import('../pantallas/Repaso.tsx').then((m) => ({ default: m.Repaso })))
 const Calibracion = lazy(() => import('../pantallas/Calibracion.tsx').then((m) => ({ default: m.Calibracion })))
@@ -94,12 +96,9 @@ function pantallaDe(ruta: Ruta): { contenido: ReactNode; conNavegacion: boolean 
     case 'repertorio':
       return { contenido: <Repertorio />, conNavegacion: true }
     case 'glosario':
-      return {
-        contenido: <Proximamente titulo="Glosario" descripcion="Todos los términos del curso y las fichas de consulta rápida, con su ejemplo sonoro." />,
-        conNavegacion: true,
-      }
+      return { contenido: <Glosario />, conNavegacion: true }
     case 'ficha':
-      return { contenido: <Proximamente titulo="Ficha" descripcion="Una ficha de consulta rápida, con su ejemplo sonoro." />, conNavegacion: true }
+      return { contenido: <Ficha id={ruta.id} />, conNavegacion: true }
     case 'prueba':
       return { contenido: <Proximamente titulo="Prueba de nivel" descripcion="Unas preguntas para saltarte lo que ya sabes." />, conNavegacion: true }
     case 'calibracion':
@@ -121,13 +120,13 @@ export function App() {
   const { contenido, conNavegacion: conNavegacionDeRuta } = pantallaDe(ruta)
   const conNavegacion = conNavegacionDeRuta && !pantallaCompleta
   // La clave hace que cada pantalla empiece de cero (y que un error no se quede pegado al cambiar de pantalla).
-  const clave = ruta.pantalla === 'leccion' || ruta.pantalla === 'mundo' ? `${ruta.pantalla}/${ruta.id}` : ruta.pantalla
+  const clave = ruta.pantalla === 'leccion' || ruta.pantalla === 'mundo' || ruta.pantalla === 'ficha' ? `${ruta.pantalla}/${ruta.id}` : ruta.pantalla
   return (
     <div className="app">
       <Limite key={clave}>
         <Suspense fallback={<Cargando />}>{contenido}</Suspense>
       </Limite>
-      {conNavegacion && <Navegacion actual={ruta.pantalla === 'mundo' ? 'mapa' : ruta.pantalla} />}
+      {conNavegacion && <Navegacion actual={ruta.pantalla === 'mundo' ? 'mapa' : ruta.pantalla === 'ficha' ? 'glosario' : ruta.pantalla} />}
       <VentanaDeGlosario />
       <Avisos visible={conNavegacion} />
     </div>

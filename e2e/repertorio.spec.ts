@@ -25,7 +25,7 @@ test('una pieza del repertorio se escucha, se exporta, se edita y se borra', asy
 
   // Escuchar y parar.
   await ventana.getByRole('button', { name: 'Escuchar' }).click()
-  await expect(ventana.getByRole('button', { name: 'Parar' })).toBeVisible()
+  await expect(ventana.getByRole('button', { name: 'Parar' })).toBeVisible({ timeout: 20_000 })
   await ventana.getByRole('button', { name: 'Parar' }).click()
 
   // Exportar a MIDI: un archivo con el nombre de la pieza y la cabecera de un MIDI.

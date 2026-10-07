@@ -133,6 +133,7 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/diagnostico', '.instrumento-fila'],
   ['#/calibracion', '.pad'],
   ['#/repaso', '.repaso__lista'],
+  ['#/glosario', '.glosario__fila'],
 ]
 
 /** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`: «El pulso» completada, su concepto pendiente de repaso desde ayer y una pieza en el repertorio. */

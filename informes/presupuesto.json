@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 101045,
-  "diferido": 323775,
-  "css": 9131,
+  "inicial": 101005,
+  "diferido": 326001,
+  "css": 9223,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,12 +11,12 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 92802,
+      "bytes": 93667,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 72532,
+      "bytes": 72526,
       "inicial": false
     },
     {
@@ -26,7 +26,7 @@
     },
     {
       "archivo": "assets/VistaDePaso.js",
-      "bytes": 12998,
+      "bytes": 13001,
       "inicial": false
     },
     {
@@ -36,12 +36,12 @@
     },
     {
       "archivo": "assets/EditorDePiano.js",
-      "bytes": 8103,
+      "bytes": 8106,
       "inicial": false
     },
     {
       "archivo": "assets/operaciones.js",
-      "bytes": 7333,
+      "bytes": 7330,
       "inicial": false
     },
     {
@@ -51,13 +51,8 @@
     },
     {
       "archivo": "assets/useReproductor.js",
-      "bytes": 3738,
+      "bytes": 3773,
       "inicial": false
-    },
-    {
-      "archivo": "assets/Marco.js",
-      "bytes": 3082,
-      "inicial": true
     },
     {
       "archivo": "assets/react.js",
@@ -66,7 +61,7 @@
     },
     {
       "archivo": "assets/Repaso.js",
-      "bytes": 2918,
+      "bytes": 2922,
       "inicial": false
     },
     {
@@ -76,7 +71,7 @@
     },
     {
       "archivo": "assets/Diagnostico.js",
-      "bytes": 2315,
+      "bytes": 2316,
       "inicial": false
     },
     {
@@ -85,33 +80,38 @@
       "inicial": false
     },
     {
+      "archivo": "assets/Marco.js",
+      "bytes": 2177,
+      "inicial": true
+    },
+    {
       "archivo": "assets/ritmo.js",
-      "bytes": 2106,
+      "bytes": 2103,
       "inicial": false
     },
     {
       "archivo": "assets/Leccion.js",
-      "bytes": 1979,
+      "bytes": 1985,
       "inicial": false
     },
     {
       "archivo": "assets/Calibracion.js",
-      "bytes": 1898,
+      "bytes": 1902,
       "inicial": false
     },
     {
       "archivo": "assets/Muestrario.js",
-      "bytes": 1863,
+      "bytes": 1867,
       "inicial": false
     },
     {
       "archivo": "assets/Repertorio.js",
-      "bytes": 1735,
+      "bytes": 1737,
       "inicial": false
     },
     {
       "archivo": "assets/RejillaDeRitmo.js",
-      "bytes": 1314,
+      "bytes": 1312,
       "inicial": false
     },
     {
@@ -120,13 +120,18 @@
       "inicial": false
     },
     {
+      "archivo": "assets/Glosario.js",
+      "bytes": 1270,
+      "inicial": false
+    },
+    {
       "archivo": "assets/PianoRoll.js",
-      "bytes": 1076,
+      "bytes": 1066,
       "inicial": false
     },
     {
       "archivo": "assets/Avance.js",
-      "bytes": 986,
+      "bytes": 988,
       "inicial": false
     },
     {
@@ -141,7 +146,12 @@
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 734,
+      "bytes": 735,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Ficha.js",
+      "bytes": 658,
       "inicial": false
     },
     {
@@ -173,6 +183,11 @@
       "archivo": "assets/jsx-runtime.js",
       "bytes": 307,
       "inicial": true
+    },
+    {
+      "archivo": "assets/EjemploSuelto.js",
+      "bytes": 257,
+      "inicial": false
     },
     {
       "archivo": "assets/estado.js",

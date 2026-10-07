@@ -1,9 +1,12 @@
-import { Suspense, use, useEffect, useRef } from 'react'
+import { Suspense, lazy, use, useEffect, useRef } from 'react'
 import { leerGlosario } from '../app/contenido.ts'
 import { useVentanas } from '../app/ventanas.ts'
 import { Boton } from './Boton.tsx'
 import { Marco } from './Marco.tsx'
 import { ProsaVista } from './ProsaVista.tsx'
+
+// El ejemplo sonoro arrastra el reproductor y la vista de la pieza: se descarga la primera vez que se abre un término que lo tiene.
+const EjemploSuelto = lazy(() => import('./musica/EjemploSuelto.tsx').then((m) => ({ default: m.EjemploSuelto })))
 
 function Definicion({ id }: { id: string }) {
   const glosario = use(leerGlosario())
@@ -17,6 +20,11 @@ function Definicion({ id }: { id: string }) {
         {termino.termino}
       </h2>
       <ProsaVista prosa={termino.definicion} />
+      {termino.ejemplo && (
+        <Suspense fallback={<p className="suave">Cargando el ejemplo…</p>}>
+          <EjemploSuelto key={termino.id} pieza={termino.ejemplo} />
+        </Suspense>
+      )}
       {relacionados.length > 0 && (
         <p className="suave">
           Ver también:{' '}

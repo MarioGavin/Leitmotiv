@@ -638,3 +638,8 @@
 .repertorio__pieza .icono:first-child {
   color: var(--acento-tinta);
 }
+
+/* ── Glosario: el icono de la izquierda dice si el término suena ── */
+.glosario__fila .icono:first-child {
+  color: var(--acento-tinta);
+}

@@ -17,6 +17,7 @@ import { type Page, chromium } from '@playwright/test'
 import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
 import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
+import { FICHA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
 const DESTINO = path.join(RAIZ, 'informes/capturas')
@@ -26,10 +27,17 @@ interface Escena {
   nombre: string
   /** Fragmento de la URL: «#/mapa». */
   ruta: string
+  /** Lo que hay que preparar antes de abrir la página (servir contenido de prueba, por ejemplo). */
+  antes?: (pagina: Page) => Promise<void>
   /** Lo que hay que hacer en la página antes de capturar (elegir una opción, abrir algo…). */
   preparar?: (pagina: Page) => Promise<void>
   /** Si no es `true`, la escena solo se captura cuando se pide por su nombre. */
   principal?: boolean
+}
+
+/** Todavía no hay fichas en el curso: se sirve la de las pruebas. */
+async function servirFicha(pagina: Page): Promise<void> {
+  await pagina.route('**/content/fichas.json', (ruta) => ruta.fulfill({ json: [FICHA_DE_PRUEBA] }))
 }
 
 const ESCENAS: readonly Escena[] = [
@@ -119,6 +127,23 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'diagnostico', ruta: '#/diagnostico' },
   { nombre: 'calibracion', ruta: '#/calibracion' },
   { nombre: 'repaso', ruta: '#/repaso' },
+  { nombre: 'glosario', ruta: '#/glosario', antes: servirFicha },
+  {
+    nombre: 'glosario-buscar',
+    ruta: '#/glosario',
+    preparar: async (pagina) => {
+      await pagina.getByRole('searchbox', { name: 'Buscar' }).fill('pulso')
+    },
+  },
+  {
+    nombre: 'glosario-ejemplo',
+    ruta: '#/glosario',
+    preparar: async (pagina) => {
+      await pagina.getByRole('button', { name: /Bucle/ }).click()
+      await pagina.getByRole('dialog').getByRole('button', { name: 'Escuchar' }).waitFor()
+    },
+  },
+  { nombre: 'ficha', ruta: '#/ficha/compases', antes: servirFicha },
   {
     nombre: 'repaso-sesion',
     ruta: '#/repaso',
@@ -187,6 +212,7 @@ try {
         pagina.on('console', (m) => {
           if (m.type() === 'error') errores.push(m.text())
         })
+        await escena.antes?.(pagina)
         await pagina.goto(`http://127.0.0.1:${PUERTO}/${escena.ruta}`)
         await pagina.waitForLoadState('networkidle')
         await pagina.evaluate(() => document.fonts.ready)
@@ -231,6 +257,10 @@ const TITULOS: Readonly<Record<string, string>> = {
   diagnostico: 'Diagnóstico de audio',
   calibracion: 'Calibración',
   repaso: 'Repaso',
+  glosario: 'Glosario',
+  'glosario-buscar': 'Buscar en el glosario',
+  'glosario-ejemplo': 'Término con ejemplo',
+  ficha: 'Ficha',
   'repaso-sesion': 'Sesión de repaso',
 }
 

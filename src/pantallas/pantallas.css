@@ -430,3 +430,28 @@
 .repertorio__confirmar {
   padding-top: var(--e-2);
 }
+
+/* ── Glosario y fichas ── */
+.glosario__buscador {
+  padding: 0 var(--e-1);
+}
+
+.glosario__fila {
+  width: 100%;
+  text-align: left;
+}
+
+/* La definición, en dos líneas como mucho: entera está en la ventana del término. */
+.glosario__definicion {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  padding: 2px 0;
+}
+
+.ficha-de-consulta__resumen {
+  padding: 0 var(--e-2);
+  font-size: var(--t-l);
+}
