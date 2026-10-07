@@ -1,0 +1,156 @@
+titulo: Corcheas y semicorcheas
+resumen: Partir el pulso en dos y en cuatro, y tocar las corcheas sin correr.
+minutos: 8
+conceptos: [subdivision, figuras]
+
+pasos:
+  - tipo: teoria
+    titulo: Partir el pulso
+    texto: |
+      Un pulso se puede partir. Dos [[corchea|corcheas]] ocupan lo que una negra;
+      cuatro [[semicorchea|semicorcheas]], también. Partir el pulso así se llama
+      [[subdivision|subdivisión]], y es lo que da movimiento a un ritmo sin cambiar el
+      tempo.
+
+      En la rejilla, el charles toca corcheas en el primer compás y semicorcheas en el
+      segundo. El bombo y la caja siguen igual: el pulso no se mueve.
+    vista: rejilla
+    manipulable: [tempo, pistas]
+    ejemplo:
+      tempo: 90
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "16"
+            lineas:
+              charles: "x.x.x.x.x.x.x.x.|xxxxxxxxxxxxxxxx"
+              caja: "....x.......x..."
+              bombo: "x.......x.x....."
+
+  - tipo: ritmo
+    modo: seguir
+    concepto: subdivision
+    enunciado: Toca dos golpes en cada pulso, a la vez que la caja.
+    tempo: 92
+    paso: "8"
+    patron: "xxxxxxxx|xxxxxxxx"
+    repeticiones: 2
+    pista: Di «un-y, dos-y, tres-y, cuatro-y» por dentro. Cada sílaba es una corchea.
+    explicacion: |
+      Las corcheas reparten cada pulso en dos mitades iguales. Si las de en medio llegan
+      antes de tiempo, es que estás pensando en golpes sueltos y no en el pulso que los
+      contiene.
+
+  - tipo: oido
+    modo: preguntas
+    concepto: subdivision
+    enunciado: ¿Cuántas notas caben en cada pulso?
+    pista: El bombo marca el pulso. Cuenta las notas del piano que suenan entre un golpe de bombo y el siguiente.
+    explicacion: |
+      Una nota por pulso son negras; dos, corcheas; cuatro, semicorcheas. Cuantas más
+      notas por pulso, más prisa transmite la música, aunque el tempo sea el mismo.
+    preguntas:
+      - opciones: [Una, Dos, Cuatro]
+        correcta: 2
+        explicacion: Dos por pulso, corcheas.
+        pieza:
+          tempo: 88
+          tonalidad: G mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "G4:8 G4:8 B4:8 B4:8 A4:8 A4:8 D5:8 D5:8 | B4:8 B4:8 A4:8 A4:8 G4:2"
+            - rol: percusion
+              instrumento: bateria
+              rejilla: { paso: "4", lineas: { bombo: "xxxx" } }
+      - opciones: [Una, Dos, Cuatro]
+        correcta: 3
+        explicacion: Cuatro por pulso, semicorcheas.
+        pieza:
+          tempo: 88
+          tonalidad: G mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "G4:16 A4:16 B4:16 A4:16 G4:16 A4:16 B4:16 D5:16 B4:16 A4:16 G4:16 A4:16 B4:4 | A4:16 G4:16 F#4:16 A4:16 G4:2."
+            - rol: percusion
+              instrumento: bateria
+              rejilla: { paso: "4", lineas: { bombo: "xxxx" } }
+      - opciones: [Una, Dos, Cuatro]
+        correcta: 1
+        explicacion: Una por pulso, negras.
+        pieza:
+          tempo: 88
+          tonalidad: G mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "D5:4 B4:4 G4:4 B4:4 | A4:4 F#4:4 G4:2"
+            - rol: percusion
+              instrumento: bateria
+              rejilla: { paso: "4", lineas: { bombo: "xxxx" } }
+
+  - tipo: teoria
+    titulo: Cuando la música corre
+    texto: |
+      Las semicorcheas son el motor de muchas músicas de combate: una línea que no para
+      de moverse empuja al jugador aunque el tempo no sea muy rápido. Este ostinato de
+      chip va a 120, pero suena urgente porque mete cuatro notas en cada pulso.
+
+      Cambia el instrumento de la melodía y fíjate en que el ritmo sigue igual de
+      apretado.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Emboscada en el desfiladero
+      tempo: 120
+      tonalidad: A menor
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 E5:16 C5:16 A4:16 C5:16 F5:16 C5:16 A4:16 C5:16 F5:16 C5:16 | G4:16 B4:16 E5:16 B4:16 G4:16 B4:16 E5:16 B4:16 G#4:16 B4:16 E5:16 B4:16 G#4:16 B4:16 D5:16 B4:16"
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "A2:4 A2:4 F2:4 F2:4 | G2:4 G2:4 E2:4 E2:4"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              bombo: "x...x..."
+              caja: "..x...x."
+
+  - tipo: ritmo
+    modo: eco
+    concepto: subdivision
+    enunciado: Escucha y repite. Mezcla negras y corcheas.
+    tempo: 88
+    paso: "8"
+    patron: "x.x.xxx.|xxx.x.x."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Cada casilla es una corchea. Las negras ocupan dos casillas; las corcheas, una. Escucha dónde se apiñan los golpes.
+    explicacion: |
+      El primer compás es negra, negra, dos corcheas y negra; el segundo, dos corcheas y
+      tres negras. Las corcheas siempre van de dos en dos dentro de un mismo pulso.
+
+  - tipo: ritmo
+    modo: seguir
+    concepto: subdivision
+    enunciado: Ahora con semicorcheas. Toca a la vez que la caja.
+    tempo: 76
+    paso: "16"
+    patron: "x.x.xxxxx.x.x...|x.x.xxxxx...x..."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: El grupo de cuatro golpes seguidos cae en el segundo pulso. Prepárate antes de que llegue y deja la mano suelta.
+    explicacion: |
+      Cuatro semicorcheas seguidas caben en un solo pulso: si las piensas como un grupo
+      y no como cuatro golpes sueltos, salen iguales y a tiempo.

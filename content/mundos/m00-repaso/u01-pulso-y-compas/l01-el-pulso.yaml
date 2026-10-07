@@ -32,7 +32,7 @@ pasos:
 
   - tipo: ritmo
     modo: seguir
-    enunciado: Toca el botón en cada pulso, a la vez que el bombo.
+    enunciado: Toca el botón en cada pulso, a la vez que la caja.
     tempo: 84
     paso: "4"
     patron: "xxxx|xxxx"
@@ -47,9 +47,9 @@ pasos:
   - tipo: teoria
     titulo: El pulso no se para
     texto: |
-      El pulso sigue ahí aunque nadie lo toque. En este ejemplo la melodía calla en
-      algunos tiempos y el bombo solo suena al principio de cada compás, pero el latido
-      continúa por debajo.
+      El pulso sigue ahí aunque nadie lo marque fuerte. En este ejemplo la melodía calla
+      en algunos tiempos y el bombo solo suena al principio de cada compás; los otros
+      pulsos apenas los roza el charles de pie. Aun así, el latido continúa por debajo.
 
       Un compositor cuenta siempre los pulsos, también los que quedan en silencio. De
       ahí salen los silencios que dan aire a una melodía.
@@ -79,7 +79,7 @@ pasos:
     patron: "xxxx|xxxx"
     guia: compas
     repeticiones: 2
-    pista: El bombo solo te da el primer pulso de cada compás. Los otros tres los pones tú, igual de separados.
+    pista: Solo oirás un golpe seco, el del aro de la caja, en el primer pulso de cada compás. Los otros tres los pones tú, igual de separados.
     explicacion: |
       Mantener el pulso sin que nada lo marque es la habilidad de fondo de todo lo demás:
       sin ella no se puede medir cuánto dura una nota ni dónde cae un acento.

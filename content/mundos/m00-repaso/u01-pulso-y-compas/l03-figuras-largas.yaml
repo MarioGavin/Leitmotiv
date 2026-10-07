@@ -1,0 +1,164 @@
+titulo: Redondas, blancas y negras
+resumen: Contar cuántos pulsos dura una nota y leer las tres figuras largas.
+minutos: 7
+conceptos: [figuras, pulso]
+
+pasos:
+  - tipo: teoria
+    titulo: Notas que duran pulsos
+    texto: |
+      Cada nota dura un número de pulsos, y esa duración se escribe con una
+      [[figura]]. La [[negra]] dura un pulso; la [[blanca]], dos; la [[redonda]],
+      cuatro: un compás entero de 4/4.
+
+      Escucha este tema de posada en el pentagrama: el primer compás va en negras, el
+      segundo en blancas y el último es una redonda. Cuanto más hueca la cabeza de la
+      nota, más dura.
+    vista: pentagrama
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: La posada del cruce
+      tempo: 92
+      tonalidad: F mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C5:4 A4:4 F4:4 A4:4 | G4:2 C5:2 | Bb4:4 A4:4 G4:2 | F4:1"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "4"
+            lineas:
+              charles_pedal: "xxxx"
+
+  - tipo: oido
+    modo: preguntas
+    concepto: figuras
+    enunciado: ¿Cuántos pulsos dura la nota del piano?
+    pista: El charles de pie marca los pulsos. Cuenta cuántos pasan mientras la nota sigue sonando.
+    explicacion: |
+      Una negra dura un pulso, una blanca dos y una redonda cuatro. Para saberlo no hace
+      falta adivinar: basta con contar los pulsos que caben dentro de la nota.
+    preguntas:
+      - opciones: [Uno, Dos, Cuatro]
+        correcta: 2
+        explicacion: Es una blanca, dos pulsos. Después calla el resto del compás.
+        pieza:
+          tempo: 84
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "r:1 | G4:2 r:2"
+            - rol: percusion
+              instrumento: bateria
+              rejilla: { paso: "4", lineas: { charles_pedal: "Xxxx" } }
+      - opciones: [Uno, Dos, Cuatro]
+        correcta: 3
+        explicacion: Es una redonda, cuatro pulsos. Ocupa el compás entero.
+        pieza:
+          tempo: 84
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "r:1 | E4:1"
+            - rol: percusion
+              instrumento: bateria
+              rejilla: { paso: "4", lineas: { charles_pedal: "Xxxx" } }
+      - opciones: [Uno, Dos, Cuatro]
+        correcta: 1
+        explicacion: Es una negra, un solo pulso. Las otras tres son silencio.
+        pieza:
+          tempo: 84
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "r:1 | C5:4 r:4 r:2"
+            - rol: percusion
+              instrumento: bateria
+              rejilla: { paso: "4", lineas: { charles_pedal: "Xxxx" } }
+
+  - tipo: teoria
+    titulo: Leer un patrón en casillas
+    texto: |
+      En los ejercicios de ritmo cada casilla es un pulso. Una negra llena una casilla;
+      una blanca, dos; una redonda, las cuatro del compás. Tú solo tocas donde empieza
+      cada nota: las casillas vacías que la siguen son el tiempo que se queda sonando.
+
+      Mira la rejilla mientras suena: la caja toca negras, blancas y una redonda, y el
+      charles marca el pulso de fondo.
+    vista: rejilla
+    manipulable: [tempo]
+    ejemplo:
+      tempo: 84
+      compases: 4
+      pistas:
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "4"
+            lineas:
+              caja: "xxxx|x.x.|xxx.|x..."
+              charles_pedal: "xxxx"
+
+  - tipo: ritmo
+    modo: leer
+    concepto: figuras
+    enunciado: Lee el patrón y tócalo.
+    tempo: 80
+    paso: "4"
+    patron: "x.x.|xxx.|xxxx|x..."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Primer compás, dos blancas; luego dos negras y una blanca; luego cuatro negras; al final, una redonda. Sigue la claqueta y no toques en las casillas vacías.
+    explicacion: |
+      Leer ritmo es contar: cada figura empieza en un pulso concreto. Si tocas en una
+      casilla vacía, has acortado la nota anterior.
+
+  - tipo: ritmo
+    modo: eco
+    concepto: figuras
+    enunciado: Escucha el patrón y repítelo de memoria.
+    tempo: 84
+    paso: "4"
+    patron: "x.xx|x.x."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Primero suena el patrón entero con la caja y después te toca a ti, con la claqueta sola. Fíjate en qué pulsos se queda sonando la nota.
+    explicacion: |
+      El patrón es blanca, negra, negra y luego dos blancas. Repetir de oído entrena lo
+      mismo que leer: saber cuántos pulsos ocupa cada nota.
+
+  - tipo: analisis
+    concepto: figuras
+    enunciado: Escucha el tema de la posada y responde.
+    pista: Mira el piano roll mientras suena. El ancho de cada barra es lo que dura la nota.
+    explicacion: |
+      En el piano roll la duración es la longitud de la barra: una negra ocupa un pulso;
+      una blanca, dos; una redonda, el compás entero.
+    pieza:
+      titulo: La posada del cruce
+      tempo: 92
+      tonalidad: F mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C5:4 A4:4 F4:4 A4:4 | G4:2 C5:2 | Bb4:4 A4:4 G4:2 | F4:1"
+    preguntas:
+      - sobre: libre
+        pregunta: ¿Qué figura es la nota del último compás?
+        opciones: [Negra, Blanca, Redonda]
+        correcta: 3
+        explicacion: Dura los cuatro pulsos del compás, así que es una redonda.
+      - sobre: libre
+        pregunta: ¿Cuántas notas suenan en el segundo compás?
+        opciones: [Dos, Tres, Cuatro]
+        correcta: 1
+        explicacion: Son dos blancas, de dos pulsos cada una.

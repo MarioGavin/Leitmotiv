@@ -1,0 +1,188 @@
+titulo: La feria del pueblo
+resumen: Entender cómo cambia un bucle con el juego y componer uno de ritmo para una feria.
+minutos: 10
+conceptos: [bucle, subdivision]
+
+pasos:
+  - tipo: teoria
+    titulo: Un bucle que no cansa
+    texto: |
+      La música de un juego no sabe cuánto vas a tardar en salir de un sitio, así que
+      se escribe en [[bucle]]: unos compases que se repiten sin que se note la costura.
+      Para que no canse, cada capa hace una cosa distinta: el bajo sostiene, la batería
+      lleva el pulso y la melodía cuenta algo.
+
+      Apaga y enciende pistas: cada una por separado se queda corta, y juntas forman la
+      plaza del mercado.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: La plaza del mercado
+      tempo: 116
+      tonalidad: G mayor
+      compases: 4
+      bucle: true
+      acordes: "G:1 | Em:1 | C:1 | D:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D5:8 B4:8 G4:8 B4:8 D5:4 G5:4 | E5:8 D5:8 B4:8 D5:8 E5:2 | C5:8 B4:8 A4:8 G4:8 E4:4 G4:4 | A4:4 B4:8 C5:8 D5:2"
+        - rol: colchon
+          instrumento: cuerdas
+          notas: "[G3 B3 D4]:1 | [G3 B3 E4]:1 | [G3 C4 E4]:1 | [F#3 A3 D4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:4 G2:8 D2:8 G2:4 D2:4 | E2:4 E2:8 B1:8 E2:4 B1:4 | C2:4 C2:8 G1:8 C2:4 G1:4 | D2:4 D2:8 A1:8 D2:4 F#2:4"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "xoxoxoxo"
+              caja: "..x...x."
+              bombo: "x..x.x.."
+
+  - tipo: capas
+    concepto: bucle
+    enunciado: Elige el estado que pide cada situación del juego.
+    pista: Prueba cada estado y escucha qué capas entran. Cuanta más acción, más capas.
+    explicacion: |
+      Un mismo bucle sirve para varias situaciones si se le quitan o se le añaden capas.
+      Con poco movimiento basta el fondo; la melodía acompaña al jugador que pasea; la
+      batería entra cuando hay prisa.
+    pieza:
+      titulo: La plaza del mercado
+      tempo: 116
+      tonalidad: G mayor
+      compases: 4
+      bucle: true
+      acordes: "G:1 | Em:1 | C:1 | D:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          capa: melodia
+          notas: "D5:8 B4:8 G4:8 B4:8 D5:4 G5:4 | E5:8 D5:8 B4:8 D5:8 E5:2 | C5:8 B4:8 A4:8 G4:8 E4:4 G4:4 | A4:4 B4:8 C5:8 D5:2"
+        - rol: colchon
+          instrumento: cuerdas
+          capa: base
+          notas: "[G3 B3 D4]:1 | [G3 B3 E4]:1 | [G3 C4 E4]:1 | [F#3 A3 D4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          capa: base
+          notas: "G2:4 G2:8 D2:8 G2:4 D2:4 | E2:4 E2:8 B1:8 E2:4 B1:4 | C2:4 C2:8 G1:8 C2:4 G1:4 | D2:4 D2:8 A1:8 D2:4 F#2:4"
+        - rol: percusion
+          instrumento: bateria
+          capa: ritmo
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "xoxoxoxo"
+              caja: "..x...x."
+              bombo: "x..x.x.."
+    capas: { base: Fondo, melodia: Melodía, ritmo: Batería }
+    estados:
+      - id: pausa
+        nombre: Pausa
+        capas: [base]
+      - id: paseo
+        nombre: Paseo
+        capas: [base, melodia]
+      - id: persecucion
+        nombre: Persecución
+        capas: [base, melodia, ritmo]
+    situaciones:
+      - texto: Abres el inventario y el juego se detiene.
+        estado: pausa
+        porque: El juego está parado. Basta con el fondo, sin una melodía que reclame atención.
+      - texto: Recorres los puestos sin prisa y hablas con los vendedores.
+        estado: paseo
+        porque: Hay calma, pero algo que mirar. La melodía acompaña el paseo sin empujar.
+      - texto: Un ladrón te quita la bolsa y sales corriendo detrás de él.
+        estado: persecucion
+        porque: Hay prisa. La batería mete el pulso en primer plano y acelera al jugador.
+
+  - tipo: construccion
+    modo: ordenar-secciones
+    concepto: bucle
+    enunciado: Ordena las tres partes de la música de la feria.
+    pista: La entrada solo lleva batería y bajo. De las otras dos, la que acaba en la nota que suena a casa va al final.
+    explicacion: |
+      Primero una entrada sin melodía, que prepara el pulso. Luego una frase que sube y
+      se queda abierta en {n:G5}, y por último la que baja y cierra en {n:C5}. Al
+      repetirse, la entrada no vuelve a sonar: el bucle salta a la primera frase.
+    pieza:
+      titulo: La feria
+      tempo: 120
+      tonalidad: C mayor
+      compases: 5
+      bucle: true
+      secciones:
+        - { id: intro, nombre: Entrada, desde: 1, hasta: 1 }
+        - { id: A, nombre: Frase que sube, desde: 2, hasta: 3 }
+        - { id: B, nombre: Frase que cierra, desde: 4, hasta: 5 }
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "r:1 | C5:8 D5:8 E5:8 C5:8 G5:4 E5:4 | D5:8 E5:8 F5:8 D5:8 G5:2 | E5:8 F5:8 G5:8 E5:8 D5:4 B4:4 | C5:2. r:4"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:4 G2:4 C2:4 G2:4 | C2:4 G2:4 C2:4 G2:4 | G1:4 D2:4 G1:4 D2:4 | G1:4 D2:4 G1:4 B1:4 | C2:4 G2:4 C2:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              charles: "x.x.x.x."
+              caja: "..x...x."
+              bombo: "x...x..."
+
+  - tipo: encargo
+    titulo: El bucle de la feria
+    cliente: Estudio Farolillo
+    concepto: bucle
+    brief: |
+      Estamos terminando la feria del pueblo y nos falta su música. Te pasamos el bajo
+      ya escrito; necesitamos que le pongas **batería** y una **melodía** alegre que
+      corra en corcheas. Son cuatro compases de 4/4 que se repetirán todo el rato que
+      el jugador pase en la feria, así que el final tiene que enlazar con el principio.
+    pista: |
+      Empieza por la batería: bombo en el uno y el tres, caja en el dos y el cuatro, y
+      charles en corcheas. Después escribe la melodía con las filas claras (las notas de
+      la escala) y procura que su última nota quede cerca de la primera.
+    explicacion: |
+      Un bucle de feria se sostiene en un pulso claro y una subdivisión constante: las
+      corcheas del charles y de la melodía le dan ese aire de fiesta que no para.
+    plantilla:
+      titulo: El bucle de la feria
+      tempo: 116
+      tonalidad: C mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: ""
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "C2:4 G2:4 C2:4 G2:4 | F2:4 C2:4 F2:4 C2:4 | G1:4 D2:4 G1:4 D2:4 | C2:4 G2:4 C2:4 G1:4"
+        - rol: percusion
+          instrumento: bateria
+          notas: ""
+    requisitos:
+      - regla: compas
+        valor: 4/4
+      - regla: compases
+        valor: 4
+      - regla: tempo
+        min: 100
+        max: 132
+      - regla: pistas
+        roles: [melodia, percusion]
+      - regla: notas-minimas
+        pista: percusion
+        valor: 16
+      - regla: densidad
+        pista: melodia
+        min: 4
+      - regla: tonalidad
+        valores: [C mayor]
+      - regla: bucle

@@ -1,0 +1,135 @@
+titulo: El 6/8, pulsos que se parten en tres
+resumen: Sentir los dos pulsos de un 6/8 y oír la diferencia con un 3/4.
+minutos: 8
+conceptos: [compas-compuesto, compas]
+
+pasos:
+  - tipo: teoria
+    titulo: Dos pulsos, de tres en tres
+    texto: |
+      En un 6/8 hay seis corcheas por compás, pero no se cuentan seis pulsos: se sienten
+      **dos**, y cada uno se parte en tres. Es un [[compas-compuesto|compás compuesto]].
+      Se cuenta «UNO-y-a, DOS-y-a», y el pulso dura una negra con puntillo.
+
+      Este tema de muelle se balancea como un barco. Fíjate en el bajo: toca justo en los
+      dos pulsos de cada compás.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: El muelle al amanecer
+      tempo: 120
+      compas: 6/8
+      tonalidad: E menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E4:8 G4:8 B4:8 E5:4 D5:8 | B4:8 A4:8 G4:8 A4:4. | G4:8 A4:8 B4:8 D5:4 B4:8 | A4:8 G4:8 F#4:8 E4:4."
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "E2:4. B1:4. | G2:4. D2:4. | E2:4. B1:4. | D2:4. E2:4."
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              bombo: "x.....|x.....|x.....|x..x.."
+              aro: "...x.."
+              charles_pedal: ".xx.xx"
+
+  - tipo: ritmo
+    modo: seguir
+    concepto: compas-compuesto
+    enunciado: Marca solo los dos pulsos de cada compás, a la vez que la caja.
+    tempo: 120
+    compas: 6/8
+    paso: "8"
+    patron: "x..x..|x..x..|x..x..|x..x.."
+    repeticiones: 1
+    tolerancia: amplia
+    pista: La claqueta da las seis corcheas. Tú tocas en la primera y en la cuarta, «UNO-y-a, DOS-y-a».
+    explicacion: |
+      Aunque suenen seis corcheas, el 6/8 se lleva en dos. Cada pulso es una negra con
+      puntillo: tres corcheas de largo.
+
+  - tipo: oido
+    modo: compas
+    concepto: compas-compuesto
+    enunciado: ¿Es un 3/4 o un 6/8?
+    pista: Los dos tienen seis corcheas por compás. En el 3/4 oirás tres golpes iguales; en el 6/8, seis golpes rápidos agrupados de tres en tres.
+    explicacion: |
+      El 3/4 tiene tres pulsos de negra. El 6/8 tiene dos pulsos que se parten en tres:
+      suena más balanceado, como un columpio.
+    compases: [3/4, 6/8]
+    tempo: 100
+    rondas: 5
+
+  - tipo: teoria
+    titulo: Galope y marea
+    texto: |
+      El ritmo de «larga, corta, larga, corta» (negra y corchea, dos veces) es el
+      galope del 6/8. Lo vas a oír en viajes a caballo, en temas de piratas y en muchos
+      mapas del mundo de 8 bits, porque empuja hacia delante sin agobiar.
+
+      Cambia el instrumento de la melodía: el galope sigue ahí con cualquiera.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Camino del valle
+      tempo: 132
+      compas: 6/8
+      tonalidad: G mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "G5:4 D5:8 B4:4 D5:8 | C5:4 A4:8 F#4:4 A4:8 | B4:4 G4:8 D5:4 B4:8 | A4:4 F#4:8 G4:4."
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "G2:4. D3:4. | D2:4. A2:4. | G2:4. B2:4. | D2:4. G2:4."
+
+  - tipo: ritmo
+    modo: eco
+    concepto: compas-compuesto
+    enunciado: Escucha el galope y repítelo.
+    tempo: 120
+    compas: 6/8
+    paso: "8"
+    patron: "x.xx.x|x.xx.."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Larga, corta, larga, corta. En el último pulso hay una sola nota que dura todo el pulso.
+    explicacion: |
+      Cada pulso del 6/8 se llena con una negra y una corchea: dos tercios y un tercio.
+      Al final, una negra con puntillo cierra la frase.
+
+  - tipo: analisis
+    concepto: compas-compuesto
+    enunciado: Escucha la nana de la aldea y responde.
+    pista: Busca dónde se balancea la música. ¿Oyes tres golpes iguales o dos grupos de tres?
+    explicacion: |
+      La melodía y el bajo se mueven en dos grupos de tres corcheas por compás: es un
+      6/8, con dos pulsos.
+    pieza:
+      titulo: Nana de la aldea
+      tempo: 108
+      compas: 6/8
+      tonalidad: D mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "F#5:4 E5:8 D5:4 A4:8 | B4:4 C#5:8 D5:4. | E5:4 F#5:8 G5:4 E5:8 | C#5:4 B4:8 A4:4."
+        - rol: bajo
+          instrumento: piano
+          notas: "D3:8 A3:8 F#3:8 D3:8 A3:8 F#3:8 | G3:8 B3:8 D4:8 F#3:8 A3:8 D4:8 | E3:8 G3:8 B3:8 A3:8 C#4:8 E4:8 | A2:8 E3:8 A3:8 A2:8 E3:8 G3:8"
+    preguntas:
+      - sobre: compas
+        opciones: [3/4, 6/8, 4/4]
+        explicacion: Seis corcheas por compás, agrupadas de tres en tres.
+      - sobre: libre
+        pregunta: ¿Cuántos pulsos sientes en cada compás?
+        opciones: [Dos, Tres, Seis]
+        correcta: 1
+        explicacion: Dos pulsos de negra con puntillo, cada uno partido en tres corcheas.

@@ -1,0 +1,117 @@
+titulo: El compás, en cuatro y en tres
+resumen: Notar el primer pulso de cada compás y distinguir un 4/4 de un 3/4.
+minutos: 8
+conceptos: [compas, pulso]
+
+pasos:
+  - tipo: teoria
+    titulo: Pulsos en grupos
+    texto: |
+      Los pulsos no van sueltos: se agrupan en [[compas|compases]]. El primero de cada
+      grupo pesa más, y por eso casi siempre cae ahí el bombo. Si el grupo es de cuatro,
+      el compás es un 4/4; si es de tres, un 3/4.
+
+      En esta marcha el bombo da el primer pulso y la caja el tercero, que en el 4/4 es
+      el segundo punto de apoyo. Cuenta «UNO, dos, tres, cuatro» con el primero fuerte.
+    vista: rejilla
+    manipulable: [tempo, pistas]
+    ejemplo:
+      tempo: 104
+      compases: 2
+      bucle: true
+      pistas:
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              bombo: "X......."
+              caja: "....x..."
+              charles: "x.x.x.x."
+
+  - tipo: ritmo
+    modo: leer
+    concepto: compas
+    enunciado: Lee el patrón y apoya el primer pulso de cada compás.
+    tempo: 92
+    paso: "4"
+    patron: "Xxxx|Xx.x|Xxxx|X..."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Cuenta en voz baja «UNO, dos, tres, cuatro» y apoya un poco más el uno. En el segundo compás el tercer pulso es silencio.
+    explicacion: |
+      El acento del primer pulso es lo que hace sentir el compás. Aunque aquí solo se
+      mide cuándo tocas, pensar en el uno te ayuda a no perderte en los silencios.
+
+  - tipo: teoria
+    titulo: El 3/4, compás de vals
+    texto: |
+      En un 3/4 los pulsos van de tres en tres: «UNO, dos, tres». El bajo cae en el uno y
+      el acompañamiento contesta en el dos y el tres. Es el compás del vals, de las
+      cajas de música y de muchas tabernas de los RPG.
+
+      Apaga pistas para oír cada parte por separado: el bajo solo, y luego el
+      acompañamiento solo.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: Vals de la taberna
+      tempo: 138
+      compas: 3/4
+      tonalidad: G mayor
+      compases: 4
+      bucle: true
+      acordes: "G:2. | D:2. | C:2. | D:2."
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "D5:4 B4:4 G4:4 | A4:2 F#4:4 | E4:4 G4:4 C5:4 | B4:2 A4:4"
+        - rol: armonia
+          instrumento: cuerdas
+          matiz: mp
+          notas: "r:4 [G3 B3 D4]:4 [G3 B3 D4]:4 | r:4 [F#3 A3 D4]:4 [F#3 A3 D4]:4 | r:4 [G3 C4 E4]:4 [G3 C4 E4]:4 | r:4 [F#3 A3 D4]:4 [F#3 A3 D4]:4"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:4 r:2 | D2:4 r:2 | C2:4 r:2 | D2:4 r:2"
+
+  - tipo: oido
+    modo: compas
+    concepto: compas
+    enunciado: ¿En qué compás está? Cuenta hasta que vuelva el bombo.
+    pista: El bombo solo suena en el primer pulso. Cuenta los golpes de charles que hay desde un bombo hasta el siguiente.
+    explicacion: |
+      El bombo marca dónde empieza cada compás. Si entre un bombo y el siguiente caben
+      cuatro pulsos, es un 4/4; si caben tres, un 3/4.
+    compases: [4/4, 3/4]
+    tempo: 104
+    rondas: 5
+
+  - tipo: analisis
+    concepto: compas
+    enunciado: Escucha la caja de música y responde.
+    pista: Cuenta los pulsos desde una nota grave del bajo hasta la siguiente.
+    explicacion: |
+      El bajo toca solo en el primer pulso de cada compás, y entre un bajo y el siguiente
+      caben tres pulsos: es un 3/4.
+    pieza:
+      titulo: La caja de música
+      tempo: 120
+      compas: 3/4
+      tonalidad: F mayor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A5:4 C6:4 A5:4 | G5:2 E5:4 | F5:4 A5:4 G5:4 | C5:2."
+        - rol: bajo
+          instrumento: piano
+          notas: "F3:2. | C3:2. | D3:2. | C3:2."
+    preguntas:
+      - sobre: compas
+        opciones: [4/4, 3/4]
+        explicacion: Tres pulsos por compás, con el primero apoyado por el bajo.
+      - sobre: libre
+        pregunta: ¿En qué pulso del compás entra cada nota del bajo?
+        opciones: [En el primero, En el segundo, En el tercero]
+        correcta: 1
+        explicacion: El bajo marca el uno, el pulso fuerte, y dura el compás entero.

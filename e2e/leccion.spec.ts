@@ -69,7 +69,7 @@ test('una lección bloqueada lleva candado y no se abre por su dirección', asyn
   await expect(page.getByRole('link', { name: /El pulso/ })).toHaveAccessibleName(/la siguiente/)
   // «El tempo» no es un enlace: es una fila con candado.
   await expect(page.getByRole('link', { name: /El tempo/ })).toHaveCount(0)
-  await expect(page.locator('.leccion-enlace--bloqueada').getByRole('img', { name: 'Bloqueada' })).toBeVisible()
+  await expect(page.locator('.leccion-enlace--bloqueada').filter({ hasText: 'El tempo' }).getByRole('img', { name: 'Bloqueada' })).toBeVisible()
 
   await page.goto('./#/leccion/m00.u01.l02/1')
   await expect(page.getByRole('heading', { name: 'Lección bloqueada' })).toBeVisible()

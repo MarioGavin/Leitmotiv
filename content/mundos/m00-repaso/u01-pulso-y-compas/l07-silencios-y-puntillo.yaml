@@ -1,0 +1,156 @@
+titulo: Silencios y puntillo
+resumen: Contar lo que no suena y tocar el ritmo con puntillo de las marchas.
+minutos: 8
+conceptos: [silencios, figuras]
+
+pasos:
+  - tipo: teoria
+    titulo: El silencio también se cuenta
+    texto: |
+      Cada figura tiene su [[silencio]]: hay silencios de negra, de corchea, de blanca…
+      Duran lo mismo que la nota a la que sustituyen, y se cuentan igual.
+
+      En este tema de infiltración los silencios hacen casi todo el trabajo: la melodía
+      da un paso, se esconde y vuelve a asomar. Míralo en el pentagrama.
+    vista: pentagrama
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Pasillos del castillo
+      tempo: 96
+      tonalidad: E menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "E4:8 r:8 E4:8 r:8 G4:4 r:4 | F#4:8 r:8 F#4:8 r:8 A4:4 r:4 | B4:8 r:8 C5:8 r:8 B4:4 G4:4 | F#4:4 r:4 E4:4 r:4"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "E2:4 r:4 E2:4 r:4 | D2:4 r:4 D2:4 r:4 | C2:4 r:4 C2:4 r:4 | B1:4 r:4 B1:4 r:4"
+
+  - tipo: ritmo
+    modo: leer
+    concepto: silencios
+    enunciado: Lee el patrón y tócalo, silencios incluidos.
+    tempo: 84
+    paso: "8"
+    patron: "x.x...x.|xx..x...|x.x.x.x.|x......."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Cada casilla es una corchea. En el primer compás hay un silencio de negra después de la segunda nota; aguanta sin tocar.
+    explicacion: |
+      Un silencio no es una pausa para descansar: ocupa su sitio en el compás. Si lo
+      acortas, todo lo que viene después llega antes de tiempo.
+
+  - tipo: teoria
+    titulo: El puntillo, la mitad más
+    texto: |
+      Un [[puntillo]] detrás de una figura la alarga la mitad de lo que dura. Una negra
+      con puntillo dura un pulso y medio, y suele ir seguida de una corchea que completa
+      el segundo pulso.
+
+      Ese «largo-corto» es el ritmo de las marchas y de las fanfarrias: empuja hacia la
+      nota siguiente. Escúchalo en esta llamada de la guardia.
+    vista: pentagrama
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: La guardia del puerto
+      tempo: 100
+      tonalidad: C mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C4:4. G4:8 C5:4. G4:8 | E5:2 C5:4 r:4 | D5:4. C5:8 B4:4. A4:8 | G4:2 r:2"
+        - rol: percusion
+          instrumento: bateria
+          rejilla:
+            paso: "8"
+            lineas:
+              caja: "x..xx..x"
+              bombo: "x...x..."
+
+  - tipo: ritmo
+    modo: eco
+    concepto: silencios
+    enunciado: Escucha la marcha y repítela.
+    tempo: 92
+    paso: "8"
+    patron: "x..xx..x|x..xx..."
+    repeticiones: 2
+    tolerancia: amplia
+    pista: Cada pulso es «laaar-go, corto». La negra con puntillo ocupa tres casillas y la corchea, una.
+    explicacion: |
+      Negra con puntillo y corchea, dos veces por compás. Al final, una negra con
+      puntillo y un silencio de corchea.
+
+  - tipo: oido
+    modo: preguntas
+    concepto: silencios
+    enunciado: ¿Qué ritmo toca el piano?
+    pista: Fíjate en si las notas van igual de separadas o si van de dos en dos, una larga y una corta.
+    explicacion: |
+      Las negras van parejas, un pulso cada una. Las corcheas, dos por pulso, también
+      parejas. El puntillo descompensa: una nota larga y otra corta que empuja a la
+      siguiente.
+    preguntas:
+      - opciones: [Negras, Corcheas, Puntillo y corchea]
+        correcta: 3
+        explicacion: Larga, corta, larga, corta. Es negra con puntillo y corchea.
+        pieza:
+          tempo: 92
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "G4:4. G4:8 G4:4. G4:8 | G4:4. G4:8 C5:2"
+      - opciones: [Negras, Corcheas, Puntillo y corchea]
+        correcta: 1
+        explicacion: Notas iguales, una por pulso. Son negras.
+        pieza:
+          tempo: 92
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "G4:4 G4:4 G4:4 G4:4 | G4:4 G4:4 C5:2"
+      - opciones: [Negras, Corcheas, Puntillo y corchea]
+        correcta: 2
+        explicacion: Notas iguales, dos por pulso. Son corcheas.
+        pieza:
+          tempo: 92
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "G4:8 G4:8 G4:8 G4:8 G4:8 G4:8 G4:8 G4:8 | G4:8 G4:8 G4:8 G4:8 C5:2"
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: silencios
+    enunciado: Completa la marcha con el fragmento que respeta su ritmo.
+    pista: Los tres primeros compases repiten el mismo ritmo. Escucha cada opción en el hueco y compara.
+    explicacion: |
+      Cada compás de esta marcha es negra con puntillo, corchea, negra y silencio de
+      negra. Mantener el ritmo hace que la melodía se reconozca aunque cambien las notas.
+    pieza:
+      tempo: 100
+      tonalidad: C mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C4:4. E4:8 G4:4 r:4 | D4:4. F4:8 A4:4 r:4 | E4:4. G4:8 B4:4 r:4 | F4:4. A4:8 ?:2"
+    opciones:
+      - notas: "C5:4 r:4"
+        correcta: true
+        porque: Negra y silencio, como en los otros compases. El ritmo se mantiene y la marcha llega a su nota más aguda.
+      - notas: "C5:8 C5:8 C5:8 C5:8"
+        correcta: false
+        porque: Cuatro corcheas rompen el ritmo de la marcha justo al final y no dejan respirar.
+      - notas: "C5:2"
+        correcta: false
+        porque: La blanca se come el silencio. Todos los compases anteriores respiran en el último pulso.

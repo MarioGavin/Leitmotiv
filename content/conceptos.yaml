@@ -2,6 +2,8 @@
 # espaciado programa los conceptos que más se fallan.
 # La clave es el identificador que usan las lecciones en `conceptos` y `concepto`.
 
+# ── Mundo 0 · Pulso y compás ──
+
 pulso:
   nombre: Pulso
   definicion: El latido regular que sostiene la música. Sigue ahí aunque nadie lo toque.
@@ -9,3 +11,27 @@ pulso:
 tempo:
   nombre: Tempo
   definicion: La velocidad del pulso, medida en pulsos por minuto.
+
+figuras:
+  nombre: Redonda, blanca y negra
+  definicion: Cuántos pulsos dura una nota. La negra dura uno; la blanca, dos; la redonda, cuatro.
+
+subdivision:
+  nombre: Corcheas y semicorcheas
+  definicion: El pulso partido en dos (corcheas) o en cuatro (semicorcheas), sin cambiar el tempo.
+
+compas:
+  nombre: Compás de 4/4 y de 3/4
+  definicion: Los pulsos agrupados de cuatro en cuatro o de tres en tres, con el primero más fuerte.
+
+compas-compuesto:
+  nombre: Compás de 6/8
+  definicion: Dos pulsos por compás, cada uno partido en tres corcheas.
+
+silencios:
+  nombre: Silencios y puntillo
+  definicion: Los silencios se cuentan como las notas. El puntillo alarga una figura la mitad de lo que dura.
+
+bucle:
+  nombre: El bucle
+  definicion: Música que se repite sin costura y que se adapta al juego quitando y poniendo capas.

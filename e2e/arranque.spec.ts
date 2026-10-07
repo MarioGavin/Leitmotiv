@@ -35,7 +35,7 @@ test('quien empieza no ve ficha en el título, y en el mapa y el mundo empieza e
   await expect(ficha).toContainText('Nivel')
   await expect(ficha).toContainText('0/50 XP')
   await expect(ficha).toContainText('0 días')
-  await expect(page.locator('.mapa__detalle')).toContainText('0 de 2 lecciones hechas')
+  await expect(page.locator('.mapa__detalle')).toContainText('0 de 8 lecciones hechas')
 })
 
 test('el nivel, la experiencia y la racha se ven en el título, el mapa y el mundo', async ({ page }) => {
@@ -53,7 +53,7 @@ test('el nivel, la experiencia y la racha se ven en el título, el mapa y el mun
     await expect(ficha.getByRole('progressbar', { name: 'Experiencia para el nivel 3' }), pantalla).toHaveAttribute('aria-valuenow', '10')
   }
   await expect(page.getByRole('heading', { name: 'Pulso y compás' })).toBeVisible()
-  await expect(page.getByText('1 de 2 hechas')).toBeVisible()
+  await expect(page.getByText('1 de 8 hechas')).toBeVisible()
   expect(errores).toEqual([])
 })
 

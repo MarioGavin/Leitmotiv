@@ -7,15 +7,17 @@
  *   npm run shots -- --completa         → la página entera, no solo lo que cabe en la pantalla
  *   npm run shots -- --hoja             → además, una hoja de contactos con todas las capturas juntas
  *   npm run shots -- --hoja=nombre      → lo mismo, con ese nombre de archivo (hoja-nombre.png)
+ *   npm run shots -- --ruta=#/leccion/m00.u01.l06/2,#/ficha/intervalos → rutas sueltas, sin preparar nada
  *
  * Escribe en informes/capturas. Usa el servidor de desarrollo de Vite y el
  * Chromium de Playwright.
  */
-import { mkdirSync } from 'node:fs'
+import { mkdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
+import type { IndiceDelCurso } from '../src/contenido/tipos.ts'
 import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
 import { FICHA_DE_PRUEBA, PRUEBA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
 
@@ -208,7 +210,10 @@ const completa = process.argv.includes('--completa')
 const hoja = process.argv.includes('--hoja') || argumento('hoja') !== undefined
 const nombreDeHoja = argumento('hoja')
 
-const escenas = ESCENAS.filter((e) => (soloEscena ? soloEscena.split(',').includes(e.nombre) : e.principal))
+const rutas = argumento('ruta')
+/** Una escena por cada ruta suelta: el nombre sale de la ruta («leccion-m00.u01.l06-2»). */
+const sueltas: Escena[] = (rutas ?? '').split(',').filter(Boolean).map((ruta) => ({ nombre: ruta.replace(/^#\//, '').replaceAll('/', '-'), ruta }))
+const escenas = rutas ? sueltas : ESCENAS.filter((e) => (soloEscena ? soloEscena.split(',').includes(e.nombre) : e.principal))
 const esquemas = ESQUEMAS.filter((e) => !soloEsquema || e === soloEsquema)
 const tamanos = TAMANOS.filter((t) => !soloTam || `${t.ancho}x${t.alto}` === soloTam)
 
@@ -218,6 +223,12 @@ if (escenas.length === 0) {
 }
 
 mkdirSync(DESTINO, { recursive: true })
+
+/** Las lecciones del curso compilado en public/content (lo deja `npm run content:build`). */
+function todasLasLecciones(): string[] {
+  const indice = JSON.parse(readFileSync(path.join(RAIZ, 'public/content/indice.json'), 'utf8')) as IndiceDelCurso
+  return indice.mundos.flatMap((m) => m.unidades.flatMap((u) => u.lecciones.map((l) => l.id)))
+}
 
 const servidor = await createServer({ root: RAIZ, logLevel: 'error', server: { port: PUERTO, strictPort: true, host: '127.0.0.1' } })
 await servidor.listen()
@@ -239,8 +250,8 @@ try {
       await contexto.addInitScript((e) => {
         localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip', latenciaMs: 0 }, version: 3 }))
       }, esquema)
-      // Con la primera lección hecha, se pueden abrir las pantallas de la segunda.
-      await sembrarProgreso(contexto, PROGRESO_DE_PANTALLAS)
+      // Con la primera lección hecha, se pueden abrir las pantallas de la segunda. Las rutas sueltas pueden ir a cualquier lección: todas hechas.
+      await sembrarProgreso(contexto, rutas ? { ...PROGRESO_DE_PANTALLAS, lecciones: todasLasLecciones() } : PROGRESO_DE_PANTALLAS)
       for (const escena of escenas) {
         const pagina = await contexto.newPage()
         const errores: string[] = []

@@ -1,4 +1,7 @@
 # Glosario del curso. Se enlaza desde cualquier texto con [[identificador]].
+# El orden del archivo no importa: la app lo enseña de la A a la Z.
+
+# ── Ritmo ──
 
 pulso:
   termino: Pulso
@@ -8,17 +11,93 @@ pulso:
 tempo:
   termino: Tempo
   definicion: Velocidad del [[pulso]]. Se mide en pulsos por minuto (BPM, del inglés *beats per minute*).
-  ver: [pulso]
+  ver: [pulso, bpm]
+
+bpm:
+  termino: BPM
+  definicion: Pulsos por minuto. A 60 BPM hay un pulso cada segundo; a 120, dos.
+  ver: [tempo]
 
 compas:
   termino: Compás
-  definicion: Agrupación de pulsos en bloques iguales, con un primer pulso que pesa más que los demás.
-  ver: [pulso]
+  definicion: Agrupación de pulsos en bloques iguales, con un primer pulso que pesa más que los demás. Se escribe como una fracción, 4/4 o 3/4, y se separa con barras.
+  ver: [pulso, compas-compuesto, acento]
+
+compas-compuesto:
+  termino: Compás compuesto
+  definicion: Compás cuyos pulsos se parten en tres, como el 6/8. Se cuenta «UNO-y-a, DOS-y-a» y suena balanceado.
+  ver: [compas, subdivision]
+  ejemplo:
+    titulo: Galope de 6/8
+    tempo: 126
+    compas: 6/8
+    tonalidad: D mayor
+    compases: 2
+    bucle: true
+    pistas:
+      - rol: melodia
+        instrumento: piano
+        notas: "A4:4 D5:8 F#5:4 E5:8 | D5:4 C#5:8 D5:4."
+      - rol: bajo
+        instrumento: bajo-electrico
+        notas: "D2:4. A2:4. | A1:4. D2:4."
+
+acento:
+  termino: Acento
+  definicion: Golpe o nota que suena con más fuerza que las de alrededor. El primer pulso de cada compás lleva un acento natural.
+  ver: [compas]
+
+figura:
+  termino: Figura
+  definicion: Signo que dice cuánto dura una nota respecto al pulso. Las más usadas son la redonda, la blanca, la negra, la corchea y la semicorchea.
+  ver: [redonda, blanca, negra, corchea, semicorchea]
+
+redonda:
+  termino: Redonda
+  definicion: Figura que dura cuatro negras, un compás entero de 4/4. Se dibuja como una cabeza hueca sin plica.
+  ver: [blanca, figura]
+
+blanca:
+  termino: Blanca
+  definicion: Figura que dura dos negras. Cabeza hueca con plica.
+  ver: [redonda, negra]
+
+negra:
+  termino: Negra
+  definicion: Figura que dura un pulso en los compases de 4/4, 3/4 y 2/4. Cabeza rellena con plica.
+  ver: [blanca, corchea]
+
+corchea:
+  termino: Corchea
+  definicion: Figura que dura media negra. Dos corcheas llenan un pulso.
+  ver: [negra, semicorchea, subdivision]
+
+semicorchea:
+  termino: Semicorchea
+  definicion: Figura que dura un cuarto de negra. Cuatro semicorcheas llenan un pulso.
+  ver: [corchea, subdivision]
+
+subdivision:
+  termino: Subdivisión
+  definicion: Partir el [[pulso]] en partes iguales, en dos (corcheas), en cuatro (semicorcheas) o en tres (en los compases compuestos). Contarla por dentro ayuda a no correr.
+  ver: [corchea, semicorchea, compas-compuesto]
+
+silencio:
+  termino: Silencio
+  definicion: Tiempo en el que no suena nada, escrito con su propia figura. Un silencio de negra dura lo mismo que una negra y se cuenta igual.
+  ver: [figura]
+
+puntillo:
+  termino: Puntillo
+  definicion: Punto detrás de una figura que la alarga la mitad de lo que dura. Una negra con puntillo dura un pulso y medio.
+  ver: [figura, negra]
+
+# ── Música de videojuego ──
 
 bucle:
   termino: Bucle
   definicion: Fragmento de música pensado para repetirse sin fin y sin que se note la costura. Es la forma habitual de la música de videojuegos.
-  ver: [compas]
+  ver: [compas, capa]
   ejemplo:
     titulo: Camino de la pradera
     tempo: 104
@@ -45,7 +124,7 @@ bucle:
             caja: "..x...x."
             bombo: "x..x.x.."
 
-bpm:
-  termino: BPM
-  definicion: Pulsos por minuto. A 60 BPM hay un pulso cada segundo; a 120, dos.
-  ver: [tempo]
+capa:
+  termino: Capa
+  definicion: Cada una de las partes de un [[bucle]] que el juego puede encender o apagar según lo que pase, sin cortar la música.
+  ver: [bucle]
