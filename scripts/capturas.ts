@@ -98,6 +98,14 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'pianoroll', ruta: '#/pianoroll', principal: true },
   { nombre: 'titulo', ruta: '#/' },
   { nombre: 'ajustes', ruta: '#/ajustes' },
+  {
+    nombre: 'ajustes-borrar',
+    ruta: '#/ajustes',
+    preparar: async (pagina) => {
+      await pagina.getByRole('button', { name: 'Borrar todos los datos' }).click()
+      await pagina.getByRole('dialog').waitFor()
+    },
+  },
   { nombre: 'muestrario', ruta: '#/muestrario' },
   { nombre: 'diagnostico', ruta: '#/diagnostico' },
   { nombre: 'calibracion', ruta: '#/calibracion' },
@@ -198,6 +206,7 @@ const TITULOS: Readonly<Record<string, string>> = {
   pianoroll: 'Piano roll',
   titulo: 'Título',
   ajustes: 'Ajustes',
+  'ajustes-borrar': 'Borrar los datos',
   muestrario: 'Muestrario',
   diagnostico: 'Diagnóstico de audio',
   calibracion: 'Calibración',

@@ -80,7 +80,13 @@ export const useAjustes = create<Ajustes>()(
   ),
 )
 
-const consultaClaro = typeof window !== 'undefined' && typeof window.matchMedia === 'function' ? window.matchMedia('(prefers-color-scheme: light)') : undefined
+/** Los ajustes de ahora, sin las funciones del almacén: lo que va a una copia de seguridad. */
+export function valoresActuales(): ValoresDeAjustes {
+  const { esquema, nomenclatura, sonidosDeInterfaz, timbre, latenciaMs } = useAjustes.getState()
+  return { esquema, nomenclatura, sonidosDeInterfaz, timbre, latenciaMs }
+}
+
+const consultaClaro =typeof window !== 'undefined' && typeof window.matchMedia === 'function' ? window.matchMedia('(prefers-color-scheme: light)') : undefined
 
 /** Avisa cuando el sistema cambia entre claro y oscuro. Devuelve la función para dejar de escuchar. */
 export function alCambiarEsquemaDelSistema(oyente: () => void): () => void {

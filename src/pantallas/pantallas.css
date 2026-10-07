@@ -386,3 +386,15 @@
 .calibracion__datos {
   padding: 0 var(--e-2);
 }
+
+/* ── Ajustes ── */
+.ajustes__fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  align-items: center;
+}
+
+.ajustes__latencia {
+  font-size: var(--t-l);
+}

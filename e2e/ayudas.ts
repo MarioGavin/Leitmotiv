@@ -58,6 +58,26 @@ export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progr
   )
 }
 
+/** Las claves de una tabla de la base del progreso, leídas en el navegador. */
+export function clavesDe(pagina: Page, tabla: string): Promise<string[]> {
+  return pagina.evaluate(
+    (nombre) =>
+      new Promise<string[]>((resolver, rechazar) => {
+        const apertura = indexedDB.open('leitmotiv')
+        apertura.onerror = () => rechazar(apertura.error)
+        apertura.onsuccess = () => {
+          const peticion = apertura.result.transaction(nombre).objectStore(nombre).getAllKeys()
+          peticion.onsuccess = () => {
+            apertura.result.close()
+            resolver(peticion.result.map(String))
+          }
+          peticion.onerror = () => rechazar(peticion.error)
+        }
+      }),
+    tabla,
+  )
+}
+
 /** El día de hoy en la hora de la máquina, como lo escribe la app: «2026-10-07». */
 export function hoy(): string {
   const ahora = new Date()
