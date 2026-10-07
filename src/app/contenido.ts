@@ -5,7 +5,7 @@
  * Las funciones devuelven siempre la misma promesa para el mismo recurso, así
  * que pueden usarse con `use()` de React dentro de un límite de suspense.
  */
-import type { Concepto, Ficha, IndiceDelCurso, Leccion, TerminoDeGlosario } from '../contenido/tipos.ts'
+import type { BloqueDePrueba, Concepto, Ficha, IndiceDelCurso, Leccion, TerminoDeGlosario } from '../contenido/tipos.ts'
 
 const BASE = `${import.meta.env.BASE_URL}content`
 const memoria = new Map<string, Promise<unknown>>()
@@ -42,4 +42,8 @@ export function leerConceptos(): Promise<Concepto[]> {
 
 export function leerFichas(): Promise<Ficha[]> {
   return leer('fichas.json')
+}
+
+export function leerPrueba(): Promise<BloqueDePrueba[]> {
+  return leer('prueba-de-nivel.json')
 }

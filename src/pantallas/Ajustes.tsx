@@ -236,6 +236,9 @@ export function Ajustes() {
         <TusDatos />
 
         <div className="pila">
+          <Boton bloque icono="estrella" onClick={() => navegar({ pantalla: 'prueba' })}>
+            Prueba de nivel
+          </Boton>
           <Boton bloque icono="escuchar" onClick={() => navegar({ pantalla: 'diagnostico' })}>
             Diagnóstico de audio
           </Boton>

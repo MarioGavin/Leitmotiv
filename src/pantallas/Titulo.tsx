@@ -19,9 +19,13 @@ export function Titulo() {
   const [entrando, setEntrando] = useState(false)
   const ficha = useFicha()
   // El título no espera a la base: la ficha aparece cuando se ha leído, y solo si ya hay algo hecho.
-  const conProgreso = useProgreso((p) => p.carga === 'listo') && ficha.xp > 0
+  const listo = useProgreso((p) => p.carga === 'listo')
+  const conProgreso = listo && ficha.xp > 0
+  // A quien empieza de cero se le ofrece saltarse lo que ya sabe.
+  const sinLecciones = useProgreso((p) => Object.keys(p.lecciones).length === 0 && p.superadas.length === 0)
+  const nuevo = listo && ficha.xp === 0 && sinLecciones
 
-  const empezar = async (): Promise<void> => {
+  const empezar = async (destino: 'mapa' | 'prueba' = 'mapa'): Promise<void> => {
     setEntrando(true)
     try {
       // Si el motor de audio tarda (conexión lenta), se entra igual: arrancará con el siguiente toque.
@@ -30,7 +34,7 @@ export function Titulo() {
     } catch (error) {
       console.warn('El audio no ha podido arrancar', error)
     }
-    navegar({ pantalla: 'mapa' })
+    navegar({ pantalla: destino })
   }
 
   return (
@@ -45,6 +49,11 @@ export function Titulo() {
         <Boton variante="primario" bloque sonido={null} disabled={entrando} onClick={() => void empezar()}>
           {entrando ? 'Preparando el sonido…' : 'Empezar'}
         </Boton>
+        {nuevo && (
+          <Boton bloque sonido={null} disabled={entrando} onClick={() => void empezar('prueba')}>
+            Ya sé algo: prueba de nivel
+          </Boton>
+        )}
         <p className="suave titulo-pantalla__nota">El sonido se activa al entrar. Mejor con auriculares.</p>
       </div>
     </main>

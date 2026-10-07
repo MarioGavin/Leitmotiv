@@ -17,7 +17,7 @@ import { type Page, chromium } from '@playwright/test'
 import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
 import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
-import { FICHA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
+import { FICHA_DE_PRUEBA, PRUEBA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
 const DESTINO = path.join(RAIZ, 'informes/capturas')
@@ -38,6 +38,11 @@ interface Escena {
 /** Todavía no hay fichas en el curso: se sirve la de las pruebas. */
 async function servirFicha(pagina: Page): Promise<void> {
   await pagina.route('**/content/fichas.json', (ruta) => ruta.fulfill({ json: [FICHA_DE_PRUEBA] }))
+}
+
+/** Todavía no hay prueba de nivel en el curso: se sirve la de las pruebas. */
+async function servirPrueba(pagina: Page): Promise<void> {
+  await pagina.route('**/content/prueba-de-nivel.json', (ruta) => ruta.fulfill({ json: PRUEBA_DE_PRUEBA }))
 }
 
 const ESCENAS: readonly Escena[] = [
@@ -144,6 +149,21 @@ const ESCENAS: readonly Escena[] = [
     },
   },
   { nombre: 'ficha', ruta: '#/ficha/compases', antes: servirFicha },
+  { nombre: 'prueba', ruta: '#/prueba', antes: servirPrueba },
+  {
+    nombre: 'prueba-balance',
+    ruta: '#/prueba',
+    antes: servirPrueba,
+    preparar: async (pagina) => {
+      await pagina.getByRole('button', { name: 'Empezar la prueba' }).click()
+      for (const opcion of ['Dos', 'Uno']) {
+        await pagina.getByRole('radio', { name: opcion }).click()
+        await pagina.getByRole('button', { name: 'Comprobar' }).click()
+        await pagina.getByRole('button', { name: /Continuar|Siguiente pregunta/ }).click()
+      }
+      await pagina.getByRole('status').filter({ hasText: 'Superada' }).waitFor()
+    },
+  },
   {
     nombre: 'repaso-sesion',
     ruta: '#/repaso',
@@ -261,6 +281,8 @@ const TITULOS: Readonly<Record<string, string>> = {
   'glosario-buscar': 'Buscar en el glosario',
   'glosario-ejemplo': 'Término con ejemplo',
   ficha: 'Ficha',
+  prueba: 'Prueba de nivel',
+  'prueba-balance': 'Bloque superado',
   'repaso-sesion': 'Sesión de repaso',
 }
 

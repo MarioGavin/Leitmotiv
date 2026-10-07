@@ -4,7 +4,6 @@ import { guardarSonidosEnSegundoPlano } from '../audio/muestras.ts'
 import { Ajustes } from '../pantallas/Ajustes.tsx'
 import { Mapa } from '../pantallas/Mapa.tsx'
 import { Mundo } from '../pantallas/Mundo.tsx'
-import { Proximamente } from '../pantallas/Proximamente.tsx'
 import { Titulo } from '../pantallas/Titulo.tsx'
 import { Limite } from '../ui/Limite.tsx'
 import { Navegacion } from '../ui/Navegacion.tsx'
@@ -18,6 +17,7 @@ import { type Ruta, useRuta } from './rutas.ts'
 const Leccion = lazy(() => import('../pantallas/Leccion.tsx').then((m) => ({ default: m.Leccion })))
 const PianoRoll = lazy(() => import('../pantallas/PianoRoll.tsx').then((m) => ({ default: m.PianoRoll })))
 const Diagnostico = lazy(() => import('../pantallas/Diagnostico.tsx').then((m) => ({ default: m.Diagnostico })))
+const Prueba = lazy(() => import('../pantallas/Prueba.tsx').then((m) => ({ default: m.Prueba })))
 const Glosario = lazy(() => import('../pantallas/Glosario.tsx').then((m) => ({ default: m.Glosario })))
 const Ficha = lazy(() => import('../pantallas/Ficha.tsx').then((m) => ({ default: m.Ficha })))
 const Repertorio = lazy(() => import('../pantallas/Repertorio.tsx').then((m) => ({ default: m.Repertorio })))
@@ -100,7 +100,7 @@ function pantallaDe(ruta: Ruta): { contenido: ReactNode; conNavegacion: boolean 
     case 'ficha':
       return { contenido: <Ficha id={ruta.id} />, conNavegacion: true }
     case 'prueba':
-      return { contenido: <Proximamente titulo="Prueba de nivel" descripcion="Unas preguntas para saltarte lo que ya sabes." />, conNavegacion: true }
+      return { contenido: <Prueba />, conNavegacion: false }
     case 'calibracion':
       return { contenido: <Calibracion />, conNavegacion: false }
     case 'ajustes':
