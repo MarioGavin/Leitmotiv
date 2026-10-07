@@ -4,8 +4,8 @@ import { Contexto, type Entorno } from '../scripts/contenido/contexto.ts'
 import { Paso as EsquemaDePaso } from '../src/contenido/esquemas.ts'
 import type { Leccion, Paso } from '../src/contenido/tipos.ts'
 
-/** Lección que sustituye a la real en las pruebas que usan `page.route`. */
-export const ID_DE_PRUEBA = 'm00.u01.l02'
+/** Lección que sustituye a la real en las pruebas que usan `page.route`. Es la primera del curso: siempre está abierta. */
+export const ID_DE_PRUEBA = 'm00.u01.l01'
 
 /**
  * Compila unos pasos escritos en YAML, como en `content/`, con el compilador

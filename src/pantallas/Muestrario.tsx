@@ -6,6 +6,7 @@ import { Boton } from '../ui/Boton.tsx'
 import { Cabecera } from '../ui/Cabecera.tsx'
 import { Deslizador } from '../ui/Deslizador.tsx'
 import { Dialogo } from '../ui/Dialogo.tsx'
+import { FichaDelJugador } from '../ui/FichaDelJugador.tsx'
 import { Icono } from '../ui/Icono.tsx'
 import { Marco } from '../ui/Marco.tsx'
 import { Opciones } from '../ui/Opciones.tsx'
@@ -113,6 +114,8 @@ export function Muestrario() {
             </PadDeToques>
           </div>
         </Marco>
+
+        <FichaDelJugador ficha={{ xp: 95, nivel: { nivel: 2, enNivel: 45, paraElSiguiente: 80 }, racha: { dias: 3, mejor: 5, hoy: true } }} />
 
         <Marco rotulo="Iconos">
           <ul className="muestrario__iconos">

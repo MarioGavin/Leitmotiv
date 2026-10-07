@@ -129,6 +129,7 @@ Todos están en `src/ui`. La estructura y las medidas, en `src/ui/estilos/compon
 | Ejemplo sonoro | La vista de pieza con sus controles: tempo, transposición, pistas | `musica/EjemploSonoro.tsx` |
 | Rollo de piano | La rejilla editable, con nombres de notas y compases fijos en los bordes | `musica/RolloDePiano.tsx` |
 | Emblema | Las cuatro notas del motivo | `Emblema.tsx` |
+| Ficha del jugador | Nivel, barra de experiencia con su cifra y racha. En el mapa, el mundo y, si hay algo hecho, el título | `FichaDelJugador.tsx` |
 | Mapa del mundo | El mapa en píxeles con un botón por mundo | `mapa/MapaDelMundo.tsx` |
 
 ### Opciones y corrección

@@ -15,7 +15,7 @@ export function MapaDelMundo({ nodos, elegido, alElegir }: PropsDeMapa) {
   useEffect(() => {
     const ctx = lienzo.current?.getContext('2d')
     if (!ctx) return
-    const edificios: EdificioDeNodo[] = nodos.map((nodo) => (nodo.final ? 'castillo' : nodo.estado === 'abierto' ? 'casa' : 'cartel'))
+    const edificios: EdificioDeNodo[] = nodos.map((nodo) => (nodo.final ? 'castillo' : nodo.estado === 'en-obras' ? 'cartel' : 'casa'))
     pintarMapa(ctx, plano, edificios)
   }, [plano, nodos])
 
@@ -40,6 +40,8 @@ export function MapaDelMundo({ nodos, elegido, alElegir }: PropsDeMapa) {
                     {nodo.titulo}
                     {nodo.estado === 'en-obras' && <span className="solo-lectores"> (en construcción)</span>}
                   </span>
+                  {nodo.estado === 'completado' && <Icono nombre="acierto" titulo="Completado" className="nodo-pixel__marca" />}
+                  {nodo.estado === 'bloqueado' && <Icono nombre="candado" titulo="Bloqueado" className="nodo-pixel__marca" />}
                   {marcado && <Icono nombre="cursor" className="nodo-pixel__cursor" />}
                 </button>
               </li>

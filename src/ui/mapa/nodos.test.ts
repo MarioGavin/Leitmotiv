@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { IndiceDelCurso, ResumenDeLeccion } from '../../contenido/tipos.ts'
-import { nodosDelCurso } from './nodos.ts'
+import { estadoDelCurso } from '../../progreso/desbloqueo.ts'
+import { nodosDelCurso, sePuedeEntrar } from './nodos.ts'
 
 function leccion(id: string): ResumenDeLeccion {
   return { id, titulo: 'Lección', resumen: '', minutos: 5, conceptos: [], pasos: ['teoria'], encargo: false }
@@ -38,5 +39,26 @@ describe('nodos del mapa', () => {
   it('un mundo está abierto solo si tiene alguna lección', () => {
     expect(nodos[0]).toMatchObject({ estado: 'abierto', unidades: 2, lecciones: 2 })
     expect(nodos[1]).toMatchObject({ estado: 'en-obras', unidades: 0, lecciones: 0 })
+  })
+
+  it('con el progreso, dice qué está bloqueado, abierto o hecho, y cuántas lecciones van', () => {
+    const indice: IndiceDelCurso = {
+      ...INDICE,
+      mundos: [
+        { ...INDICE.mundos[0]!, unidades: [{ id: 'm00.u01', titulo: 'Pulso', objetivo: '', borrador: false, lecciones: [leccion('m00.u01.l01'), leccion('m00.u01.l02')] }] },
+        { id: 'm01', titulo: 'Melodía', lema: '', descripcion: [], unidades: [{ id: 'm01.u01', titulo: 'Motivos', objetivo: '', borrador: false, lecciones: [leccion('m01.u01.l01')] }] },
+        INDICE.mundos[1]!,
+      ],
+    }
+    const aMedias = nodosDelCurso(indice, estadoDelCurso(indice, new Set(['m00.u01.l01']), new Set()))
+    expect(aMedias.map((n) => [n.id, n.estado, n.hechas])).toEqual([
+      ['m00', 'abierto', 1],
+      ['m01', 'bloqueado', 0],
+      ['m10', 'en-obras', 0],
+      ['final', 'en-obras', 0],
+    ])
+    const hecho = nodosDelCurso(indice, estadoDelCurso(indice, new Set(['m00.u01.l01', 'm00.u01.l02']), new Set()))
+    expect(hecho.map((n) => n.estado)).toEqual(['completado', 'abierto', 'en-obras', 'en-obras'])
+    expect(hecho.map(sePuedeEntrar)).toEqual([true, true, false, false])
   })
 })

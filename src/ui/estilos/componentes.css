@@ -898,3 +898,66 @@
 .requisito__titulo {
   font-weight: var(--peso-titulos);
 }
+
+/* ── Ficha del jugador: nivel, barra de experiencia y racha ── */
+.ficha {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--e-2) var(--e-4);
+}
+
+.ficha__nivel {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+}
+
+.ficha__cifra {
+  font-family: var(--fuente-titulos);
+  font-weight: var(--peso-titulos);
+  font-size: var(--t-2xl);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ficha__experiencia {
+  display: grid;
+  gap: var(--e-2);
+  min-width: 0;
+}
+
+/* El margen deja sitio al contorno de 2 px que dibuja el tema. */
+.ficha__barra {
+  display: block;
+  height: 8px;
+  margin: 2px;
+  background: var(--ficha-vacia, var(--superficie-2));
+}
+
+.ficha__relleno {
+  display: block;
+  height: 100%;
+  background: var(--acento);
+}
+
+.ficha__xp {
+  font-size: var(--t-dato, var(--t-s));
+  white-space: nowrap;
+}
+
+.ficha__racha {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: var(--e-2);
+  align-items: center;
+  justify-items: start;
+}
+
+.ficha__racha .icono {
+  grid-row: span 2;
+}
+
+.ficha__racha .dato {
+  white-space: nowrap;
+}

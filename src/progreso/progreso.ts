@@ -144,6 +144,11 @@ export const useProgreso = create<Progreso>((set, get) => {
   }
 })
 
+/** Lee el progreso guardado (una sola vez). La promesa es siempre la misma y nunca falla: sirve para `use()`. */
+export function cargarProgreso(): Promise<void> {
+  return useProgreso.getState().cargar()
+}
+
 /** Deja el almacén como recién abierto. Solo para las pruebas. */
 export function reiniciarProgreso(): void {
   lectura = undefined

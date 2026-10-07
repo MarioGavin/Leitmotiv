@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { ESQUEMAS, PANTALLAS, elegirEsquema } from './ayudas.ts'
+import { ESQUEMAS, PANTALLAS, PROGRESO_DE_PANTALLAS, elegirEsquema, sembrarProgreso } from './ayudas.ts'
 
 /**
  * Ninguna caja que recorta su contenido se come las tildes de las mayúsculas.
@@ -12,6 +12,7 @@ import { ESQUEMAS, PANTALLAS, elegirEsquema } from './ayudas.ts'
 for (const esquema of ESQUEMAS) {
   test(`las cajas con recorte dejan sitio a las tildes en el esquema ${esquema}`, async ({ page }) => {
     await elegirEsquema(page, esquema)
+    await sembrarProgreso(page, PROGRESO_DE_PANTALLAS)
     let medidas = 0
     for (const [ruta, lista] of PANTALLAS) {
       await page.goto(`./${ruta}`)

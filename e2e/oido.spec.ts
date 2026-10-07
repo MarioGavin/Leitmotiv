@@ -1,5 +1,6 @@
 import { type Page, expect, test } from '@playwright/test'
 import { entrar, vigilarErrores } from './ayudas.ts'
+import { ID_DE_PRUEBA } from './leccion-de-prueba.ts'
 
 const prosa = (texto: string) => [{ t: 'p', h: [{ t: 'texto', v: texto }] }]
 
@@ -8,7 +9,7 @@ const prosa = (texto: string) => [{ t: 'p', h: [{ t: 'texto', v: texto }] }]
  * sirve una lección propia en lugar de la real, ya en la forma compilada.
  */
 const LECCION = {
-  id: 'm00.u01.l02',
+  id: ID_DE_PRUEBA,
   titulo: 'Oído generado',
   conceptos: ['tempo'],
   pasos: [
@@ -62,9 +63,9 @@ async function responder(pagina: Page): Promise<'acierto' | 'fallo'> {
 
 test('los pasos de oído generados suenan, corrigen y explican', async ({ page }) => {
   const errores = vigilarErrores(page)
-  await page.route('**/lecciones/m00.u01.l02.json', (ruta) => ruta.fulfill({ json: LECCION }))
+  await page.route(`**/lecciones/${ID_DE_PRUEBA}.json`, (ruta) => ruta.fulfill({ json: LECCION }))
   await entrar(page)
-  await page.goto('./#/leccion/m00.u01.l02/1')
+  await page.goto(`./#/leccion/${ID_DE_PRUEBA}/1`)
 
   for (const titulo of ['¿Qué intervalo suena?', '¿Qué acorde suena?']) {
     await expect(page.getByText(titulo)).toBeVisible()

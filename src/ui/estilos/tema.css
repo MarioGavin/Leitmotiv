@@ -413,6 +413,25 @@
   color: var(--tinta-suave);
 }
 
+.nodo-pixel--bloqueado .nodo-pixel__insignia {
+  background: var(--superficie);
+  color: var(--tinta-suave);
+}
+
+/* Completado o bloqueado: una marca con forma propia junto al nombre, no solo un cambio de color. */
+.nodo-pixel__marca {
+  /* Con el relleno, el dibujo queda en 24 px: dos píxeles de pantalla por píxel del icono. */
+  --icono: 28px;
+  padding: 2px;
+  background: var(--superficie);
+  color: var(--exito-tinta);
+  box-shadow: var(--marco-fino);
+}
+
+.nodo-pixel--bloqueado .nodo-pixel__marca {
+  color: var(--tinta-suave);
+}
+
 .nodo-pixel__boton[aria-pressed='true'] .nodo-pixel__nombre {
   background: var(--tinta);
   color: var(--superficie);
@@ -458,6 +477,25 @@
 
 .leccion-enlace__titulo {
   font-weight: 700;
+}
+
+/* Hecha: la marca de acierto. La siguiente: el cursor. Bloqueada: apagada y con candado.
+   Los iconos llevan dos clases para ganar a «.leccion-enlace .icono» de pantallas.css, que se carga después. */
+.leccion-enlace.leccion-enlace--hecha .icono {
+  color: var(--exito-tinta);
+}
+
+.leccion-enlace.leccion-enlace--siguiente .icono {
+  color: var(--acento-tinta);
+}
+
+.leccion-enlace--bloqueada,
+.leccion-enlace--bloqueada .leccion-enlace__numero {
+  color: var(--tinta-suave);
+}
+
+.leccion-enlace--bloqueada:active {
+  background: none;
 }
 
 /* ── Rejilla de ritmo ── */
@@ -542,4 +580,23 @@
 
 .requisito--cumplido > .icono {
   color: var(--exito-tinta);
+}
+
+/* ── Ficha del jugador: la barra, como el avance; la llama se enciende si hoy ya se ha estudiado ── */
+.ficha__barra {
+  box-shadow: 0 0 0 2px var(--contorno);
+  --ficha-vacia: var(--hundido);
+}
+
+.ficha__racha .icono {
+  color: var(--tinta-suave);
+}
+
+.ficha__racha--hoy .icono {
+  color: var(--acento-tinta);
+}
+
+/* ── Lección bloqueada ── */
+.leccion-bloqueada__candado {
+  color: var(--tinta-suave);
 }

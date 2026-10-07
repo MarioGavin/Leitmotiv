@@ -16,6 +16,7 @@ import path from 'node:path'
 import { type Page, chromium } from '@playwright/test'
 import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
+import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
 const DESTINO = path.join(RAIZ, 'informes/capturas')
@@ -67,7 +68,33 @@ const ESCENAS: readonly Escena[] = [
       await pagina.getByRole('dialog').waitFor()
     },
   },
-  { nombre: 'leccion-completada', ruta: '#/leccion/m00.u01.l02/6' },
+  {
+    // La pantalla final solo se ve recargando en ella si la lección ya consta como hecha (y entonces no registra nada).
+    nombre: 'leccion-completada',
+    ruta: '#/leccion/m00.u01.l02/6',
+    preparar: async (pagina) => {
+      await pagina.evaluate(
+        () =>
+          new Promise<void>((resolver, rechazar) => {
+            const apertura = indexedDB.open('leitmotiv')
+            apertura.onerror = () => rechazar(apertura.error)
+            apertura.onsuccess = () => {
+              const momento = new Date().toISOString()
+              const transaccion = apertura.result.transaction('lecciones', 'readwrite')
+              transaccion.objectStore('lecciones').put({ id: 'm00.u01.l02', completada: momento, ultima: momento, veces: 1, mejor: 0.8 })
+              transaccion.oncomplete = () => {
+                apertura.result.close()
+                resolver()
+              }
+            }
+          }),
+      )
+      // Sin la lección hecha, la app ha llevado al paso 1: se recarga para que lea la base y se vuelve a la final.
+      await pagina.reload()
+      await pagina.goto(pagina.url().replace(/\/\d+$/, '/6'))
+      await pagina.getByRole('heading', { name: 'Lección completada' }).waitFor()
+    },
+  },
   { nombre: 'pianoroll', ruta: '#/pianoroll', principal: true },
   { nombre: 'titulo', ruta: '#/' },
   { nombre: 'ajustes', ruta: '#/ajustes' },
@@ -124,6 +151,8 @@ try {
       await contexto.addInitScript((e) => {
         localStorage.setItem('leitmotiv-ajustes', JSON.stringify({ state: { esquema: e, nomenclatura: 'latina', sonidosDeInterfaz: true, timbre: 'chip', latenciaMs: 0 }, version: 3 }))
       }, esquema)
+      // Con la primera lección hecha, se pueden abrir las pantallas de la segunda.
+      await sembrarProgreso(contexto, PROGRESO_DE_PANTALLAS)
       for (const escena of escenas) {
         const pagina = await contexto.newPage()
         const errores: string[] = []

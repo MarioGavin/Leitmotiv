@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { useFicha } from '../app/progreso.ts'
 import { navegar } from '../app/rutas.ts'
 import { iniciarAudio, sonar } from '../audio/audio.ts'
+import { useProgreso } from '../progreso/progreso.ts'
 import { Boton } from '../ui/Boton.tsx'
 import { Emblema } from '../ui/Emblema.tsx'
+import { FichaDelJugador } from '../ui/FichaDelJugador.tsx'
 
 function esperar(ms: number): Promise<void> {
   return new Promise((resolver) => setTimeout(resolver, ms))
@@ -14,6 +17,9 @@ function esperar(ms: number): Promise<void> {
  */
 export function Titulo() {
   const [entrando, setEntrando] = useState(false)
+  const ficha = useFicha()
+  // El título no espera a la base: la ficha aparece cuando se ha leído, y solo si ya hay algo hecho.
+  const conProgreso = useProgreso((p) => p.carga === 'listo') && ficha.xp > 0
 
   const empezar = async (): Promise<void> => {
     setEntrando(true)
@@ -33,6 +39,7 @@ export function Titulo() {
         <Emblema ancho={120} />
         <h1 className="titulo-pantalla__nombre">Leitmotiv</h1>
         <p className="titulo-pantalla__lema">Aprende a componer música de videojuegos.</p>
+        {conProgreso && <FichaDelJugador ficha={ficha} className="titulo-pantalla__ficha" />}
       </div>
       <div className="pie">
         <Boton variante="primario" bloque sonido={null} disabled={entrando} onClick={() => void empezar()}>

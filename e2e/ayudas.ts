@@ -24,10 +24,54 @@ export async function abrirDiagnostico(pagina: Page): Promise<void> {
   await expect(pagina.getByRole('heading', { name: 'Diagnóstico' })).toBeVisible()
 }
 
+export interface ProgresoSembrado {
+  /** Lecciones que constan como completadas. */
+  lecciones?: readonly string[]
+  /** Experiencia ganada cada día, con el día como «2026-10-07». */
+  diario?: Readonly<Record<string, number>>
+}
+
+/**
+ * Deja un progreso guardado antes de que arranque la app: escribe en IndexedDB
+ * las mismas tablas que declara `src/progreso/base.ts` (Dexie guarda su
+ * versión 1 como la 10 de IndexedDB). Solo surte efecto si la base no existe
+ * todavía, así que hay que llamarla antes de abrir la primera página; al
+ * recargar no vuelve a escribir nada. Vale para una página o para un contexto entero.
+ */
+export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progreso: ProgresoSembrado): Promise<void> {
+  await pagina.addInitScript(
+    ({ lecciones, diario }) => {
+      const apertura = indexedDB.open('leitmotiv', 10)
+      apertura.onupgradeneeded = () => {
+        const db = apertura.result
+        const claves = { lecciones: 'id', tarjetas: 'concepto', diario: 'dia', repertorio: 'id', borradores: 'id', datos: 'clave' }
+        for (const [tabla, clave] of Object.entries(claves)) db.createObjectStore(tabla, { keyPath: clave })
+        const transaccion = apertura.transaction
+        if (!transaccion) return
+        const momento = new Date().toISOString()
+        for (const id of lecciones) transaccion.objectStore('lecciones').put({ id, completada: momento, ultima: momento, veces: 1, mejor: 1 })
+        for (const [dia, xp] of Object.entries(diario)) transaccion.objectStore('diario').put({ dia, xp, lecciones: 1, repasos: 0 })
+      }
+      apertura.onsuccess = () => apertura.result.close()
+    },
+    { lecciones: [...(progreso.lecciones ?? [])], diario: { ...progreso.diario } },
+  )
+}
+
+/** El día de hoy en la hora de la máquina, como lo escribe la app: «2026-10-07». */
+export function hoy(): string {
+  const ahora = new Date()
+  const dos = (n: number): string => String(n).padStart(2, '0')
+  return `${ahora.getFullYear()}-${dos(ahora.getMonth() + 1)}-${dos(ahora.getDate())}`
+}
+
 /** Los dos esquemas de color. */
 export const ESQUEMAS = ['oscuro', 'claro'] as const
 
-/** Cada pantalla, con un selector que solo existe cuando ha terminado de cargar. */
+/**
+ * Cada pantalla, con un selector que solo existe cuando ha terminado de cargar.
+ * Las de la lección «El tempo» (m00.u01.l02) necesitan «El pulso» completada: ver `PROGRESO_DE_PANTALLAS`.
+ */
 export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = [
   ['#/mapa', '[data-nodo]'],
   ['#/mundo/m00', '.leccion-enlace'],
@@ -39,6 +83,9 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/repertorio', '.pantalla__cuerpo .boton'],
   ['#/diagnostico', '.instrumento-fila'],
 ]
+
+/** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`. */
+export const PROGRESO_DE_PANTALLAS: ProgresoSembrado = { lecciones: ['m00.u01.l01'] }
 
 /** Deja elegido un esquema de color antes de que la app arranque. */
 export async function elegirEsquema(pagina: Page, esquema: string): Promise<void> {

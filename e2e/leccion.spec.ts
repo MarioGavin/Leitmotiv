@@ -1,11 +1,18 @@
 import { expect, test } from '@playwright/test'
-import { tocarAlRitmo, vigilarErrores } from './ayudas.ts'
+import { sembrarProgreso, tocarAlRitmo, vigilarErrores } from './ayudas.ts'
+
+/** «El tempo» (m00.u01.l02), la lección de casi todas estas pruebas, se abre al completar «El pulso». */
+const PULSO_HECHO = { lecciones: ['m00.u01.l01'] }
 
 test('se completa una lección de principio a fin', async ({ page }) => {
+  await sembrarProgreso(page, PULSO_HECHO)
   // Los dos ejercicios de ritmo suenan de verdad: unos 25 segundos.
   test.setTimeout(90_000)
   const errores = vigilarErrores(page)
   await page.goto('./#/mundo/m00')
+  // «El pulso» está hecha y «El tempo» es la siguiente.
+  await expect(page.getByRole('link', { name: /El pulso/ })).toContainText('Hecha')
+  await expect(page.getByRole('link', { name: /El tempo/ })).toHaveAccessibleName(/la siguiente/)
   await page.getByRole('link', { name: /El tempo/ }).click()
 
   // Paso 1: teoría con ejemplo sonoro.
@@ -39,12 +46,47 @@ test('se completa una lección de principio a fin', async ({ page }) => {
   // Primera vez y sin encargo: 20 puntos. Las tres preguntas de oído, a la primera; los dos ritmos, superados al primer intento.
   await expect(page.locator('.recompensa')).toContainText('+20')
   await expect(page.locator('.recompensa')).toContainText('5 de 5')
+
+  // Recargar la pantalla final enseña lo que consta, pero no vuelve a registrar la lección.
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Lección completada' })).toBeVisible()
+  await expect(page.locator('.recompensa')).toContainText('1 vez')
+  await expect(page.locator('.recompensa')).toContainText('100 %')
+  await expect(page.locator('.recompensa')).not.toContainText('+')
+
   await page.getByRole('button', { name: 'Volver al mundo' }).click()
   await expect(page).toHaveURL(/#\/mundo\/m00$/)
+  await expect(page.getByRole('link', { name: /El tempo/ })).toContainText('Hecha')
+  // Solo los 20 puntos de la primera vez: si la recarga hubiera contado, serían 25.
+  await expect(page.getByRole('progressbar', { name: 'Experiencia para el nivel 2' })).toHaveAttribute('aria-valuenow', '20')
+  await expect(page.getByRole('region', { name: 'Tu progreso' })).toContainText('20/50 XP')
+  expect(errores).toEqual([])
+})
+
+test('una lección bloqueada lleva candado y no se abre por su dirección', async ({ page }) => {
+  const errores = vigilarErrores(page)
+  await page.goto('./#/mundo/m00')
+  await expect(page.getByRole('link', { name: /El pulso/ })).toHaveAccessibleName(/la siguiente/)
+  // «El tempo» no es un enlace: es una fila con candado.
+  await expect(page.getByRole('link', { name: /El tempo/ })).toHaveCount(0)
+  await expect(page.locator('.leccion-enlace--bloqueada').getByRole('img', { name: 'Bloqueada' })).toBeVisible()
+
+  await page.goto('./#/leccion/m00.u01.l02/1')
+  await expect(page.getByRole('heading', { name: 'Lección bloqueada' })).toBeVisible()
+  await expect(page.getByText('Te toca «El pulso».')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Continuar' })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Volver al mundo' }).click()
+  await expect(page).toHaveURL(/#\/mundo\/m00$/)
+
+  // La pantalla final de una lección sin hacer lleva al principio, sin registrar nada.
+  await page.goto('./#/leccion/m00.u01.l01/9')
+  await expect(page).toHaveURL(/#\/leccion\/m00\.u01\.l01\/1$/)
+  await expect(page.getByRole('heading', { name: 'Lección completada' })).toHaveCount(0)
   expect(errores).toEqual([])
 })
 
 test('un fallo se explica, hay pista y la pregunta vuelve a salir al final', async ({ page }) => {
+  await sembrarProgreso(page, PULSO_HECHO)
   await page.goto('./#/leccion/m00.u01.l02/2')
   await page.getByRole('button', { name: 'Pista' }).click()
   await expect(page.getByRole('status').filter({ hasText: 'Pista' })).toContainText('Camina con dos dedos')
@@ -73,6 +115,7 @@ test('un fallo se explica, hay pista y la pregunta vuelve a salir al final', asy
 })
 
 test('un término del glosario abre su definición', async ({ page }) => {
+  await sembrarProgreso(page, PULSO_HECHO)
   await page.goto('./#/leccion/m00.u01.l02/1')
   await page.getByRole('button', { name: 'pulso', exact: true }).click()
   const ventana = page.getByRole('dialog')
@@ -83,6 +126,7 @@ test('un término del glosario abre su definición', async ({ page }) => {
 })
 
 test('un ejercicio de ritmo sin toques se explica y se puede repetir', async ({ page }) => {
+  await sembrarProgreso(page, PULSO_HECHO)
   test.setTimeout(60_000)
   const errores = vigilarErrores(page)
   await page.goto('./#/leccion/m00.u01.l02/5')

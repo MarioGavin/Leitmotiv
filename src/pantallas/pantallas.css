@@ -41,6 +41,11 @@
   color: var(--tinta-suave);
 }
 
+.titulo-pantalla__ficha {
+  justify-self: stretch;
+  margin-top: var(--e-3);
+}
+
 .titulo-pantalla__nota {
   font-size: var(--t-s);
   padding: 0 var(--e-2);
@@ -97,6 +102,14 @@
   animation: none;
 }
 
+/* La ficha del jugador flota arriba, sobre el mar, como la ventana de estado de un RPG. */
+.mapa__ficha {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: calc(var(--e-2) + env(safe-area-inset-top)) var(--margen) var(--e-1);
+}
+
 .mapa__detalle {
   position: sticky;
   bottom: calc(var(--alto-navegacion) + env(safe-area-inset-bottom));
@@ -115,6 +128,10 @@
   display: grid;
   gap: var(--e-1);
   padding: var(--e-2) var(--e-4) var(--e-3);
+}
+
+.unidad__situacion {
+  margin-top: var(--e-1);
 }
 
 .unidad__vacia {
