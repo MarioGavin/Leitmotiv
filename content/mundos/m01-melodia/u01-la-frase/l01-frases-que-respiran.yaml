@@ -1,0 +1,203 @@
+titulo: Frases que respiran
+resumen: Reconocer dónde empieza y acaba una frase, y dejar que la melodía respire.
+minutos: 8
+conceptos: [frase]
+
+pasos:
+  - tipo: teoria
+    titulo: Una melodía se dice por frases
+    texto: |
+      Igual que un texto se lee por frases, una melodía se oye por [[frase|frases]]: tramos
+      de cuatro compases, casi siempre, que terminan con una nota larga o un silencio,
+      como quien toma aire antes de seguir hablando.
+
+      Este tema del pueblo costero tiene dos frases. Escucha dónde respira la melodía:
+      al final del cuarto compás y al final del octavo.
+    manipulable: [tempo, pistas]
+    ejemplo:
+      titulo: El pueblo costero
+      tempo: 92
+      tonalidad: F mayor
+      compases: 8
+      bucle: true
+      acordes: "F:1 | Bb:2 F:2 | F:2 C:2 | C:1 | F:1 | Bb:1 | C:1 | F:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C5:4 A4:4 F4:4 A4:4 | Bb4:4 D5:4 C5:2 | A4:4 F4:4 G4:4 A4:4 | G4:2. r:4 | C5:4 A4:4 F4:4 A4:4 | Bb4:4 D5:4 F5:2 | E5:4 C5:4 D5:4 E5:4 | F5:2. r:4"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[F3 A3 C4]:1 | [F3 Bb3 D4]:2 [F3 A3 C4]:2 | [F3 A3 C4]:2 [E3 G3 C4]:2 | [E3 G3 C4]:1 | [F3 A3 C4]:1 | [F3 Bb3 D4]:1 | [E3 G3 C4]:1 | [F3 A3 C4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "F2:1 | Bb1:2 F2:2 | F2:2 C2:2 | C2:1 | F2:1 | Bb1:1 | C2:1 | F2:1"
+
+  - tipo: analisis
+    concepto: frase
+    enunciado: Escucha el pueblo costero y responde.
+    pista: Busca las notas largas seguidas de silencio. Ahí termina cada frase.
+    explicacion: |
+      La melodía se para dos veces, con una nota larga y un silencio: al final del cuarto
+      compás y al final del octavo. Son dos frases de cuatro compases.
+    pieza:
+      titulo: El pueblo costero
+      tempo: 92
+      tonalidad: F mayor
+      compases: 8
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "C5:4 A4:4 F4:4 A4:4 | Bb4:4 D5:4 C5:2 | A4:4 F4:4 G4:4 A4:4 | G4:2. r:4 | C5:4 A4:4 F4:4 A4:4 | Bb4:4 D5:4 F5:2 | E5:4 C5:4 D5:4 E5:4 | F5:2. r:4"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "F2:1 | Bb1:2 F2:2 | F2:2 C2:2 | C2:1 | F2:1 | Bb1:1 | C2:1 | F2:1"
+    preguntas:
+      - sobre: libre
+        pregunta: ¿Cuántas frases tiene la melodía?
+        opciones: [Una, Dos, Cuatro]
+        correcta: 2
+        explicacion: Dos frases de cuatro compases, cada una acabada en una nota larga.
+      - sobre: libre
+        pregunta: ¿Dónde respira la melodía por primera vez?
+        opciones: [En el compás 2, En el compás 4, En el compás 6]
+        correcta: 2
+        explicacion: En el compás 4, con un {n:G4} largo y un silencio de negra.
+
+  - tipo: teoria
+    titulo: Frases cortas, respiraciones cortas
+    texto: |
+      Una frase de cuatro compases se puede partir en dos mitades de dos. Cada mitad
+      toma un poco de aire, con un silencio breve, y la frase entera lo toma al final.
+      Sin esas pausas la melodía no deja hueco al oído.
+
+      En esta caravana del desierto, cada mitad dura dos compases y acaba en un silencio
+      de negra. Cambia el instrumento para oír cómo respira con cada uno.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: La caravana
+      tempo: 104
+      tonalidad: D menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "D5:8 E5:8 F5:8 E5:8 D5:4 A4:4 | Bb4:4 G4:4 A4:4 r:4 | D5:8 E5:8 F5:8 G5:8 A5:4 F5:4 | E5:4 C#5:4 D5:4 r:4"
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "D2:2 A1:2 | G1:2 A1:2 | D2:2 F2:2 | A1:2 D2:2"
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: frase
+    enunciado: Elige el final que deja respirar a la frase.
+    pista: Escucha la frase entera con cada opción. ¿Cuál te deja tomar aire antes de que vuelva a empezar?
+    explicacion: |
+      Una frase termina con una nota larga: es la coma o el punto de la melodía. Si el
+      último compás sigue corriendo, el oído no sabe dónde acaba la frase y la siguiente
+      se le echa encima.
+    pieza:
+      tempo: 92
+      tonalidad: F mayor
+      compases: 4
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "A4:4 C5:4 F5:4 E5:4 | D5:4 Bb4:4 C5:2 | A4:4 G4:4 Bb4:4 G4:4 | ?:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "F2:1 | Bb1:2 C2:2 | F2:2 C2:2 | F2:1"
+    opciones:
+      - notas: "F4:1"
+        correcta: true
+        porque: Una redonda en la tónica. La frase se posa y respira.
+      - notas: "F4:8 G4:8 A4:8 Bb4:8 C5:8 D5:8 E5:8 F5:8"
+        correcta: false
+        porque: Una escala en corcheas justo al final. La frase no se cierra y no deja hueco para respirar.
+
+  - tipo: oido
+    modo: preguntas
+    concepto: frase
+    enunciado: ¿La melodía respira o no para?
+    pista: Escucha si en algún momento la melodía se queda en una nota larga o calla.
+    explicacion: |
+      Una melodía que respira tiene notas largas o silencios al final de sus frases.
+      Una que no para puede servir para un momento de prisa, pero cansa si dura mucho.
+    preguntas:
+      - opciones: [Respira, No para]
+        correcta: 2
+        explicacion: Corcheas de principio a fin, sin una sola nota larga.
+        pieza:
+          tempo: 100
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C5:8 D5:8 E5:8 C5:8 G4:8 A4:8 B4:8 G4:8 | A4:8 B4:8 C5:8 A4:8 F4:8 G4:8 E4:8 C4:8"
+      - opciones: [Respira, No para]
+        correcta: 1
+        explicacion: Cada compás acaba en una blanca. La melodía toma aire dos veces.
+        pieza:
+          tempo: 100
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "C5:8 D5:8 E5:8 C5:8 G4:2 | A4:8 B4:8 C5:8 A4:8 E4:2"
+      - opciones: [Respira, No para]
+        correcta: 1
+        explicacion: Un silencio de negra a mitad y una nota larga al final.
+        pieza:
+          tempo: 100
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "E5:4 D5:4 C5:4 r:4 | D5:4 B4:4 C5:2"
+
+  - tipo: pianoroll
+    concepto: frase
+    enunciado: Escribe una frase de cuatro compases que respire al final.
+    pista: Escribe tres compases con negras y alguna corchea, y en el cuarto pon una nota larga en la tónica, {n:F4} o {n:F5}.
+    explicacion: |
+      Al dejar menos notas y una larga al final, la frase se entiende como una unidad:
+      empieza, dice algo y se calla. Ese es el ladrillo con el que se construye cualquier
+      tema.
+    plantilla:
+      titulo: Mi primera frase
+      tempo: 92
+      tonalidad: F mayor
+      compases: 4
+      acordes: "F:1 | Bb:2 C:2 | F:2 C:2 | F:1"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: ""
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[F3 A3 C4]:1 | [F3 Bb3 D4]:2 [E3 G3 C4]:2 | [F3 A3 C4]:2 [E3 G3 C4]:2 | [F3 A3 C4]:1"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "F2:1 | Bb1:2 C2:2 | F2:2 C2:2 | F2:1"
+    editables: [melodia]
+    requisitos:
+      - regla: tonalidad
+        valores: [F mayor]
+      - regla: notas-minimas
+        pista: melodia
+        valor: 6
+      - regla: densidad
+        pista: melodia
+        max: 5
+      - regla: polifonia
+        pista: melodia
+        max: 1
+      - regla: termina-en
+        pista: melodia
+        grados: [1]

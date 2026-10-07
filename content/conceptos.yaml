@@ -103,3 +103,13 @@ funciones:
 melodia-y-acordes:
   nombre: Melodía sobre acordes
   definicion: En los pulsos fuertes, la melodía toca notas del acorde que suena; entre medias, notas de paso de la escala.
+
+# ── Mundo 1 · La frase ──
+
+frase:
+  nombre: La frase
+  definicion: Un tramo de melodía, casi siempre de cuatro compases, que acaba con una nota larga o un silencio para respirar.
+
+pregunta-respuesta:
+  nombre: Pregunta y respuesta
+  definicion: Dos frases seguidas. La primera acaba fuera de la tónica y se queda abierta; la segunda empieza igual y cierra en la tónica.

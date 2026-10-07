@@ -1,0 +1,191 @@
+titulo: Pregunta y respuesta
+resumen: Escribir una frase que queda abierta y otra que la cierra en la tónica.
+minutos: 9
+conceptos: [pregunta-respuesta, frase]
+
+pasos:
+  - tipo: teoria
+    titulo: Una frase pregunta, la otra contesta
+    texto: |
+      Dos frases seguidas suelen funcionar como una [[pregunta-y-respuesta|pregunta y su
+      respuesta]]. La pregunta termina en una nota que no es la tónica, casi siempre
+      sobre la [[dominante]], y se queda en el aire. La respuesta empieza igual, pero
+      termina en la tónica y cierra.
+
+      Escucha este tema del mercado: la primera frase acaba en {n:A4} y la segunda,
+      en {n:G4}.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Día de mercado
+      tempo: 100
+      tonalidad: G mayor
+      compases: 8
+      bucle: true
+      acordes: "G:1 | C:2 D:2 | G:1 | D:1 | G:1 | C:2 D:2 | Em:2 C:2 | D:2 G:2"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "B4:4 G4:4 A4:4 B4:4 | C5:4 B4:4 A4:2 | G4:4 B4:4 D5:4 C5:4 | B4:4 A4:4 A4:2 | B4:4 G4:4 A4:4 B4:4 | C5:4 B4:4 A4:2 | G4:4 B4:4 E5:4 D5:4 | C5:4 A4:4 G4:2"
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[G3 B3 D4]:1 | [G3 C4 E4]:2 [F#3 A3 D4]:2 | [G3 B3 D4]:1 | [F#3 A3 D4]:1 | [G3 B3 D4]:1 | [G3 C4 E4]:2 [F#3 A3 D4]:2 | [G3 B3 E4]:2 [G3 C4 E4]:2 | [F#3 A3 D4]:2 [G3 B3 D4]:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:1 | C2:2 D2:2 | G2:1 | D2:1 | G2:1 | C2:2 D2:2 | E2:2 C2:2 | D2:2 G1:2"
+
+  - tipo: oido
+    modo: preguntas
+    concepto: pregunta-respuesta
+    enunciado: ¿Es una pregunta o una respuesta?
+    pista: Al acabar, ¿te quedas esperando algo más o te parece que ya está dicho todo?
+    explicacion: |
+      Una pregunta termina fuera de la tónica, casi siempre en el segundo, el quinto o el
+      séptimo grado, que pertenecen a la dominante. Una respuesta termina en la tónica.
+    preguntas:
+      - opciones: [Pregunta, Respuesta]
+        correcta: 1
+        explicacion: Termina en {n:D5}, el segundo grado de {t:C mayor}. Se queda esperando.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "E5:4 C5:4 G4:4 C5:4 | F5:4 E5:4 D5:2"
+            - rol: bajo
+              instrumento: bajo-electrico
+              notas: "C2:1 | F2:2 G2:2"
+      - opciones: [Pregunta, Respuesta]
+        correcta: 2
+        explicacion: Termina en {n:C5}, la tónica, sobre el acorde de {a:C}.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "E5:4 C5:4 G4:4 C5:4 | D5:4 B4:4 C5:2"
+            - rol: bajo
+              instrumento: bajo-electrico
+              notas: "C2:1 | G2:2 C2:2"
+      - opciones: [Pregunta, Respuesta]
+        correcta: 1
+        explicacion: Termina en {n:B4}, el séptimo grado, sobre el acorde de {a:G}. Pide volver a Do.
+        pieza:
+          tempo: 96
+          tonalidad: C mayor
+          compases: 2
+          pistas:
+            - rol: melodia
+              instrumento: piano
+              notas: "G4:4 A4:4 C5:4 E5:4 | D5:4 C5:4 B4:2"
+            - rol: bajo
+              instrumento: bajo-electrico
+              notas: "C2:1 | G1:1"
+
+  - tipo: construccion
+    modo: completar-melodia
+    concepto: pregunta-respuesta
+    enunciado: Elige el final de la respuesta.
+    pista: La pregunta terminó en {n:A4}. La respuesta tiene que llegar a casa, a la tónica de {t:G mayor}.
+    explicacion: |
+      La respuesta cierra en {n:G4}, la tónica, sobre el acorde de {a:G}. Si repitiera el
+      {n:A4} de la pregunta, quedaría otra vez abierta; con {n:B4} se acerca, pero no
+      llega a sentarse.
+    pieza:
+      tempo: 100
+      tonalidad: G mayor
+      compases: 8
+      acordes: "G:1 | C:2 D:2 | G:1 | D:1 | G:1 | C:2 D:2 | Em:2 C:2 | D:2 G:2"
+      pistas:
+        - rol: melodia
+          instrumento: piano
+          notas: "B4:4 G4:4 A4:4 B4:4 | C5:4 B4:4 A4:2 | G4:4 B4:4 D5:4 C5:4 | B4:4 A4:4 A4:2 | B4:4 G4:4 A4:4 B4:4 | C5:4 B4:4 A4:2 | G4:4 B4:4 E5:4 D5:4 | C5:4 A4:4 ?:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:1 | C2:2 D2:2 | G2:1 | D2:1 | G2:1 | C2:2 D2:2 | E2:2 C2:2 | D2:2 G1:2"
+    opciones:
+      - notas: "G4:2"
+        correcta: true
+        porque: La tónica sobre el acorde de {a:G}. La respuesta cierra lo que abrió la pregunta.
+      - notas: "A4:2"
+        correcta: false
+        porque: Es el mismo final de la pregunta. La melodía vuelve a quedarse en el aire.
+      - notas: "B4:2"
+        correcta: false
+        porque: Es una nota del acorde de {a:G}, pero no la tónica. Suena a casi, no a punto final.
+
+  - tipo: teoria
+    titulo: La respuesta empieza como la pregunta
+    texto: |
+      La forma más clara de contestar es empezar igual que la pregunta y cambiar solo el
+      final. Así el oído reconoce la idea y entiende que es la misma conversación.
+
+      En esta mazmorra de 8 bits la pregunta y la respuesta comparten el primer compás.
+      Fíjate en cómo cambia todo con solo el segundo: la pregunta se queda en {n:F#4} y
+      la respuesta baja hasta {n:E4}.
+    manipulable: [tempo, instrumento]
+    ejemplo:
+      titulo: Mazmorra de 8 bits
+      tempo: 116
+      tonalidad: E menor
+      compases: 4
+      bucle: true
+      pistas:
+        - rol: melodia
+          instrumento: chip-pulso
+          notas: "E5:8 D5:8 B4:4 G4:4 B4:4 | A4:4 B4:4 F#4:2 | E5:8 D5:8 B4:4 G4:4 B4:4 | A4:4 F#4:4 E4:2"
+        - rol: bajo
+          instrumento: chip-triangulo
+          notas: "E2:2 B1:2 | A1:2 B1:2 | E2:2 G2:2 | B1:2 E2:2"
+
+  - tipo: pianoroll
+    concepto: pregunta-respuesta
+    enunciado: Escribe la respuesta a esta pregunta, en los compases 5 a 8.
+    pista: Empieza igual que la pregunta, con {n:B4}, y copia sus primeros compases. Cambia el final para que la última nota sea {n:G4}.
+    explicacion: |
+      Al repetir el principio de la pregunta y llevar el final a la tónica, la respuesta
+      cierra la conversación. Con esta forma, ocho compases bastan para un tema completo.
+    plantilla:
+      titulo: Pregunta y respuesta
+      tempo: 100
+      tonalidad: G mayor
+      compases: 8
+      acordes: "G:1 | C:2 D:2 | G:1 | D:1 | G:1 | C:2 D:2 | Em:2 C:2 | D:2 G:2"
+      pistas:
+        - id: pregunta
+          nombre: Pregunta
+          rol: contramelodia
+          instrumento: piano
+          notas: "B4:4 G4:4 A4:4 B4:4 | C5:4 B4:4 A4:2 | G4:4 B4:4 D5:4 C5:4 | B4:4 A4:4 A4:2 | r:1 | r:1 | r:1 | r:1"
+        - id: melodia
+          nombre: Respuesta
+          rol: melodia
+          instrumento: piano
+          notas: ""
+        - rol: colchon
+          instrumento: cuerdas
+          matiz: p
+          notas: "[G3 B3 D4]:1 | [G3 C4 E4]:2 [F#3 A3 D4]:2 | [G3 B3 D4]:1 | [F#3 A3 D4]:1 | [G3 B3 D4]:1 | [G3 C4 E4]:2 [F#3 A3 D4]:2 | [G3 B3 E4]:2 [G3 C4 E4]:2 | [F#3 A3 D4]:2 [G3 B3 D4]:2"
+        - rol: bajo
+          instrumento: bajo-electrico
+          notas: "G2:1 | C2:2 D2:2 | G2:1 | D2:1 | G2:1 | C2:2 D2:2 | E2:2 C2:2 | D2:2 G1:2"
+    editables: [melodia]
+    requisitos:
+      - regla: tonalidad
+        valores: [G mayor]
+      - regla: notas-minimas
+        pista: melodia
+        valor: 8
+      - regla: polifonia
+        pista: melodia
+        max: 1
+      - regla: empieza-en
+        pista: melodia
+        grados: [3]
+      - regla: termina-en
+        pista: melodia
+        grados: [1]

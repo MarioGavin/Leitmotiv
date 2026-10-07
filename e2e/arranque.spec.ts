@@ -13,12 +13,19 @@ test('la pantalla de título lleva al mapa y arranca el audio', async ({ page })
   expect(errores).toEqual([])
 })
 
-test('el mapa enseña los once mundos y el proyecto final, y solo deja entrar en los que tienen lecciones', async ({ page }) => {
+test('el mapa enseña los once mundos y el proyecto final, y solo deja entrar en los que están abiertos', async ({ page }) => {
   await entrar(page)
   await expect(page.locator('[data-nodo]')).toHaveCount(12)
   await expect(page.getByRole('button', { name: 'Entrar' })).toBeEnabled()
+  // El Mundo 1 ya tiene lecciones: está bloqueado hasta terminar el 0.
+  await page.getByRole('button', { name: /Mundo 1: Melodía y motivo/ }).click()
+  await expect(page.getByRole('heading', { name: 'Melodía y motivo' })).toBeVisible()
+  await expect(page.locator('.mapa__detalle')).toContainText('Termina el mundo anterior para abrirlo')
+  await expect(page.getByRole('button', { name: 'Entrar' })).toBeDisabled()
+  // El Mundo 5 todavía no tiene lecciones: está en obras.
   await page.getByRole('button', { name: /Mundo 5: Orquestación/ }).click()
   await expect(page.getByRole('heading', { name: 'Orquestación' })).toBeVisible()
+  await expect(page.locator('.mapa__detalle')).toContainText('En construcción')
   await expect(page.getByRole('button', { name: 'Entrar' })).toBeDisabled()
   await page.getByRole('button', { name: /Mundo 0: Repaso exprés/ }).click()
   await page.getByRole('button', { name: 'Entrar' }).click()

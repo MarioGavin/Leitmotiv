@@ -320,6 +320,16 @@ bucle:
             caja: "..x...x."
             bombo: "x..x.x.."
 
+frase:
+  termino: Frase
+  definicion: Tramo de melodía con sentido propio, casi siempre de cuatro compases, que termina con una nota larga o un silencio. Es la unidad con la que se construye un tema.
+  ver: [pregunta-y-respuesta, motivo]
+
+pregunta-y-respuesta:
+  termino: Pregunta y respuesta
+  definicion: Pareja de frases en la que la primera termina abierta, fuera de la tónica, y la segunda la contesta cerrando en la tónica. También se llaman antecedente y consecuente.
+  ver: [frase, tonica, cadencia]
+
 motivo:
   termino: Motivo
   definicion: Idea musical corta, de tres a seis notas, que se reconoce cada vez que vuelve. Los temas de los personajes se construyen a partir de motivos.
