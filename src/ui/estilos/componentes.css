@@ -584,7 +584,7 @@
   min-height: 40dvh;
 }
 
-/* ── Entrada de pantalla: un único gesto corto ── */
+/* ── Entrada: lo que sube desde abajo (ventanas, avisos). Las pantallas entran con Motion (src/ui/movimiento) ── */
 @keyframes entrar {
   from {
     opacity: 0;
@@ -592,8 +592,12 @@
   }
 }
 
-.pantalla {
-  animation: entrar var(--dur) var(--curva);
+/* El envoltorio de Motion ocupa el sitio de la pantalla: la maqueta es la misma con él o sin él. */
+.entrada {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* ── Piano roll: la rejilla donde se escribe ── */

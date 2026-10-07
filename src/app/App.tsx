@@ -1,4 +1,4 @@
-import { type ReactNode, Suspense, lazy, useEffect, useLayoutEffect } from 'react'
+import { type ReactNode, Suspense, lazy, useEffect, useLayoutEffect, useState } from 'react'
 import { fijarTimbreDeInterfaz, iniciarAudio, precargarAudio, silenciarInterfaz } from '../audio/audio.ts'
 import { guardarSonidosEnSegundoPlano } from '../audio/muestras.ts'
 import { Ajustes } from '../pantallas/Ajustes.tsx'
@@ -8,6 +8,7 @@ import { Titulo } from '../pantallas/Titulo.tsx'
 import { Limite } from '../ui/Limite.tsx'
 import { Navegacion } from '../ui/Navegacion.tsx'
 import { VentanaDeGlosario } from '../ui/VentanaDeGlosario.tsx'
+import type * as Movimiento from '../ui/movimiento/Entrada.tsx'
 import { Avisos } from './Avisos.tsx'
 import { useAjustes, useEsquemaResuelto } from './ajustes.ts'
 import { useVentanas } from './ventanas.ts'
@@ -67,6 +68,36 @@ function useArranqueDeAudio(): void {
   }, [])
 }
 
+/** El módulo de la entrada de pantalla (Motion), cuando ya se ha descargado. */
+let movimiento: typeof Movimiento | undefined
+
+/** Descarga Motion cuando la app está ociosa: la primera pantalla aparece sin esperarlo. */
+function useCargaDelMovimiento(): void {
+  useEffect(() => {
+    const cargar = (): void => {
+      import('../ui/movimiento/Entrada.tsx')
+        .then((modulo) => {
+          movimiento = modulo
+        })
+        .catch((error: unknown) => console.warn('No se ha podido cargar el movimiento', error))
+    }
+    if ('requestIdleCallback' in window) window.requestIdleCallback(cargar)
+    else setTimeout(cargar, 1200)
+  }, [])
+}
+
+/**
+ * La entrada de una pantalla. Lo que haya al montarla decide si se anima: si
+ * Motion llega con la pantalla ya abierta, no se cambia el envoltorio (eso la
+ * reiniciaría); se anima la siguiente.
+ */
+function ConEntrada({ animar, children }: { animar: boolean; children: ReactNode }) {
+  const [modulo] = useState(() => movimiento)
+  if (!animar || !modulo) return children
+  const { Entrada } = modulo
+  return <Entrada>{children}</Entrada>
+}
+
 function Cargando() {
   return (
     <main className="pantalla">
@@ -116,6 +147,7 @@ export function App() {
   const ruta = useRuta()
   useAspecto()
   useArranqueDeAudio()
+  useCargaDelMovimiento()
   const pantallaCompleta = useVentanas((v) => v.pantallaCompleta)
   const { contenido, conNavegacion: conNavegacionDeRuta } = pantallaDe(ruta)
   const conNavegacion = conNavegacionDeRuta && !pantallaCompleta
@@ -124,7 +156,10 @@ export function App() {
   return (
     <div className="app">
       <Limite key={clave}>
-        <Suspense fallback={<Cargando />}>{contenido}</Suspense>
+        <Suspense fallback={<Cargando />}>
+          {/* El mapa y el piano roll ocupan la pantalla entera y entran sin moverse, como antes de Motion. */}
+          <ConEntrada animar={ruta.pantalla !== 'mapa' && ruta.pantalla !== 'pianoroll'}>{contenido}</ConEntrada>
+        </Suspense>
       </Limite>
       {conNavegacion && <Navegacion actual={ruta.pantalla === 'mundo' ? 'mapa' : ruta.pantalla === 'ficha' ? 'glosario' : ruta.pantalla} />}
       <VentanaDeGlosario />

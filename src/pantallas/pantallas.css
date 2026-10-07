@@ -98,10 +98,6 @@
 }
 
 /* ── Mapa del curso ── */
-.pantalla--mapa {
-  animation: none;
-}
-
 /* La ficha del jugador flota arriba, sobre el mar, como la ventana de estado de un RPG. */
 .mapa__ficha {
   position: sticky;
@@ -265,7 +261,6 @@
   flex: none;
   height: 100dvh;
   overflow: hidden;
-  animation: none;
 }
 
 .pianoroll__pistas {
