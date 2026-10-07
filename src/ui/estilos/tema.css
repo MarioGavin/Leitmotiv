@@ -600,3 +600,22 @@
 .leccion-bloqueada__candado {
   color: var(--tinta-suave);
 }
+
+/* ── Repaso: la lista lleva la raya de puntos de las opciones; el icono dice cómo ha ido ── */
+.repaso__fila + .repaso__fila {
+  background-image: repeating-linear-gradient(90deg, var(--separador) 0 4px, transparent 4px 8px);
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+}
+
+.repaso__fila .icono {
+  color: var(--tinta-suave);
+}
+
+.repaso__fila--bien .icono {
+  color: var(--exito-tinta);
+}
+
+.repaso__icono {
+  color: var(--acento-tinta);
+}

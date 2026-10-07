@@ -29,6 +29,8 @@ export interface ProgresoSembrado {
   lecciones?: readonly string[]
   /** Experiencia ganada cada día, con el día como «2026-10-07». */
   diario?: Readonly<Record<string, number>>
+  /** Conceptos en el repaso espaciado, con el día en que les toca volver (fecha ISO). */
+  tarjetas?: Readonly<Record<string, string>>
 }
 
 /**
@@ -40,7 +42,7 @@ export interface ProgresoSembrado {
  */
 export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progreso: ProgresoSembrado): Promise<void> {
   await pagina.addInitScript(
-    ({ lecciones, diario }) => {
+    ({ lecciones, diario, tarjetas }) => {
       const apertura = indexedDB.open('leitmotiv', 10)
       apertura.onupgradeneeded = () => {
         const db = apertura.result
@@ -51,10 +53,16 @@ export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progr
         const momento = new Date().toISOString()
         for (const id of lecciones) transaccion.objectStore('lecciones').put({ id, completada: momento, ultima: momento, veces: 1, mejor: 1 })
         for (const [dia, xp] of Object.entries(diario)) transaccion.objectStore('diario').put({ dia, xp, lecciones: 1, repasos: 0 })
+        for (const [concepto, due] of Object.entries(tarjetas)) {
+          // Una tarjeta en repaso, vista por última vez tres días antes de que le toque volver: lo que guarda ts-fsrs.
+          const ultima = new Date(Date.parse(due) - 3 * 86_400_000).toISOString()
+          const fsrs = { due, stability: 3, difficulty: 5, elapsed_days: 0, scheduled_days: 3, learning_steps: 0, reps: 2, lapses: 0, state: 2, last_review: ultima }
+          transaccion.objectStore('tarjetas').put({ concepto, fsrs })
+        }
       }
       apertura.onsuccess = () => apertura.result.close()
     },
-    { lecciones: [...(progreso.lecciones ?? [])], diario: { ...progreso.diario } },
+    { lecciones: [...(progreso.lecciones ?? [])], diario: { ...progreso.diario }, tarjetas: { ...progreso.tarjetas } },
   )
 }
 
@@ -103,10 +111,11 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/repertorio', '.pantalla__cuerpo .boton'],
   ['#/diagnostico', '.instrumento-fila'],
   ['#/calibracion', '.pad'],
+  ['#/repaso', '.repaso__lista'],
 ]
 
-/** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`. */
-export const PROGRESO_DE_PANTALLAS: ProgresoSembrado = { lecciones: ['m00.u01.l01'] }
+/** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`: «El pulso» completada y su concepto pendiente de repaso desde ayer. */
+export const PROGRESO_DE_PANTALLAS: ProgresoSembrado = { lecciones: ['m00.u01.l01'], tarjetas: { pulso: new Date(Date.now() - 86_400_000).toISOString() } }
 
 /** Deja elegido un esquema de color antes de que la app arranque. */
 export async function elegirEsquema(pagina: Page, esquema: string): Promise<void> {

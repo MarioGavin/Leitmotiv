@@ -398,3 +398,25 @@
 .ajustes__latencia {
   font-size: var(--t-l);
 }
+
+/* ── Repaso ── */
+.repaso__concepto {
+  padding: var(--e-2) calc(var(--margen) + var(--e-2)) 0;
+}
+
+.repaso__lista {
+  display: grid;
+}
+
+.repaso__fila {
+  display: flex;
+  gap: var(--e-2);
+  align-items: center;
+  min-height: 44px;
+  padding: var(--e-1) 0;
+}
+
+.repaso__fila .icono {
+  --icono: 20px;
+  flex: none;
+}

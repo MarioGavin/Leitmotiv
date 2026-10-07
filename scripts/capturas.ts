@@ -109,6 +109,15 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'muestrario', ruta: '#/muestrario' },
   { nombre: 'diagnostico', ruta: '#/diagnostico' },
   { nombre: 'calibracion', ruta: '#/calibracion' },
+  { nombre: 'repaso', ruta: '#/repaso' },
+  {
+    nombre: 'repaso-sesion',
+    ruta: '#/repaso',
+    preparar: async (pagina) => {
+      await pagina.getByRole('button', { name: 'Empezar' }).click()
+      await pagina.getByText('Repasas:').waitFor()
+    },
+  },
 ]
 
 const ESQUEMAS = ['oscuro', 'claro'] as const
@@ -210,6 +219,8 @@ const TITULOS: Readonly<Record<string, string>> = {
   muestrario: 'Muestrario',
   diagnostico: 'Diagnóstico de audio',
   calibracion: 'Calibración',
+  repaso: 'Repaso',
+  'repaso-sesion': 'Sesión de repaso',
 }
 
 function rotulo(texto: string, ancho: number, cuerpo: number): Buffer {

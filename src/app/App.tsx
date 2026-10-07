@@ -12,12 +12,14 @@ import { Navegacion } from '../ui/Navegacion.tsx'
 import { VentanaDeGlosario } from '../ui/VentanaDeGlosario.tsx'
 import { Avisos } from './Avisos.tsx'
 import { useAjustes, useEsquemaResuelto } from './ajustes.ts'
+import { useVentanas } from './ventanas.ts'
 import { type Ruta, navegar, useRuta } from './rutas.ts'
 
 // Las pantallas pesadas se descargan aparte, la primera vez que se abren.
 const Leccion = lazy(() => import('../pantallas/Leccion.tsx').then((m) => ({ default: m.Leccion })))
 const PianoRoll = lazy(() => import('../pantallas/PianoRoll.tsx').then((m) => ({ default: m.PianoRoll })))
 const Diagnostico = lazy(() => import('../pantallas/Diagnostico.tsx').then((m) => ({ default: m.Diagnostico })))
+const Repaso = lazy(() => import('../pantallas/Repaso.tsx').then((m) => ({ default: m.Repaso })))
 const Calibracion = lazy(() => import('../pantallas/Calibracion.tsx').then((m) => ({ default: m.Calibracion })))
 const Muestrario = lazy(() => import('../pantallas/Muestrario.tsx').then((m) => ({ default: m.Muestrario })))
 
@@ -88,10 +90,7 @@ function pantallaDe(ruta: Ruta): { contenido: ReactNode; conNavegacion: boolean 
     case 'pianoroll':
       return { contenido: <PianoRoll />, conNavegacion: false }
     case 'repaso':
-      return {
-        contenido: <Proximamente titulo="Repaso" descripcion="Cada día, unos minutos de ejercicios elegidos entre lo que más te cuesta, con repaso espaciado." />,
-        conNavegacion: true,
-      }
+      return { contenido: <Repaso />, conNavegacion: true }
     case 'repertorio':
       return {
         contenido: (
@@ -127,7 +126,9 @@ export function App() {
   const ruta = useRuta()
   useAspecto()
   useArranqueDeAudio()
-  const { contenido, conNavegacion } = pantallaDe(ruta)
+  const pantallaCompleta = useVentanas((v) => v.pantallaCompleta)
+  const { contenido, conNavegacion: conNavegacionDeRuta } = pantallaDe(ruta)
+  const conNavegacion = conNavegacionDeRuta && !pantallaCompleta
   // La clave hace que cada pantalla empiece de cero (y que un error no se quede pegado al cambiar de pantalla).
   const clave = ruta.pantalla === 'leccion' || ruta.pantalla === 'mundo' ? `${ruta.pantalla}/${ruta.id}` : ruta.pantalla
   return (

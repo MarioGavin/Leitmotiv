@@ -114,9 +114,12 @@ describe('compilarCurso', () => {
     expect(c.indice.version).toMatch(/^[0-9a-f]{12}$/)
   })
 
-  it('apunta en cada concepto los ejercicios que lo entrenan', () => {
+  it('apunta en cada concepto los ejercicios que lo entrenan, contando los pasos desde 1', () => {
     const c = compilarCurso(curso({}))
-    expect(c.conceptos).toEqual([expect.objectContaining({ id: 'pulso', pasos: ['m00.u01.l01#1', 'm00.u01.l01#2'] })])
+    // La lección es teoría, ritmo y ritmo: los ejercicios son los pasos 2 y 3, los mismos números que en la dirección #/leccion/m00.u01.l01/2.
+    expect(c.conceptos).toEqual([expect.objectContaining({ id: 'pulso', pasos: ['m00.u01.l01#2', 'm00.u01.l01#3'] })])
+    const tipos = c.indice.mundos[0]?.unidades[0]?.lecciones[0]?.pasos ?? []
+    for (const paso of c.conceptos[0]?.pasos ?? []) expect(tipos[Number(paso.split('#')[1]) - 1]).toBe('ritmo')
   })
 
   it('la versión cambia cuando cambia el contenido', () => {

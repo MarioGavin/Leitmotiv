@@ -159,7 +159,8 @@ export function compilarCurso(raiz: string): CursoCompilado {
           if (!compilado) continue
           if (compilado.tipo !== 'teoria') {
             const lista = pasosPorConcepto.get(compilado.concepto) ?? []
-            lista.push(`${idLeccion}#${leccion.pasos.length}`)
+            // El número del paso cuenta desde 1, como en la dirección de la lección y en los borradores: es el que va a entrar.
+            lista.push(`${idLeccion}#${leccion.pasos.length + 1}`)
             pasosPorConcepto.set(compilado.concepto, lista)
           }
           leccion.pasos.push(compilado)
