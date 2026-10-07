@@ -12,12 +12,22 @@ import { ProsaVista } from '../ui/ProsaVista.tsx'
 import { PadDeToques } from '../ui/musica/PadDeToques.tsx'
 import { RejillaDeRitmo } from '../ui/musica/RejillaDeRitmo.tsx'
 import type { PropsDePaso } from './tipos.ts'
-import { usePulsaciones } from './usePulsaciones.ts'
+import { useMomento, usePulsaciones } from './usePulsaciones.ts'
 
 /** Intentos fallidos a partir de los cuales se deja seguir adelante sin haberlo superado. */
 const INTENTOS_PARA_SEGUIR = 2
 
+/**
+ * Has tocado, pero casi nada ha caído en su sitio: es lo que pasa cuando el
+ * sonido llega con mucho retardo (unos auriculares Bluetooth) y los toques
+ * quedan todos fuera de la ventana. Entonces lo que sirve es calibrar.
+ */
+function desfasado(resultado: ResultadoDeRitmo, total: number): boolean {
+  return !resultado.aprobado && resultado.perdidos >= total / 2 && resultado.sobrantes >= total / 2
+}
+
 function mensajeDe(resultado: ResultadoDeRitmo, total: number): string {
+  if (desfasado(resultado, total)) return 'Has tocado, pero casi ningún golpe ha caído en su sitio. Si tocabas con el sonido, puede que te llegue con retardo.'
   const sesgo = Math.round(Math.abs(resultado.sesgo))
   switch (resultado.diagnostico) {
     case 'bien':
@@ -48,7 +58,6 @@ export function Ritmo({ paso, alTerminar }: PropsDePaso<PasoRitmo>) {
   const [resultado, setResultado] = useState<ResultadoDeRitmo>()
   const [intentos, setIntentos] = useState(0)
   const [pistaVisible, setPistaVisible] = useState(false)
-  const [momento, setMomento] = useState('')
   const respuesta = useRef<HTMLDivElement>(null)
   const turnos = useMemo(() => plan.tramos.filter((t) => t.tipo === 'toca'), [plan])
 
@@ -72,25 +81,7 @@ export function Ritmo({ paso, alTerminar }: PropsDePaso<PasoRitmo>) {
   const sonando = pulsaciones.estado === 'sonando'
 
   // El rótulo grande dice qué toca hacer en cada momento: contar, escuchar o tocar.
-  useEffect(() => {
-    if (!sonando) return
-    let cuadro = 0
-    const mirar = (): void => {
-      const t = transcurrido()
-      if (t !== undefined) {
-        const tramo = plan.tramos.find((x) => t < x.hasta) ?? plan.tramos.at(-1)
-        let texto = ''
-        if (t < 0) texto = 'Atento…'
-        else if (tramo?.tipo === 'claqueta') texto = String(Math.min(Math.floor((t - tramo.desde) / plan.tiempo) + 1, Math.round((tramo.hasta - tramo.desde) / plan.tiempo)))
-        else if (tramo?.tipo === 'escucha') texto = 'Escucha'
-        else texto = '¡Toca!'
-        setMomento(texto)
-      }
-      cuadro = requestAnimationFrame(mirar)
-    }
-    mirar()
-    return () => cancelAnimationFrame(cuadro)
-  }, [sonando, transcurrido, plan])
+  const momento = useMomento(plan, pulsaciones)
 
   useEffect(() => {
     if (resultado || pistaVisible) respuesta.current?.scrollIntoView({ block: 'nearest' })
@@ -108,7 +99,6 @@ export function Ritmo({ paso, alTerminar }: PropsDePaso<PasoRitmo>) {
   const empezar = (): void => {
     setResultado(undefined)
     setPistaVisible(false)
-    setMomento('')
     pulsaciones.empezar()
   }
 
@@ -168,7 +158,7 @@ export function Ritmo({ paso, alTerminar }: PropsDePaso<PasoRitmo>) {
                   · {mensajeDe(resultado, total)}
                 </p>
                 <ProsaVista prosa={paso.explicacion} />
-                {!resultado.aprobado && Math.abs(resultado.sesgo) > 60 && (
+                {!resultado.aprobado && (Math.abs(resultado.sesgo) > 60 || desfasado(resultado, total)) && (
                   <p className="suave nota-al-pie">
                     Si te pasa siempre lo mismo, puede ser el retardo del sonido de tu dispositivo.{' '}
                     <button type="button" className="termino" onClick={() => navegar({ pantalla: 'calibracion' })}>

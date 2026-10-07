@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 98953,
-  "diferido": 311135,
-  "css": 8922,
+  "inicial": 99123,
+  "diferido": 314495,
+  "css": 8934,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,12 +11,12 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 90909,
+      "bytes": 90977,
       "inicial": true
     },
     {
       "archivo": "assets/motor.js",
-      "bytes": 72512,
+      "bytes": 72531,
       "inicial": false
     },
     {
@@ -26,12 +26,12 @@
     },
     {
       "archivo": "assets/Leccion.js",
-      "bytes": 15882,
+      "bytes": 14710,
       "inicial": false
     },
     {
       "archivo": "assets/EditorDePiano.js",
-      "bytes": 10534,
+      "bytes": 10548,
       "inicial": false
     },
     {
@@ -41,22 +41,22 @@
     },
     {
       "archivo": "assets/operaciones.js",
-      "bytes": 7330,
+      "bytes": 7328,
       "inicial": false
     },
     {
       "archivo": "assets/Pentagrama.js",
-      "bytes": 4161,
+      "bytes": 4180,
       "inicial": false
+    },
+    {
+      "archivo": "assets/Marco.js",
+      "bytes": 3071,
+      "inicial": true
     },
     {
       "archivo": "assets/react.js",
       "bytes": 3010,
-      "inicial": true
-    },
-    {
-      "archivo": "assets/Marco.js",
-      "bytes": 2969,
       "inicial": true
     },
     {
@@ -70,18 +70,33 @@
       "inicial": false
     },
     {
-      "archivo": "assets/Avance.js",
-      "bytes": 1952,
+      "archivo": "assets/ritmo.js",
+      "bytes": 2109,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Calibracion.js",
+      "bytes": 1895,
       "inicial": false
     },
     {
       "archivo": "assets/Muestrario.js",
-      "bytes": 1848,
+      "bytes": 1864,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/RejillaDeRitmo.js",
+      "bytes": 1313,
       "inicial": false
     },
     {
       "archivo": "assets/midi.js",
-      "bytes": 1261,
+      "bytes": 1279,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/Avance.js",
+      "bytes": 987,
       "inicial": false
     },
     {
@@ -96,12 +111,7 @@
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 734,
-      "inicial": false
-    },
-    {
-      "archivo": "assets/pieza.js",
-      "bytes": 656,
+      "bytes": 733,
       "inicial": false
     },
     {
@@ -117,6 +127,16 @@
     {
       "archivo": "assets/PianoRoll.js",
       "bytes": 471,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/pieza.js",
+      "bytes": 381,
+      "inicial": false
+    },
+    {
+      "archivo": "assets/tiempo.js",
+      "bytes": 372,
       "inicial": false
     },
     {

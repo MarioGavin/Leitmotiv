@@ -82,6 +82,7 @@ export const PANTALLAS: ReadonlyArray<readonly [ruta: string, lista: string]> = 
   ['#/ajustes', '.conmutador'],
   ['#/repertorio', '.pantalla__cuerpo .boton'],
   ['#/diagnostico', '.instrumento-fila'],
+  ['#/calibracion', '.pad'],
 ]
 
 /** Lo que hay que tener hecho para abrir todas las pantallas de `PANTALLAS`. */
@@ -98,19 +99,25 @@ export async function elegirEsquema(pagina: Page, esquema: string): Promise<void
  * Prepara la página para tocar al ritmo en el próximo ejercicio que empiece:
  * cuando el ejercicio publica en `leitmotiv:ritmo` cuándo va cada golpe, se
  * pulsa el pad en esos instantes. Hay que llamarla antes de tocar «Empezar».
+ * Con `retrasoMs`, cada toque llega ese tiempo tarde, como si el sonido tardara en oírse.
  */
-export async function tocarAlRitmo(pagina: Page): Promise<void> {
-  await pagina.evaluate(() => {
+export async function tocarAlRitmo(pagina: Page, retrasoMs = 0): Promise<void> {
+  await pagina.evaluate((retraso) => {
     document.addEventListener(
       'leitmotiv:ritmo',
       (evento) => {
         const { instantes } = (evento as CustomEvent<{ instantes: number[] }>).detail
         const pad = document.querySelector('.pad')
         for (const instante of instantes) {
-          setTimeout(() => pad?.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })), instante - performance.now())
+          setTimeout(() => pad?.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })), instante + retraso - performance.now())
         }
       },
       { once: true },
     )
-  })
+  }, retrasoMs)
+}
+
+/** El retardo calibrado que hay guardado en los ajustes. */
+export function latenciaGuardada(pagina: Page): Promise<number> {
+  return pagina.evaluate(() => (JSON.parse(localStorage.getItem('leitmotiv-ajustes') ?? '{}') as { state?: { latenciaMs?: number } }).state?.latenciaMs ?? 0)
 }

@@ -25,6 +25,13 @@ interface Props {
 
 type Resultados = Record<string, ResultadoDePaso>
 
+/**
+ * Cómo va cada concepto en la pasada en curso de cada lección. Vive fuera del
+ * componente para sobrevivir a una salida a mitad de lección que vuelve después
+ * al mismo paso, como la visita a la calibración desde un ejercicio de ritmo.
+ */
+const pasadas = new Map<string, Resultados>()
+
 function Completada({ leccion, resultados, alSalir }: { leccion: DatosDeLeccion; resultados: Readonly<Resultados>; alSalir: () => void }) {
   const [recompensa, setRecompensa] = useState<RecompensaDeLeccion>()
   const [fallo, setFallo] = useState(false)
@@ -170,8 +177,12 @@ export function Leccion({ id, paso }: Props) {
   const numero = Math.min(paso, total + 1)
   const actual = leccion.pasos[numero - 1]
   const mundo = id.slice(0, 3)
-  // Cómo va cada concepto en esta pasada. Vive mientras la lección está abierta: si se recarga a medias, la cuenta empieza de cero.
-  const [resultados, setResultados] = useState<Resultados>({})
+  // Cómo va cada concepto en esta pasada. Si se recarga a medias, la cuenta empieza de cero.
+  // Empezar por el paso 1 es empezar de cero; volver a un paso posterior, retomar la pasada.
+  const [resultados, setResultados] = useState<Resultados>(() => (paso > 1 ? pasadas.get(id) : undefined) ?? {})
+  useEffect(() => {
+    pasadas.set(id, resultados)
+  }, [id, resultados])
   // Solo se registra la lección si se ha llegado al final desde el último paso, no al abrir o recargar la pantalla final.
   const [terminada, setTerminada] = useState(false)
 

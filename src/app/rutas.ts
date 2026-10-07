@@ -76,13 +76,38 @@ export function useRuta(): Ruta {
   return useMemo(() => leerRuta(hash), [hash])
 }
 
+/** Si se ha llegado a la pantalla actual desde otra de la app: entonces «volver» puede tirar del historial. */
+let hayAnterior = false
+/** Mientras se sustituye la pantalla actual: ese cambio no deja nada a lo que volver. */
+let reemplazando = false
+if (typeof window !== 'undefined') {
+  window.addEventListener('hashchange', () => {
+    if (!reemplazando) hayAnterior = true
+  })
+}
+
 /** Cambia de pantalla. Con `reemplazar`, la pantalla actual no queda en el historial. */
 export function navegar(ruta: Ruta, opciones: { reemplazar?: boolean } = {}): void {
   const destino = escribirRuta(ruta)
   if (opciones.reemplazar) {
     window.history.replaceState(null, '', destino)
-    window.dispatchEvent(new HashChangeEvent('hashchange'))
+    reemplazando = true
+    try {
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+    } finally {
+      reemplazando = false
+    }
   } else {
     window.location.hash = destino
   }
+}
+
+/**
+ * Vuelve a la pantalla de la que se venía (la calibración, al ejercicio que la
+ * pidió). Si se ha entrado directamente por la dirección, no hay a dónde volver
+ * dentro de la app y se va a `sinHistorial`.
+ */
+export function volver(sinHistorial: Ruta): void {
+  if (hayAnterior) window.history.back()
+  else navegar(sinHistorial, { reemplazar: true })
 }

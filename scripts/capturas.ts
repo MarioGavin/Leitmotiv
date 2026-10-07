@@ -100,6 +100,7 @@ const ESCENAS: readonly Escena[] = [
   { nombre: 'ajustes', ruta: '#/ajustes' },
   { nombre: 'muestrario', ruta: '#/muestrario' },
   { nombre: 'diagnostico', ruta: '#/diagnostico' },
+  { nombre: 'calibracion', ruta: '#/calibracion' },
 ]
 
 const ESQUEMAS = ['oscuro', 'claro'] as const
@@ -199,6 +200,7 @@ const TITULOS: Readonly<Record<string, string>> = {
   ajustes: 'Ajustes',
   muestrario: 'Muestrario',
   diagnostico: 'Diagnóstico de audio',
+  calibracion: 'Calibración',
 }
 
 function rotulo(texto: string, ancho: number, cuerpo: number): Buffer {

@@ -114,3 +114,29 @@ export function usePulsaciones(plan: PlanDeRitmo, latenciaMs: number, alAcabar: 
 
   return { estado, aviso, empezar, parar, tocar, transcurrido }
 }
+
+/** El rótulo grande de una sesión de ritmo: qué toca hacer en cada momento (contar, escuchar o tocar). Solo vale mientras suena. */
+export function useMomento(plan: PlanDeRitmo, { estado, transcurrido }: Pick<Pulsaciones, 'estado' | 'transcurrido'>): string {
+  const [momento, setMomento] = useState('')
+  const sonando = estado === 'sonando'
+  useEffect(() => {
+    if (!sonando) return
+    let cuadro = 0
+    const mirar = (): void => {
+      const t = transcurrido()
+      if (t !== undefined) {
+        const tramo = plan.tramos.find((x) => t < x.hasta) ?? plan.tramos.at(-1)
+        let texto = ''
+        if (t < 0) texto = 'Atento…'
+        else if (tramo?.tipo === 'claqueta') texto = String(Math.min(Math.floor((t - tramo.desde) / plan.tiempo) + 1, Math.round((tramo.hasta - tramo.desde) / plan.tiempo)))
+        else if (tramo?.tipo === 'escucha') texto = 'Escucha'
+        else texto = '¡Toca!'
+        setMomento(texto)
+      }
+      cuadro = requestAnimationFrame(mirar)
+    }
+    mirar()
+    return () => cancelAnimationFrame(cuadro)
+  }, [sonando, transcurrido, plan])
+  return momento
+}

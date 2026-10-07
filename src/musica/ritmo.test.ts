@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { latenciaMedida, planDeRitmo, puntuarRitmo } from './ritmo.ts'
+import { calibrar, latenciaMedida, planDeRitmo, puntuarRitmo } from './ritmo.ts'
 import { leerPatronRitmico } from './taquigrafia.ts'
 
 function paso(patron: string, extra: Partial<Parameters<typeof planDeRitmo>[0]> = {}): Parameters<typeof planDeRitmo>[0] {
@@ -142,5 +142,33 @@ describe('calibración de latencia', () => {
 
   it('con menos de cuatro toques no hay medida', () => {
     expect(latenciaMedida([1, 2, 3, 4], [1.1, 2.1])).toBeUndefined()
+  })
+
+  // Dieciséis golpes, a 90 BPM (dos tercios de segundo entre uno y otro).
+  const golpes = Array.from({ length: 16 }, (_, i) => 2 + (i * 2) / 3)
+
+  it('mide el retardo de unos toques regulares, aunque alguno se escape', () => {
+    const toques = golpes.map((g, i) => g + 0.15 + (i % 3 === 0 ? 0.01 : -0.008) + (i === 5 ? 0.12 : 0))
+    expect(calibrar(golpes, toques)).toEqual({ tipo: 'medida', latenciaMs: 142, toques: 16, dispersionMs: expect.any(Number) })
+  })
+
+  it('también un retardo negativo: quien se adelanta a la claqueta', () => {
+    const resultado = calibrar(
+      golpes,
+      golpes.map((g) => g - 0.03),
+    )
+    expect(resultado).toMatchObject({ tipo: 'medida', latenciaMs: -30, dispersionMs: 0 })
+  })
+
+  it('con menos de seis de cada diez toques no hay medida', () => {
+    expect(calibrar(golpes, golpes.slice(0, 9))).toEqual({ tipo: 'pocos', toques: 9 })
+    expect(calibrar(golpes, [])).toEqual({ tipo: 'pocos', toques: 0 })
+    // Los toques a más de medio golpe de cualquier golpe no cuentan.
+    expect(calibrar([1, 2, 3, 4], [1.5, 2.5, 3.5, 4.5])).toEqual({ tipo: 'pocos', toques: 0 })
+  })
+
+  it('rechaza unos toques que van cada uno por su lado', () => {
+    const toques = golpes.map((g, i) => g + (i % 2 === 0 ? 0.2 : -0.05))
+    expect(calibrar(golpes, toques)).toMatchObject({ tipo: 'irregular' })
   })
 })

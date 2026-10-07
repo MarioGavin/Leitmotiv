@@ -18,6 +18,7 @@ import { type Ruta, navegar, useRuta } from './rutas.ts'
 const Leccion = lazy(() => import('../pantallas/Leccion.tsx').then((m) => ({ default: m.Leccion })))
 const PianoRoll = lazy(() => import('../pantallas/PianoRoll.tsx').then((m) => ({ default: m.PianoRoll })))
 const Diagnostico = lazy(() => import('../pantallas/Diagnostico.tsx').then((m) => ({ default: m.Diagnostico })))
+const Calibracion = lazy(() => import('../pantallas/Calibracion.tsx').then((m) => ({ default: m.Calibracion })))
 const Muestrario = lazy(() => import('../pantallas/Muestrario.tsx').then((m) => ({ default: m.Muestrario })))
 
 /** Aplica al documento el esquema de color elegido, y a la interfaz sus sonidos. */
@@ -112,7 +113,7 @@ function pantallaDe(ruta: Ruta): { contenido: ReactNode; conNavegacion: boolean 
     case 'prueba':
       return { contenido: <Proximamente titulo="Prueba de nivel" descripcion="Unas preguntas para saltarte lo que ya sabes." />, conNavegacion: true }
     case 'calibracion':
-      return { contenido: <Proximamente titulo="Calibración" descripcion="Toca al ritmo de la claqueta para medir el retardo del sonido en tu dispositivo." />, conNavegacion: false }
+      return { contenido: <Calibracion />, conNavegacion: false }
     case 'ajustes':
       return { contenido: <Ajustes />, conNavegacion: true }
     case 'diagnostico':

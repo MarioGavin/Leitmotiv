@@ -381,3 +381,8 @@
 .avisos--nota {
   pointer-events: none;
 }
+
+/* ── Calibración ── */
+.calibracion__datos {
+  padding: 0 var(--e-2);
+}
