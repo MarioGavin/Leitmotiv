@@ -113,6 +113,12 @@ Siete subpasos, un commit cada uno (de `928de52`, B7-1, al de B7-7). `npm run co
 - **Arreglo de interfaz**: en los enunciados, las notas, acordes y tonalidades marcados salían con la letra de los datos en mitad del titular; ahora heredan la del titular (`.prosa.enunciado__texto .musical` en `pantallas.css`). Encontrado en las capturas.
 - **Aprendido al escribir el YAML**: un valor sin comillas no puede llevar «: » (el YAML lo lee como otra clave), y uno que empieza por una marca «{…}» hay que entrecomillarlo. La marca `{i:3M}` ya se lee «3.ª mayor»: no hace falta escribir el nombre al lado. El enunciado se ve como titular en mayúsculas: conviene una frase corta.
 
+### Paso B8 (cierre): en curso
+
+- **B8-1 Pruebas de navegador**: `e2e/encargos.spec.ts` (los tres encargos del Mundo 0, escritos con el teclado del piano roll hasta cumplir todos los requisitos, entregados y leídos de IndexedDB y en Mi repertorio), `e2e/ritmo.spec.ts` (leer y eco de m00.u01.l03, superados con `tocarAlRitmo`) y `e2e/pwa.spec.ts` ampliada (sin conexión: glosario, ficha, repaso, repertorio, prueba de nivel, calibración, una lección de cada unidad y el piano ya usado). 57 pruebas en verde, en la raíz y bajo `/leitmotiv/`.
+- **B8-2 Capturas**: revisadas; arreglados las opciones de completar la melodía que se leían igual, el pie de ordenar secciones que no cabía a 360 px (con prueba que lo mide en cada paso), el requisito de polifonía que salía cumplido sin notas y un texto de m00.u01.l03.
+- **B8-3 Presupuesto**: `npm run size` da **101,1 KB** de JavaScript comprimido en la carga inicial, de 300 (un 66 % de margen); 357,9 KB se descargan después, cuando hacen falta. El contenido no está en ningún trozo de JavaScript: son JSON que se piden al abrir cada pantalla. Al arrancar solo se lee `indice.json` (3,4 KB comprimido); cada lección (26, 248 KB sin comprimir en total), el glosario (5,9 KB), las fichas (3,0 KB), los conceptos (2,1 KB) y la prueba de nivel (3,8 KB) se piden cuando se abren.
+
 ### Ruta acordada con Mario (un commit y una parada por paso)
 
 ~~B4-2 ritmo~~ · ~~B4-3 construcción guiada~~ · ~~B4-4 análisis~~ · ~~B4-5 mezcla por capas~~ · ~~B4-6 composición y encargo~~ · ~~B5 progreso en la interfaz~~ · ~~B6 pantallas~~ · ~~B7 contenido~~ · B8 cierre. El detalle de cada uno, en la lista siguiente.
