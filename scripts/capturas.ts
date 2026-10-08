@@ -19,7 +19,6 @@ import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
 import type { IndiceDelCurso } from '../src/contenido/tipos.ts'
 import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
-import { PRUEBA_DE_PRUEBA } from '../e2e/leccion-de-prueba.ts'
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
 const DESTINO = path.join(RAIZ, 'informes/capturas')
@@ -35,11 +34,6 @@ interface Escena {
   preparar?: (pagina: Page) => Promise<void>
   /** Si no es `true`, la escena solo se captura cuando se pide por su nombre. */
   principal?: boolean
-}
-
-/** Todavía no hay prueba de nivel en el curso: se sirve la de las pruebas. */
-async function servirPrueba(pagina: Page): Promise<void> {
-  await pagina.route('**/content/prueba-de-nivel.json', (ruta) => ruta.fulfill({ json: PRUEBA_DE_PRUEBA }))
 }
 
 const ESCENAS: readonly Escena[] = [
@@ -155,7 +149,7 @@ const ESCENAS: readonly Escena[] = [
     },
   },
   { nombre: 'ficha', ruta: '#/ficha/intervalos' },
-  { nombre: 'prueba', ruta: '#/prueba', antes: servirPrueba },
+  { nombre: 'prueba', ruta: '#/prueba' },
   {
     nombre: 'muestrario-vistas',
     ruta: '#/muestrario',
@@ -166,15 +160,23 @@ const ESCENAS: readonly Escena[] = [
   {
     nombre: 'prueba-balance',
     ruta: '#/prueba',
-    antes: servirPrueba,
+    // Se deja el ritmo sin tocar para no esperar a que suene: el bloque no se supera y se ve el balance.
     preparar: async (pagina) => {
       await pagina.getByRole('button', { name: 'Empezar la prueba' }).click()
-      for (const opcion of ['Dos', 'Uno']) {
-        await pagina.getByRole('radio', { name: opcion }).click()
-        await pagina.getByRole('button', { name: 'Comprobar' }).click()
-        await pagina.getByRole('button', { name: /Continuar|Siguiente pregunta/ }).click()
+      while (!(await pagina.getByRole('status').filter({ hasText: /Superada|No superada/ }).isVisible())) {
+        if (await pagina.getByRole('button', { name: 'Seguir de todos modos' }).isVisible()) {
+          await pagina.getByRole('button', { name: 'Seguir de todos modos' }).click()
+        } else if (await pagina.getByRole('button', { name: /^(Empezar|Repetir)$/ }).isVisible()) {
+          await pagina.getByRole('button', { name: /^(Empezar|Repetir)$/ }).click()
+          await pagina.getByRole('button', { name: /Repetir|Seguir de todos modos/ }).first().waitFor({ timeout: 30_000 })
+        } else if (await pagina.getByRole('button', { name: 'Comprobar' }).isVisible()) {
+          await pagina.getByRole('radio').first().click()
+          await pagina.getByRole('button', { name: 'Comprobar' }).click()
+          await pagina.getByRole('button', { name: /Continuar|Siguiente pregunta/ }).click()
+        } else {
+          await pagina.waitForTimeout(200)
+        }
       }
-      await pagina.getByRole('status').filter({ hasText: 'Superada' }).waitFor()
     },
   },
   {

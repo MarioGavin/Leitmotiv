@@ -1,0 +1,344 @@
+# Prueba de nivel: un bloque por unidad que se puede saltar, en el orden del curso.
+# La prueba se para en el primer bloque que no se supera. Cada paso dice qué concepto
+# mide; ninguno repite un ejercicio de las lecciones.
+
+# ── Mundo 0 · Pulso y compás ──
+- unidad: m00.u01
+  aprobado: 0.8
+  pasos:
+    - tipo: oido
+      modo: compas
+      concepto: compas
+      enunciado: ¿En qué compás está?
+      pista: Cuenta los pulsos que hay de un bombo al siguiente. Si se agrupan de tres en tres y van rápidos, piensa en el 6/8.
+      explicacion: |
+        El bombo marca el primer pulso de cada compás. Cuatro pulsos son un 4/4; tres, un
+        3/4; dos grupos de tres corcheas, un 6/8.
+      compases: [4/4, 3/4, 6/8]
+      tempo: 96
+      rondas: 3
+
+    - tipo: oido
+      modo: preguntas
+      concepto: tempo
+      enunciado: ¿Esta música va lenta o rápida?
+      pista: Marca el pulso con el dedo. ¿Te da tiempo a respirar entre golpe y golpe?
+      explicacion: Por debajo de 80 BPM la música va despacio; por encima de 140, deprisa.
+      preguntas:
+        - opciones: [Lenta, Rápida]
+          correcta: 2
+          explicacion: Va a 152 BPM.
+          pieza:
+            tempo: 152
+            tonalidad: E menor
+            compases: 2
+            pistas:
+              - rol: bajo
+                instrumento: bajo-electrico
+                notas: "E2:4 E2:4 G2:4 E2:4 | D2:4 D2:4 B1:4 D2:4"
+              - rol: percusion
+                instrumento: bateria
+                rejilla: { paso: "4", lineas: { bombo: "x.x.", caja: ".x.x" } }
+        - opciones: [Lenta, Rápida]
+          correcta: 1
+          explicacion: Va a 64 BPM.
+          pieza:
+            tempo: 64
+            tonalidad: E menor
+            compases: 2
+            pistas:
+              - rol: bajo
+                instrumento: bajo-electrico
+                notas: "E2:4 E2:4 G2:4 E2:4 | D2:4 D2:4 B1:4 D2:4"
+              - rol: percusion
+                instrumento: bateria
+                rejilla: { paso: "4", lineas: { bombo: "x.x.", caja: ".x.x" } }
+
+    - tipo: oido
+      modo: preguntas
+      concepto: subdivision
+      enunciado: ¿Cuántas notas caben en cada pulso?
+      pista: El charles de pie marca el pulso. Cuenta las notas que caen entre un golpe y el siguiente.
+      explicacion: Una por pulso son negras; dos, corcheas; cuatro, semicorcheas.
+      preguntas:
+        - opciones: [Una, Dos, Cuatro]
+          correcta: 3
+          explicacion: Cuatro por pulso, semicorcheas.
+          pieza:
+            tempo: 80
+            tonalidad: D mayor
+            compases: 1
+            pistas:
+              - rol: melodia
+                instrumento: cuerdas
+                notas: "D5:16 C#5:16 B4:16 C#5:16 D5:16 C#5:16 B4:16 C#5:16 D5:16 E5:16 F#5:16 E5:16 D5:4"
+              - rol: percusion
+                instrumento: bateria
+                rejilla: { paso: "4", lineas: { charles_pedal: "xxxx" } }
+        - opciones: [Una, Dos, Cuatro]
+          correcta: 2
+          explicacion: Dos por pulso, corcheas.
+          pieza:
+            tempo: 80
+            tonalidad: D mayor
+            compases: 1
+            pistas:
+              - rol: melodia
+                instrumento: cuerdas
+                notas: "A4:8 D5:8 F#5:8 D5:8 B4:8 D5:8 A4:4"
+              - rol: percusion
+                instrumento: bateria
+                rejilla: { paso: "4", lineas: { charles_pedal: "xxxx" } }
+
+    - tipo: ritmo
+      modo: leer
+      concepto: silencios
+      enunciado: Lee el patrón y tócalo.
+      tempo: 84
+      paso: "8"
+      patron: "x.xxx.x.|x..xx..."
+      repeticiones: 1
+      tolerancia: amplia
+      pista: Cada casilla es una corchea. El segundo compás empieza con una negra con puntillo.
+      explicacion: |
+        Primer compás: negra, dos corcheas, negra y negra. Segundo: negra con puntillo,
+        corchea y una blanca que se queda sonando.
+
+    - tipo: analisis
+      concepto: figuras
+      enunciado: Escucha la campana del templo y responde.
+      pista: Mira lo largas que son las barras en el piano roll y cuenta los pulsos.
+      explicacion: La primera nota ocupa dos pulsos, una blanca. La última llena el compás entero, una redonda.
+      pieza:
+        titulo: La campana del templo
+        tempo: 72
+        tonalidad: A menor
+        compases: 2
+        pistas:
+          - rol: melodia
+            instrumento: piano
+            notas: "E5:2 C5:4 D5:4 | A4:1"
+      preguntas:
+        - sobre: libre
+          pregunta: ¿Qué figura es la primera nota?
+          opciones: [Negra, Blanca, Redonda]
+          correcta: 2
+          explicacion: Dura dos pulsos, así que es una blanca.
+        - sobre: libre
+          pregunta: ¿Y la última?
+          opciones: [Negra, Blanca, Redonda]
+          correcta: 3
+          explicacion: Dura los cuatro pulsos del compás, así que es una redonda.
+
+# ── Mundo 0 · Notas e intervalos ──
+- unidad: m00.u02
+  aprobado: 0.8
+  pasos:
+    - tipo: oido
+      modo: intervalo
+      concepto: intervalos
+      enunciado: ¿Qué intervalo suena?
+      pista: Decide primero si es un paso, un salto pequeño, un salto firme o la misma nota más arriba.
+      explicacion: Segunda mayor, dos semitonos; tercera mayor, cuatro; cuarta justa, cinco; quinta justa, siete; octava, doce.
+      intervalos: [2M, 3M, 4J, 5J, 8J]
+      direcciones: [ascendente]
+      registro: [D4, D5]
+      rondas: 5
+
+    - tipo: oido
+      modo: intervalo
+      concepto: segundas-y-terceras
+      enunciado: Las dos notas a la vez. ¿Tercera mayor o menor?
+      pista: La mayor suena luminosa; la menor, más apagada.
+      explicacion: La tercera mayor tiene cuatro semitonos y la menor, tres.
+      intervalos: [3m, 3M]
+      direcciones: [armonico]
+      registro: [D4, D5]
+      rondas: 3
+
+    - tipo: construccion
+      modo: completar-melodia
+      concepto: semitonos
+      enunciado: Elige la nota que falta en este tema de {t:D mayor}.
+      pista: "{t:D mayor} tiene dos sostenidos, Fa y Do. La nota que falta sube un semitono hasta la tónica."
+      explicacion: |
+        El {n:C#5} está a un semitono del {n:D5} y lo empuja hacia él. El Do natural no es
+        de {t:D mayor} y está a un tono.
+      pieza:
+        tempo: 96
+        tonalidad: D mayor
+        compases: 2
+        pistas:
+          - rol: melodia
+            instrumento: piano
+            notas: "F#4:4 A4:4 B4:4 A4:4 | B4:4 ?:4 D5:2"
+      opciones:
+        - notas: "C#5:4"
+          correcta: true
+          porque: Do sostenido, de la escala y a un semitono de la tónica.
+        - notas: "C5:4"
+          correcta: false
+          porque: El Do natural no es de {t:D mayor}. La subida a la tónica suena torcida.
+
+    - tipo: analisis
+      concepto: registro
+      enunciado: Escucha la torre del reloj y responde.
+      pista: Mira dónde empieza y dónde acaba la melodía. Las notas con el mismo nombre se rotulan al margen.
+      explicacion: Empieza en {n:G3} y acaba en {n:G5}, la misma nota dos octavas más arriba.
+      pieza:
+        titulo: La torre del reloj
+        tempo: 96
+        tonalidad: G mayor
+        compases: 2
+        pistas:
+          - rol: melodia
+            instrumento: piano
+            notas: "G3:4 B3:4 D4:4 G4:4 | B4:4 D5:4 G5:2"
+      preguntas:
+        - sobre: libre
+          pregunta: ¿Qué distancia hay entre la primera y la última nota?
+          opciones: [Una octava, Dos octavas, Una quinta]
+          correcta: 2
+          explicacion: De {n:G3} a {n:G5} hay dos octavas, veinticuatro semitonos.
+
+    - tipo: oido
+      modo: preguntas
+      concepto: consonancia
+      enunciado: ¿Las dos notas descansan o rozan?
+      pista: Si se funden en un solo color, descansan. Si se oye un temblor, rozan.
+      explicacion: Quintas y sextas son consonantes; el tritono y las séptimas mayores, disonantes.
+      preguntas:
+        - opciones: [Consonante, Disonante]
+          correcta: 2
+          explicacion: "{n:F4} y {n:B4}: un tritono."
+          pieza:
+            tempo: 60
+            compases: 1
+            pistas:
+              - rol: melodia
+                instrumento: cuerdas
+                notas: "[F4 B4]:1"
+        - opciones: [Consonante, Disonante]
+          correcta: 1
+          explicacion: "{n:D4} y {n:A4}: una quinta justa."
+          pieza:
+            tempo: 60
+            compases: 1
+            pistas:
+              - rol: melodia
+                instrumento: cuerdas
+                notas: "[D4 A4]:1"
+        - opciones: [Consonante, Disonante]
+          correcta: 2
+          explicacion: "{n:C4} y {n:B4}: una séptima mayor."
+          pieza:
+            tempo: 60
+            compases: 1
+            pistas:
+              - rol: melodia
+                instrumento: cuerdas
+                notas: "[C4 B4]:1"
+
+# ── Mundo 0 · Escalas y tríadas ──
+- unidad: m00.u03
+  aprobado: 0.8
+  pasos:
+    - tipo: oido
+      modo: escala
+      concepto: escala-menor
+      enunciado: ¿Escala mayor o menor?
+      pista: Escucha la tercera nota. ¿La escala se abre o se recoge?
+      explicacion: La escala menor tiene la tercera un semitono más baja que la mayor.
+      escalas: [mayor, menor]
+      tonicas: [D, E, G, Bb]
+      presentacion: escala
+      rondas: 4
+
+    - tipo: oido
+      modo: acorde
+      concepto: triadas
+      enunciado: ¿Qué tríada suena?
+      pista: Abierta, mayor; recogida, menor; estrecha y tensa, disminuida.
+      explicacion: La tercera decide entre mayor y menor; la quinta encogida, la disminuida.
+      calidades: [M, m, dim]
+      presentacion: arpegio
+      registro: [D3, D4]
+      rondas: 4
+
+    - tipo: analisis
+      concepto: tonica
+      enunciado: Escucha el tema del paso de montaña y descubre su tonalidad.
+      pista: Busca dónde descansa la melodía y qué nota toca el bajo al final.
+      explicacion: |
+        Tiene el {n:F#4} de las dos tonalidades, pero gira alrededor de Mi y acaba en Mi,
+        con el bajo en Mi: es {t:E menor}, la relativa de {t:G mayor}.
+      pieza:
+        titulo: El paso de montaña
+        tempo: 88
+        tonalidad: E menor
+        compases: 4
+        pistas:
+          - rol: melodia
+            instrumento: piano
+            notas: "E4:4 G4:4 B4:4 A4:4 | G4:4 F#4:4 E4:2 | B4:4 C5:4 B4:4 G4:4 | A4:4 F#4:4 E4:2"
+          - rol: bajo
+            instrumento: bajo-electrico
+            notas: "E2:2 B1:2 | C2:2 E2:2 | G2:2 E2:2 | B1:2 E2:2"
+      preguntas:
+        - sobre: tonalidad
+          opciones: [G mayor, E menor]
+
+    - tipo: construccion
+      modo: elegir-acorde
+      concepto: grados
+      enunciado: Elige el acorde del tercer compás.
+      pista: La melodía del tercer compás apoya {n:Bb4}, {n:D5} y {n:F5}. Busca el acorde de {t:F mayor} que tiene esas notas.
+      explicacion: |
+        {n:Bb4}, {n:D5} y {n:F5} forman {a:Bb}, el {g:IV} de {t:F mayor}. {a:Bbm} llevaría
+        Re bemol, y {a:Dm} no tiene el Si bemol.
+      pieza:
+        tempo: 100
+        tonalidad: F mayor
+        compases: 4
+        acordes: "F:1 | Dm:1 | ?:1 | C:1"
+        pistas:
+          - rol: melodia
+            instrumento: piano
+            notas: "C5:4 A4:4 F4:4 A4:4 | D5:4 A4:4 F4:2 | Bb4:4 D5:4 F5:2 | E5:4 C5:4 G4:2"
+          - rol: bajo
+            instrumento: bajo-electrico
+            notas: "F2:1 | D2:1 | Bb1:1 | C2:1"
+      opciones:
+        - acorde: Bb
+          correcta: true
+          porque: Si bemol, Re y Fa, las tres notas de la melodía. Es el {g:IV}.
+        - acorde: Bbm
+          correcta: false
+          porque: Lleva Re bemol, que choca con el Re de la melodía.
+        - acorde: Dm
+          correcta: false
+          porque: Tiene Re y Fa, pero no Si bemol, la primera nota del compás.
+
+    - tipo: analisis
+      concepto: funciones
+      enunciado: Escucha la plaza del castillo y di qué función cumple cada acorde.
+      pista: Busca el grado de cada acorde en {t:A mayor}.
+      explicacion: "{a:D} es el {g:IV}, subdominante; {a:E}, el {g:V}, dominante."
+      pieza:
+        titulo: La plaza del castillo
+        tempo: 104
+        tonalidad: A mayor
+        compases: 4
+        acordes: "A:1 | D:1 | E:1 | A:1"
+        pistas:
+          - rol: melodia
+            instrumento: piano
+            notas: "C#5:4 E5:4 A5:4 E5:4 | F#5:4 D5:4 A4:2 | B4:4 G#4:4 E4:4 B4:4 | A4:1"
+          - rol: bajo
+            instrumento: bajo-electrico
+            notas: "A1:1 | D2:1 | E2:1 | A1:1"
+      preguntas:
+        - sobre: funcion
+          compas: 2
+        - sobre: funcion
+          compas: 3

@@ -99,8 +99,9 @@ function pregunta(correcta: 1 | 2): string {
 }
 
 /**
- * Todavía no hay prueba-de-nivel.yaml (llega con el contenido): se sirve una
- * de dos bloques, uno por cada unidad del Mundo 0 que hay escrita o declarada.
+ * Prueba de nivel corta y predecible, servida con `page.route`: dos bloques de
+ * preguntas «Uno» o «Dos» para recorrer el flujo entero (bloque superado, bloque
+ * no superado, guardado) sin depender de las preguntas al azar de la prueba real.
  * Los pasos pasan por el compilador de verdad.
  */
 export const PRUEBA_DE_PRUEBA: BloqueDePrueba[] = [

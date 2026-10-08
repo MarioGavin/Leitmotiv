@@ -1,5 +1,5 @@
 import { type Page, expect, test } from '@playwright/test'
-import { vigilarErrores } from './ayudas.ts'
+import { sembrarProgreso, vigilarErrores } from './ayudas.ts'
 import { PRUEBA_DE_PRUEBA as PRUEBA } from './leccion-de-prueba.ts'
 
 // El service worker serviría el contenido real sin pasar por `page.route`.
@@ -83,4 +83,29 @@ test('sin prueba en el contenido, lo dice', async ({ page }) => {
   await page.route('**/content/prueba-de-nivel.json', (ruta) => ruta.fulfill({ json: [] }))
   await page.goto('./#/prueba')
   await expect(page.getByRole('heading', { name: 'La prueba aún no está lista' })).toBeVisible()
+})
+
+test.describe('con la prueba de nivel del curso', () => {
+  test('tiene un bloque por unidad del Mundo 0, en orden, y empieza por el primero', async ({ page }) => {
+    const errores = vigilarErrores(page)
+    await page.goto('./#/prueba')
+    await expect(page.getByRole('heading', { name: 'La prueba aún no está lista' })).toHaveCount(0)
+    await expect(page.locator('.repaso__lista')).toHaveText(/Pulso y compás.*Notas e intervalos.*Escalas y tríadas/s)
+    await page.getByRole('button', { name: 'Empezar la prueba' }).click()
+    await expect(page.getByText('Prueba de nivel · Pulso y compás')).toBeVisible()
+    // Cinco ejercicios en el primer bloque; el primero, un oído de compás con sus tres opciones.
+    await expect(page.getByRole('progressbar')).toHaveAttribute('aria-valuemax', '5')
+    for (const compas of ['4/4', '3/4', '6/8']) await expect(page.getByRole('radio', { name: compas })).toBeVisible()
+    await page.getByRole('button', { name: 'Salir de la prueba' }).click()
+    await expect(page.getByRole('button', { name: 'Empezar la prueba' })).toBeVisible()
+    expect(errores).toEqual([])
+  })
+
+  test('se salta las unidades ya hechas', async ({ page }) => {
+    await sembrarProgreso(page, { lecciones: ['m00.u01.l01', 'm00.u01.l02', 'm00.u01.l03', 'm00.u01.l04', 'm00.u01.l05', 'm00.u01.l06', 'm00.u01.l07', 'm00.u01.l08'] })
+    await page.goto('./#/prueba')
+    await expect(page.locator('.repaso__lista')).not.toContainText('Pulso y compás')
+    await page.getByRole('button', { name: 'Empezar la prueba' }).click()
+    await expect(page.getByText('Prueba de nivel · Notas e intervalos')).toBeVisible()
+  })
 })

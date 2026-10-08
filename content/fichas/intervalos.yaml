@@ -3,8 +3,8 @@ resumen: Los [[intervalo|intervalos]] de una octava, con su tamaño en semitonos
 bloques:
   - titulo: Segundas
     texto: |
-      - **Segunda menor**, {i:2m}: un semitono. Un roce, casi la misma nota.
-      - **Segunda mayor**, {i:2M}: un tono. Un paso de escalera.
+      - {i:2m}: un semitono. Un roce, casi la misma nota.
+      - {i:2M}: un tono. Un paso de escalera.
     ejemplo:
       tempo: 84
       compases: 2
@@ -14,8 +14,8 @@ bloques:
           notas: "C4:2 Db4:2 | C4:2 D4:2"
   - titulo: Terceras
     texto: |
-      - **Tercera menor**, {i:3m}: tres semitonos. Oscura, recogida.
-      - **Tercera mayor**, {i:3M}: cuatro semitonos. Luminosa, abierta.
+      - {i:3m}: tres semitonos. Oscura, recogida.
+      - {i:3M}: cuatro semitonos. Luminosa, abierta.
     ejemplo:
       tempo: 84
       compases: 2
@@ -25,9 +25,9 @@ bloques:
           notas: "C4:2 Eb4:2 | C4:2 E4:2"
   - titulo: Intervalos justos
     texto: |
-      - **Cuarta justa**, {i:4J}: cinco semitonos.
-      - **Quinta justa**, {i:5J}: siete.
-      - **Octava**, {i:8J}: doce. La misma nota, más aguda.
+      - {i:4J}: cinco semitonos.
+      - {i:5J}: siete.
+      - {i:8J}: doce. La misma nota, más aguda.
 
       Suenan firmes y huecos, como una fanfarria.
     ejemplo:
@@ -40,10 +40,10 @@ bloques:
           notas: "C4:2 F4:2 | C4:2 G4:2 | C4:2 C5:2"
   - titulo: Sextas y séptimas
     texto: |
-      - **Sexta menor**, {i:6m}: ocho semitonos.
-      - **Sexta mayor**, {i:6M}: nueve. Cálida, nostálgica.
-      - **Séptima menor**, {i:7m}: diez. Pide moverse.
-      - **Séptima mayor**, {i:7M}: once. Casi la octava, y casi duele.
+      - {i:6m}: ocho semitonos.
+      - {i:6M}: nueve. Cálida, nostálgica.
+      - {i:7m}: diez. Pide moverse.
+      - {i:7M}: once. Casi la octava, y casi duele.
     ejemplo:
       tempo: 84
       compases: 4
@@ -53,7 +53,7 @@ bloques:
           notas: "C4:2 Ab4:2 | C4:2 A4:2 | C4:2 Bb4:2 | C4:2 B4:2"
   - titulo: El tritono
     texto: |
-      **Cuarta aumentada**, {i:4A}: seis semitonos, la mitad exacta de la octava. Es el
+      {i:4A}, la cuarta aumentada: seis semitonos, la mitad exacta de la octava. Es el
       [[tritono]], el intervalo más inestable: mazmorras, hechizos y jefes.
     ejemplo:
       tempo: 84
