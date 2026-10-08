@@ -5,7 +5,8 @@ Quien ha construido el audio de Leitmotiv no puede oírlo. Todo lo que se puede 
 **Dónde se escucha cada cosa**
 
 - Instrumentos sueltos y sonidos de interfaz: **Ajustes → Diagnóstico de audio**.
-- Ejemplos de las lecciones: **Mapa → Repaso exprés → Entrar**, lecciones «El pulso» y «El tempo».
+- Ejemplos de las lecciones: **Mapa → Repaso exprés → Entrar**. Para abrir una lección sin hacer las anteriores, supera su unidad en la prueba de nivel (**Ajustes → Prueba de nivel**).
+- Fichas: **Glosario → Fichas**.
 - Una pieza con cuatro pistas: **Glosario → Bucle → Escuchar**. En **Repertorio → Pieza nueva** se puede escribir una y oírla en el piano roll.
 - La claqueta de la calibración: **Ajustes → Retardo del sonido → Calibrar**.
 - Para oír un ejemplo fuera de la app, `npm run audio:check -- --guardar` deja un WAV de cada caso en `informes/tmp`.
@@ -56,8 +57,8 @@ Niveles de partida por papel: melodía 0 dB, bajo −1, contramelodía −3, per
 - [ ] **B7. Costura del bucle.** En el piano roll, deja sonar «Camino de la pradera» varias vueltas. *Problema*: un hueco, un golpe doble o una nota cortada al volver al principio.
 - [ ] **B8. La composición.** «Camino de la pradera» y las melodías de las dos lecciones son originales y sencillas a propósito. *Decide*: si suenan a música o a ejercicio, y si el nivel de partida es el adecuado para ti.
 
-- [ ] **B7. Ejercicios de ritmo** («El pulso», pasos 2 y 4; «El tempo», pasos 4 y 5). Suena una cuenta previa y el patrón; hay que tocar el pad grande. *Escucha*: haz uno en el móvil, con altavoz y con auriculares. *Problema*: que la cuenta previa no se distinga del patrón, o que tus golpes salgan corregidos como adelantados o atrasados cuando tú los sientes a tiempo (sería el retardo del dispositivo; la calibración todavía no está hecha).
-- [ ] **B8. Mezcla por capas** (aún sin lección que la use; se prueba en cuanto haya una). Al marcar un estado de juego, las capas entran y salen con un fundido de medio segundo al empezar el compás siguiente. *Problema*: un golpe de volumen, un corte en seco o que el cambio llegue a destiempo.
+- [ ] **B9. Ejercicios de ritmo** («El pulso», pasos 2 y 4; «El tempo», pasos 4 y 5). Suena una cuenta previa y el patrón; hay que tocar el pad grande. *Escucha*: haz uno en el móvil, con altavoz y con auriculares. *Problema*: que la cuenta previa no se distinga del patrón, o que tus golpes salgan corregidos como adelantados o atrasados cuando tú los sientes a tiempo (sería el retardo del dispositivo: calíbralo en **Ajustes → Retardo del sonido**).
+- [ ] **B10. Mezcla por capas** («La feria del pueblo», paso 2; ver F8). Al marcar un estado de juego, las capas entran y salen con un fundido de medio segundo al empezar el compás siguiente. *Problema*: un golpe de volumen, un corte en seco o que el cambio llegue a destiempo.
 
 ## C. Sonidos de la interfaz
 
@@ -86,9 +87,52 @@ Esto no se ha podido probar en ningún teléfono: ver «No comprobado» en HANDO
 
 - [ ] **E1. Claqueta de la calibración.** Suena el golpe de aro de la batería a 90 BPM, más fuerte en el primer tiempo de cada compás. *Problema*: que no se oiga bien en el altavoz del móvil o que cueste distinguir el tiempo fuerte.
 - [ ] **E2. Retardo medido.** Calibra con el altavoz y luego con auriculares Bluetooth y apunta las dos cifras. *Problema*: que con Bluetooth salga parecido al altavoz (debería salir 100 ms o más por encima), o que tras calibrar los ejercicios de ritmo sigan diciendo «vas por detrás».
-- [ ] **E3. Cambiar de instrumento con el ejemplo sonando.** Aún no hay ninguna lección que lo pida: se oye en la prueba de navegador `e2e/ejemplos.spec.ts`, o en cuanto una lección use `manipulable: [instrumento]`. *Problema*: un chasquido o un hueco al cambiar, o que el instrumento nuevo suene mucho más fuerte o más flojo que el anterior (la onda de pulso, sobre todo).
+- [ ] **E3. Cambiar de instrumento con el ejemplo sonando.** Desde B7 lo piden muchas lecciones; la más clara es «La octava y el registro», paso 3 (la melodía empieza en cuerdas). *Problema*: un chasquido o un hueco al cambiar, o que el instrumento nuevo suene mucho más fuerte o más flojo que el anterior (la onda de pulso, sobre todo).
 - [ ] **E4. Teclado que se enciende.** En un ejemplo con `vista: teclado`, las teclas se encienden al sonar. *Problema*: que la luz vaya visiblemente por delante o por detrás de lo que se oye.
 - [ ] **E5. Repaso y prueba de nivel.** Repiten ejercicios de las lecciones, con su mismo sonido: basta con comprobar que suenan igual que dentro de la lección.
+
+## F. Contenido del paso B7
+
+Toda la música es original, escrita para la app. Nada de esto se ha oído, y `npm run audio:check` no se pudo ejecutar en B7 (la máquina de trabajo no tiene ffmpeg): tampoco hay medidas de sonoridad de los ejemplos nuevos. Lo primero, cuando haya ffmpeg: `npm run audio:check` y comprobar que ningún ejemplo nuevo satura ni queda muy por debajo de los demás.
+
+En **todos los ejercicios de ritmo** la cuenta previa suena con el golpe de aro y el patrón con la caja (`src/audio/ritmo.ts`). En el modo **eco** primero suena el patrón con la claqueta y después solo la claqueta mientras tocas; en el modo **leer** solo suena la claqueta. *Problema general*: que el aro y la caja se confundan, o que en el eco no quede claro cuándo empieza tu turno.
+
+**Pulso y compás (m00.u01)**
+
+- [ ] **F1. «El pulso».** El texto se ha corregido: ahora dice caja y golpe de aro donde antes decía bombo. Comprueba que cada paso dice lo que se oye.
+- [ ] **F2. «Redondas, blancas y negras».** Paso 1, «La posada del cruce» en pentagrama con pedal de charles: ¿se oye el pedal como pulso? Paso 2, una nota larga de piano sobre el pedal: *problema*, que la redonda se apague antes de los cuatro pulsos (A3). Paso 4, ritmo **leer** a 80 con blancas y una redonda; paso 5, **eco** a 84.
+- [ ] **F3. «Corcheas y semicorcheas».** Paso 1, solo batería, con el charles en corcheas y luego en semicorcheas: *problema*, que suene a metralleta (A9). Paso 4, «Emboscada en el desfiladero», chip de pulso en semicorcheas a 120 con triangular y batería: *problema*, que el chip resulte hiriente o tape a los demás. Ritmos: seguir corcheas a 92, eco a 88 y seguir semicorcheas a 76.
+- [ ] **F4. «El compás, en cuatro y en tres».** Paso 1, marcha de batería con acentos. Paso 3, «Vals de la taberna» a 138 en 3/4, con las cuerdas en el dos y el tres: *problema*, que no lleguen a tiempo por su ataque lento (A6). Paso 4, oído de compás generado (4/4 o 3/4). Paso 5, «La caja de música», piano agudo hasta Do6.
+- [ ] **F5. «El 6/8».** «El muelle al amanecer» (piano, bajo y batería) y «Camino del valle» (chips). Ritmo seguir en 6/8 a 120: la claqueta da las seis corcheas; *problema*, que sea tan densa que no deje sentir los dos pulsos. Eco del galope. Oído de compás 3/4 contra 6/8: *decide* si se distinguen bien con el patrón generado.
+- [ ] **F6. «Silencios y puntillo».** «Pasillos del castillo» (piano con silencios y bajo) y «La guardia del puerto» (piano y caja con puntillo). Construcción: escucha las tres opciones en el hueco.
+- [ ] **F7. «La feria del pueblo».** «La plaza del mercado» (piano, cuerdas, bajo y batería) es el ejemplo más denso de la unidad: *problema*, que el limitador bombee (B6).
+- [ ] **F8. Capas en «La feria del pueblo».** Tres estados: solo fondo (cuerdas y bajo); fondo y melodía; todo, con batería. *Problema*: golpes de volumen al entrar o salir la batería, o un fondo que suena vacío.
+- [ ] **F9. Ordenar secciones** («La feria del pueblo» y «Casa, viaje y tensión»). *Problema*: que al escuchar un fragmento suelto se corte la última nota o arranque a destiempo.
+
+**Notas e intervalos (m00.u02)**
+
+- [ ] **F10. Oído generado de contorno, intervalo y timbre.** Contorno («Las siete notas», paso 2) e intervalos (en «Teclas negras», «Segundas y terceras», «Cuartas, quintas y octavas», «Sextas y séptimas», «Reposo y tensión» y «La llamada del héroe»), en piano, de Do4 a Do5 más el salto. *Problema*: que en los intervalos armónicos una nota tape a la otra, o que los saltos al agudo cambien de color de golpe (A2). Timbre («La octava y el registro», paso 4): piano, cuerdas y chip de pulso con la misma frase; *decide* si se distinguen y si el chip suena mucho más fuerte.
+- [ ] **F11. Ejemplos con vista de teclado** («Las siete notas», «Teclas negras», «Segundas y terceras», «Sextas y séptimas», «Reposo y tensión» y varios de la unidad 3): las teclas deben encenderse a la vez que suenan (E4). «El pasillo del fantasma» y «La cripta» son cromáticos a propósito.
+- [ ] **F12. «Antes de la batalla»** («Cuartas, quintas y octavas», paso 3): quintas vacías de cuerda grave, bajo, toms y platillo. *Problema*: que los toms o el platillo no se oigan en el móvil, o que la cuerda grave retumbe.
+- [ ] **F13. «Eco en la cueva»** («La octava y el registro», paso 1): el mismo motivo en tres octavas de piano, hasta Do6. *Problema*: un salto de timbre entre octavas.
+- [ ] **F14. «El faro del norte»** («La llamada del héroe»): chip de pulso hasta Fa♯6, triangular y batería. *Problema*: que las notas más agudas del chip resulten estridentes.
+
+**Escalas y tríadas (m00.u03)**
+
+- [ ] **F15. Oído generado de escala, acorde y progresión.** Escalas mayor y menor, como escala y como melodía («La escala menor»); tríadas en bloque, en arpegio y de las dos formas («Tríadas mayores y menores», «Tríadas disminuida y aumentada», «Los acordes de la escala»); progresiones de cuatro acordes en piano («Casa, viaje y tensión»). *Problema*: acordes en bloque embarrados en el grave (la fundamental baja hasta Do3), o progresiones en las que el bajo tapa la mano derecha.
+- [ ] **F16. Armonías con cuerdas** («La tienda de la esquina», «El bosque de los susurros», «El hechizo despierta», «Créditos finales», «La ciudadela» y «La aldea del molino»): *problema*, la costura del bucle de las cuerdas en acordes largos (A4) y el equilibrio entre melodía y colchón.
+- [ ] **F17. «Pantalla de continuar»**: arpegio de chip en semicorcheas a 120. *Decide* si el oído junta las notas en un acorde, que es lo que dice el texto.
+- [ ] **F18. Transposición** («La tienda de la esquina», «El molino del río» y «Créditos finales»): sube y baja varios semitonos con el ejemplo sonando. *Problema*: un chasquido al cambiar o notas que se quedan colgadas.
+
+**Mundo 1 (m01.u01, dos lecciones)**
+
+- [ ] **F19. «El pueblo costero» y «Día de mercado»** (ocho compases, piano, cuerdas y bajo), y «La caravana» y «Mazmorra de 8 bits» (chips). *Decide* si las respiraciones y los finales de pregunta y de respuesta se oyen como dicen los textos.
+
+**Fichas, glosario y prueba de nivel**
+
+- [ ] **F20. Fichas.** Cada bloque de «Compases y figuras», «Intervalos» y «Escalas y tríadas» tiene un ejemplo corto. En «Compases y figuras» las figuras van sobre el pedal de charles: comprueba que las semicorcheas del final se entienden.
+- [ ] **F21. Glosario.** Diez términos tienen ejemplo: Arpegio, Bucle, Cadencia, Compás compuesto, Escala mayor, Escala menor, Intervalo, Ostinato, Tríada y Tritono.
+- [ ] **F22. Prueba de nivel.** Quince ejercicios propios: un bajo con batería a 152 y a 64, semicorcheas de cuerda (*problema*: que las cuerdas no articulen las semicorcheas, A6), intervalos armónicos de cuerda, escalas con tónica en Si♭ y tríadas desde Re3.
 
 ## Cómo anotar lo que encuentres
 

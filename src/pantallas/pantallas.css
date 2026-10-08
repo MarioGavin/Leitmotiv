@@ -212,6 +212,12 @@
   text-wrap: balance;
 }
 
+/* Las notas, acordes y tonalidades de un enunciado van con la letra del titular: con la de los datos, el titular se partiría en dos tipografías. */
+.prosa.enunciado__texto .musical {
+  font-family: inherit;
+  font-weight: inherit;
+}
+
 /* Texto propio de una pregunta, cuando cada una del cuestionario lleva el suyo. */
 .pregunta {
   padding: 0 var(--e-2);

@@ -12,8 +12,8 @@ pasos:
       cuatro: un compás entero de 4/4.
 
       Escucha este tema de posada en el [[pentagrama]]: el primer compás va en negras, el
-      segundo en blancas y el último es una redonda. Cuanto más hueca la cabeza de la
-      nota, más dura.
+      segundo en blancas y el último es una redonda. La negra tiene la cabeza rellena;
+      la blanca, hueca y con plica; la redonda, hueca y sin plica.
     vista: pentagrama
     manipulable: [tempo, instrumento]
     ejemplo:

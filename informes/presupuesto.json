@@ -1,8 +1,8 @@
 {
   "limite": 300000,
-  "inicial": 101050,
-  "diferido": 357790,
-  "css": 9596,
+  "inicial": 101054,
+  "diferido": 357779,
+  "css": 9613,
   "archivos": [
     {
       "archivo": "assets/abcjs.js",
@@ -11,7 +11,7 @@
     },
     {
       "archivo": "assets/index.js",
-      "bytes": 83665,
+      "bytes": 83666,
       "inicial": true
     },
     {
@@ -31,7 +31,7 @@
     },
     {
       "archivo": "assets/VistaDePaso.js",
-      "bytes": 12993,
+      "bytes": 12990,
       "inicial": false
     },
     {
@@ -46,17 +46,17 @@
     },
     {
       "archivo": "assets/EditorDePiano.js",
-      "bytes": 8123,
+      "bytes": 8124,
       "inicial": false
     },
     {
       "archivo": "assets/operaciones.js",
-      "bytes": 7335,
+      "bytes": 7333,
       "inicial": false
     },
     {
       "archivo": "assets/useReproductor.js",
-      "bytes": 4470,
+      "bytes": 4471,
       "inicial": false
     },
     {
@@ -71,7 +71,7 @@
     },
     {
       "archivo": "assets/Repaso.js",
-      "bytes": 2919,
+      "bytes": 2913,
       "inicial": false
     },
     {
@@ -81,12 +81,12 @@
     },
     {
       "archivo": "assets/Prueba.js",
-      "bytes": 2464,
+      "bytes": 2459,
       "inicial": false
     },
     {
       "archivo": "assets/copia.js",
-      "bytes": 2456,
+      "bytes": 2457,
       "inicial": false
     },
     {
@@ -101,12 +101,12 @@
     },
     {
       "archivo": "assets/Marco.js",
-      "bytes": 2195,
+      "bytes": 2198,
       "inicial": true
     },
     {
       "archivo": "assets/Muestrario.js",
-      "bytes": 2190,
+      "bytes": 2187,
       "inicial": false
     },
     {
@@ -116,22 +116,22 @@
     },
     {
       "archivo": "assets/Leccion.js",
-      "bytes": 1984,
+      "bytes": 1979,
       "inicial": false
     },
     {
       "archivo": "assets/Calibracion.js",
-      "bytes": 1896,
+      "bytes": 1899,
       "inicial": false
     },
     {
       "archivo": "assets/Repertorio.js",
-      "bytes": 1733,
+      "bytes": 1735,
       "inicial": false
     },
     {
       "archivo": "assets/RejillaDeRitmo.js",
-      "bytes": 1312,
+      "bytes": 1313,
       "inicial": false
     },
     {
@@ -146,7 +146,7 @@
     },
     {
       "archivo": "assets/PianoRoll.js",
-      "bytes": 1065,
+      "bytes": 1063,
       "inicial": false
     },
     {
@@ -156,7 +156,7 @@
     },
     {
       "archivo": "assets/Avance.js",
-      "bytes": 987,
+      "bytes": 988,
       "inicial": false
     },
     {
@@ -166,7 +166,7 @@
     },
     {
       "archivo": "assets/sonidos.js",
-      "bytes": 733,
+      "bytes": 735,
       "inicial": false
     },
     {
@@ -201,7 +201,7 @@
     },
     {
       "archivo": "assets/EjemploSuelto.js",
-      "bytes": 255,
+      "bytes": 258,
       "inicial": false
     },
     {

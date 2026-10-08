@@ -38,6 +38,13 @@ interface Escena {
 
 const ESCENAS: readonly Escena[] = [
   { nombre: 'mapa', ruta: '#/mapa', principal: true },
+  {
+    nombre: 'mapa-bloqueado',
+    ruta: '#/mapa',
+    preparar: async (pagina) => {
+      await pagina.getByRole('button', { name: /Mundo 1:/ }).click()
+    },
+  },
   { nombre: 'mundo', ruta: '#/mundo/m00' },
   { nombre: 'leccion-teoria', ruta: '#/leccion/m00.u01.l02/1' },
   {
@@ -284,6 +291,7 @@ console.log(`${hechas.length} capturas en informes/capturas.`)
 
 const TITULOS: Readonly<Record<string, string>> = {
   mapa: 'Mapa del mundo',
+  'mapa-bloqueado': 'Un mundo bloqueado',
   mundo: 'Un mundo por dentro',
   'leccion-teoria': 'Paso de teoría',
   'leccion-ejercicio': 'Paso con ejercicio',
