@@ -89,11 +89,11 @@ Los iconos, el emblema, los iconos de la app y el mapa del mundo en píxeles (te
 | `tone` | Transporte y planificación del audio, efectos | MIT |
 | `smplr` | Reproductor de los instrumentos muestreados | MIT |
 | `tonal` | Teoría musical: notas, intervalos, escalas y acordes | MIT |
-| `dexie` | Base de datos en el dispositivo (IndexedDB). Se usará en el Tramo B | Apache-2.0 |
-| `ts-fsrs` | Repaso espaciado (FSRS). Se usará en el Tramo B | MIT |
-| `@tonejs/midi` | Exportación a MIDI. Se usará en el Tramo B | MIT |
-| `abcjs` | Vista de pentagrama. Se usará en el Tramo B | MIT |
-| `motion` | Animaciones de la interfaz. Se usará en el Tramo B | MIT |
+| `dexie` | Progreso en el dispositivo (IndexedDB) | Apache-2.0 |
+| `ts-fsrs` | Repaso espaciado (FSRS) | MIT |
+| `@tonejs/midi` | Exportación a MIDI (trae `midi-file` y `array-flatten`, MIT) | MIT |
+| `abcjs` | Vista de pentagrama | MIT |
+| `motion` | Entrada de las pantallas (trae `framer-motion`, `motion-dom` y `motion-utils`, MIT, y `tslib`, 0BSD) | MIT |
 
 El service worker lo generan `vite-plugin-pwa` y Workbox (MIT), que dejan en la app publicada una pequeña parte de su código.
 

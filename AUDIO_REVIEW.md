@@ -15,7 +15,7 @@ Conviene hacer la revisión dos veces: con auriculares y con el altavoz del móv
 
 ## Lo que ya está comprobado
 
-`npm run audio:check` renderiza con el motor real, sin altavoces, y mide. En la última ejecución: **56 comprobaciones, 0 fallos** (`informes/audio.json`).
+`npm run audio:check` renderiza con el motor real, sin altavoces, y mide. En la última ejecución, el 5 de octubre de 2026, al terminar el motor de audio del Tramo B: **70 comprobaciones, 0 fallos** (`informes/audio.json`). **Desde entonces no se ha podido volver a ejecutar**: la máquina de trabajo de B6, B7 y B8 no tiene ffmpeg. Las cifras de la tabla son, por tanto, de antes del contenido del Mundo 0: los ejemplos de la sección F no están medidos.
 
 | Qué se mide | Resultado |
 | --- | --- |
@@ -24,7 +24,7 @@ Conviene hacer la revisión dos veces: con auriculares y con el altavoz del móv
 | Que cada pieza de la batería suena y a qué nivel | Las once suenan |
 | Que no suena nada antes de la primera nota | Silencio digital |
 | Que ocho golpes iguales suenan iguales a 60, 96, 120 y 150 BPM | Diferencia máxima de 0,01 dB |
-| Sonoridad y pico real de cada ejemplo del contenido | De −16,6 a −27,8 LUFS; ninguno satura |
+| Sonoridad y pico real de cada ejemplo del contenido que había entonces (dos lecciones) | De −16,6 a −27,8 LUFS; ninguno satura |
 
 Lo que estas medidas **no** dicen: si un timbre es agradable, si la mezcla está equilibrada, si un bucle se nota al repetirse, si el sonido llega a tiempo cuando se toca la pantalla.
 
@@ -93,21 +93,24 @@ Esto no se ha podido probar en ningún teléfono: ver «No comprobado» en HANDO
 
 ## F. Contenido del paso B7
 
-Toda la música es original, escrita para la app. Nada de esto se ha oído, y `npm run audio:check` no se pudo ejecutar en B7 (la máquina de trabajo no tiene ffmpeg): tampoco hay medidas de sonoridad de los ejemplos nuevos. Lo primero, cuando haya ffmpeg: `npm run audio:check` y comprobar que ningún ejemplo nuevo satura ni queda muy por debajo de los demás.
+Toda la música es original, escrita para la app. Nada de esto se ha oído, y `npm run audio:check` no se pudo ejecutar ni en B7 ni en B8 (la máquina de trabajo no tiene ffmpeg): tampoco hay medidas de sonoridad de los ejemplos nuevos. Lo primero, cuando haya ffmpeg: `npm run audio:check` y comprobar que ningún ejemplo nuevo satura ni queda muy por debajo de los demás.
+
+Revisado al cerrar el Tramo B (B8): el contenido no ha cambiado de sonido. Solo cambian dos textos y una etiqueta, anotados en F2 y F6.
 
 En **todos los ejercicios de ritmo** la cuenta previa suena con el golpe de aro y el patrón con la caja (`src/audio/ritmo.ts`). En el modo **eco** primero suena el patrón con la claqueta y después solo la claqueta mientras tocas; en el modo **leer** solo suena la claqueta. *Problema general*: que el aro y la caja se confundan, o que en el eco no quede claro cuándo empieza tu turno.
 
 **Pulso y compás (m00.u01)**
 
 - [ ] **F1. «El pulso».** El texto se ha corregido: ahora dice caja y golpe de aro donde antes decía bombo. Comprueba que cada paso dice lo que se oye.
-- [ ] **F2. «Redondas, blancas y negras».** Paso 1, «La posada del cruce» en pentagrama con pedal de charles: ¿se oye el pedal como pulso? Paso 2, una nota larga de piano sobre el pedal: *problema*, que la redonda se apague antes de los cuatro pulsos (A3). Paso 4, ritmo **leer** a 80 con blancas y una redonda; paso 5, **eco** a 84.
+- [ ] **F2. «Redondas, blancas y negras».** Paso 1, «La posada del cruce» en pentagrama con pedal de charles: ¿se oye el pedal como pulso? Paso 2, una nota larga de piano sobre el pedal: *problema*, que la redonda se apague antes de los cuatro pulsos (A3). Paso 3, la rejilla: el texto dice ahora «el pedal del charles (la fila «Pedal»)», que es lo que suena; comprueba que se oye como pulso de fondo bajo la caja. Paso 4, ritmo **leer** a 80 con blancas y una redonda; paso 5, **eco** a 84. Los dos se superan tocando a tiempo en las pruebas automáticas, pero eso no dice si el eco deja claro cuándo empieza tu turno.
 - [ ] **F3. «Corcheas y semicorcheas».** Paso 1, solo batería, con el charles en corcheas y luego en semicorcheas: *problema*, que suene a metralleta (A9). Paso 4, «Emboscada en el desfiladero», chip de pulso en semicorcheas a 120 con triangular y batería: *problema*, que el chip resulte hiriente o tape a los demás. Ritmos: seguir corcheas a 92, eco a 88 y seguir semicorcheas a 76.
 - [ ] **F4. «El compás, en cuatro y en tres».** Paso 1, marcha de batería con acentos. Paso 3, «Vals de la taberna» a 138 en 3/4, con las cuerdas en el dos y el tres: *problema*, que no lleguen a tiempo por su ataque lento (A6). Paso 4, oído de compás generado (4/4 o 3/4). Paso 5, «La caja de música», piano agudo hasta Do6.
 - [ ] **F5. «El 6/8».** «El muelle al amanecer» (piano, bajo y batería) y «Camino del valle» (chips). Ritmo seguir en 6/8 a 120: la claqueta da las seis corcheas; *problema*, que sea tan densa que no deje sentir los dos pulsos. Eco del galope. Oído de compás 3/4 contra 6/8: *decide* si se distinguen bien con el patrón generado.
-- [ ] **F6. «Silencios y puntillo».** «Pasillos del castillo» (piano con silencios y bajo) y «La guardia del puerto» (piano y caja con puntillo). Construcción: escucha las tres opciones en el hueco.
+- [ ] **F6. «Silencios y puntillo».** «Pasillos del castillo» (piano con silencios y bajo) y «La guardia del puerto» (piano y caja con puntillo). Construcción: escucha las tres opciones en el hueco. Desde B8 se leen «Do5 negra – silencio de negra», «Do5 corchea – …» y «Do5 blanca»: *decide* si al oírlas en el hueco se distingue lo que dicen.
 - [ ] **F7. «La feria del pueblo».** «La plaza del mercado» (piano, cuerdas, bajo y batería) es el ejemplo más denso de la unidad: *problema*, que el limitador bombee (B6).
 - [ ] **F8. Capas en «La feria del pueblo».** Tres estados: solo fondo (cuerdas y bajo); fondo y melodía; todo, con batería. *Problema*: golpes de volumen al entrar o salir la batería, o un fondo que suena vacío.
-- [ ] **F9. Ordenar secciones** («La feria del pueblo» y «Casa, viaje y tensión»). *Problema*: que al escuchar un fragmento suelto se corte la última nota o arranque a destiempo.
+- [ ] **F9. Ordenar secciones** («La feria del pueblo» y «Casa, viaje y tensión»). *Problema*: que al escuchar un fragmento suelto se corte la última nota o arranque a destiempo. Desde B8, «Escuchar» (el conjunto, en el orden puesto) está debajo de la pieza y no en el pie.
+- [ ] **F9b. Los tres encargos** («El bucle de la feria», «La llamada del héroe» y «El bucle de la aldea»). Escribe algo en cada uno y escúchalo en bucle en el piano roll mientras editas. *Problema*: que al poner notas con la música sonando se oigan cortes, que una nota puesta con la música parada no suene al ponerla, o que el bucle dé un salto al volver al principio.
 
 **Notas e intervalos (m00.u02)**
 

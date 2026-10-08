@@ -16,6 +16,8 @@ La referencia exacta de cada campo son los esquemas de `src/contenido/esquemas.t
 - [Conceptos, glosario, fichas y prueba de nivel](#conceptos-glosario-fichas-y-prueba-de-nivel)
 - [Qué comprueba el compilador](#qué-comprueba-el-compilador)
 - [Cómo se escribe una buena lección](#cómo-se-escribe-una-buena-lección)
+- [Errores frecuentes al escribir](#errores-frecuentes-al-escribir)
+- [Cómo se ve y se prueba una lección](#cómo-se-ve-y-se-prueba-una-lección)
 
 ## Cómo se trabaja
 
@@ -145,7 +147,7 @@ ejemplo:
 | `tonalidad` | no | `D mayor`, `A menor`, `E frigio`… |
 | `titulo` | no | Nombre de la pieza |
 | `bucle` | no | `true` si se repite sin fin |
-| `swing` | no | De 0 (recto) a 1 (tresillo) |
+| `swing` | no | De 0 (recto) a 1 (tresillo): cuánto se retrasan las corcheas a contratiempo al sonar. Se escribe recto, como en una partitura de jazz; lo demás lo hace el motor. No va al MIDI exportado |
 | `acordes` | no | [Línea de acordes](#acordes) |
 | `secciones` | no | Lista de `{ id, desde, hasta }` en compases, con `nombre` opcional. El `id` es una letra o un nombre corto: `A`, `B`, `intro` |
 | `cromatismos` | no | Notas ajenas a la tonalidad que son intencionadas: `[C, Bb]` |
@@ -178,7 +180,20 @@ ejemplo:
 
 El catálogo está en `src/musica/instrumentos.ts`. Una nota fuera del registro de su instrumento es un error.
 
-Piezas de la batería: `bombo`, `aro`, `caja`, `charles`, `charles_pedal`, `charles_abierto`, `tom_grave`, `tom_agudo`, `crash`, `ride` y `campana`.
+Piezas de la batería, con el rótulo que llevan en la rejilla y en el piano roll:
+
+| Se escribe | Se rotula | Qué es |
+| --- | --- | --- |
+| `bombo` | Bombo | Bombo |
+| `aro` | Aro | Golpe de aro: seco, más corto que la caja |
+| `caja` | Caja | Caja |
+| `charles` | Charles | Charles cerrado, con la baqueta |
+| `charles_pedal` | Pedal | Charles con el pie |
+| `charles_abierto` | Abierto | Charles abierto |
+| `tom_grave`, `tom_agudo` | Tom gr., Tom ag. | Toms |
+| `crash`, `ride`, `campana` | Crash, Ride, Campana | Platos y campana del ride |
+
+Si el texto nombra una pieza, que sea la que suena y la que se ve rotulada: «el pedal del charles (la fila «Pedal»)», no «el charles».
 
 ### Taquigrafía de notas
 
@@ -269,7 +284,14 @@ Según `modo`:
 | `compas` | En qué compás está | `compases` (2–5), `tempo`, `rondas` |
 | `preguntas` | Preguntas escritas a mano sobre un fragmento | `preguntas` (1–12) |
 
-En los modos que generan las preguntas solos, `rondas` es el número de preguntas (5 por defecto) y `registro` son las dos notas entre las que se mueve (`[C3, C5]` por defecto).
+En los modos que generan las preguntas solos:
+
+- `rondas` es el número de preguntas: de 1 a 20, 5 por defecto.
+- `registro` (en `intervalo`, `acorde` y `contorno`) son las dos notas entre las que se mueven las preguntas, la grave primero: `[C4, C5]`. Por defecto, `[C3, C5]`. Tienen que caber en el instrumento.
+- `instrumento` es el que suena: `piano` por defecto (en `timbre`, los que se comparan).
+- `tempo`, donde lo hay: 84 BPM por defecto en `progresion`, 96 en `timbre` y 100 en `compas`.
+- En `escala`, `tonicas` son las notas desde las que puede empezar (por defecto Do, Re, Fa, Sol y La) y `presentacion` decide si suena la escala subiendo (`escala`) o una melodía hecha con ella (`melodia`).
+- En `acorde`, `presentacion` puede ser `bloque` (todas a la vez, por defecto), `arpegio` o `ambos`, e `inversiones: true` añade acordes invertidos.
 
 En el modo `preguntas`, cada pregunta lleva su `pieza`, de 2 a 5 `opciones`, la posición de la `correcta` (**empezando en 1**) y una `explicacion` opcional:
 
@@ -306,7 +328,9 @@ El usuario toca un patrón con el dedo y se mide su precisión.
 | `cuentaAtras` | Compases de claqueta: 1 (por defecto) o 2 |
 | `repeticiones` | De 1 a 8. Por defecto, 2 |
 | `tolerancia` | `amplia`, `normal` (por defecto) o `estricta` |
-| `guia` | Qué suena mientras el usuario toca: `patron` (el patrón entero), `claqueta` (un clic en cada tiempo), `compas` (solo el primer tiempo de cada compás) o `nada`. Por defecto, `patron` en el modo `seguir` y `claqueta` en los otros dos |
+| `guia` | Qué suena mientras el usuario toca: `patron` (el patrón entero), `claqueta` (un clic en cada tiempo), `compas` (solo el primer tiempo de cada compás) o `nada`. Por defecto, `patron` en el modo `seguir` y `claqueta` en los otros dos. Con `guia: patron` en `eco` o `leer` el ejercicio se convierte en seguir: no tiene sentido |
+
+En el modo `eco` se alternan, tantas veces como diga `repeticiones`, una vuelta en la que suena el patrón (con la claqueta) y otra en la que toca el usuario, con lo que diga `guia`; la rejilla no enseña el patrón hasta corregir. En `leer`, el patrón se ve desde el principio y no suena nunca. Los toques se miden contra el reloj del audio y se les resta el retardo que el usuario haya calibrado.
 
 ### 3. Construcción guiada (`tipo: construccion`)
 
@@ -468,4 +492,22 @@ La verificación de audio (`npm run audio:check`) va un paso más allá: renderi
 - **La pista orienta; la explicación enseña.** La pista dice dónde mirar o cómo escuchar. La explicación dice por qué la respuesta es la que es, de modo que sirva también a quien ha fallado.
 - **Con oído de videojuego.** Los ejemplos se justifican por lo que hacen en un juego: qué pide una mazmorra, un combate, una tienda.
 - **De tú, en frases cortas.** Español de España. Los términos técnicos, enlazados al glosario la primera vez que salen.
-- **Cada unidad acaba en un encargo**, con al menos tres requisitos que se puedan comprobar con reglas.
+- **Cada unidad acaba en un encargo**, con al menos tres requisitos que se puedan comprobar con reglas. Ponle plantilla (las pistas que ya «vienen del estudio» y las vacías que escribe el usuario) y comprueba que se puede cumplir todo: las pruebas de navegador escriben los tres encargos del Mundo 0 nota a nota (`e2e/encargos.spec.ts`), y conviene hacer lo mismo con los nuevos.
+- **El enunciado es un titular.** Se ve en mayúsculas y en letra grande: una frase corta, de una o dos líneas en el móvil. Lo largo va en la pista, la explicación o un paso de teoría.
+
+## Errores frecuentes al escribir
+
+Aprendido al escribir el Mundo 0:
+
+- **«: » dentro de un texto sin comillas.** El YAML lo lee como otra clave y el error sale lejos. O se entrecomilla el valor o se usa el bloque `|`.
+- **Un valor que empieza por una marca.** `{n:D5} a {n:A5}…` sin comillas es un objeto de YAML, no un texto. Se entrecomilla: `explicacion: "{n:D5} a {n:A5}: siete semitonos."`. Lo mismo en las listas: `opciones: ["{i:3M}", "{i:4J}"]`.
+- **Nombrar dos veces.** `{i:3M}` ya se lee «3.ª mayor» y `{t:C mayor}`, «Do mayor»: no hace falta escribir el nombre al lado.
+- **Texto que no coincide con lo que suena.** Si el texto dice «bombo», tiene que sonar el bombo; si dice «charles», la fila tiene que ser la del charles. Antes de dar una lección por buena, se escucha cada ejemplo con el texto delante (y se apunta en AUDIO_REVIEW.md lo que no se ha podido oír).
+- **Opciones que se leen igual.** En `completar-melodia`, cada opción se enseña por sus notas («Fa♯5 – Mi5»). Si dos tienen las mismas notas y solo cambia el ritmo, la app añade a todas la figura de cada nota y los silencios («Do5 negra – silencio de negra»), pero es mejor que se distingan también al leerlas.
+
+## Cómo se ve y se prueba una lección
+
+- `npm run content:check` tiene que acabar con cero errores y cero avisos.
+- `npm run shots -- --ruta=#/leccion/m00.u01.l03/1,#/leccion/m00.u01.l03/2` saca capturas de esos pasos en los dos esquemas y los dos tamaños, con todas las lecciones hechas (en Git Bash, con `MSYS_NO_PATHCONV=1` delante). Mira sobre todo el tamaño pequeño (360 × 640).
+- `e2e/contenido.spec.ts` abre cada paso de cada lección real a 360 × 640 y falla si hay un error en la consola, si algo se sale por los lados o si el pie (con sus botones) queda fuera de la vista. Cubre las lecciones nuevas sin escribir otra prueba, pero no hace los ejercicios.
+- `npm run audio:check` renderiza los ejemplos y mide que suenan (necesita ffmpeg). Lo que hay que juzgar de oído va a AUDIO_REVIEW.md.

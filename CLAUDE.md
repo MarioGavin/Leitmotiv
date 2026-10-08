@@ -58,10 +58,10 @@ No se reabren. Si alguna estorba, se le plantea a Mario antes de tocar nada.
 | PWA | vite-plugin-pwa (Workbox) | Las actualizaciones las acepta el usuario; nunca se recarga sola |
 | Audio | Tone.js 15 (transporte), smplr 1.1 (muestras), Web Audio nativo (sintetizados) | Un solo `AudioContext` para todo |
 | Teoría musical | Tonal, **fijada en 6.4.3** | La 6.5.0 no se puede importar desde Node |
-| Estado | Zustand; ajustes en localStorage | El progreso irá en IndexedDB con Dexie |
-| Repaso espaciado | ts-fsrs | |
+| Estado | Zustand; ajustes en localStorage | El progreso, en IndexedDB con Dexie (`src/progreso/`), en un trozo aparte |
+| Repaso espaciado | ts-fsrs | En un trozo aparte; `agenda.ts` lee las fechas sin cargarla |
 | Pentagrama | abcjs, en un trozo aparte | VexFlow se descartó por peso |
-| MIDI | @tonejs/midi | |
+| MIDI | @tonejs/midi | Se carga al exportar |
 | Animación | Motion | Con `LazyMotion`, en un trozo aparte |
 | Contenido | YAML, zod 4 | |
 | Pruebas | Vitest 5 y Playwright **1.56.0 (fijada)** | Solo Chromium |
@@ -88,7 +88,7 @@ npm run audio:check     # render sin altavoces y medidas; necesita ffmpeg (-- --
 npm run content:check   # valida content/ sin escribir
 npm run content:schemas # regenera content/.esquemas tras tocar src/contenido/esquemas.ts
 npm run size            # presupuesto de la carga inicial sobre dist/
-npm run shots           # capturas en informes/capturas (-- --hoja, --escena=, --esquema=, --tam=, --completa)
+npm run shots           # capturas en informes/capturas (-- --hoja, --escena=, --esquema=, --tam=, --completa, --ruta=)
 npm run samples:build   # reconstruye public/samples desde los repositorios de origen (a mano; necesita ffmpeg)
 npm run fonts:build     # regenera las fuentes de signos (src/ui/fuentes)
 npm run icons:build     # regenera los iconos de la app (public/icons)
@@ -101,7 +101,8 @@ Antes de dar algo por terminado: `npm run check`, `npm run e2e` y, si se ha toca
 ## Estructura
 
 ```
-content/                 Fuente del curso (YAML). mundos/mNN-…/uNN-…/lNN-….yaml, glosario, conceptos, fichas
+content/                 Fuente del curso (YAML). mundos/mNN-…/uNN-…/lNN-….yaml, glosario.yaml, conceptos.yaml,
+                         fichas/ (una por archivo) y prueba-de-nivel.yaml
   .esquemas/             JSON Schema generados, para el autocompletado del editor
 src/
   main.tsx               Entrada: monta App e importa las hojas de estilo
@@ -119,6 +120,8 @@ src/
                          muestras.ts, niveles.ts, offline.ts
   musica/                tiempo, notas, tonalidad, pieza (formato único), taquigrafia, comprobaciones, instrumentos
   contenido/             esquemas.ts (zod, lo que se escribe) y tipos.ts (lo compilado, lo que lee la app)
+  progreso/              base.ts (Dexie), progreso.ts (almacén), operaciones, experiencia, racha, desbloqueo, repaso (FSRS),
+                         agenda, ficha, copia (exportar e importar) y tipos
 scripts/
   contenido/             Compilador YAML → public/content (JSON)
   muestras/              Construcción del banco de sonidos y su DSP
@@ -126,7 +129,9 @@ scripts/
   diseno/                Medida del contraste
   fuentes/, iconos.ts    Fuentes de signos e iconos de la app
   capturas.ts, presupuesto.ts
-e2e/                     Playwright: arranque, lección, piano roll, PWA y sin conexión, audio, tamaño de los controles, tildes
+e2e/                     Playwright: una prueba por pantalla y por tipo de paso, contenido.spec.ts (cada paso de cada lección
+                         real, a 360 × 640), encargos, ritmo, PWA y sin conexión, audio, tamaño de los controles, tildes.
+                         ayudas.ts (sembrarProgreso, tocarAlRitmo, escribirEnElRollo…) y leccion-de-prueba.ts
 public/                  icons/, samples/ (en git) y content/ (generado, fuera de git)
 informes/                audio.json, presupuesto.json, muestras/ (en git); capturas/ y tmp/ (fuera de git)
 docs/diseno/             Hojas de capturas de la interfaz
@@ -171,11 +176,12 @@ docs/diseno/             Hojas de capturas de la interfaz
 
 - Las unitarias viven junto a lo que prueban (`*.test.ts`) y corren en Node, sin DOM. Toda la lógica musical y cada validador tienen las suyas.
 - Lo que depende del navegador (PWA, sin conexión, tacto, flujo de una lección) se prueba con Playwright sobre la versión de producción.
+- `e2e/contenido.spec.ts` abre cada paso de cada lección de `content/` a 360 × 640 y falla con cualquier error de consola, con algo que se salga por los lados o con el pie fuera de la vista: una lección nueva queda cubierta sin escribir otra prueba.
 - Un fallo encontrado se arregla junto con la prueba que lo habría detectado.
 
 ## Recetas
 
-- **Lección nueva**: un YAML en la carpeta de su unidad. Nada más.
+- **Lección nueva**: un YAML en la carpeta de su unidad. Nada más. Después, `npm run content:check` y, para verla, `npm run shots -- --ruta=#/leccion/mNN.uNN.lNN/1`.
 - **Componente de un tipo de paso**: el componente en `src/ejercicios/` y su caso en `VistaDePaso.tsx`. Los pasos de componer ocupan la pantalla entera mientras se edita: ver `Composicion.tsx`.
 - **Campo nuevo en el contenido**: `src/contenido/esquemas.ts`, `src/contenido/tipos.ts`, `scripts/contenido/`, su prueba, `npm run content:schemas` y CONTENT_GUIDE.md.
 - **Pantalla nueva**: `src/app/rutas.ts`, un archivo en `src/pantallas/`, `App.tsx`, una escena en `scripts/capturas.ts` y su ruta en la lista `PANTALLAS` de `e2e/ayudas.ts`.
@@ -194,3 +200,7 @@ docs/diseno/             Hojas de capturas de la interfaz
 - Los ajustes se guardan en localStorage (`leitmotiv-ajustes`) y un script de `index.html` los aplica antes de pintar. Si cambia su forma, hay que subir `version` y revisar ese script.
 - Si cambia el formato de las muestras, hay que subir la versión de la caché en `src/audio/muestras.ts`.
 - En un terminal de agente, `pkill -f "vite preview"` se mata a sí mismo. Usar `pkill -f "[v]ite preview"`.
+- **Windows**: Playwright va de dos en dos procesos (`playwright.config.ts`); con más se agotan los tiempos. En Git Bash, `--ruta=#/…` y `BASE_PATH=/leitmotiv/` se convierten en rutas de Windows: delante, `MSYS_NO_PATHCONV=1`, o usar PowerShell. Esta máquina no tiene ffmpeg: `npm run audio:check` y `npm run samples:build` no se pueden ejecutar en ella.
+- **El reloj de audio**: si las pruebas de ritmo (calibración, `ritmo.spec.ts`, «El tempo») fallan todas a la vez sin motivo, mide `AudioContext.currentTime` contra `performance.now()` unos segundos. En una ocasión el reloj de audio de la máquina iba a 0,65 veces el tiempo real; un rato después, bien.
+- `sembrarProgreso` y `marcarHechas` (`e2e/ayudas.ts`) escriben en IndexedDB las mismas tablas que `src/progreso/base.ts`: si cambia su esquema, hay que cambiarlas también.
+- Con `isMobile`, si algo se sale por los lados, Chromium ensancha la página e `innerWidth` lo sigue: para medir lo que se ve, `visualViewport`.

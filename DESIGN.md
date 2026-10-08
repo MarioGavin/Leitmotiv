@@ -39,6 +39,7 @@ Las capturas están en [docs/diseno/pantallas.png](docs/diseno/pantallas.png) y 
 
 - Una sola columna, de 360 a 480 px de ancho. En pantallas más anchas la columna se centra.
 - La cabecera y el pie se quedan fijos; el cuerpo se desplaza. Las pistas y las correcciones aparecen dentro del cuerpo, justo encima del pie, y se traen a la vista solas: así un texto largo nunca tapa el botón.
+- **El pie, corto**: como mucho dos botones con texto y uno de solo icono. A 360 px no caben tres con texto: la página se ensancha y el pie se sale (pasaba en «ordenar secciones»). «Escuchar» va con la pieza, en el cuerpo, como en todos los ejercicios. `e2e/contenido.spec.ts` lo mide en cada paso de cada lección.
 - El piano roll es la excepción: ocupa la pantalla entera y solo se desplaza la rejilla.
 - La navegación principal tiene cinco secciones: Mapa, Repaso, Repertorio, Glosario y Ajustes. Dentro de una lección o del piano roll no hay navegación.
 
@@ -119,6 +120,7 @@ Todos están en `src/ui`. La estructura y las medidas, en `src/ui/estilos/compon
 | Botón | Principal (acento), secundario, fantasma (solo texto) y cuadrado con icono | `Boton.tsx` |
 | Opciones | Lista de respuestas con cursor. Es un grupo de botones de radio: con teclado se recorre con las flechas | `Opciones.tsx` |
 | Diálogo | Marco con rótulo de color para la pista, el acierto y el fallo | `Dialogo.tsx` |
+| Ventana | Panel que sube desde abajo sobre la pantalla, con su rótulo y su botón de cerrar: el glosario, las opciones del piano roll, los requisitos, una pieza del repertorio, las confirmaciones | `Ventana.tsx` |
 | Avance | Un tramo por paso de la lección | `Avance.tsx` |
 | Cabecera y Navegación | Lo fijo de arriba y de abajo | `Cabecera.tsx`, `Navegacion.tsx` |
 | Conmutador | Elegir una entre dos o tres opciones | `Conmutador.tsx` |
@@ -130,7 +132,14 @@ Todos están en `src/ui`. La estructura y las medidas, en `src/ui/estilos/compon
 | Teclado | La pieza sobre un teclado: teclas usadas marcadas y las que suenan encendidas con el color de su pista | `musica/TecladoDePieza.tsx` |
 | Rejilla de pasos | La pieza como una caja de ritmos: una fila por pieza de la batería o pista, un bloque por compás | `musica/RejillaDePasos.tsx` |
 | Campo de texto | Hundido y con el marco fino: buscar en el glosario, el título de una pieza | `.campo` |
-| Rollo de piano | La rejilla editable, con nombres de notas y compases fijos en los bordes | `musica/RolloDePiano.tsx` |
+| Rollo de piano | La rejilla editable, con nombres de notas y compases fijos en los bordes. Se recorre también con el teclado (cursor de casilla) | `musica/RolloDePiano.tsx` |
+| Editor de piano | El piano roll completo, a pantalla entera: pestañas de pista (con candado si no se edita), figura, deshacer, lápiz y goma, opciones (tempo, rejilla, ampliación, bucle, pentagrama, MIDI) | `musica/EditorDePiano.tsx` |
+| Audición | Una pieza a la vista con su botón «Escuchar»: lo que acompaña a las preguntas de los ejercicios | `musica/Audicion.tsx` |
+| Pentagrama | La pieza en notación, con la tinta del tema. Se descarga aparte | `musica/Pentagrama.tsx` |
+| Rejilla de ritmo | El patrón de un ejercicio de ritmo: casillas con golpe, acento o silencio; al corregir, cada golpe con su marca (a tiempo, adelantado, atrasado, perdido) | `musica/RejillaDeRitmo.tsx` |
+| Pad de toques | La superficie grande donde se toca el ritmo: responde al apoyar el dedo, no al levantarlo | `musica/PadDeToques.tsx` |
+| Lista de requisitos | Una línea por requisito de un piano roll o un encargo, con ✓ o ✗, lo que se pide y lo que falta | `.requisito`, en `ejercicios/Composicion.tsx` |
+| Orden y capas | Las filas de «ordenar secciones» (escuchar, subir, bajar) y la lista de capas que suenan, con luz hueca o llena | `.orden`, `.capas` |
 | Emblema | Las cuatro notas del motivo | `Emblema.tsx` |
 | Ficha del jugador | Nivel, barra de experiencia con su cifra y racha. En el mapa, el mundo y, si hay algo hecho, el título | `FichaDelJugador.tsx` |
 | Mapa del mundo | El mapa en píxeles con un botón por mundo | `mapa/MapaDelMundo.tsx` |
@@ -223,6 +232,8 @@ Generado con `npx tsx scripts/diseno/contraste.ts` a partir de `tema.css`. Si ca
 npm run shots -- --hoja
 npm run shots -- --hoja=mas --tam=390x844 --escena=titulo,mundo,leccion-teoria,leccion-correccion,glosario-ventana,leccion-completada,ajustes
 ```
+
+Para ver pasos concretos de una lección, con todas las lecciones hechas: `npm run shots -- --ruta=#/leccion/m00.u01.l03/1,#/leccion/m00.u03.l07/5 --hoja=nombre` (en Git Bash, con `MSYS_NO_PATHCONV=1` delante). Al cerrar el Tramo B se revisaron así una lección de cada tipo de paso, además de la hoja principal, `mapa-bloqueado` y `encargo-editor` (un encargo a medio escribir).
 
 La lista de escenas está al principio de `scripts/capturas.ts`. Las capturas se hacen en un navegador de escritorio que imita un móvil: no sustituyen a mirar la app en el teléfono.
 
