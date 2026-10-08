@@ -13,7 +13,8 @@ PWA para aprender a componer música de videojuegos desde el móvil. La usa una 
 - **No inventes API.** Antes de usar una librería, consulta su documentación actual o su código en `node_modules`, y ejecuta lo que afirmes.
 - **Licencias y autores, del origen.** No se dan de memoria: se leen en el repositorio o el paquete y se anotan en CREDITS.md.
 - **Lo no comprobado se dice.** Nada se da por hecho sin haberlo ejecutado.
-- El encargo original de Mario no está copiado literalmente en el repositorio. Lo que sigue lo resume. El alcance exacto de las fases 2 y 3 está en ese encargo: pídeselo antes de empezarlas.
+- El encargo original de Mario no está copiado literalmente en el repositorio. Lo que sigue lo resume. El alcance exacto de las fases 2 y 3 está en ese encargo: pídeselo antes de empezarlas. Según el encargo, la Fase 2 escribe el contenido de los Mundos 1 a 7 (un agente por unidad, con dos revisores por unidad, uno musical y otro de pedagogía y castellano, y un crítico final del plan) y la Fase 3, los Mundos 8 a 10 y el proyecto final, el pulido, el rendimiento y las pruebas en el móvil.
+- **El mapa de unidades** de todos los mundos está en [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md): cada unidad de la Fase 2 se escribe a partir de su ficha, una vez que Mario lo haya aprobado.
 
 ## Decisiones cerradas
 

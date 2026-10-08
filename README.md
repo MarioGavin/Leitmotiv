@@ -97,6 +97,7 @@ docs/        Capturas de la interfaz
 | --- | --- |
 | [HANDOFF.md](HANDOFF.md) | Estado del proyecto: hecho, pendiente, problemas conocidos y no comprobado |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Cómo está hecho y por qué: librerías, audio, PWA, pruebas |
+| [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md) | El mapa del curso: las unidades de cada mundo y sus ocho lecciones, para la Fase 2 |
 | [CONTENT_GUIDE.md](CONTENT_GUIDE.md) | Cómo se escribe una lección: mundos, unidades, pasos y los siete tipos de ejercicio |
 | [DESIGN.md](DESIGN.md) | Sistema de diseño, con el contraste medido |
 | [AUDIO_REVIEW.md](AUDIO_REVIEW.md) | Lo que hay que comprobar de oído y en el móvil |
