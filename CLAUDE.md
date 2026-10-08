@@ -6,14 +6,15 @@ PWA para aprender a componer música de videojuegos desde el móvil. La usa una 
 
 ## Cómo se trabaja
 
-- **Todo en español de España**: interfaz, contenido, documentos, nombres del código, comentarios, mensajes de commit y la conversación con Mario.
+- **Todo en español de España**: interfaz, contenido, documentos, nombres del código, comentarios y la conversación con Mario.
+- **Los mensajes de commit, en inglés**, impersonales y profesionales: sin nombrar a Mario ni hablar en primera persona. Se conserva la etiqueta del paso: `test: cover Mundo 0 commissions end to end (B8-1)`.
 - **Por fases, con paradas.** Fase 1: cimientos, los siete tipos de ejercicio, el Mundo 0 entero y dos lecciones del Mundo 1. Fase 2: el contenido del resto de los mundos, en otra sesión y con varios agentes. Después, una fase 3. Las fases se parten en tramos. Al final de cada tramo, un commit; en cada parada se enseña el resultado y se espera a Mario. No se sigue sin su visto bueno.
 - **Al cerrar un tramo o una fase**: informe con tres listas (hecho, no hecho, no comprobado) y HANDOFF.md al día.
 - **No puedes oír.** Nunca afirmes que algo «suena bien». Lo que se puede medir se mide (`npm run audio:check`); lo que hay que juzgar de oído se apunta en AUDIO_REVIEW.md para que lo escuche Mario.
 - **No inventes API.** Antes de usar una librería, consulta su documentación actual o su código en `node_modules`, y ejecuta lo que afirmes.
 - **Licencias y autores, del origen.** No se dan de memoria: se leen en el repositorio o el paquete y se anotan en CREDITS.md.
 - **Lo no comprobado se dice.** Nada se da por hecho sin haberlo ejecutado.
-- El encargo original de Mario no está copiado literalmente en el repositorio. Lo que sigue lo resume. El alcance exacto de las fases 2 y 3 está en ese encargo: pídeselo antes de empezarlas. Según el encargo, la Fase 2 escribe el contenido de los Mundos 1 a 7 (un agente por unidad, con dos revisores por unidad, uno musical y otro de pedagogía y castellano, y un crítico final del plan) y la Fase 3, los Mundos 8 a 10 y el proyecto final, el pulido, el rendimiento y las pruebas en el móvil.
+- El encargo original de Mario está copiado tal cual en [docs/ENCARGO.md](docs/ENCARGO.md). Lo que sigue lo resume y, donde se ha decidido otra cosa después (el nombre, abcjs, el diseño), manda este archivo. El alcance exacto de las fases 2 y 3 está en el encargo. Según el encargo, la Fase 2 escribe el contenido de los Mundos 1 a 7 (un agente por unidad, con dos revisores por unidad, uno musical y otro de pedagogía y castellano, y un crítico final del plan) y la Fase 3, los Mundos 8 a 10 y el proyecto final, el pulido, el rendimiento y las pruebas en el móvil.
 - **El mapa de unidades** de todos los mundos está en [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md): cada unidad de la Fase 2 se escribe a partir de su ficha, una vez que Mario lo haya aprobado.
 
 ## Decisiones cerradas

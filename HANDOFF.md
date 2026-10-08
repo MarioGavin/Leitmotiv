@@ -27,8 +27,7 @@ Para quien continúe el trabajo sin haber visto las conversaciones anteriores. L
 3. **Aprobar o corregir [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md)**: el mapa de unidades de los Mundos 1 a 10 y del proyecto final (39 unidades, 312 lecciones). Y decidir, de lo que recoge al final («Lo que el motor tendrá que aprender»), qué entra en la Fase 2: instrumentos nuevos, reglas de corrección nuevas y funciones (encargos con varias piezas, encargos de capas, matices…).
 4. **Medir el audio**: instalar ffmpeg en esta máquina y ejecutar `npm run audio:check`, o subir los commits (`git push`: los de B7-7 y B8 no están subidos) y mirar si el flujo «Comprobación» de GitHub Actions pasa. Desde las sesiones de trabajo no hay acceso a GitHub.
 5. **Decidir dos cosas del encargo original que no se han hecho**: el **«rango de compositor»** (hoy solo hay nivel numérico) y los **sellos por unidad**. Y cómo se guarda el proyecto final en `content/` (el mapa ya tiene su nodo «F»).
-6. **Pasar el encargo original al repositorio**, si quieres: hoy no está copiado y cada fase empieza pidiéndotelo.
-7. Decidir si el repositorio lleva licencia. Ahora no tiene ninguna.
+6. Decidir si el repositorio lleva licencia. Ahora no tiene ninguna.
 
 ## Hecho en el Tramo B
 
@@ -123,10 +122,10 @@ npm run audio:check               # necesita ffmpeg; la última vez, 70 comproba
 npm run dev
 ```
 
-Después: leer CLAUDE.md y PLAN_DE_ESTUDIOS.md, preguntar a Mario qué ha decidido en la Parada 2 y qué ha oído y probado en el móvil, y pedirle el encargo original si no está en el repositorio.
+Después: leer CLAUDE.md y PLAN_DE_ESTUDIOS.md, leer el encargo original en docs/ENCARGO.md y preguntar a Mario qué ha decidido en la Parada 2 y qué ha oído y probado en el móvil.
 
 ## Prompt para empezar la Fase 2
 
 Una propuesta, para usarla cuando Mario haya dado el visto bueno en la Parada 2 (y ajustarla a lo que decida):
 
-> Lee CLAUDE.md, CONTENT_GUIDE.md, PLAN_DE_ESTUDIOS.md y HANDOFF.md. Empieza la Fase 2: el contenido de los Mundos 1 a 7 según PLAN_DE_ESTUDIOS.md, con los cambios que te diga. Antes de escribir, pídeme el encargo original y dime qué reglas de corrección, instrumentos y funciones del final de PLAN_DE_ESTUDIOS.md hacen falta para el primer mundo; impleméntalos primero, con sus pruebas. Después, un agente por unidad escribe sus ocho lecciones siguiendo CONTENT_GUIDE.md, y dos revisores independientes las revisan (uno musical, ejecutando `npm run content:check` y `npm run audio:check`; otro de pedagogía y castellano). Cada encargo nuevo se escribe en una prueba de navegador hasta cumplir sus requisitos. Un mundo por tramo, con un commit por unidad y una parada al final de cada mundo.
+> Lee CLAUDE.md, CONTENT_GUIDE.md, PLAN_DE_ESTUDIOS.md y HANDOFF.md. Empieza la Fase 2: el contenido de los Mundos 1 a 7 según PLAN_DE_ESTUDIOS.md, con los cambios que te diga. Antes de escribir, lee docs/ENCARGO.md y dime qué reglas de corrección, instrumentos y funciones del final de PLAN_DE_ESTUDIOS.md hacen falta para el primer mundo; impleméntalos primero, con sus pruebas. Después, un agente por unidad escribe sus ocho lecciones siguiendo CONTENT_GUIDE.md, y dos revisores independientes las revisan (uno musical, ejecutando `npm run content:check` y `npm run audio:check`; otro de pedagogía y castellano). Cada encargo nuevo se escribe en una prueba de navegador hasta cumplir sus requisitos. Un mundo por tramo, con un commit por unidad y una parada al final de cada mundo.
