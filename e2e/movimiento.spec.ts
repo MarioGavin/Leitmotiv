@@ -3,9 +3,11 @@ import { vigilarErrores } from './ayudas.ts'
 
 /**
  * Cambia de pantalla con la navegación y mide, fotograma a fotograma, la
- * opacidad y la transformación del envoltorio de la pantalla nueva durante
- * medio segundo. Motion se descarga cuando la app está ociosa, así que antes
- * se espera a que haya llegado.
+ * opacidad y la transformación del envoltorio de la pantalla nueva hasta que
+ * lleva un rato quieta (o, como mucho, un segundo y medio). No se mide un
+ * tiempo fijo desde el clic: la pantalla nueva se descarga aparte y, con la
+ * máquina ocupada, la entrada puede empezar tarde y estar aún acabando. Motion
+ * se descarga cuando la app está ociosa, así que antes se espera a que haya llegado.
  */
 async function entrarEn(pagina: Page, seccion: string): Promise<{ opacidades: number[]; transformaciones: string[]; envoltorios: number }> {
   await pagina.waitForFunction(() => performance.getEntriesByType('resource').some((r) => /\/Entrada-[\w-]+\.js$/.test(r.name)))
@@ -17,13 +19,22 @@ async function entrarEn(pagina: Page, seccion: string): Promise<{ opacidades: nu
     const enlace = [...document.querySelectorAll<HTMLAnchorElement>('.navegacion__enlace')].find((a) => a.textContent?.includes(nombre))
     enlace?.click()
     const inicio = performance.now()
-    while (performance.now() - inicio < 500) {
+    let quietaDesde: number | undefined
+    let seHaMovido = false
+    while (performance.now() - inicio < 1500) {
       await new Promise(requestAnimationFrame)
       const envoltorio = document.querySelector<HTMLElement>('.entrada')
       if (!envoltorio) continue
       const estilo = getComputedStyle(envoltorio)
       opacidades.push(Number(estilo.opacity))
       transformaciones.push(estilo.transform)
+      const quieta = estilo.opacity === '1' && (estilo.transform === 'none' || estilo.transform.endsWith(', 0)'))
+      if (!quieta) {
+        seHaMovido = true
+        quietaDesde = undefined
+      } else quietaDesde ??= performance.now()
+      // Tras moverse, 100 ms quieta bastan; si no se ha movido (reducir movimiento), se mira medio segundo.
+      if (quietaDesde !== undefined && performance.now() - quietaDesde > (seHaMovido ? 100 : 500)) break
     }
     return { opacidades, transformaciones, envoltorios: document.querySelectorAll('.entrada').length }
   }, seccion)
