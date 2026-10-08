@@ -12,7 +12,8 @@ import { sembrarProgreso, vigilarErrores } from './ayudas.ts'
  * Va con la pantalla más pequeña que se admite (360 × 640): ningún paso puede
  * salirse por los lados ni dejar el pie, con sus botones, fuera de la vista.
  */
-test.use({ viewport: { width: 360, height: 640 } })
+// Sin la entrada de pantalla (que la trae 6 px más abajo durante 160 ms): aquí se mide dónde queda cada cosa, no cómo llega.
+test.use({ viewport: { width: 360, height: 640 }, contextOptions: { reducedMotion: 'reduce' } })
 const indice = JSON.parse(readFileSync(new URL('../dist/content/indice.json', import.meta.url), 'utf8')) as IndiceDelCurso
 const todas = indice.mundos.flatMap((m) => m.unidades.flatMap((u) => u.lecciones.map((l) => l.id)))
 
@@ -37,7 +38,7 @@ for (const mundo of indice.mundos) {
             return { ancho: document.documentElement.scrollWidth, pantalla: vista?.width ?? 360, pieAbajo: pie?.bottom ?? 0, alto: vista?.height ?? 640 }
           })
           expect(medidas.ancho, `${donde}: se sale por los lados`).toBeLessThanOrEqual(medidas.pantalla)
-          expect(medidas.pieAbajo, `${donde}: el pie no se ve entero`).toBeLessThanOrEqual(medidas.alto + 0.5)
+          expect(medidas.pieAbajo, `${donde}: el pie no se ve entero`).toBeLessThanOrEqual(medidas.alto)
         }
       }
       expect(errores).toEqual([])
