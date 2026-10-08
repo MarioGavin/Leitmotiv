@@ -1,4 +1,6 @@
 import { type Page, expect } from '@playwright/test'
+import { INSTRUMENTOS, type IdInstrumento, type Instrumento, ORDEN_DE_PERCUSION, teclaDePercusion } from '../src/musica/instrumentos.ts'
+import { midiDe } from '../src/musica/notas.ts'
 import { piezaDePrueba } from '../src/musica/piezas-de-prueba.ts'
 import type { PiezaGuardada } from '../src/progreso/tipos.ts'
 
@@ -177,4 +179,42 @@ export async function tocarAlRitmo(pagina: Page, retrasoMs = 0): Promise<void> {
 /** El retardo calibrado que hay guardado en los ajustes. */
 export function latenciaGuardada(pagina: Page): Promise<number> {
   return pagina.evaluate(() => (JSON.parse(localStorage.getItem('leitmotiv-ajustes') ?? '{}') as { state?: { latenciaMs?: number } }).state?.latenciaMs ?? 0)
+}
+
+/** Fila del piano roll en la que está una nota: las filas van de la nota más aguda del instrumento (fila 0) a la más grave. */
+export function filaDeNota(nota: string, instrumento: IdInstrumento): number {
+  const datos: Instrumento = INSTRUMENTOS[instrumento]
+  return datos.rango[1] - midiDe(nota)
+}
+
+/** Fila del piano roll en la que está una pieza de la batería («bombo», «caja»…). */
+export function filaDePercusion(pieza: string): number {
+  return ORDEN_DE_PERCUSION.indexOf(teclaDePercusion('bateria', pieza) ?? -1)
+}
+
+/**
+ * Escribe notas en una pista del piano roll con el teclado, como lo haría
+ * quien no puede usar el dedo: elige la pista, lleva el cursor a la esquina de
+ * arriba a la izquierda y, para cada nota, lo mueve con las flechas hasta su
+ * casilla (en pasos de la rejilla, corcheas por defecto) y pulsa Intro. Las
+ * notas nuevas duran lo que diga la figura elegida, corchea por defecto.
+ */
+export async function escribirEnElRollo(pagina: Page, pista: string, notas: ReadonlyArray<{ casilla: number; fila: number }>): Promise<void> {
+  await pagina.getByRole('group', { name: 'Pista que se edita' }).getByRole('button', { name: pista }).click()
+  const rejilla = pagina.getByRole('application')
+  const antes = Number((/: (\d+) notas?\./.exec((await rejilla.getAttribute('aria-label')) ?? '') ?? [])[1] ?? 0)
+  // El cursor puede venir de otra pista: diez saltos de una octava y 64 casillas a la izquierda lo dejan en la esquina.
+  for (let i = 0; i < 10; i++) await rejilla.press('PageUp')
+  for (let i = 0; i < 64; i++) await rejilla.press('ArrowLeft')
+  let actual = { casilla: 0, fila: 0 }
+  for (const nota of [...notas].sort((a, b) => a.casilla - b.casilla || a.fila - b.fila)) {
+    const derecha = nota.casilla - actual.casilla
+    const abajo = nota.fila - actual.fila
+    for (let i = 0; i < Math.abs(derecha); i++) await rejilla.press(derecha > 0 ? 'ArrowRight' : 'ArrowLeft')
+    for (let i = 0; i < Math.abs(abajo); i++) await rejilla.press(abajo > 0 ? 'ArrowDown' : 'ArrowUp')
+    await rejilla.press('Enter')
+    actual = nota
+  }
+  // Cada Intro en una casilla vacía ha puesto una nota: ninguna se ha perdido ni ha caído encima de otra.
+  await expect(rejilla).toHaveAccessibleName(new RegExp(`: ${antes + notas.length} notas?\\.`))
 }

@@ -1,7 +1,7 @@
 import { type KeyboardEvent, type PointerEvent, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useAjustes } from '../../app/ajustes.ts'
 import { type Edicion, type Limites, estirarNota, moverNota, notaEn, ponerNota, quitarNota } from '../../musica/edicion.ts'
-import { INSTRUMENTOS, type Instrumento, aliasDePercusion } from '../../musica/instrumentos.ts'
+import { INSTRUMENTOS, type Instrumento, ORDEN_DE_PERCUSION, aliasDePercusion } from '../../musica/instrumentos.ts'
 import { cifradoVisible, croma, cromaDeMidi, nombreVisible, notaDeMidi } from '../../musica/notas.ts'
 import { type Nota, type Pieza, type Pista, duracionEnTicks } from '../../musica/pieza.ts'
 import { nombreDeFigura, posicionLegible, ticksPorCompas, ticksPorTiempo } from '../../musica/tiempo.ts'
@@ -34,8 +34,6 @@ interface Props {
 
 /** Alto de una fila, en px: lo bastante para acertar con el dedo. */
 const ALTO_FILA = 28
-/** Piezas de la batería, de arriba abajo. */
-const ORDEN_DE_PERCUSION = [49, 51, 53, 46, 42, 44, 50, 45, 38, 37, 36]
 const VELOCIDAD_NUEVA = 96
 /** Píxeles que tiene que moverse el dedo para que un toque pase a ser un arrastre. */
 const UMBRAL_DE_ARRASTRE = 6

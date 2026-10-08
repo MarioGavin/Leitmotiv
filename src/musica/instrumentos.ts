@@ -130,6 +130,9 @@ export function instrumento(id: IdInstrumento): Instrumento {
   return INSTRUMENTOS[id]
 }
 
+/** Teclas de percusión en el orden en que se ven en el piano roll, de arriba abajo: platos, charles, toms, caja y bombo. */
+export const ORDEN_DE_PERCUSION: readonly number[] = [49, 51, 53, 46, 42, 44, 50, 45, 38, 37, 36]
+
 /** Devuelve la tecla MIDI de una pieza de percusión, o `undefined` si el alias no existe. */
 export function teclaDePercusion(id: IdInstrumento, alias: string): number | undefined {
   const inst: Instrumento = INSTRUMENTOS[id]
