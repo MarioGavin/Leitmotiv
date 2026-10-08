@@ -46,7 +46,7 @@ pasos:
     paso: "8"
     patron: "x..x..|x..x..|x..x..|x..x.."
     repeticiones: 1
-    tolerancia: amplia
+    tolerancia: normal
     pista: La claqueta da las seis corcheas. Tú tocas en la primera y en la cuarta, «UNO-y-a, DOS-y-a».
     explicacion: |
       Aunque suenen seis corcheas, el 6/8 se lleva en dos. Cada pulso es una negra con

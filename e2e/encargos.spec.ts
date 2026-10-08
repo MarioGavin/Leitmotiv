@@ -86,7 +86,10 @@ test('el encargo «La llamada del héroe» (m00.u02.l08) se cumple, se entrega y
 
 test('el encargo «El bucle de la aldea» (m00.u03.l08) se cumple, se entrega y va al repertorio', async ({ page }) => {
   test.setTimeout(120_000)
-  await hacerEncargo(page, 'm00.u03.l08', 4, 'El bucle de la aldea', 7, async () => {
+  await hacerEncargo(page, 'm00.u03.l08', 4, 'El bucle de la aldea', 11, async () => {
+    // El bajo, en la fundamental de cada acorde al principio de cada compás: empieza en Do y acaba en Sol.
+    const bajo = ['C2', 'A1', 'F1', 'G1']
+    await escribirEnElRollo(page, 'Bajo', bajo.map((nota, i) => ({ casilla: i * 8, fila: filaDeNota(nota, 'bajo-electrico') })))
     // Notas del acorde en los pulsos fuertes (C, Am, F, G) y final en Re5, del acorde de G.
     const melodia = ['E5', 'D5', 'C5', 'G4', 'C5', 'A4', 'E5', 'C5', 'A4', 'C5', 'F5', 'C5', 'B4', 'D5', 'G5', 'D5']
     await escribirEnElRollo(page, 'Melodía', melodia.map((nota, i) => ({ casilla: i * 2, fila: filaDeNota(nota, 'piano') })))

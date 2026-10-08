@@ -36,7 +36,7 @@ pasos:
     paso: "8"
     patron: "x.x...x.|xx..x...|x.x.x.x.|x......."
     repeticiones: 2
-    tolerancia: amplia
+    tolerancia: normal
     pista: Cada casilla es una corchea. En el primer compás hay un silencio de negra después de la segunda nota; aguanta sin tocar.
     explicacion: |
       Un silencio no es una pausa para descansar: ocupa su sitio en el compás. Si lo

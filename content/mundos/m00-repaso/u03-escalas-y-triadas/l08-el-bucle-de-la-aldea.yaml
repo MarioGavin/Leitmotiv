@@ -1,5 +1,5 @@
 titulo: El bucle de la aldea
-resumen: Apoyar una melodía en los acordes y componer tu primer bucle con melodía y armonía.
+resumen: Apoyar una melodía en los acordes y componer tu primer bucle completo, con melodía, armonía y bajo.
 minutos: 10
 conceptos: [melodia-y-acordes, funciones]
 
@@ -110,18 +110,22 @@ pasos:
     concepto: melodia-y-acordes
     brief: |
       La aldea donde empieza la aventura necesita su tema. Los acordes ya están:
-      {a:C}, {a:Am}, {a:F} y {a:G}, con las cuerdas y el bajo. Escribe una **melodía** de
-      cuatro compases, a una sola voz, que se apoye en las notas de cada acorde. Como la
-      música se repetirá mientras el jugador esté en la aldea, que **acabe en una nota
-      del acorde de {a:G}** y enlace sin saltos con el principio.
+      {a:C}, {a:Am}, {a:F} y {a:G}, con las cuerdas. Te toca lo demás: el **bajo**, que
+      empiece en la tónica y se apoye en la fundamental de cada acorde, y una **melodía**
+      de cuatro compases, a una sola voz, que se apoye en las notas de cada acorde. Como
+      la música se repetirá mientras el jugador esté en la aldea, que la melodía **acabe
+      en una nota del acorde de {a:G}** y enlace sin saltos con el principio.
     pista: |
-      En el primer pulso de cada compás pon una nota del acorde: Do, Mi o Sol sobre
-      {a:C}; La, Do o Mi sobre {a:Am}; Fa, La o Do sobre {a:F}; Sol, Si o Re sobre
-      {a:G}. Después une esas notas con pasos de la escala.
+      Empieza por el bajo: en el primer pulso de cada compás, la fundamental del acorde
+      en la zona grave ({n:C2}, {n:A1}, {n:F1} y {n:G1}). Luego la melodía: en el primer
+      pulso de cada compás, una nota del acorde (Do, Mi o Sol sobre {a:C}; La, Do o Mi
+      sobre {a:Am}; Fa, La o Do sobre {a:F}; Sol, Si o Re sobre {a:G}), y une esas notas
+      con pasos de la escala.
     explicacion: |
-      Una melodía que se apoya en los acordes suena segura aunque sea sencilla. Acabar
-      sobre la dominante deja la frase abierta, y el bucle la cierra al volver a la
-      tónica: ya tienes una pieza que puede sonar en un juego.
+      Con el bajo en las fundamentales, cada acorde suena firme; una melodía que se apoya
+      en sus notas suena segura aunque sea sencilla. Acabar sobre la dominante deja la
+      frase abierta, y el bucle la cierra al volver a la tónica: ya tienes una pieza que
+      puede sonar en un juego, con melodía, armonía y bajo.
     plantilla:
       titulo: El bucle de la aldea
       tempo: 96
@@ -139,7 +143,7 @@ pasos:
           notas: "[C4 E4 G4]:1 | [C4 E4 A4]:1 | [C4 F4 A4]:1 | [B3 D4 G4]:1"
         - rol: bajo
           instrumento: bajo-electrico
-          notas: "C2:4. G2:8 C2:2 | A1:4. E2:8 A1:2 | F1:4. C2:8 F1:2 | G1:4. D2:8 G1:2"
+          notas: ""
     requisitos:
       - regla: tonalidad
         valores: [C mayor]
@@ -158,4 +162,17 @@ pasos:
       - regla: termina-en
         pista: melodia
         grados: [2, 5, 7]
+      - regla: notas-minimas
+        pista: bajo
+        valor: 4
+      - regla: rango
+        pista: bajo
+        min: E1
+        max: C3
+      - regla: empieza-en
+        pista: bajo
+        grados: [1]
+      - regla: termina-en
+        pista: bajo
+        grados: [5]
       - regla: bucle
