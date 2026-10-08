@@ -16,6 +16,7 @@ La referencia exacta de cada campo son los esquemas de `src/contenido/esquemas.t
 - [Conceptos, glosario, fichas y prueba de nivel](#conceptos-glosario-fichas-y-prueba-de-nivel)
 - [Qué comprueba el compilador](#qué-comprueba-el-compilador)
 - [Cómo se escribe una buena lección](#cómo-se-escribe-una-buena-lección)
+- [La curva de dificultad](#la-curva-de-dificultad)
 - [Errores frecuentes al escribir](#errores-frecuentes-al-escribir)
 - [Cómo se ve y se prueba una lección](#cómo-se-ve-y-se-prueba-una-lección)
 
@@ -494,6 +495,26 @@ La verificación de audio (`npm run audio:check`) va un paso más allá: renderi
 - **De tú, en frases cortas.** Español de España. Los términos técnicos, enlazados al glosario la primera vez que salen.
 - **Cada unidad acaba en un encargo**, con al menos tres requisitos que se puedan comprobar con reglas. Ponle plantilla (las pistas que ya «vienen del estudio» y las vacías que escribe el usuario) y comprueba que se puede cumplir todo: las pruebas de navegador escriben los tres encargos del Mundo 0 nota a nota (`e2e/encargos.spec.ts`), y conviene hacer lo mismo con los nuevos.
 - **El enunciado es un titular.** Se ve en mayúsculas y en letra grande: una frase corta, de una o dos líneas en el móvil. Lo largo va en la pista, la explicación o un paso de teoría.
+
+## La curva de dificultad
+
+Las primeras lecciones de una unidad se pueden hacer sin fallar; a partir de ahí, cada lección pide algo más, y el encargo de cada unidad pide más que el de la anterior. Al acabar la Fase 2 (Mundo 7), quien sigue el curso tiene que poder escribir por su cuenta una pieza completa a partir de un encargo. Nada de esto es fácil, y el curso no tiene que fingir que lo es.
+
+### Dentro de una unidad
+
+| Lecciones | Papel | Cómo son |
+| --- | --- | --- |
+| l01 y l02 | **Entrada** | Una idea por lección y un ejemplo muy claro. Ejercicios con dos o tres opciones bien distintas, ritmo con tolerancia `amplia`, cinco o seis rondas de oído. La pista casi señala la respuesta. Se pueden hacer a la primera. |
+| l03 a l06 | **Desarrollo** | Una idea nueva por lección, que se combina con las anteriores. Tres o cuatro opciones, con una que sea el error típico (no un relleno absurdo). Ritmo `normal`, de seis a ocho rondas. Al menos un ejercicio por lección que no se resuelve mirando: hay que escuchar. Desde l03, al menos un paso que repasa un concepto de una unidad o un mundo anterior. |
+| l07 | **Integración** | Poca teoría o ninguna. Mezcla todo lo de la unidad y algo de antes, con menos ayuda: un piano roll con requisitos y una plantilla casi vacía, un análisis de una pieza más larga, un oído con más opciones. Es la lección más difícil antes del encargo. |
+| l08 | **Encargo** | Todo lo de la unidad en una pieza. Más grande o más libre que el encargo de la unidad anterior, nunca menos. |
+
+### A lo largo del curso
+
+- **El andamiaje se retira.** Al principio el encargo da casi todo hecho y el usuario escribe una pista; al final da solo el brief y la plantilla vacía. Lo que da cada mundo está en «El hilo de la canción» de [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md).
+- **Los parámetros suben**: la tolerancia del ritmo (`amplia` en los Mundos 0 y 1, `normal` desde el 2 y `estricta` en algún paso del 4), las rondas de oído (de 5 a 8 al principio, hasta 10 o 12 después), los intervalos, acordes e inversiones entre los que elegir, el tempo y la longitud de las piezas.
+- **Un encargo tiene que obligar a usar lo aprendido.** Antes de darlo por bueno, pregúntate: ¿se puede cumplir escribiendo notas al azar, o sin haber entendido la unidad? Si se puede, faltan requisitos. Si la regla que haría falta no existe, se pide (ver «Lo que el motor tendrá que aprender» en PLAN_DE_ESTUDIOS.md) y, mientras, el brief y la explicación dicen lo que no se comprueba.
+- **La dificultad no es confusión.** Se sube pidiendo más (más notas, más pistas, menos ayuda, oído más fino), nunca con enunciados ambiguos, opciones que se leen igual o respuestas que dependen de una interpretación.
 
 ## Errores frecuentes al escribir
 

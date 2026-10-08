@@ -29,3 +29,7 @@ Claude outputs
 .idea
 .DS_Store
 Thumbs.db
+
+# Ajustes locales de Claude Code (los agentes de .claude/agents sí van en git)
+.claude/settings.local.json
+.claude/worktrees

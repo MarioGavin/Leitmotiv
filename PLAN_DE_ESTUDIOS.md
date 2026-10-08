@@ -11,7 +11,8 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 - **El Mundo 1 respeta lo escrito**: sus cuatro unidades son las que ya están declaradas en `content/mundos/m01-melodia/`, y las dos primeras lecciones de «La frase» son las de `m01.u01.l01` y `l02`.
 - **Toda la música será original.** Las sagas y los compositores se pueden nombrar para recomendar escuchas y explicar técnicas, nunca para copiar una melodía, una progresión identificable o una letra.
 - **Cada encargo** lleva entre paréntesis lo que se comprobaría. Lo que ya comprueba `src/musica/requisitos.ts` está en CONTENT_GUIDE.md («Requisitos»); lo que no, va marcado con **(regla nueva)** y está recogido al final, en «Lo que el motor tendrá que aprender».
-- **Cifras**: 39 unidades y 312 lecciones, de cinco a diez minutos cada una.
+- **Cifras**: 40 unidades y 320 lecciones, de cinco a diez minutos cada una.
+- **Dificultad**: cada unidad sigue la curva de CONTENT_GUIDE.md («La curva de dificultad»): dos lecciones de entrada, cuatro de desarrollo, una de integración y el encargo. Entre mundos, la progresión la marca «El hilo de la canción», abajo.
 
 | Mundo | Unidades | Fase |
 | --- | ---: | --- |
@@ -21,11 +22,29 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 | 4. Ritmo y groove | 3 | 2 |
 | 5. Orquestación | 4 | 2 |
 | 6. Lenguajes de género | 4 | 2 |
-| 7. Funciones de la música | 3 | 2 |
+| 7. Funciones de la música | 4 | 2 |
 | 8. Música interactiva | 4 | 3 |
 | 9. Flujo profesional | 4 | 3 |
 | 10. Producción y DAW | 3 | 3 |
 | Proyecto final | 2 | 3 |
+
+## El hilo de la canción
+
+El curso lleva a escribir una pieza completa sin ayuda. Cada mundo cierra con un encargo más grande y con menos hecho de antemano que el anterior: el andamiaje se va retirando. Quien escriba una unidad tiene que mirar esta tabla para no pedir de menos (ni saltarse un escalón).
+
+| Mundo | Encargo que lo cierra | Largo | Viene hecho | Escribe el usuario |
+| --- | --- | ---: | --- | --- |
+| 0 | «El bucle de la aldea» | 4 compases | Acordes (colchón de cuerdas) y tempo | Melodía y bajo |
+| 1 | «La heroína del faro» | 16 | Acordes y bajo | Tema de dos frases y su variación |
+| 2 | «El templo del alba» | 8 | Solo la melodía | La armonía entera: acordes, bajo y voces interiores |
+| 3 | «La revelación» | 16 | Tempo, compás e instrumentos | Melodía, acordes con color y bajo, con una modulación |
+| 4 | «El garaje de la banda» | 16 | Tempo e instrumentos | La banda entera: batería, bajo, acordes y melodía |
+| 5 | «Despedida en el puerto» | 16 | Una melodía suya de Mi repertorio | La orquestación (cuerda, madera, metal) y la dinámica |
+| 6 | «El guardián del puente» | 16 a 24 | El brief y la plantilla vacía | Una pieza de combate de su género, de cero |
+| 7 | «Tu primera pieza completa» | 32 | Solo el brief | Una pieza con forma (introducción, A, B, vuelta y final o bucle), todas sus pistas |
+| 8 a 10 y final | (Fase 3) | — | — | Música adaptativa, entrega profesional, producción y la banda sonora del proyecto final |
+
+Dentro de cada mundo, los encargos de las unidades anteriores suben hacia el del final: más compases, más pistas o menos ayuda que el de la unidad de antes.
 
 ---
 
@@ -83,7 +102,7 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 5. **El tema escondido**: citar solo la cabeza del tema dentro de otra música, en el bajo o en una voz interior.
 6. **Dos temas que se encuentran**: el del héroe y el del villano en la misma pieza, alternados o superpuestos.
 7. **El tema que cambia con la historia**: cuatro versiones de un tema a lo largo de un juego, de la presentación al final.
-8. **Encargo «La heroína del faro»**: un tema de ocho compases y su versión triste (tema en mayor, variación en menor del mismo tema, compases, tonalidad de cada versión; que la variación conserve el dibujo: **regla nueva**, parecido entre melodías).
+8. **Encargo «La heroína del faro»**: un tema de dieciséis compases (dos frases: pregunta y respuesta) sobre acordes y bajo dados, y su versión triste en menor (tema en mayor, variación en menor del mismo tema, compases, estructura, tonalidad de cada versión; que la variación conserve el dibujo: **regla nueva**, parecido entre melodías; **motor**: encargo con dos piezas).
 
 ---
 
@@ -141,7 +160,7 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 5. **Posición abierta y cerrada**: el mismo acorde con aire o apretado, y cuándo conviene cada uno.
 6. **Voces en el colchón de cuerdas**: aplicar lo anterior a un pad de cuerdas en el piano roll.
 7. **Voces para un coral de templo**: un himno breve a cuatro voces, escuchado y analizado.
-8. **Encargo «El templo del alba»**: coral de ocho compases a cuatro voces sobre una progresión dada (polifonía 4, rango de cada voz, tonalidad; sin quintas ni octavas paralelas y con la sensible resuelta: **regla nueva**).
+8. **Encargo «El templo del alba»**: armonizar a cuatro voces una melodía dada de ocho compases: el usuario elige los acordes y escribe bajo y voces interiores, con una semicadencia a mitad y una cadencia auténtica al final (polifonía 4, rango de cada voz, tonalidad; sin quintas ni octavas paralelas, sensible resuelta y cadencias: **regla nueva**).
 
 ---
 
@@ -244,7 +263,7 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 5. **Los rellenos**: el último compás de la frase, que anuncia lo que viene.
 6. **El drum and bass y el breakbeat**: tempos altos con la caja desplazada, para la velocidad.
 7. **Menos es más**: quitar golpes hasta que el groove respire.
-8. **Encargo «El garaje de la banda»**: bucle de ocho compases de batería y bajo en estilo funk, con un relleno al final (pistas, compases, tempo, bucle, densidad del bajo; coincidencia de bajo y bombo en los tiempos fuertes: **regla nueva**).
+8. **Encargo «El garaje de la banda»**: la banda entera en un bucle de dieciséis compases de estilo funk, de cero: batería con un relleno al final de cada ocho compases, bajo sincopado, acordes y una melodía (pistas, compases, tempo, bucle, densidad del bajo, estructura AB; coincidencia de bajo y bombo en los tiempos fuertes y síncopas: **regla nueva**).
 
 ---
 
@@ -302,7 +321,7 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 5. **El tiempo humano**: desplazar notas unos milisegundos y variar las duraciones.
 6. **Capas de muestras**: sumar dos instrumentos para un ataque y un cuerpo mejores.
 7. **Exportar a MIDI para la biblioteca**: lo que viaja en el archivo y lo que hay que hacer en el DAW.
-8. **Encargo «Despedida en el puerto»**: frase lenta de cuerda de ocho compases con dinámica escrita nota a nota y un crescendo (variedad de velocidades, rango, polifonía; **regla nueva**: curva de dinámica; **motor**: matices y curvas de expresión).
+8. **Encargo «Despedida en el puerto»**: orquestar una melodía propia de dieciséis compases (de Mi repertorio o nueva) para cuerda, madera y metal, con la dinámica escrita nota a nota y un crescendo hacia el final (pistas e instrumentos, rango de cada uno, densidad; **regla nueva**: curva de dinámica; **motor**: abrir una pieza del repertorio como plantilla, matices y curvas de expresión).
 
 ---
 
@@ -360,7 +379,7 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 5. **El coro**: vocales largas que dan solemnidad (sin letra reconocible).
 6. **Armonía de combate**: i–VI–VII, el bVI y el tritono del enemigo.
 7. **Construir la intensidad**: capas que entran durante la pelea.
-8. **Encargo «El guardián del puente»**: tema de combate de dieciséis compases con ostinato, metales y percusión, en menor y en bucle (tempo, pistas, tonalidad, densidad del ostinato, bucle; **instrumentos nuevos**: metales, percusión de orquesta, coro).
+8. **Encargo «El guardián del puente»**: tema de combate de dieciséis a veinticuatro compases, de cero (solo el brief y la plantilla con los instrumentos), con ostinato, metales y percusión, en menor y en bucle (tempo, pistas, tonalidad, densidad del ostinato, bucle, estructura; **instrumentos nuevos**: metales, percusión de orquesta, coro).
 
 ---
 
@@ -406,6 +425,19 @@ Escrito al cerrar el Tramo B (8 de octubre de 2026), a partir del encargo origin
 6. **El motivo de la saga en los jingles**: usar el tema principal en miniatura.
 7. **Jingles que encajan con la música**: que suenen bien sobre cualquier bucle de fondo.
 8. **Encargo «Los jingles del gremio»**: tres jingles de dos compases (victoria, derrota y objeto) a partir de un mismo motivo (compases, tonalidad de cada uno, termina en un grado; motivo común: **regla nueva**; **motor**: encargo con varias piezas).
+
+### m07.u04 · La pieza completa
+
+**Objetivo:** escribir de principio a fin una pieza de juego con forma, a partir de un encargo y sin plantilla: lo que se ha aprendido en los Mundos 0 a 7, junto.
+
+1. **Del brief al plan**: leer un encargo y decidir función, tempo, tonalidad, compás, instrumentos y forma antes de escribir una nota.
+2. **La forma de una pieza**: introducción, A, B, vuelta a A y final (o bucle); cuánto dura cada parte y qué cambia entre ellas.
+3. **Empezar por el tema**: escribir la melodía de A y su armonía; comprobar que se sostiene sola.
+4. **El contraste de B**: otra tonalidad, otro registro u otro ritmo, sin perder el aire de la pieza.
+5. **La base**: bajo y batería que sostienen A y B, con un relleno en cada cambio de sección.
+6. **El arreglo**: repartir la pieza entre los instrumentos, doblajes y lo que entra y sale en cada sección.
+7. **Introducción, transiciones y final**: la entrada que prepara, los enlaces entre secciones y un final que cierra o vuelve al principio sin costura.
+8. **Encargo «Tu primera pieza completa»**: una pieza de treinta y dos compases para un lugar del juego elegido entre tres briefs, con introducción, A, B, vuelta a A y final o bucle, y al menos cuatro pistas, de cero (estructura con secciones, compases, pistas, tonalidad, tempo, rango y polifonía de cada pista, bucle si lo pide el brief; que A y su vuelta se parezcan y B contraste: lo comprueba `estructura`, con secciones del mismo largo).
 
 ---
 
@@ -637,6 +669,7 @@ Cada uno, con la licencia comprobada en origen (ver «Bancos descartados» en CR
 ### Funciones nuevas
 
 - **Encargo con varias piezas** (jingles, variaciones, proyecto final).
+- **Una pieza de Mi repertorio como plantilla de un encargo** (Mundo 5: orquestar una melodía propia).
 - **Encargo de capas y de transiciones** escritas por el usuario (Mundo 8): hoy las capas son un ejercicio de escuchar.
 - **Matices y curvas de expresión** en el piano roll y en el MIDI exportado (Mundo 5).
 - **Encargos sin piano roll**: formulario (hoja de música) y lista de comprobación (DAW, entrega).

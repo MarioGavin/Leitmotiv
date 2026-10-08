@@ -88,7 +88,7 @@ scripts/     Compilador de contenido, banco de sonidos, verificación de audio, 
 e2e/         Pruebas en navegador
 public/      Iconos y banco de sonidos (y el contenido compilado, que no se guarda en git)
 informes/    Medidas de la última verificación de audio, del presupuesto y del banco de sonidos
-docs/        Capturas de la interfaz
+docs/        El encargo original, el procedimiento de la Fase 2 y capturas de la interfaz
 ```
 
 ## Documentos
@@ -97,6 +97,8 @@ docs/        Capturas de la interfaz
 | --- | --- |
 | [HANDOFF.md](HANDOFF.md) | Estado del proyecto: hecho, pendiente, problemas conocidos y no comprobado |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Cómo está hecho y por qué: librerías, audio, PWA, pruebas |
+| [docs/ENCARGO.md](docs/ENCARGO.md) | El encargo original del proyecto |
+| [docs/FASE_2.md](docs/FASE_2.md) | Cómo se escribe el contenido de los Mundos 1 a 7: tramos, agentes, paradas y prompts |
 | [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md) | El mapa del curso: las unidades de cada mundo y sus ocho lecciones, para la Fase 2 |
 | [CONTENT_GUIDE.md](CONTENT_GUIDE.md) | Cómo se escribe una lección: mundos, unidades, pasos y los siete tipos de ejercicio |
 | [DESIGN.md](DESIGN.md) | Sistema de diseño, con el contraste medido |

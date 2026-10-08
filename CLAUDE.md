@@ -15,7 +15,7 @@ PWA para aprender a componer música de videojuegos desde el móvil. La usa una 
 - **Licencias y autores, del origen.** No se dan de memoria: se leen en el repositorio o el paquete y se anotan en CREDITS.md.
 - **Lo no comprobado se dice.** Nada se da por hecho sin haberlo ejecutado.
 - El encargo original de Mario está copiado tal cual en [docs/ENCARGO.md](docs/ENCARGO.md). Lo que sigue lo resume y, donde se ha decidido otra cosa después (el nombre, abcjs, el diseño), manda este archivo. El alcance exacto de las fases 2 y 3 está en el encargo. Según el encargo, la Fase 2 escribe el contenido de los Mundos 1 a 7 (un agente por unidad, con dos revisores por unidad, uno musical y otro de pedagogía y castellano, y un crítico final del plan) y la Fase 3, los Mundos 8 a 10 y el proyecto final, el pulido, el rendimiento y las pruebas en el móvil.
-- **El mapa de unidades** de todos los mundos está en [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md): cada unidad de la Fase 2 se escribe a partir de su ficha, una vez que Mario lo haya aprobado.
+- **El mapa de unidades** de todos los mundos está en [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md): cada unidad de la Fase 2 se escribe a partir de su ficha, una vez que Mario lo haya aprobado. **Cómo se hace la Fase 2** (tramos, agentes, esfuerzo, paradas y qué cuenta como terminado) está en [docs/FASE_2.md](docs/FASE_2.md). Los agentes son los de `.claude/agents/`: `escritor-de-unidad`, `revisor-musical`, `revisor-pedagogico` y `critico-del-plan`.
 
 ## Decisiones cerradas
 
@@ -136,7 +136,8 @@ e2e/                     Playwright: una prueba por pantalla y por tipo de paso,
                          ayudas.ts (sembrarProgreso, tocarAlRitmo, escribirEnElRollo…) y leccion-de-prueba.ts
 public/                  icons/, samples/ (en git) y content/ (generado, fuera de git)
 informes/                audio.json, presupuesto.json, muestras/ (en git); capturas/ y tmp/ (fuera de git)
-docs/diseno/             Hojas de capturas de la interfaz
+docs/                    ENCARGO.md (el encargo original), FASE_2.md (cómo se hace la Fase 2) y diseno/ (hojas de capturas)
+.claude/agents/          Los agentes de la Fase 2
 ```
 
 ## Convenciones

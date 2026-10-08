@@ -2,7 +2,7 @@
 
 Para quien continúe el trabajo sin haber visto las conversaciones anteriores. Las reglas del proyecto y las decisiones cerradas están en [CLAUDE.md](CLAUDE.md); aquí está lo que cambia: qué hay hecho, qué falta, qué falla y qué no se ha podido comprobar.
 
-**Última actualización:** 8 de octubre de 2026, al cerrar el Tramo B (paso B8). **La Fase 1 está terminada y espera la revisión de Mario (Parada 2).** La Fase 2 empieza en otra sesión, con su visto bueno.
+**Última actualización:** 9 de octubre de 2026, tras cerrar el Tramo B (paso B8) y preparar la Fase 2. **La Fase 1 está terminada y espera la revisión de Mario (Parada 2).** La Fase 2 empieza en otra sesión, con su visto bueno.
 
 ## Dónde estamos
 
@@ -24,10 +24,11 @@ Para quien continúe el trabajo sin haber visto las conversaciones anteriores. L
 
 1. **Revisar la Fase 1.** Las capturas de cada pantalla y de cada tipo de paso, en los dos esquemas y los dos tamaños, salen con `npm run shots -- --hoja` y con las órdenes de «Capturas» en DESIGN.md (van a `informes/capturas`, fuera de git).
 2. **Probar en el móvil** la instalación, el audio y el ritmo, con la lista de [AUDIO_REVIEW.md](AUDIO_REVIEW.md) (secciones A a F). Pendiente desde la Parada 1. Lo que encuentres pasa a «Problemas conocidos».
-3. **Aprobar o corregir [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md)**: el mapa de unidades de los Mundos 1 a 10 y del proyecto final (39 unidades, 312 lecciones). Y decidir, de lo que recoge al final («Lo que el motor tendrá que aprender»), qué entra en la Fase 2: instrumentos nuevos, reglas de corrección nuevas y funciones (encargos con varias piezas, encargos de capas, matices…).
+3. **Aprobar o corregir [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md)**: el mapa de unidades de los Mundos 1 a 10 y del proyecto final (40 unidades, 320 lecciones), con «El hilo de la canción»: cada mundo cierra con un encargo más grande y con menos ayuda, hasta «Tu primera pieza completa» (32 compases, de cero) al final del Mundo 7. Y decidir, de lo que recoge al final («Lo que el motor tendrá que aprender»), qué entra en la Fase 2: instrumentos nuevos, reglas de corrección nuevas y funciones (encargos con varias piezas, encargos de capas, matices…).
 4. **Medir el audio**: instalar ffmpeg en esta máquina y ejecutar `npm run audio:check`, o subir los commits (`git push`: los de B7-7 y B8 no están subidos) y mirar si el flujo «Comprobación» de GitHub Actions pasa. Desde las sesiones de trabajo no hay acceso a GitHub.
-5. **Decidir dos cosas del encargo original que no se han hecho**: el **«rango de compositor»** (hoy solo hay nivel numérico) y los **sellos por unidad**. Y cómo se guarda el proyecto final en `content/` (el mapa ya tiene su nodo «F»).
-6. Decidir si el repositorio lleva licencia. Ahora no tiene ninguna.
+5. **Leer [docs/FASE_2.md](docs/FASE_2.md)**, el procedimiento de la Fase 2: tramos por mundo, agentes (`.claude/agents/`), esfuerzo, paradas, qué cuenta como terminado y los prompts.
+6. **Decidir dos cosas del encargo original que no se han hecho**: el **«rango de compositor»** (hoy solo hay nivel numérico) y los **sellos por unidad**. Y cómo se guarda el proyecto final en `content/` (el mapa ya tiene su nodo «F»).
+7. Decidir si el repositorio lleva licencia. Ahora no tiene ninguna.
 
 ## Hecho en el Tramo B
 
@@ -54,12 +55,19 @@ Por pasos, con un commit cada uno (de `e053065` a `51f27a7` y el de este archivo
 - **B8-6 Mapa de unidades** (`51f27a7`): [PLAN_DE_ESTUDIOS.md](PLAN_DE_ESTUDIOS.md), escrito con el encargo original delante.
 - **B8-7**: este archivo, y un arreglo de la tanda final: bajo `/leitmotiv/`, `contenido.spec.ts` midió una vez el pie a 0,05 px de acabar la entrada de pantalla (que la trae 6 px más abajo). Ahora esa prueba va con «reducir movimiento»: mide dónde queda cada cosa, no cómo llega.
 
+### Después del cierre (9 de octubre)
+
+- **Curva del Mundo 0**: «El bucle de la aldea», el encargo que cierra el mundo, pide ahora también el bajo (11 requisitos en vez de 7): antes era más fácil que el primer encargo. Los ritmos de seguir de m00.u01.l06 y de leer de m00.u01.l07 pasan de tolerancia `amplia` a `normal`.
+- **La curva de dificultad**, escrita en CONTENT_GUIDE.md, y **«El hilo de la canción»** en PLAN_DE_ESTUDIOS.md, con una unidad nueva, m07.u04 «La pieza completa», que cierra la Fase 2 con una pieza de 32 compases de cero (40 unidades, 320 lecciones).
+- **Procedimiento de la Fase 2** en [docs/FASE_2.md](docs/FASE_2.md) y sus cuatro agentes en `.claude/agents/`. El encargo original, en [docs/ENCARGO.md](docs/ENCARGO.md).
+- **Commits en inglés** desde ahora, y el historial anterior reescrito en inglés (los hashes que se citan en este archivo son los nuevos).
+
 ## Pendiente
 
 ### Para la Fase 2
 
 - **Antes de nada**, la Parada 2: el visto bueno de Mario al plan de estudios y a lo que el motor tiene que aprender.
-- **Cómo se trabaja**, según el encargo: un agente por unidad escribe el contenido siguiendo CONTENT_GUIDE.md; por cada unidad, dos revisores independientes, uno de corrección musical (ejecutando los validadores: tonalidad, acordes nombrados, bucles que cierran; y `npm run audio:check`) y otro de pedagogía y castellano; al final, un crítico que busca huecos en el plan.
+- **Cómo se trabaja**: [docs/FASE_2.md](docs/FASE_2.md). Mundo a mundo, con un tramo de motor y uno de contenido por mundo (dos de motor en el 5, con una parada para escuchar los instrumentos nuevos, y en el 6). En el de contenido, por cada unidad y en orden: `escritor-de-unidad` la escribe, `revisor-musical` y `revisor-pedagogico` la revisan en paralelo y el mismo escritor corrige. Al cerrar cada mundo, `critico-del-plan`.
 - **Instrumentos nuevos** (canal de ruido, madera, metal, percusión de orquesta, coro, teclado eléctrico, guitarra, arpa), cada uno con la licencia comprobada en origen (ver «Bancos descartados» en CREDITS.md).
 - **Reglas de corrección nuevas** y funciones que pide el plan: la lista está al final de PLAN_DE_ESTUDIOS.md.
 - Cada unidad nueva, con sus conceptos en `conceptos.yaml`, sus términos en el glosario, su bloque en la prueba de nivel si se puede saltar, y una ficha si conviene.
@@ -124,8 +132,6 @@ npm run dev
 
 Después: leer CLAUDE.md y PLAN_DE_ESTUDIOS.md, leer el encargo original en docs/ENCARGO.md y preguntar a Mario qué ha decidido en la Parada 2 y qué ha oído y probado en el móvil.
 
-## Prompt para empezar la Fase 2
+## Prompts para la Fase 2
 
-Una propuesta, para usarla cuando Mario haya dado el visto bueno en la Parada 2 (y ajustarla a lo que decida):
-
-> Lee CLAUDE.md, CONTENT_GUIDE.md, PLAN_DE_ESTUDIOS.md y HANDOFF.md. Empieza la Fase 2: el contenido de los Mundos 1 a 7 según PLAN_DE_ESTUDIOS.md, con los cambios que te diga. Antes de escribir, lee docs/ENCARGO.md y dime qué reglas de corrección, instrumentos y funciones del final de PLAN_DE_ESTUDIOS.md hacen falta para el primer mundo; impleméntalos primero, con sus pruebas. Después, un agente por unidad escribe sus ocho lecciones siguiendo CONTENT_GUIDE.md, y dos revisores independientes las revisan (uno musical, ejecutando `npm run content:check` y `npm run audio:check`; otro de pedagogía y castellano). Cada encargo nuevo se escribe en una prueba de navegador hasta cumplir sus requisitos. Un mundo por tramo, con un commit por unidad y una parada al final de cada mundo.
+Están en [docs/FASE_2.md](docs/FASE_2.md) («Prompts»): uno para cada clase de tramo (motor, instrumentos, contenido) y otro para el crítico final. Se usan cuando Mario haya dado el visto bueno en la Parada 2.
