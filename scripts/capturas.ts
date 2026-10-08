@@ -18,7 +18,7 @@ import { type Page, chromium } from '@playwright/test'
 import sharp, { type OverlayOptions } from 'sharp'
 import { createServer } from 'vite'
 import type { IndiceDelCurso } from '../src/contenido/tipos.ts'
-import { PROGRESO_DE_PANTALLAS, sembrarProgreso } from '../e2e/ayudas.ts'
+import { PROGRESO_DE_PANTALLAS, escribirEnElRollo, filaDeNota, marcarHechas, sembrarProgreso } from '../e2e/ayudas.ts'
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
 const DESTINO = path.join(RAIZ, 'informes/capturas')
@@ -114,6 +114,18 @@ const ESCENAS: readonly Escena[] = [
       // El cursor del teclado y una nota elegida, con su asa.
       await pagina.getByRole('application', { name: /^Rejilla de/ }).press('ArrowDown')
       await pagina.locator('[data-nota="0"]').click()
+    },
+  },
+  {
+    nombre: 'encargo-editor',
+    ruta: '#/leccion/m00.u03.l08/4',
+    // El encargo de la última unidad del Mundo 0, a medio escribir: el editor a pantalla completa con su contador de requisitos.
+    preparar: async (pagina) => {
+      await marcarHechas(pagina, todasLasLecciones().filter((id) => id.startsWith('m00.') && id !== 'm00.u03.l08'))
+      await pagina.reload()
+      await pagina.getByRole('button', { name: /Abrir el piano roll|Seguir componiendo/ }).click()
+      const notas = ['E5', 'D5', 'C5', 'G4', 'C5', 'A4', 'E5', 'C5']
+      await escribirEnElRollo(pagina, 'Melodía', notas.map((nota, i) => ({ casilla: i * 2, fila: filaDeNota(nota, 'piano') })))
     },
   },
   { nombre: 'repertorio', ruta: '#/repertorio' },
@@ -298,6 +310,7 @@ const TITULOS: Readonly<Record<string, string>> = {
   'leccion-correccion': 'Corrección de un fallo',
   'leccion-pista': 'Pista',
   'leccion-completada': 'Lección completada',
+  'encargo-editor': 'Un encargo en el piano roll',
   'glosario-ventana': 'Término del glosario',
   pianoroll: 'Piano roll',
   'pianoroll-edicion': 'Piano roll editando',

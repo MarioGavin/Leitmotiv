@@ -92,7 +92,7 @@ pasos:
       cada nota: las casillas vacías que la siguen son el tiempo que se queda sonando.
 
       Mira la rejilla mientras suena: la caja toca negras, blancas y una redonda, y el
-      charles marca el pulso de fondo.
+      pedal del charles (la fila «Pedal») marca el pulso de fondo.
     vista: rejilla
     manipulable: [tempo]
     ejemplo:

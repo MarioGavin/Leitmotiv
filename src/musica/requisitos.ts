@@ -141,7 +141,9 @@ export function corregir(pieza: Pieza, requisitos: readonly Requisito[], nomencl
       case 'polifonia': {
         const titulo = requisito.max === 1 ? `${NOMBRES_ROL[requisito.pista]} a una sola voz` : `${NOMBRES_ROL[requisito.pista]}: como mucho ${requisito.max} notas a la vez`
         const maxima = Math.max(0, ...deRol(pieza, requisito.pista).map((p) => polifoniaMaxima(p.notas)))
-        if (maxima <= requisito.max) return linea(true, titulo, maxima === 0 ? 'Todavía no hay notas.' : maxima === 1 ? 'Suena una nota cada vez.' : `Suenan hasta ${maxima} notas a la vez.`)
+        // Una pista vacía no está «a una sola voz»: no tiene voz. Darlo por cumplido enseñaba una marca verde sin haber escrito nada.
+        if (maxima === 0) return linea(false, titulo, 'Todavía no hay notas en esa pista.')
+        if (maxima <= requisito.max) return linea(true, titulo, maxima === 1 ? 'Suena una nota cada vez.' : `Suenan hasta ${maxima} notas a la vez.`)
         return linea(false, titulo, `Hay momentos con ${maxima} notas a la vez: acorta o quita las que se pisan.`)
       }
       case 'bucle': {

@@ -5,9 +5,10 @@
  */
 import { enPosicionCerrada } from './acordes.ts'
 import { INSTRUMENTOS, type Instrumento } from './instrumentos.ts'
-import { croma, cromaDeMidi } from './notas.ts'
+import { type Nomenclatura, croma, cromaDeMidi, nombreVisible, notaDeMidi } from './notas.ts'
 import { type Nota, type Pieza, type Pista, notasEnTramo, ordenarNotas } from './pieza.ts'
-import { leerAcorde } from './tonalidad.ts'
+import { nombreDeFigura } from './tiempo.ts'
+import { alteracionesDe, leerAcorde, leerTonalidad } from './tonalidad.ts'
 
 /** Identificador de la pista que se añade para oír el acorde elegido cuando la pieza no tiene ninguna de armonía. */
 export const PISTA_DE_ACORDE = 'acorde-elegido'
@@ -18,6 +19,51 @@ const VELOCIDAD_DE_ACORDE = 76
 export function conFragmento(pieza: Pieza, pista: string, notas: readonly Nota[]): Pieza {
   if (notas.length === 0) return pieza
   return { ...pieza, pistas: pieza.pistas.map((p) => (p.id === pista ? { ...p, notas: ordenarNotas([...p.notas, ...notas]) } : p)) }
+}
+
+/**
+ * El texto de cada opción de un ejercicio de completar la melodía: sus notas
+ * por nombre y en el orden en que suenan («Fa♯5 – Mi5»; las simultáneas, unidas
+ * con «+»). Si dos opciones se leerían igual porque solo cambia el ritmo, todas
+ * dicen además la figura de cada nota y los silencios hasta el final del hueco
+ * («Do5 negra – silencio de negra»).
+ */
+export function nombrarFragmentos(opciones: ReadonlyArray<readonly Nota[]>, hueco: { t: number; d: number }, pieza: Pieza, nomenclatura: Nomenclatura): string[] {
+  let alteraciones: 'sostenidos' | 'bemoles' = 'sostenidos'
+  try {
+    if (pieza.tonalidad) alteraciones = alteracionesDe(leerTonalidad(pieza.tonalidad))
+  } catch {
+    alteraciones = 'sostenidos'
+  }
+  const golpesDe = (notas: readonly Nota[]): Array<{ t: number; d: number; nombre: string }> => {
+    const porInicio = new Map<number, Nota[]>()
+    for (const nota of notas) porInicio.set(nota.t, [...(porInicio.get(nota.t) ?? []), nota])
+    return [...porInicio.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([t, juntas]) => ({
+        t,
+        d: Math.max(...juntas.map((n) => n.d)),
+        nombre: juntas
+          .map((n) => n.n)
+          .sort((a, b) => a - b)
+          .map((n) => nombreVisible(notaDeMidi(n, alteraciones), nomenclatura))
+          .join('+'),
+      }))
+  }
+  const solas = opciones.map((notas) => golpesDe(notas).map((g) => g.nombre).join(' – '))
+  if (new Set(solas).size === solas.length) return solas
+  const figura = (ticks: number): string => nombreDeFigura(ticks) ?? ''
+  return opciones.map((notas) => {
+    const partes: string[] = []
+    let ahora = hueco.t
+    for (const golpe of golpesDe(notas)) {
+      if (golpe.t > ahora) partes.push(`silencio de ${figura(golpe.t - ahora)}`.trim())
+      partes.push(`${golpe.nombre} ${figura(golpe.d)}`.trim())
+      ahora = Math.max(ahora, golpe.t + golpe.d)
+    }
+    if (hueco.t + hueco.d > ahora) partes.push(`silencio de ${figura(hueco.t + hueco.d - ahora)}`.trim())
+    return partes.join(' – ')
+  })
 }
 
 function esArmonia(pista: Pista): boolean {

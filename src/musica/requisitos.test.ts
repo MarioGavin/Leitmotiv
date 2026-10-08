@@ -113,6 +113,10 @@ describe('requisitos sobre las pistas', () => {
     expect(linea(melodia('[C4 E4 G4]:1'), { regla: 'polifonia', pista: 'melodia', max: 3 }).cumplido).toBe(true)
   })
 
+  it('polifonía sin notas: no se da por cumplida, como las demás reglas de una pista', () => {
+    expect(linea(melodia('r:1'), { regla: 'polifonia', pista: 'melodia', max: 1 })).toMatchObject({ cumplido: false, detalle: 'Todavía no hay notas en esa pista.' })
+  })
+
   it('instrumentos permitidos: solo cuentan las pistas con notas', () => {
     const p = piezaDePrueba([
       { rol: 'melodia', instrumento: 'chip-pulso', notas: 'C5:1' },

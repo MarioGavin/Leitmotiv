@@ -2,11 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAjustes } from '../app/ajustes.ts'
 import { sonar } from '../audio/audio.ts'
 import type { ConstruccionAcorde, ConstruccionMelodia, ConstruccionSecciones, PasoConstruccion } from '../contenido/tipos.ts'
-import { conAcorde, conFragmento } from '../musica/construccion.ts'
-import { cifradoVisible, nombreVisible, notaDeMidi } from '../musica/notas.ts'
-import type { Nota, Pieza } from '../musica/pieza.ts'
+import { conAcorde, conFragmento, nombrarFragmentos } from '../musica/construccion.ts'
+import { cifradoVisible } from '../musica/notas.ts'
 import { barajarSecciones, ordenCorrecto, piezaDeSeccion, reordenar } from '../musica/secciones.ts'
-import { alteracionesDe, leerTonalidad } from '../musica/tonalidad.ts'
 import { Boton } from '../ui/Boton.tsx'
 import { Dialogo } from '../ui/Dialogo.tsx'
 import { Marco } from '../ui/Marco.tsx'
@@ -18,27 +16,6 @@ import { useReproductor } from '../ui/musica/useReproductor.ts'
 import { Cuestionario, type PreguntaDeCuestionario } from './Cuestionario.tsx'
 import { MOMENTO_INICIAL, type PropsDePaso } from './tipos.ts'
 
-/** Las notas de un fragmento, por su nombre y en el orden en que suenan: «Fa♯5 – Mi5». Las simultáneas van unidas con «+». */
-function nombrarNotas(notas: readonly Nota[], pieza: Pieza, nomenclatura: 'latina' | 'anglosajona'): string {
-  let alteraciones: 'sostenidos' | 'bemoles' = 'sostenidos'
-  try {
-    if (pieza.tonalidad) alteraciones = alteracionesDe(leerTonalidad(pieza.tonalidad))
-  } catch {
-    alteraciones = 'sostenidos'
-  }
-  const porInicio = new Map<number, number[]>()
-  for (const nota of notas) porInicio.set(nota.t, [...(porInicio.get(nota.t) ?? []), nota.n])
-  return [...porInicio.entries()]
-    .sort((a, b) => a[0] - b[0])
-    .map(([, alturas]) =>
-      alturas
-        .sort((a, b) => a - b)
-        .map((n) => nombreVisible(notaDeMidi(n, alteraciones), nomenclatura))
-        .join('+'),
-    )
-    .join(' – ')
-}
-
 /**
  * Construcción guiada con un hueco: falta un fragmento de la melodía o un
  * acorde y hay que elegir cuál encaja. Al marcar una opción se ve en la pieza
@@ -48,7 +25,7 @@ function ElegirParaElHueco({ paso, alTerminar }: PropsDePaso<ConstruccionMelodia
   const nomenclatura = useAjustes((a) => a.nomenclatura)
   const [momento, setMomento] = useState(MOMENTO_INICIAL)
   const preguntas = useMemo((): PreguntaDeCuestionario[] => {
-    const opciones = paso.modo === 'completar-melodia' ? paso.opciones.map((o) => nombrarNotas(o.notas, paso.pieza, nomenclatura)) : paso.opciones.map((o) => cifradoVisible(o.acorde))
+    const opciones = paso.modo === 'completar-melodia' ? nombrarFragmentos(paso.opciones.map((o) => o.notas), paso.hueco, paso.pieza, nomenclatura) : paso.opciones.map((o) => cifradoVisible(o.acorde))
     return [
       {
         opciones,
@@ -162,6 +139,10 @@ function OrdenarSecciones({ paso, alTerminar }: PropsDePaso<ConstruccionSeccione
         <Marco variante="hundido" relleno="ninguno" plano>
           <VistaDePieza pieza={pieza} posicion={reproduccion.posicion} sonando={reproduccion.estado === 'sonando'} />
         </Marco>
+        {/* Escuchar el conjunto va con la pieza, como en el resto de ejercicios: en el pie, junto a la pista y comprobar, no cabe a 360 px. */}
+        <Boton className="escucha" icono={sonandoAhora && escucha.que === 'todo' ? 'detener' : 'escuchar'} sonido={null} onClick={() => escuchar({ que: 'todo' })}>
+          {sonandoAhora && escucha.que === 'todo' ? 'Parar' : 'Escuchar'}
+        </Boton>
         <AvisoDeSonido reproduccion={reproduccion} />
         <Marco relleno="ninguno">
           <ol className="orden" aria-label="Fragmentos, en el orden en que sonarán">
@@ -210,9 +191,8 @@ function OrdenarSecciones({ paso, alTerminar }: PropsDePaso<ConstruccionSeccione
             </Boton>
           ) : (
             <>
-              <Boton icono="pista" aria-label="Pista" aria-expanded={pistaVisible} soloIcono onClick={() => setPistaVisible(!pistaVisible)} />
-              <Boton icono={sonandoAhora && escucha.que === 'todo' ? 'detener' : 'reproducir'} sonido={null} onClick={() => escuchar({ que: 'todo' })}>
-                {sonandoAhora && escucha.que === 'todo' ? 'Parar' : 'Escuchar'}
+              <Boton icono="pista" aria-expanded={pistaVisible} onClick={() => setPistaVisible(!pistaVisible)}>
+                Pista
               </Boton>
               <Boton className="crece" variante="primario" sonido={null} onClick={comprobar}>
                 Comprobar

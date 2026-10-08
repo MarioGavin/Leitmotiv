@@ -89,6 +89,28 @@ export async function sembrarProgreso(pagina: Pick<Page, 'addInitScript'>, progr
   )
 }
 
+/** Da por hechas unas lecciones escribiendo en IndexedDB con la app abierta; la app lo lee al recargar. */
+export function marcarHechas(pagina: Page, ids: readonly string[]): Promise<void> {
+  return pagina.evaluate(
+    (lecciones) =>
+      new Promise<void>((resolver, rechazar) => {
+        const apertura = indexedDB.open('leitmotiv')
+        apertura.onerror = () => rechazar(apertura.error)
+        apertura.onsuccess = () => {
+          const transaccion = apertura.result.transaction('lecciones', 'readwrite')
+          const momento = new Date().toISOString()
+          for (const id of lecciones) transaccion.objectStore('lecciones').put({ id, completada: momento, ultima: momento, veces: 1, mejor: 1 })
+          transaccion.oncomplete = () => {
+            apertura.result.close()
+            resolver()
+          }
+          transaccion.onerror = () => rechazar(transaccion.error)
+        }
+      }),
+    [...ids],
+  )
+}
+
 /** Las claves de una tabla de la base del progreso, leídas en el navegador. */
 export function clavesDe(pagina: Page, tabla: string): Promise<string[]> {
   return pagina.evaluate(

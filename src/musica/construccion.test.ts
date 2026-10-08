@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { PISTA_DE_ACORDE, conAcorde, conFragmento } from './construccion.ts'
+import { PISTA_DE_ACORDE, conAcorde, conFragmento, nombrarFragmentos } from './construccion.ts'
 import { cromaDeMidi } from './notas.ts'
 import { piezaDePrueba } from './piezas-de-prueba.ts'
 
@@ -91,5 +91,33 @@ describe('pieza con el acorde elegido', () => {
     const copia = structuredClone(conArmonia)
     conAcorde(conArmonia, hueco, 'Em7')
     expect(conArmonia).toEqual(copia)
+  })
+})
+
+describe('texto de las opciones de completar la melodía', () => {
+  const pieza = piezaDePrueba([{ rol: 'melodia', notas: 'C4:4. E4:8 G4:4 r:4 | F4:4. A4:8 r:2' }], { tonalidad: 'C mayor' })
+  const hueco = { t: 2880, d: 960 }
+
+  it('nombra las notas en orden, con las simultáneas unidas', () => {
+    const opciones = [
+      [{ t: 2880, d: 480, n: 72, v: 90 }, { t: 3360, d: 480, n: 71, v: 90 }],
+      [{ t: 2880, d: 960, n: 64, v: 90 }, { t: 2880, d: 960, n: 60, v: 90 }],
+    ]
+    expect(nombrarFragmentos(opciones, hueco, pieza, 'latina')).toEqual(['Do5 – Si4', 'Do4+Mi4'])
+  })
+
+  it('si dos opciones se leerían igual, todas dicen sus figuras y sus silencios', () => {
+    const opciones = [
+      [{ t: 2880, d: 480, n: 72, v: 90 }],
+      [0, 1, 2, 3].map((i) => ({ t: 2880 + i * 240, d: 240, n: 72, v: 90 })),
+      [{ t: 2880, d: 960, n: 72, v: 90 }],
+      [{ t: 3360, d: 480, n: 72, v: 90 }],
+    ]
+    expect(nombrarFragmentos(opciones, hueco, pieza, 'latina')).toEqual([
+      'Do5 negra – silencio de negra',
+      'Do5 corchea – Do5 corchea – Do5 corchea – Do5 corchea',
+      'Do5 blanca',
+      'silencio de negra – Do5 negra',
+    ])
   })
 })

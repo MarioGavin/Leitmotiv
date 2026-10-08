@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { type Page, expect, test } from '@playwright/test'
 import type { IndiceDelCurso } from '../src/contenido/tipos.ts'
-import { PIEZA_GUARDADA, sembrarProgreso, vigilarErrores } from './ayudas.ts'
+import { PIEZA_GUARDADA, marcarHechas, sembrarProgreso, vigilarErrores } from './ayudas.ts'
 
 const indice = JSON.parse(readFileSync(new URL('../dist/content/indice.json', import.meta.url), 'utf8')) as IndiceDelCurso
 const DEL_MUNDO_0 = indice.mundos.filter((m) => m.id === 'm00').flatMap((m) => m.unidades.flatMap((u) => u.lecciones.map((l) => l.id)))
@@ -15,28 +15,6 @@ async function instalar(pagina: Page): Promise<void> {
   })
   await pagina.reload()
   await expect.poll(() => pagina.evaluate(() => navigator.serviceWorker.controller !== null)).toBe(true)
-}
-
-/** Da por hechas unas lecciones escribiendo en IndexedDB con la app abierta; la app lo lee al recargar. */
-function marcarHechas(pagina: Page, ids: readonly string[]): Promise<void> {
-  return pagina.evaluate(
-    (lecciones) =>
-      new Promise<void>((resolver, rechazar) => {
-        const apertura = indexedDB.open('leitmotiv')
-        apertura.onerror = () => rechazar(apertura.error)
-        apertura.onsuccess = () => {
-          const transaccion = apertura.result.transaction('lecciones', 'readwrite')
-          const momento = new Date().toISOString()
-          for (const id of lecciones) transaccion.objectStore('lecciones').put({ id, completada: momento, ultima: momento, veces: 1, mejor: 1 })
-          transaccion.oncomplete = () => {
-            apertura.result.close()
-            resolver()
-          }
-          transaccion.onerror = () => rechazar(transaccion.error)
-        }
-      }),
-    [...ids],
-  )
 }
 
 test('el manifiesto declara una app instalable', async ({ page, request }) => {
